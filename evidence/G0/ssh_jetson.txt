@@ -1,0 +1,4 @@
+localhost.localdomain
+6.8.12-1021-tegra
+# R39 (release), REVISION: 2.1, GCID: 46758480, BOARD: generic, EABI: aarch64, DATE: Fri Aug  7 05:54:22 AM UTC 2026
+ 16:17:18 up  1:46,  2 users,  load average: 0.04, 0.02, 0.00

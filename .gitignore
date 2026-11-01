@@ -1,0 +1,18 @@
+# Python 虚拟环境和缓存
+.venv/
+__pycache__/
+*.pyc
+# macOS 自动生成的文件
+.DS_Store
+# 模型和检查点：动辄几 GB，放 Drive 或 Jetson，不进仓库
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.pth
+checkpoints/
+# Jupyter 自动保存
+.ipynb_checkpoints/
+# 朋友的数据和模型：没有他同意前不进仓库
+from_friend/
+my_model/
