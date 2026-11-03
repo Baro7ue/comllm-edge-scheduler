@@ -1,0 +1,28 @@
+test_argmin_matches_label (test_cost.TestFriendData.test_argmin_matches_label) ... ok
+test_lacs (test_cost.TestRepoSample.test_lacs) ... ok
+test_one_step_costs (test_cost.TestRepoSample.test_one_step_costs) ... ok
+test_inflight_visible (test_env.TestLocalAndUplink.test_inflight_visible) ... ok
+test_local_fifo (test_env.TestLocalAndUplink.test_local_fifo) ... ok
+test_offload_single (test_env.TestLocalAndUplink.test_offload_single) ... ok
+test_deadline_drop (test_env.TestPsServer.test_deadline_drop) ... ok
+test_late_arrival (test_env.TestPsServer.test_late_arrival) ... ok
+test_two_jobs_share (test_env.TestPsServer.test_two_jobs_share) ... ok
+test_different_seed_differs (test_env.TestReproducible.test_different_seed_differs) ... ok
+test_same_seed_same_result (test_env.TestReproducible.test_same_seed_same_result) ... ok
+test_same_tasks_for_every_policy (test_env.TestReproducible.test_same_tasks_for_every_policy) ... ok
+test_label_changes_are_rare (test_render.TestCompactFormat.test_label_changes_are_rare)
+四舍五入到压缩精度后，标签只在极少数（几乎并列的）状态上改变。 ... ok
+test_letters (test_render.TestCompactFormat.test_letters) ... ok
+test_roundtrip_keeps_label (test_render.TestCompactFormat.test_roundtrip_keeps_label)
+压缩格式里的信息足够算出标签：解析回来的状态，算出的每个动作延迟和渲染用的状态完全一样。 ... ok
+test_action_names (test_render.TestPaperFormat.test_action_names) ... ok
+test_verbatim (test_render.TestPaperFormat.test_verbatim) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 2.252s
+
+OK
+
+  [G1] 公式复现标签：1914/1914
+
+  [G1] 论文格式逐字一致：1914/1914

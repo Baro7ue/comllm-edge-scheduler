@@ -1,0 +1,39 @@
+{
+  "name": "s1_sweep",
+  "servers": [
+    3,
+    11
+  ],
+  "n": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    80
+  ],
+  "policies": "random,greedy,lacs,po2,psgreedy",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "slots": 3000,
+  "warmup": 200,
+  "mode": "sequential",
+  "git": "1cc7038",
+  "started_utc": "20261103T082613Z",
+  "sim": {
+    "SLOT_S": 0.1,
+    "DEADLINE_SLOTS": 10,
+    "ARRIVAL_PROB": 0.3,
+    "TASK_MBITS": [
+      2.0,
+      5.0
+    ],
+    "UPLINK_MBITS_PER_SLOT": 1.4,
+    "LOCAL_GHZ": 2.5,
+    "CYCLES_PER_BIT": 297.0
+  }
+}
