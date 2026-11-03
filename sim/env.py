@@ -125,9 +125,11 @@ class MecEnv:
         self.t = 0
         self.tasks = []
 
-    def observe(self, task):
-        """新任务 task 到达时，调度器看到的状态。"""
-        i, t = task.terminal, self.t
+    def observe(self, task, now=None):
+        """新任务 task 到达时，调度器看到的状态。
+        now：观测时刻（槽，可以带小数）。不给就用当前槽的起点 self.t；实时模式下给真实时钟换算出的时刻。"""
+        i = task.terminal
+        t = self.t if now is None else now
         return State(
             d=task.size,
             local_wait=max(0.0, self.local_free[i] - t),
@@ -136,11 +138,14 @@ class MecEnv:
                                 history=list(s.history)) for s in self.servers],
         )
 
-    def apply(self, task, a, state):
-        """执行动作 a。本地和上传都是 FIFO，所以完成时刻在决策这一刻就能算出来。"""
+    def apply(self, task, a, state, now=None):
+        """执行动作 a。本地和上传都是 FIFO，所以完成时刻在决策这一刻就能算出来。
+        now：决策生效的时刻（槽）。不给就是当前槽的起点；实时模式下是收到决策的时刻，
+        所以决策花掉的时间会自然地算进任务延迟。"""
         task.action = a
         task.pred = one_step_costs(state)[a]
-        i, t = task.terminal, self.t
+        i = task.terminal
+        t = self.t if now is None else now
         if a == 0:                                         # 本地执行
             start = max(t, self.local_free[i])             # 前面的任务做完才轮到它
             finish = start + task.size / C.LOCAL_MBITS_PER_SLOT
@@ -160,11 +165,8 @@ class MecEnv:
                 task.dropped, task.drop_at = True, "uplink"
                 self.up_free[i] = max(start, task.deadline)
 
-    def step(self, policy):
-        """推进一个时间槽。policy 是一个函数：输入 State，输出动作编号。"""
-        t = self.t
-        for s in self.servers:
-            s.history.append(float(s.view_active()))
+    def new_tasks(self, t):
+        """第 t 槽新到达的任务，已经打乱顺序。step() 和实时模式共用这一个函数，保证两边任务流完全一样。"""
         new = []
         for i, term in enumerate(self.terminals):
             size = term.maybe_task(t, self.rng)
@@ -172,6 +174,14 @@ class MecEnv:
                 new.append(Task(tid=len(self.tasks) + len(new), terminal=i, size=size,
                                 t_arrive=float(t), deadline=float(t + C.DEADLINE_SLOTS)))
         new = [new[k] for k in self.rng.permutation(len(new))]   # 打乱同一槽内的决策顺序
+        return new
+
+    def step(self, policy):
+        """推进一个时间槽。policy 是一个函数：输入 State，输出动作编号。"""
+        t = self.t
+        for s in self.servers:
+            s.history.append(float(s.view_active()))
+        new = self.new_tasks(t)
         if self.mode == "sequential":
             for task in new:
                 st = self.observe(task)
@@ -195,7 +205,8 @@ def summarize(tasks, n_servers):
     done = [t for t in tasks if not t.dropped]
     delays = np.array([t.delay for t in done]) if done else np.array([np.nan])
     gaps = np.array([t.delay - t.pred for t in done]) if done else np.array([np.nan])
-    counts = np.bincount([t.action for t in tasks], minlength=n_servers + 1)
+    decided = [t.action for t in tasks if t.action >= 0]       # 没等到决策的任务动作是 -1，不计
+    counts = np.bincount(np.array(decided, dtype=int), minlength=n_servers + 1)
     srv = counts[1:].astype(float)
     off = srv.sum()
     return {

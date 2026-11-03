@@ -16,3 +16,5 @@ checkpoints/
 # 朋友的数据和模型：没有他同意前不进仓库
 from_friend/
 my_model/
+# 调度服务在 Jetson 上写的运行日志：需要的部分复制进 evidence/
+logs/

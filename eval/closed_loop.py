@@ -28,7 +28,8 @@ def git_version():
     """当前代码的提交号；工作区有没提交的改动就加 -dirty（这样结果能追溯到哪一版代码）。"""
     try:
         head = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], text=True).strip()
-        dirty = subprocess.check_output(["git", "status", "--porcelain", "--", "sim", "eval"], text=True).strip()
+        dirty = subprocess.check_output(["git", "status", "--porcelain", "--", "sim", "eval", "deploy"],
+                                        text=True).strip()
         return head + ("-dirty" if dirty else "")
     except (OSError, subprocess.CalledProcessError):
         return "unknown"
