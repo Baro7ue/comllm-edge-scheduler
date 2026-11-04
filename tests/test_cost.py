@@ -4,7 +4,7 @@ import unittest
 from sim.cost import ServerView, State, best_action, lacs_scores, one_step_costs
 from sim.friend_data import DEFAULT_DIR, load_all, parse_entry
 
-# 朋友公开仓库里唯一的样例 MEC_data.json（10/18 手算过：本地约 7.98 槽，服务器 1 约 3.29 槽，标签是服务器 1）
+# 原作者公开仓库里唯一的样例 MEC_data.json（10/18 手算过：本地约 7.98 槽，服务器 1 约 3.29 槽，标签是服务器 1）
 REPO_SAMPLE = State(d=4.1934, local_wait=3.0, net_wait=0.0,
                     servers=[ServerView(41.8, 0, 0.0), ServerView(30.0, 0, 0.0), ServerView(22.0, 1, 7.2721)])
 
@@ -26,14 +26,14 @@ class TestRepoSample(unittest.TestCase):
 
 
 class TestFriendData(unittest.TestCase):
-    """G1 判据之一：公式在朋友三份数据（1914 条）上 100% 复现标签。"""
+    """G1 判据之一：公式在原作者的三份数据（1914 条）上 100% 复现标签。"""
 
     @classmethod
     def setUpClass(cls):
         try:
             cls.rows = load_all()
         except FileNotFoundError:
-            raise unittest.SkipTest(f"找不到朋友数据目录 {DEFAULT_DIR}，用环境变量 COMLLM_FRIEND_DATA 指定")
+            raise unittest.SkipTest(f"找不到原作者数据目录 {DEFAULT_DIR}，用环境变量 COMLLM_FRIEND_DATA 指定")
 
     def test_argmin_matches_label(self):
         wrong = []

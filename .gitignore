@@ -13,7 +13,7 @@ __pycache__/
 checkpoints/
 # Jupyter 自动保存
 .ipynb_checkpoints/
-# 朋友的数据和模型：没有他同意前不进仓库
+# 原作者的数据和模型：原作者同意前不进仓库
 from_friend/
 my_model/
 # 调度服务在 Jetson 上写的运行日志：需要的部分复制进 evidence/

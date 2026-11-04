@@ -12,7 +12,7 @@ from sim import config as C
 
 # ===== 第 1 段：调度器看到的"状态" =====
 # 一个 State = 一个新任务到达时，调度器做决策所需的全部信息。
-# 字段和朋友数据里的 input 一一对应，所以论文格式渲染器可以逐字还原。
+# 字段和原作者数据里的 input 一一对应，所以论文格式渲染器可以逐字还原。
 @dataclass
 class ServerView:
     ghz: float                 # CPU 频率

@@ -13,14 +13,14 @@ from sim.render import (LETTERS, paper_action_index, paper_action_name, parse_co
 
 
 class TestPaperFormat(unittest.TestCase):
-    """G1 判据之一：论文格式渲染朋友数据的状态，结果逐字相同。"""
+    """G1 判据之一：论文格式渲染原作者数据的状态，结果逐字相同。"""
 
     @classmethod
     def setUpClass(cls):
         try:
             cls.rows = load_all()
         except FileNotFoundError:
-            raise unittest.SkipTest(f"找不到朋友数据目录 {DEFAULT_DIR}")
+            raise unittest.SkipTest(f"找不到原作者数据目录 {DEFAULT_DIR}")
 
     def test_verbatim(self):
         same = 0

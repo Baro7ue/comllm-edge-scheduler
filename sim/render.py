@@ -1,6 +1,6 @@
 """把 State 渲染成提示词。两种格式：
 
-  论文格式（paper）：和朋友数据集逐字一致（instruction + input 字典），给朋友的论文原版 1.5B 用。
+  论文格式（paper）：和原作者数据集逐字一致（instruction + input 字典），给原作者的论文原版 1.5B 用。
                      约 1300–2400 个字符，动作是"本地执行 / 卸载到边缘服务器k"这样的多 token 中文。
   压缩格式（compact）：给我们自己训练的模型用。不变的说明放进 system（前缀，可被 KV 缓存复用），
                      每次变的数字放进 user，目标 150–250 个 token；动作只用一个字母 A–L。
@@ -11,7 +11,7 @@ from sim import config as C
 from sim.cost import ServerView, State, rounded
 
 # ===== 第 1 段：论文格式 =====
-# 这是朋友数据里 instruction 字段的原文，是提示词模板，不是数据。
+# 这是原作者数据里 instruction 字段的原文，是提示词模板，不是数据。
 PAPER_INSTRUCTION = "\n".join([
     "你是一个MEC任务卸载决策智能体。你的目标是为新到达的任务制定最优卸载策略，以最小化任务的总处理延迟，"
     "同时避免任务丢弃（即总延迟不超过最大容忍延迟）。若延迟超过最大容忍延迟，任务被丢弃，成本为常数惩罚。",
@@ -33,7 +33,7 @@ PAPER_INSTRUCTION = "\n".join([
 
 def render_paper(s):
     """返回 {"instruction": ..., "input": {...}}，键的顺序、标点（注意"活跃任务数"后面是全角逗号）、
-    小数位数都和朋友数据一致。仿真器的状态先四舍五入到 4 位，标签也用四舍五入后的状态算。"""
+    小数位数都和原作者数据一致。仿真器的状态先四舍五入到 4 位，标签也用四舍五入后的状态算。"""
     s = rounded(s, 4, 4)
     inp = {
         "任务大小": f"{s.d:.4f} Mbits",

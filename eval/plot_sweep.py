@@ -26,7 +26,7 @@ STYLE = {
     "greedy":   ("#2a78d6", "o", "-", "单步最优", 5),
     "po2":      ("#1baf7a", "^", "-", "power-of-2", 6),
     "random":   ("#eda100", "D", "-", "随机", 5),
-    "psgreedy": ("#e87ba4", "v", "--", "PS 感知（探索）", 6),
+    "psgreedy": ("#e87ba4", "v", "--", "PS 感知贪心", 6),
 }
 INK, MUTED, GRID = "#0b0b0b", "#52514e", "#e4e3df"
 

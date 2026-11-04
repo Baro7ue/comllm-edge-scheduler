@@ -98,7 +98,7 @@ def main():
                 worst_flip = max(worst_flip, res[0.3][0])
                 cells = "   ".join(f"{100 * f:6.2f}% / {g:.3f} 槽" for f, g in res.values())
                 print(f"{behavior:8s} {k:4d} {n:4d} {len(states):7d}   {act:8.2f}   {bl:10.2f}        {cells}")
-    print("\n参照：朋友数据（按答案配平过）里服务器平均活跃数 1.44、平均积压 4.5 Mbits")
+    print("\n参照：原作者数据（按答案配平过）里服务器平均活跃数 1.44、平均积压 4.5 Mbits")
 
     print(f"\nλ=0.3 时最多有 {100 * worst_flip:.2f}% 的状态被 LACS 改变决策（阈值 1%）")
     if args.sweep:
