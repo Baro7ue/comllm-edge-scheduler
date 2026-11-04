@@ -18,3 +18,5 @@ from_friend/
 my_model/
 # 调度服务在 Jetson 上写的运行日志：需要的部分复制进 evidence/
 logs/
+# 阶段 3 生成的训练和测试数据：约 60 MB，Mac 上随时能重新生成（校验值在 evidence/G3/data_stats.txt）
+data/
