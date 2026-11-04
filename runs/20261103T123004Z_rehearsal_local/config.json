@@ -1,0 +1,23 @@
+{
+  "args": {
+    "name": "rehearsal_local",
+    "policy": "local",
+    "n": 5,
+    "servers": 3,
+    "minutes": 1.0,
+    "warmup": 200,
+    "seed": 0,
+    "cache": "on",
+    "timeout_ms": 100,
+    "fake_ms": 0.0,
+    "scheduler": null
+  },
+  "slots": 600,
+  "git": "e86a183",
+  "started_utc": "20261103T123004Z",
+  "env_node": {
+    "name": "mac",
+    "ip": "192.168.50.1"
+  },
+  "scheduler_info": {}
+}

@@ -1,0 +1,58 @@
+{
+  "n": 20,
+  "e2e_p50": 1864.7117086220533,
+  "e2e_p90": 2722.591188037768,
+  "e2e_p99": 2729.310624995269,
+  "e2e_mean": 1817.2930165776052,
+  "e2e_max": 2729.778500040993,
+  "service_mean": 1816.1513578999347,
+  "net_mean": 1.1416586776704207,
+  "llm_mean": 1815.7362647499212,
+  "prompt_ms_mean": 1811.0216500000001,
+  "predicted_ms_mean": 0.0010000000000000005,
+  "prompt_tokens_mean": 278.05,
+  "cache_n_mean": 130.55,
+  "predicted_n_mean": 1.0,
+  "python_mean": 0.41509315001349023,
+  "llama_other_mean": 4.713614749921111,
+  "sources": {
+    "llm": 20
+  },
+  "letters_found": 1.0,
+  "probs_agree": 1.0,
+  "letter_mass_mean": 0.9790060055243417,
+  "n_max": 0.18342299799350975,
+  "by_servers": {
+    "3": {
+      "p50": 1054.4528751634061,
+      "p99": 1062.296281051822,
+      "prompt_tokens": 202.85714285714286
+    },
+    "7": {
+      "p50": 1864.7117086220533,
+      "p99": 1866.0581952193752,
+      "prompt_tokens": 277.8333333333333
+    },
+    "11": {
+      "p50": 2508.594457991421,
+      "p99": 2729.630750026554,
+      "prompt_tokens": 353.42857142857144
+    }
+  },
+  "model": "1.5b-q4_k_m",
+  "fmt": "compact",
+  "cache": "on",
+  "decode": "probs",
+  "scheduler_info": {
+    "llama": {
+      "model_path": "/home/ethan/models/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+      "build_info": "b11719-5aeac37a3",
+      "total_slots": 1,
+      "n_ctx": 4096
+    },
+    "default_timeout_ms": 100,
+    "started_utc": "20261103T125038Z",
+    "log": "logs/scheduler_20261103T125038Z.jsonl",
+    "git": "e86a183"
+  }
+}

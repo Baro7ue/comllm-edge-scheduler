@@ -1,0 +1,55 @@
+{
+  "n": 500,
+  "e2e_p50": 1064.2413129098713,
+  "e2e_p90": 1333.8941294467077,
+  "e2e_p99": 1339.519504578784,
+  "e2e_mean": 1062.9262846433558,
+  "e2e_max": 1348.3853752259165,
+  "service_mean": 1060.5659358539947,
+  "net_mean": 2.360348789361524,
+  "llm_mean": 1059.6678568579962,
+  "prompt_ms_mean": 778.428052,
+  "predicted_ms_mean": 272.1608259999999,
+  "prompt_tokens_mean": 1351.25,
+  "cache_n_mean": 0.0,
+  "predicted_n_mean": 12.0,
+  "python_mean": 0.8980789959985032,
+  "llama_other_mean": 9.078978857996333,
+  "sources": {
+    "llm": 500
+  },
+  "n_max": 0.31359967116174653,
+  "by_servers": {
+    "3": {
+      "p50": 788.8599169673398,
+      "p99": 797.8906187112443,
+      "prompt_tokens": 888.8614457831326
+    },
+    "7": {
+      "p50": 1064.1880419570953,
+      "p99": 1072.2007871977985,
+      "prompt_tokens": 1349.9041916167664
+    },
+    "11": {
+      "p50": 1332.796375034377,
+      "p99": 1343.6630433797836,
+      "prompt_tokens": 1812.2155688622754
+    }
+  },
+  "model": "1.5b-q4_k_m",
+  "fmt": "paper",
+  "cache": "off",
+  "decode": "-",
+  "scheduler_info": {
+    "llama": {
+      "model_path": "/home/ethan/models/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+      "build_info": "b11719-5aeac37a3",
+      "total_slots": 1,
+      "n_ctx": 4096
+    },
+    "default_timeout_ms": 100,
+    "started_utc": "20261103T132402Z",
+    "log": "logs/scheduler_20261103T132402Z.jsonl",
+    "git": "e86a183"
+  }
+}

@@ -1,0 +1,6 @@
+NV Power Mode: MAXN_SUPER
+2
+NVPM ERROR: Error opening /sys/devices/platform/17000000.gpu/devfreq_dev/min_freq: 2
+NVPM ERROR: failed to read PARAM GPU: ARG MIN_FREQ: PATH /sys/devices/platform/17000000.gpu/devfreq_dev/min_freq
+NVPM ERROR: Error opening /sys/devices/platform/17000000.gpu/devfreq_dev/max_freq: 2
+NVPM ERROR: failed to read PARAM GPU: ARG MAX_FREQ: PATH /sys/devices/platform/17000000.gpu/devfreq_dev/max_freq
