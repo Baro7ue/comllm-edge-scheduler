@@ -230,6 +230,7 @@ def main():
     ap.add_argument("runs", nargs="*", help="运行目录（从 Drive 下载的），每个里面有 config.json 和 preds.csv")
     ap.add_argument("--data", default=os.path.join("data", "s3"))
     ap.add_argument("--out", default=os.path.join("evidence", "G3"))
+    ap.add_argument("--title", default="阶段 3 开环评测", help="open_loop.md 第一行的标题")
     args = ap.parse_args()
 
     # 1. 读三份测试集，每行记下它在文件里的行号（preds.csv 用行号对应）
@@ -274,7 +275,7 @@ def main():
             for k, v in row.items():
                 out[k] = round(v, 4) if isinstance(v, float) else v
             w.writerow(out)
-    lines = ["# 阶段 3 开环评测", "",
+    lines = ["# " + args.title, "",
              "由 `python -m eval.open_loop` 生成。单位：槽。AL、PR 按论文式 26–29，ρ = 10（论文表 I）。", ""]
     for split in data:
         lines += [f"## {SPLIT_NAMES[split]}", "",
