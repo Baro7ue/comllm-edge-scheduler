@@ -11,6 +11,7 @@ import unittest
 
 from deploy.prompts import chatml, paper_messages
 from deploy.wire import state_from_dict
+from eval.check_gguf import repair_reference
 from eval.open_loop import effective_cost, jain, score
 from sim.cost import one_step_costs
 from sim.render import COMPACT_SYSTEM, render_compact
@@ -131,6 +132,32 @@ class TestOpenLoopMetrics(unittest.TestCase):
         self.assertAlmostEqual(m["al"], (1.0 + 20.0) / 2)
         self.assertAlmostEqual(m["pr_pct"], 100.0 * 1.0 / 10.5)
         self.assertIsNone(score(rows, {}, "t"))
+
+
+class TestGgufReference(unittest.TestCase):
+    """expected_200.jsonl 里被别的行覆盖的参考答案，要认出来并用 preds.csv 补回。"""
+
+    def rows(self):
+        good = {"split": "test_seen", "idx": 7, "n_actions": 4, "pt_action": 1, "pt_margin": 2.0,
+                "pt_letter_probs": [0.1, 0.8, 0.05, 0.05]}
+        bad = {"split": "test_unseen", "idx": 7, "n_actions": 5, "pt_action": 3, "pt_margin": 2.0,
+               "pt_letter_probs": [0.1, 0.1, 0.1, 0.7]}
+        return [good, bad]
+
+    def test_repair(self):
+        rows = self.rows()
+        preds = {("test_seen", 7): (1, 2.0), ("test_unseen", 7): (4, 0.5)}
+        n_fixed, n_same = repair_reference(rows, preds)
+        self.assertEqual(n_fixed, 1)
+        self.assertEqual(n_same, 1)
+        self.assertEqual([r["ref"] for r in rows], ["merged", "lora"])
+        self.assertEqual(rows[1]["pt_action"], 4)
+        self.assertEqual(rows[1]["pt_margin"], 0.5)
+        self.assertEqual(rows[0]["pt_action"], 1)
+
+    def test_missing_preds(self):
+        with self.assertRaises(SystemExit):
+            repair_reference(self.rows(), {})
 
 
 if __name__ == "__main__":
