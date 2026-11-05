@@ -1,0 +1,27 @@
+{
+  "chosen": "json",
+  "n": 60,
+  "model": "sft",
+  "results": {
+    "json": {
+      "agree_with_label_pct": 1.7,
+      "invalid_pct": 0.0,
+      "example": "本地执行"
+    },
+    "json_ascii": {
+      "agree_with_label_pct": 1.7,
+      "invalid_pct": 0.0,
+      "example": "本地执行"
+    },
+    "repr": {
+      "agree_with_label_pct": 1.7,
+      "invalid_pct": 0.0,
+      "example": "本地执行"
+    },
+    "sys_instr": {
+      "agree_with_label_pct": 1.7,
+      "invalid_pct": 0.0,
+      "example": "本地执行"
+    }
+  }
+}

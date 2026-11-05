@@ -1,0 +1,50 @@
+{
+  "run": "main_0.5b",
+  "preset": {
+    "model": "0.5B",
+    "label": "soft",
+    "T": 0.3,
+    "cost": "paper",
+    "n_train": 40000,
+    "export": true
+  },
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "model_tag": "0.5B",
+  "lr": 0.0002,
+  "lora": [
+    16,
+    32,
+    0.05
+  ],
+  "micro_batch": 16,
+  "accum": 1,
+  "seed": 0,
+  "data_version": "s3-v1",
+  "data_git": "322fd63",
+  "torch": "2.11.0+cu130",
+  "started_utc": "20261104T131423Z",
+  "name": "0.5b_soft_T0.3",
+  "quick_metrics": {
+    "val": {
+      "acc_pct": 96.64,
+      "regret": 0.0013,
+      "invalid_pct": 0.0
+    },
+    "test_seen": {
+      "acc_pct": 96.48,
+      "regret": 0.0011,
+      "invalid_pct": 0.0
+    },
+    "test_unseen": {
+      "acc_pct": 94.35,
+      "regret": 0.0026,
+      "invalid_pct": 0.0
+    },
+    "friend_clean": {
+      "acc_pct": 95.92,
+      "regret": 0.0017,
+      "invalid_pct": 0.0
+    }
+  }
+}

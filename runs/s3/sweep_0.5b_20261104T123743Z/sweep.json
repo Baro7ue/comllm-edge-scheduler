@@ -1,0 +1,78 @@
+{
+  "config": {
+    "run": "sweep_0.5b",
+    "preset": {
+      "model": "0.5B",
+      "n_train": 8000,
+      "export": false,
+      "sweep": [
+        [
+          "soft",
+          0.1
+        ],
+        [
+          "soft",
+          0.3
+        ],
+        [
+          "soft",
+          1.0
+        ],
+        [
+          "hard",
+          0.0
+        ]
+      ]
+    },
+    "model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "model_tag": "0.5B",
+    "lr": 0.0002,
+    "lora": [
+      16,
+      32,
+      0.05
+    ],
+    "micro_batch": 16,
+    "accum": 1,
+    "seed": 0,
+    "data_version": "s3-v1",
+    "data_git": "322fd63",
+    "torch": "2.11.0+cu130",
+    "started_utc": "20261104T123743Z"
+  },
+  "results": [
+    {
+      "name": "0.5b_soft_T0.1",
+      "label": "soft",
+      "T": 0.1,
+      "acc_pct": 88.57,
+      "regret": 0.0202,
+      "invalid_pct": 0.0
+    },
+    {
+      "name": "0.5b_soft_T0.3",
+      "label": "soft",
+      "T": 0.3,
+      "acc_pct": 92.88,
+      "regret": 0.0072,
+      "invalid_pct": 0.0
+    },
+    {
+      "name": "0.5b_soft_T1",
+      "label": "soft",
+      "T": 1.0,
+      "acc_pct": 88.72,
+      "regret": 0.0147,
+      "invalid_pct": 0.0
+    },
+    {
+      "name": "0.5b_hard",
+      "label": "hard",
+      "T": 0.0,
+      "acc_pct": 85.66,
+      "regret": 0.0469,
+      "invalid_pct": 0.0
+    }
+  ]
+}

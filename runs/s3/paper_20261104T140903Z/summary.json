@@ -1,0 +1,67 @@
+{
+  "format": "json",
+  "models": {
+    "sft": {
+      "friend_clean": {
+        "n": 245,
+        "acc_pct": 2.4,
+        "invalid_pct": 0.0
+      },
+      "test_seen": {
+        "n": 3010,
+        "acc_pct": 48.0,
+        "invalid_pct": 0.0
+      },
+      "test_unseen": {
+        "n": 2408,
+        "acc_pct": 45.9,
+        "invalid_pct": 0.0
+      },
+      "friend_clean_actions": {
+        "本地": 245
+      }
+    },
+    "grpo": {
+      "friend_clean": {
+        "n": 245,
+        "acc_pct": 2.4,
+        "invalid_pct": 0.0
+      },
+      "test_seen": {
+        "n": 3010,
+        "acc_pct": 48.0,
+        "invalid_pct": 0.0
+      },
+      "test_unseen": {
+        "n": 2408,
+        "acc_pct": 45.9,
+        "invalid_pct": 0.0
+      },
+      "friend_clean_actions": {
+        "本地": 245
+      },
+      "differs_from_sft_pct": 0.0
+    },
+    "score-grpo": {
+      "friend_clean": {
+        "n": 245,
+        "acc_pct": 2.4,
+        "invalid_pct": 0.0
+      },
+      "test_seen": {
+        "n": 3010,
+        "acc_pct": 48.0,
+        "invalid_pct": 0.0
+      },
+      "test_unseen": {
+        "n": 2408,
+        "acc_pct": 45.9,
+        "invalid_pct": 0.0
+      },
+      "friend_clean_actions": {
+        "本地": 245
+      },
+      "differs_from_sft_pct": 0.0
+    }
+  }
+}

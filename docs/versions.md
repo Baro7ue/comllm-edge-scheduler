@@ -19,5 +19,7 @@ Jetson 的两项已在 evidence/G0/jetson_versions.txt 里现场核对。Colab �
 
 | 组件 | 版本 | 用在哪 | 怎么查 |
 |---|---|---|---|
-| torch（Colab 预装） | 待填 | Colab 训练、论文原版基线 | 训练 notebook 第 2 格的输出 |
-| Colab GPU | 待填（应为 NVIDIA L4） | 同上 | 训练 notebook 第 2 格的输出 |
+| torch（Colab 预装） |GPU: NVIDIA RTX PRO 6000 Blackwell Server Edition | 精度: bf16
+torch 2.11.0+cu130| Colab 训练、论文原版基线 | 训练 notebook 第 2 格的输出 |
+| Colab GPU | GPU: NVIDIA RTX PRO 6000 Blackwell Server Edition | 精度: bf16
+torch 2.11.0+cu130| 同上 | 训练 notebook 第 2 格的输出 |

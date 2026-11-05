@@ -1,0 +1,22 @@
+{
+  "name": "0.5b_soft_q4",
+  "expected": "/Users/ethan/Documents/comllm-edge-scheduler/runs/s3/main_0.5b_20261104T131423Z/jetson_check/expected_200.jsonl",
+  "model_path": "/home/ethan/models/comllm-0.5b-soft-T0.3-q4_k_m.gguf",
+  "llama_build": "b11719-5aeac37a3",
+  "n": 200,
+  "agree": 184,
+  "agree_pct": 92.0,
+  "ref_merged": 111,
+  "ref_merged_same_as_preds_csv": 109,
+  "ref_from_preds_csv": 89,
+  "agree_on_merged_ref": 103,
+  "agree_on_preds_csv_ref": 81,
+  "answered_by_llm": 200,
+  "prompt_text_mismatch": 0,
+  "disagree_mean_extra_cost": 0.0281,
+  "disagree_max_extra_cost": 0.1962,
+  "mean_extra_cost_all": 0.00225,
+  "git": "5ffd6e6",
+  "started_utc": "20261105T034526Z",
+  "timeout_ms": 5000
+}
