@@ -1,67 +1,70 @@
 {
-  "format": "json",
+  "format": "repo",
   "models": {
     "sft": {
       "friend_clean": {
         "n": 245,
-        "acc_pct": 2.4,
+        "acc_pct": 13.5,
         "invalid_pct": 0.0
       },
       "test_seen": {
         "n": 3010,
-        "acc_pct": 48.0,
+        "acc_pct": 21.7,
         "invalid_pct": 0.0
       },
       "test_unseen": {
         "n": 2408,
-        "acc_pct": 45.9,
+        "acc_pct": 12.3,
         "invalid_pct": 0.0
       },
       "friend_clean_actions": {
-        "本地": 245
+        "服务器1": 207,
+        "本地": 38
       }
     },
     "grpo": {
       "friend_clean": {
         "n": 245,
-        "acc_pct": 2.4,
+        "acc_pct": 13.9,
         "invalid_pct": 0.0
       },
       "test_seen": {
         "n": 3010,
-        "acc_pct": 48.0,
+        "acc_pct": 14.8,
         "invalid_pct": 0.0
       },
       "test_unseen": {
         "n": 2408,
-        "acc_pct": 45.9,
+        "acc_pct": 10.4,
         "invalid_pct": 0.0
       },
       "friend_clean_actions": {
-        "本地": 245
+        "服务器1": 240,
+        "本地": 5
       },
-      "differs_from_sft_pct": 0.0
+      "differs_from_sft_pct": 16.4
     },
     "score-grpo": {
       "friend_clean": {
         "n": 245,
-        "acc_pct": 2.4,
+        "acc_pct": 13.5,
         "invalid_pct": 0.0
       },
       "test_seen": {
         "n": 3010,
-        "acc_pct": 48.0,
+        "acc_pct": 17.8,
         "invalid_pct": 0.0
       },
       "test_unseen": {
         "n": 2408,
-        "acc_pct": 45.9,
+        "acc_pct": 10.6,
         "invalid_pct": 0.0
       },
       "friend_clean_actions": {
-        "本地": 245
+        "服务器1": 231,
+        "本地": 14
       },
-      "differs_from_sft_pct": 0.0
+      "differs_from_sft_pct": 11.8
     }
   }
 }

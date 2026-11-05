@@ -1,0 +1,33 @@
+{
+  "name": "小网络 1313 参数",
+  "model": "mlp-6-32-32-1",
+  "model_tag": "小网络",
+  "T": 0.3,
+  "epochs": 8,
+  "batch": 256,
+  "lr": 0.003,
+  "seed": 0,
+  "n_train": 99946,
+  "n_params": 1313,
+  "decide_us_median": 8.8,
+  "quick_metrics": {
+    "val": {
+      "acc_pct": 97.49,
+      "regret": 0.001
+    },
+    "test_seen": {
+      "acc_pct": 97.44,
+      "regret": 0.001
+    },
+    "test_unseen": {
+      "acc_pct": 97.05,
+      "regret": 0.0011
+    },
+    "friend_clean": {
+      "acc_pct": 98.78,
+      "regret": 0.0003
+    }
+  },
+  "git": "e2c0b24",
+  "started_utc": "20261105T035652Z"
+}

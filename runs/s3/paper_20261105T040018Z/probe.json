@@ -1,26 +1,36 @@
 {
-  "chosen": "json",
+  "chosen": "repo",
   "n": 60,
   "model": "sft",
   "results": {
+    "repo": {
+      "agree_with_label_pct": 13.3,
+      "invalid_pct": 0.0,
+      "same_action_pct": 86.7,
+      "example": "卸载到边缘服务器1"
+    },
     "json": {
       "agree_with_label_pct": 1.7,
       "invalid_pct": 0.0,
+      "same_action_pct": 100.0,
       "example": "本地执行"
     },
     "json_ascii": {
       "agree_with_label_pct": 1.7,
       "invalid_pct": 0.0,
+      "same_action_pct": 100.0,
       "example": "本地执行"
     },
     "repr": {
       "agree_with_label_pct": 1.7,
       "invalid_pct": 0.0,
+      "same_action_pct": 100.0,
       "example": "本地执行"
     },
     "sys_instr": {
       "agree_with_label_pct": 1.7,
       "invalid_pct": 0.0,
+      "same_action_pct": 100.0,
       "example": "本地执行"
     }
   }

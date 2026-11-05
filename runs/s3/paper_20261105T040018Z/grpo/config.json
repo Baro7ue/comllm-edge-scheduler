@@ -1,11 +1,11 @@
 {
-  "name": "论文原版 sft",
-  "model": "qwen2.5-1.5b-mec-sft-final-all",
+  "name": "论文原版 grpo",
+  "model": "qwen2.5-1.5b-mec-grpo-final-all",
   "model_tag": "论文原版 1.5B",
-  "format": "json",
+  "format": "repo",
   "max_new_tokens": 20,
   "n_per_count": null,
   "n_rows": 5663,
-  "minutes": 1.9,
+  "minutes": 3.4,
   "torch": "2.11.0+cu130"
 }
