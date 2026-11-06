@@ -158,10 +158,11 @@ Colab   train/S5_论文原版转GGUF.ipynb        原作者 sft 1.5B → comllm-
 Jetson  python -m deploy.scheduler --model-key main_0.5b       模型表在 deploy/testbed.json 的 models；POST /model 换模型
 Mac     python -m eval.bench_latency --fmt compact --cache on --model-key main_0.5b      实验 2 延迟分解
 Mac     python -m eval.check_paper_gguf --preds runs/s3/paper_<UTC>/sft/preds.csv       论文原版 GGUF 和 PyTorch 比对
-Mac     python -m eval.s5_sweep --plan e1,e1_paper,e1_shed      实验 1 稳定边界 + 论文原版 1 点 + 分流对照（实时闭环，47 个点，约 2.6 小时，估算）
+Mac     python -m eval.s5_sweep --plan e1,e1_paper,e1_shed      实验 1 稳定边界 + 论文原版 1 点 + 分流对照（实时闭环，51 个点，约 2.9 小时，估算）
 Mac     python -m eval.virtual_loop --plan e3                   实验 3 羊群效应（只用公式，本机几分钟）
 Mac     python -m eval.virtual_loop --plan e4a,e4b,e5           实验 4、5（每个决策问 Jetson，71 个点，约 3 小时，估算）
-Mac     python -m eval.figures                                  6 张图 + figures/numbers.md（跑过两板复测还有 twoboard.md）
+Mac     python -m eval.virtual_loop --plan e6                   实验 6 LACS 往后看在闭环里有没有用（只用公式，252 个点，约 25 分钟，估算）
+Mac     python -m eval.figures                                  7 张图 + figures/numbers.md（跑过两板复测还有 twoboard.md）
 RK3588  python -m eval.s5_sweep --plan twoboard                 两板复测：testbed.json 的 env_node 改成 RK3588
 ```
 
@@ -171,6 +172,7 @@ RK3588  python -m eval.s5_sweep --plan twoboard                 两板复测：t
 
 - **两种闭环。** 实时闭环（`eval/realtime.py`）按真实时钟推进，决策延迟算进任务延迟，量"部署后撑得住多少终端"。部署模型单次约 57 ms（阶段 3 实测），只撑得住 N ≈ 6，这么轻的负载下各策略的延迟差不多，比不出决策好坏。所以质量对比用虚拟时间闭环（`eval/virtual_loop.py`）：仿真每个决策都等 Jetson 答完再往下走，决策耗时不计入，可以在 N = 20–80 的重负载下比。只用公式时它和 `sim.env.run` 结果完全一样（单元测试核对）。
 - **换模型不用人守着。** `deploy/testbed.json` 的 `models` 把模型键对到 GGUF 文件和提示词格式。`POST /model {"key": "<模型键>"}` 让调度服务停掉 llama-server、换文件重启、预热；`/info` 报模型键、文件路径和文件的 sha256，每次运行的 config.json 都记下来。扫描脚本按模型把点排在一起，轮到新模型才换一次。
+- **LACS 只能在闭环里检验（实验 6）。** 开环 AL 只算这一步的成本，单步最优就是它的下限，LACS"这步多花一点、给后面留余地"的好处在开环里看不出来。实验 6 在虚拟时间闭环里比单步最优和 LACS-greedy（λ = 0.3、1、2；`lacs:<λ>` 换 λ），顺序决策，另加 PS 感知贪心当"改公式"的参照；批量决策下再比一次 λ = 0.3，看往后看能不能减轻羊群效应。COMLLM-7B 的权重没有，这里用 LACS 奖励的最优解代替它。
 - **超载分流（`--shed-ms`）。** 环境节点一次只发一个请求，终端数超过 N_max 后待决策的任务越排越长，每个任务都等过截止期，丢弃率一下跳到接近 100%。分流：在环境节点排队超过 `shed_ms` 的任务不再等 Jetson，当场用公式决策，记 `source = shed`。默认关；`--plan e1_shed` 是开分流的对照，实验 1 一起跑。
 - **论文原版 1.5B 只跑一个实时点。** 它一次决策约 1 秒（阶段 2 用旧拼法实测，阶段 5 重量），1 台终端每秒就有 3 个请求，N = 1 已经超载；实时闭环只跑 N = 1（`e1_paper`），质量对比放在虚拟时间闭环（`e5_paper`，400 槽）。1.5B 软标签学生一次约 120 ms，用部署的 100 ms 超时会大半回退公式，所以它的超时给 1000 ms。
 - **一条命令重画。** `evidence/G5/sources.json` 登记每张图用哪些运行目录；`python -m eval.figures` 照它重画全部图，并把简历要用的数字连同运行目录写进 `figures/numbers.md`。没有这个文件就自动找最新的目录并写出来。

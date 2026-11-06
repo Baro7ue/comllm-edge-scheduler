@@ -142,6 +142,20 @@ class TestVirtualLoop(unittest.TestCase):
         self.assertIn("llm_main_0.5b_k3_n40_sequential_s0_t1000", names)
         self.assertLess(len(both), len(virtual_loop.expand("e4a")) + len(virtual_loop.expand("e5")))
 
+    def test_e6_lacs_lambda(self):
+        pts = virtual_loop.expand("e6")
+        self.assertEqual(len(pts), 3 * 4 * (5 * 3 + 2 * 3))
+        self.assertFalse(any(p["policy"].startswith("llm:") for p in pts))
+        self.assertAlmostEqual(make_policy("lacs:2").lam, 2.0)
+        self.assertAlmostEqual(make_policy("lacs").lam, 0.3)
+        env = MecEnv(30, 5, seed=0)
+        for _ in range(50):
+            env.step(make_policy("lacs:0"))
+        rec = virtual_loop.Recorder(make_policy("lacs:0"))
+        for _ in range(50):
+            env.step(rec)
+        self.assertEqual(rec.agree, rec.n)
+
     def test_smallnet_policy(self):
         paths = sorted(glob.glob(os.path.join("runs", "s3", "small_net_*", "weights.npz")))
         if not paths:
@@ -157,7 +171,7 @@ class TestVirtualLoop(unittest.TestCase):
 class TestSweepPlan(unittest.TestCase):
     def test_e1(self):
         pts = s5_sweep.expand("e1")
-        self.assertEqual(len(pts), (6 + 8 + 4) * 2)
+        self.assertEqual(len(pts), (6 + 8 + 6) * 2)
         self.assertEqual(pts[0]["model_key"], "formula")
         keys = []
         for p in pts:

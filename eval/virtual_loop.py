@@ -11,15 +11,19 @@
   e4b     泛化：N = 40，3/4/6/7/8/10/11 台（4/6/8/10 训练时没见过），main_0.5b 和老师
   e5      开环 vs 闭环：3 台、N = 40，各种策略各跑一次（和 e4a 重复的点不重跑）
   e5_paper 论文原版 1.5B 闭环（可选，一次决策约 1 秒，只跑 400 槽）
+  e6      LACS 往后看在闭环里有没有用：3/7/11 台 × N = 20/40/60/80，单步最优 vs LACS（λ = 0.3/1/2），
+          另加 PS 感知贪心当"改公式"的参照，顺序决策 3 个种子；批量决策只比单步最优和 λ = 0.3。每点 2000 槽，和 e3 的点不重名，图 3 不受影响。
+          只有公式策略，不用 Jetson，约 25 分钟（估算）
 
 在仓库根目录运行（环境节点上，Jetson 的调度服务已经起来）：
   python -m eval.virtual_loop --plan e4a,e4b,e5 --dry-run
   python -m eval.virtual_loop --plan e4a,e4b,e5               # 结果在 runs/<UTC>_s5_virtual_<计划>/
   python -m eval.virtual_loop --plan e4a,e4b,e5 --resume runs/<目录>
   python -m eval.virtual_loop --plan e3                       # 只有公式策略，不连 Jetson
+  python -m eval.virtual_loop --plan e6                       # 同上
   python -m eval.virtual_loop --plan e4a --rehearse           # 预演：LLM 换成本机公式，不连 Jetson
 
-策略名：random / greedy / lacs / po2 / psgreedy / smallnet 在本机算；llm:<模型键> 发给 Jetson。
+策略名：random / greedy / lacs / lacs:<λ> / po2 / psgreedy / smallnet 在本机算；llm:<模型键> 发给 Jetson。
 """
 import argparse
 import csv
@@ -53,6 +57,9 @@ PLANS = {
            ([3], [40], ["llm:main_0.5b", "llm:ps_0.5b", "llm:soft_1.5b", "llm:base_0.5b"], ["sequential"], [0],
             1000, 200)],
     "e5_paper": [([3], [40], ["llm:paper_sft_1.5b"], ["sequential"], [0], 400, 100)],
+    "e6": [([3, 7, 11], [20, 40, 60, 80], ["greedy", "lacs", "lacs:1", "lacs:2", "psgreedy"], ["sequential"], [0, 1, 2],
+            2000, 200),
+           ([3, 7, 11], [20, 40, 60, 80], ["greedy", "lacs"], ["batch"], [0, 1, 2], 2000, 200)],
 }
 EST_MS = {"main_0.5b": 55.0, "ps_0.5b": 55.0, "base_0.5b": 55.0, "main_0.5b_q4": 60.0, "soft_1.5b": 120.0,
           "paper_sft_1.5b": 900.0}      # 每次决策约多少毫秒（估算），只用来报预计时长

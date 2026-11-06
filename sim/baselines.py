@@ -55,7 +55,13 @@ class PsGreedyPolicy:
 
 
 def make_policy(name, seed=0):
-    """按名字造策略。seed 只影响策略自己的随机数（random、po2），和仿真器的随机数分开。"""
+    """按名字造策略。seed 只影响策略自己的随机数（random、po2），和仿真器的随机数分开。
+
+    1. "lacs:<λ>" 是换了 λ 的 LACS-greedy，比如 lacs:1、lacs:2；"lacs" 就是论文的 λ = 0.3
+    2. 其他名字查表
+    """
+    if name.startswith("lacs:"):
+        return LacsGreedyPolicy(float(name[5:]))
     return {
         "random": lambda: RandomPolicy(seed),
         "greedy": lambda: GreedyPolicy(),

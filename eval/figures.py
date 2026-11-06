@@ -1,16 +1,16 @@
-"""一条命令从 CSV 重画全部 6 张图，并把简历要用的几个数字连同出处写成 figures/numbers.md（G5 的要求）。
+"""一条命令从 CSV 重画全部 7 张图，并把简历要用的几个数字连同出处写成 figures/numbers.md（G5 的要求）。
 
 在仓库根目录运行（Mac 上）：
   python -m eval.figures                 # 读 evidence/G5/sources.json 里登记的运行目录；没有这个文件就自动找最新的并写出来
   python -m eval.figures --rediscover    # 重新找最新的运行目录，覆盖 sources.json
-结果：figures/fig1_stability.png … fig6_ablation.png、figures/numbers.md；跑过两板复测时还有 figures/twoboard.md。
+结果：figures/fig1_stability.png … fig7_lacs.png、figures/numbers.md；跑过两板复测时还有 figures/twoboard.md。
 某张图的数据还没跑出来时，那张图跳过，屏幕上会说缺什么。
 
 数据从哪来（sources.json 的键）：
   e1          eval/s5_sweep.py 的扫描目录（results.csv）：实验 1 稳定边界，可以列几个目录
   twoboard    eval/s5_sweep.py --plan twoboard 的扫描目录：RK3588 当环境节点时的复测，和 e1 里同名的点对照
   bench       eval/bench_latency.py 的运行目录：实验 2 延迟分解，同一配置只取最新一次
-  virtual     eval/virtual_loop.py 的目录：实验 3 羊群效应、实验 4 消融和泛化、实验 5 开环 vs 闭环
+  virtual     eval/virtual_loop.py 的目录：实验 3 羊群效应、实验 4 消融和泛化、实验 5 开环 vs 闭环、实验 6 LACS
   open_loop   阶段 3、4 的开环评测表 evidence/G3/open_loop.csv、evidence/G4/open_loop.csv
 """
 import argparse
@@ -37,6 +37,8 @@ STYLE = {
     "formula":        ("公式（Jetson 上算）", "#2a78d6", "o"),
     "greedy":         ("单步最优（公式）", "#2a78d6", "o"),
     "lacs":           ("LACS-greedy", "#eb6834", "s"),
+    "lacs:1":         ("LACS λ = 1", "#c4501f", "s"),
+    "lacs:2":         ("LACS λ = 2", "#8a3412", "s"),
     "psgreedy":       ("PS 感知贪心", "#e87ba4", "v"),
     "po2":            ("power-of-2", "#1baf7a", "^"),
     "random":         ("随机", "#eda100", "D"),
@@ -213,7 +215,8 @@ def fig1_stability(rows, bench, numbers):
     """图 1 稳定边界：横轴 N，左平均延迟、右丢弃率；每个 (模型, 是否分流) 一条线，竖虚线是理论 N_max。
 
     1. 按 (模型, 分流) 分组，同一 N 的几个种子取平均，竖线画最小到最大
-    2. 理论 N_max = 1 / (3 × 单次决策平均秒数)：优先用实验 2 的延迟基准，没有就用实验 1 里最小 N 那次的往返
+    2. 理论 N_max = 1 / (3 × 单次决策平均秒数)：优先用实验 1 里最小 N 那次的往返（和实验 1 同样 3 台服务器），
+       没有才用实验 2 的延迟基准（基准混了 3/7/11 台，提示词更长，算出的 N_max 偏小）
     3. 稳定边界 M = 决策环节丢弃（过了截止期还没拿到决策）在每个种子上都低于 1% 的最大 N
     """
     groups = {}
@@ -238,9 +241,9 @@ def fig1_stability(rows, bench, numbers):
             ax.errorbar(ns, m, yerr=[lo, hi], color=color, marker=marker, linestyle="--" if shed else "-",
                         linewidth=2, markersize=5, label=name)
         stable = [n for n in ns if all(float(r["drop_decision"]) < 0.01 for r in by_n[n])]
-        e2e = bench_mean.get(key)
-        if e2e is None:
-            e2e = mean([float(r["e2e_ms_mean"]) for r in by_n[ns[0]]])
+        e2e = mean([float(r["e2e_ms_mean"]) for r in by_n[ns[0]]])
+        if e2e != e2e:
+            e2e = bench_mean.get(key, float("nan"))
         nmax = 1000.0 / (3.0 * e2e) if e2e and e2e == e2e else float("nan")
         if not shed and key != "formula" and nmax < 100:
             for ax in axes:
@@ -474,6 +477,70 @@ def fig6_ablation(rows, open_rows, numbers):
 
 
 # ===== 第 3 段：主程序 =====
+def fig7_lacs(rows, numbers):
+    """图 7 LACS 往后看在闭环里有没有用：3/7/11 台各一格，横轴 N，纵轴顺序决策的平均延迟；每条线一个 λ。
+
+    1. 只用实验 6 的行（2000 槽），同一 (台数, N, 策略, 决策方式) 几个种子取平均
+    2. 每格画单步最优和 λ = 0.3/1/2 四条线，PS 感知贪心画虚线当参照
+    3. 数字：λ = 0.3 闭环里和单步最优选得一样的比例；每个 λ 相对单步最优的平均延迟变化（全部点平均）；
+       批量决策下 λ = 0.3 有没有减轻羊群效应（11 台、N 最大）
+    """
+    cell = {}
+    for r in rows:
+        if int(r["slots"]) != 2000 or not (r["policy"] in ("greedy", "psgreedy") or r["policy"].startswith("lacs")):
+            continue
+        cell.setdefault((r["policy"], int(r["servers"]), int(r["n"]), r["mode"]), []).append(r)
+    if not cell:
+        return None
+    pols = ["greedy", "lacs", "lacs:1", "lacs:2"]
+    fig, axes = plt.subplots(1, 3, figsize=(14, 4.4))
+    for i, k in enumerate((3, 7, 11)):
+        for pol in pols + ["psgreedy"]:
+            ns = sorted({n for (p, kk, n, m) in cell if p == pol and kk == k and m == "sequential"})
+            if not ns:
+                continue
+            ys = []
+            for n in ns:
+                ys.append(mean([float(r["mean_delay"]) for r in cell[(pol, k, n, "sequential")]]))
+            label, color, marker = style_of(pol)
+            if pol == "greedy":
+                label, color = "单步最优（λ = 0）", "#2a78d6"
+            elif pol == "lacs":
+                label = "LACS λ = 0.3（论文）"
+            elif pol == "psgreedy":
+                label = "PS 感知贪心（改公式，参照）"
+            axes[i].plot(ns, ys, color=color, marker=marker, label=label, linewidth=1.8,
+                         linestyle="--" if pol == "psgreedy" else "-")
+        tidy(axes[i], f"{k} 台服务器", "终端数 N", "平均延迟（槽，顺序决策）" if i == 0 else "")
+    axes[0].legend(frameon=False, fontsize=8)
+    fig.suptitle("实验 6 · LACS 往后看在闭环里有没有用", x=0.01, ha="left", fontsize=12, color=INK)
+    dirs = ", ".join(sorted({r["_dir"] for v in cell.values() for r in v}))
+    agree = [float(r["agree_greedy"]) for (p, k, n, m), v in cell.items() if p == "lacs" and m == "sequential"
+             for r in v]
+    if agree:
+        numbers.append(("LACS λ = 0.3 闭环里和单步最优选得一样", f"{100 * mean(agree):.1f}%（仿真实测，顺序决策全部点）", dirs))
+    for pol in pols[1:] + ["psgreedy"]:
+        diffs = []
+        for (p, k, n, m), v in cell.items():
+            g = cell.get(("greedy", k, n, m))
+            if p != pol or m != "sequential" or not g:
+                continue
+            base = mean([float(r["mean_delay"]) for r in g])
+            diffs.append(100.0 * (mean([float(r["mean_delay"]) for r in v]) - base) / base)
+        if diffs:
+            numbers.append((f"{style_of(pol)[0]} 相对单步最优的平均延迟变化",
+                            f"平均 {mean(diffs):+.2f}%，范围 {min(diffs):+.2f}% ~ {max(diffs):+.2f}%（仿真实测，顺序决策 {len(diffs)} 个点）",
+                            dirs))
+    ns11 = sorted({n for (p, k, n, m) in cell if k == 11 and m == "batch"})
+    if ns11:
+        n = ns11[-1]
+        g = mean([float(r["mean_delay"]) for r in cell.get(("greedy", 11, n, "batch"), [])])
+        l = mean([float(r["mean_delay"]) for r in cell.get(("lacs", 11, n, "batch"), [])])
+        numbers.append((f"批量决策下 LACS 能否减轻羊群效应（11 台、N = {n}）",
+                        f"单步最优 {g:.2f} 槽，LACS λ = 0.3 {l:.2f} 槽（仿真实测）", dirs))
+    return fig
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--rediscover", action="store_true", help="重新找最新的运行目录，覆盖 sources.json")
@@ -511,6 +578,7 @@ def main():
         ("fig4_generalization.png", lambda: fig4_generalization(virtual, open_rows, numbers), "开环表 / e4b"),
         ("fig5_open_vs_closed.png", lambda: fig5_open_vs_closed(virtual, open_rows, numbers), "e5 + 开环表"),
         ("fig6_ablation.png", lambda: fig6_ablation(virtual, open_rows, numbers), "开环表 / e4a"),
+        ("fig7_lacs.png", lambda: fig7_lacs(virtual, numbers), "实验 6（eval.virtual_loop --plan e6）"),
     ]
     for fname, make, need in jobs:
         fig = make()
