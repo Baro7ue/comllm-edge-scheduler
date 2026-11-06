@@ -21,3 +21,4 @@ Jetson 的两项已在 evidence/G0/jetson_versions.txt 里现场核对。Colab �
 |---|---|---|---|
 | torch（Colab 预装） | 2.11.0+cu130 | Colab 训练、论文原版基线 | 训练 notebook 第 2 格的输出 |
 | Colab GPU | NVIDIA RTX PRO 6000 Blackwell Server Edition（运行时选 G4），bf16 | 同上 | 训练 notebook 第 2 格的输出 |
+| Colab GPU（阶段 4 的 B） | NVIDIA A100-SXM4-80GB，bf16，torch 同上 | hard_1.5b 加 GRPO（runs/s4/hard_grpo_20261105T123733Z） | 该运行 summary.json 的 gpu 字段 |
