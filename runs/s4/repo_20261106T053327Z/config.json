@@ -1,0 +1,18 @@
+{
+  "name": "GRPO-repo（从论文原版 sft）",
+  "model": "qwen2.5-1.5b-mec-sft-final-all + LoRA",
+  "model_tag": "论文原版 1.5B + GRPO",
+  "steps": 204,
+  "start": "sft",
+  "reward": "repo",
+  "G": 8,
+  "prompts_per_step": 8,
+  "temp": 1.3,
+  "top_p": 0.95,
+  "beta": 0.04,
+  "lr": 5e-05,
+  "warmup": 10,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "max_new_tokens": 16
+}

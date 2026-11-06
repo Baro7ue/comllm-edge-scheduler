@@ -1,0 +1,7 @@
+{
+  "name": "论文原版 grpo（整句最大概率）",
+  "model": "qwen2.5-1.5b-mec-grpo-final-all",
+  "model_tag": "论文原版 1.5B",
+  "decode": "seq_argmax",
+  "n_rows": 445
+}
