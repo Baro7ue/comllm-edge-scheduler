@@ -1,0 +1,10 @@
+7eebe06bd6470d7dcd27da1713f5fc62def3fe5ed81f5e253b7c459c86a29bcc  /home/ethan/models/comllm-0.5b-soft-T0.3-ps-q8_0.gguf
+85a8a20d65324be50791976e0e2fc4d472c9031d54cf66a4b9459e4d70024e77  /home/ethan/models/comllm-0.5b-soft-T0.3-q4_k_m.gguf
+3b4c3232d725792b63be2ea4607a21ff6e97c51e5fbfffd05e300de380ba3783  /home/ethan/models/comllm-0.5b-soft-T0.3-q8_0.gguf
+5ad8f01d1127fcf580e7cef78cd6cfbe75c9ee9e67c5dce0c6c36cc68dd29e07  /home/ethan/models/comllm-1.5b-soft-T0.3-q4_k_m.gguf
+79680e01422f26be21f8686d2018387330fca532d2ca736290a9f4a292645810  /home/ethan/models/comllm-1.5b-soft-T0.3-q8_0.gguf
+40c914087efaaa4becd29bb17d18ee2dd70366fd84f47d57072ded3c2a1280c8  /home/ethan/models/comllm-paper-sft-1.5b-q8_0.gguf
+74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db  /home/ethan/models/qwen2.5-0.5b-instruct-q4_k_m.gguf
+ca59ca7f13d0e15a8cfa77bd17e65d24f6844b554a7b6c12e07a5f89ff76844e  /home/ethan/models/qwen2.5-0.5b-instruct-q8_0.gguf
+6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e  /home/ethan/models/qwen2.5-1.5b-instruct-q4_k_m.gguf
+d7efb072e7724d25048a4fda0a3e10b04bdef5d06b1403a1c93bd9f1240a63c8  /home/ethan/models/qwen2.5-1.5b-instruct-q8_0.gguf
