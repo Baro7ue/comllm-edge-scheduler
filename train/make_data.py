@@ -36,7 +36,7 @@ from collections import Counter
 
 import numpy as np
 
-from deploy.prompts import QWEN_DEFAULT_SYSTEM, chatml, paper_messages
+from deploy.prompts import QWEN_DEFAULT_SYSTEM, chatml, paper_messages_json
 from deploy.wire import state_from_dict, state_to_dict
 from eval.closed_loop import git_version
 from sim import config as C
@@ -246,7 +246,7 @@ def golden_texts(rows_by_split):
         compact.append(chatml([{"role": "system", "content": COMPACT_SYSTEM}, {"role": "user", "content": r["user"]}]))
     paper = []
     for r in rows_by_split["test_seen"][:2]:
-        paper.append(chatml(paper_messages(state_from_dict(r["state"]))))
+        paper.append(chatml(paper_messages_json(state_from_dict(r["state"]))))
     return {"compact": compact, "paper": paper}
 
 

@@ -84,7 +84,7 @@ python -m eval.realtime --policy compact --n 5 --minutes 10 --name smoke_llm   #
 设计选择：
 
 - **压缩格式只算 1 个 token，读概率而不是加语法。** 请求 `n_predict=1`、`n_probs=20`，在前 20 个候选里取概率最大的合法字母。GBNF 语法也能保证答案合法，但它要逐个检查 15 万个词表 token，模型首选不是合法字母时每个 token 要多花约 20 ms（云端 CPU 实测，Jetson 上待测），所以只作为对照。
-- **论文格式固定生成 12 个 token。** 用来量"论文原版做法"（长提示词 + 生成答案）在同一套部署上的耗时。12 是按原作者数据集里答案那段 JSON（`{"action_name": "卸载到边缘服务器1"}`，Qwen 分词约 12 个 token）定的。原作者仓库的训练脚本 `stf_7B.py` 实际只让模型答动作名，加上结束符是 3 个（本地执行）到 8 个 token（卸载到边缘服务器11），所以这里量的论文格式延迟偏高，多算了 4–9 个 token 的解码时间（估算约 90–200 ms）。
+- **论文格式按原作者仓库的拼法，生成到结束符为止，最多 20 个 token。** 系统提示和用户内容和阶段 3 的论文原版基线一样（见下面"论文原版基线"）；回答去掉首尾空白后必须正好是"本地执行"或"卸载到边缘服务器k"，否则按不可用处理、回退公式。阶段 2 的论文格式延迟是按旧拼法（状态字典的 JSON、固定生成 12 个 token）量的，阶段 5 用新拼法重量。
 - **决策在收到回复的那一刻生效。** 实时模式下，任务从到达开始计时，等决策的时间（环境节点排队 + 网络 + Jetson）都算进任务延迟；过了截止期还没拿到决策的任务记为在"决策"环节丢弃。
 - **环境节点一次只发一个请求。** 每个请求看到的状态包含之前所有决策的结果；Jetson 忙时请求在环境节点排队。理论容量 N_max = 1 / (3 × 平均往返秒数)：每台终端每秒 0.3 × 10 = 3 个请求。
 - **超时回退。** Jetson 上的服务最多等 LLM `timeout_ms`；等不到就用单步公式回答，在日志里记 `source = fallback`、`reason = timeout`。已经开始算的 LLM 请求会算完，结果记为"迟到"，不影响已经给出的答案。迟到的请求还在算时又来新请求，新请求不排队，马上用公式回答（`reason = busy`）：否则新请求排在后面也会超时，每个都白等 `timeout_ms`，而 100 ms 比 5 台终端时两个请求的平均间隔（约 68 ms）还长，待决策的任务会越积越多。云端预演时 CPU 卡顿过一次，就出现了这样的连锁超时，决策延迟 p99 涨到约 300 ms（云端实测），这条规则就是为它加的。
@@ -150,3 +150,28 @@ Mac    python -m eval.s4_breakdown ...       → evidence/G4/breakdown.md
 - repo 奖励在这里不比 fixed 差。repo 的漏洞是越界的服务器号比本地得分高，但这次没有被触发，两次训练的越界回答都是 0%。repo 模型有 45/1245 条回答多了"服务器"尾巴，严格解析后干净测试集准确率是 86.9%（贪心）。
 - 两个模型都从不选本地，而训练题里本地最优的只有 5.9%。在阶段 3 见过台数的 1000 条上，PR 是 86.0% / 89.3%（贪心），本地最优的题占了多花延迟的 77.9% / 92.5%。
 - 阶段 3 的 hard_1.5b 再做 1000 步 GRPO（fixed 奖励）：见过台数准确率 96.0% → 92.9%，没见过台数 95.2% → 92.1%，PR 99.9% → 99.7%（部署规则）。学生已在公式上限，GRPO 没有收益。部署仍是阶段 3 的软标签 0.5B Q8_0。
+
+## 闭环评测（阶段 5）
+
+```
+Colab   train/S5_论文原版转GGUF.ipynb        原作者 sft 1.5B → comllm-paper-sft-1.5b-q8_0.gguf（MyDrive/COMLLM/s5/gguf/）
+Jetson  python -m deploy.scheduler --model-key main_0.5b       模型表在 deploy/testbed.json 的 models；POST /model 换模型
+Mac     python -m eval.bench_latency --fmt compact --cache on --model-key main_0.5b      实验 2 延迟分解
+Mac     python -m eval.check_paper_gguf --preds runs/s3/paper_<UTC>/sft/preds.csv       论文原版 GGUF 和 PyTorch 比对
+Mac     python -m eval.s5_sweep --plan e1,e1_paper,e1_shed      实验 1 稳定边界 + 论文原版 1 点 + 分流对照（实时闭环，47 个点，约 2.6 小时，估算）
+Mac     python -m eval.virtual_loop --plan e3                   实验 3 羊群效应（只用公式，本机几分钟）
+Mac     python -m eval.virtual_loop --plan e4a,e4b,e5           实验 4、5（每个决策问 Jetson，71 个点，约 3 小时，估算）
+Mac     python -m eval.figures                                  6 张图 + figures/numbers.md（跑过两板复测还有 twoboard.md）
+RK3588  python -m eval.s5_sweep --plan twoboard                 两板复测：testbed.json 的 env_node 改成 RK3588
+```
+
+`s5_sweep` 和 `virtual_loop` 都有 `--dry-run`（只列点和预计时长）、`--resume <目录>`（断了接着跑）、`--only <模型键>`、`--rehearse`（不连 Jetson，LLM 换成本机公式加假装的耗时，用来试脚本）。
+
+设计选择：
+
+- **两种闭环。** 实时闭环（`eval/realtime.py`）按真实时钟推进，决策延迟算进任务延迟，量"部署后撑得住多少终端"。部署模型单次约 57 ms（阶段 3 实测），只撑得住 N ≈ 6，这么轻的负载下各策略的延迟差不多，比不出决策好坏。所以质量对比用虚拟时间闭环（`eval/virtual_loop.py`）：仿真每个决策都等 Jetson 答完再往下走，决策耗时不计入，可以在 N = 20–80 的重负载下比。只用公式时它和 `sim.env.run` 结果完全一样（单元测试核对）。
+- **换模型不用人守着。** `deploy/testbed.json` 的 `models` 把模型键对到 GGUF 文件和提示词格式。`POST /model {"key": "<模型键>"}` 让调度服务停掉 llama-server、换文件重启、预热；`/info` 报模型键、文件路径和文件的 sha256，每次运行的 config.json 都记下来。扫描脚本按模型把点排在一起，轮到新模型才换一次。
+- **超载分流（`--shed-ms`）。** 环境节点一次只发一个请求，终端数超过 N_max 后待决策的任务越排越长，每个任务都等过截止期，丢弃率一下跳到接近 100%。分流：在环境节点排队超过 `shed_ms` 的任务不再等 Jetson，当场用公式决策，记 `source = shed`。默认关；`--plan e1_shed` 是开分流的对照，实验 1 一起跑。
+- **论文原版 1.5B 只跑一个实时点。** 它一次决策约 1 秒（阶段 2 用旧拼法实测，阶段 5 重量），1 台终端每秒就有 3 个请求，N = 1 已经超载；实时闭环只跑 N = 1（`e1_paper`），质量对比放在虚拟时间闭环（`e5_paper`，400 槽）。1.5B 软标签学生一次约 120 ms，用部署的 100 ms 超时会大半回退公式，所以它的超时给 1000 ms。
+- **一条命令重画。** `evidence/G5/sources.json` 登记每张图用哪些运行目录；`python -m eval.figures` 照它重画全部图，并把简历要用的数字连同运行目录写进 `figures/numbers.md`。没有这个文件就自动找最新的目录并写出来。
+- **RK3588 当环境节点。** 环境节点的代码只依赖 numpy（`deploy/requirements-envnode.txt`），在 Python 3.8 上测过。

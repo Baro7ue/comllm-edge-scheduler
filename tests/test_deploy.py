@@ -69,8 +69,9 @@ class TestPrompts(unittest.TestCase):
         self.assertEqual(g["grammar"], "root ::= [A-D]")
         self.assertFalse(g["cache_prompt"])
         p = build_llm_request(s, "paper", True)
-        self.assertEqual(p["n_predict"], 12)
-        self.assertTrue(p["ignore_eos"])
+        self.assertEqual(p["n_predict"], 20)
+        self.assertNotIn("ignore_eos", p)
+        self.assertTrue(p["prompt"].startswith("<|im_start|>system\n你是一个MEC任务卸载专家"))
         self.assertIn("你是一个MEC任务卸载决策智能体", p["prompt"])
 
     def test_parse_probs(self):
@@ -90,8 +91,10 @@ class TestPrompts(unittest.TestCase):
     def test_parse_grammar_and_paper(self):
         a, _, _ = parse_action("compact", "grammar", _canned([("D", 0.9)], "D"), 4)
         self.assertEqual(a, 3)
-        a, _, _ = parse_action("paper", "-", {"content": "卸载到边缘服务器2。理由是"}, 4)
+        a, _, _ = parse_action("paper", "-", {"content": "卸载到边缘服务器2"}, 4)
         self.assertEqual(a, 2)
+        a, _, _ = parse_action("paper", "-", {"content": "卸载到边缘服务器2。理由是"}, 4)
+        self.assertIsNone(a)          # 回答必须正好是一个动作名
         a, _, _ = parse_action("paper", "-", {"content": "卸载到边缘服务器9"}, 4)
         self.assertIsNone(a)
 

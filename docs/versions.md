@@ -14,6 +14,7 @@
 | Qwen2.5-1.5B-Instruct | 989aa7980e4cf806f80c7fef2b1adb7bc71aa306 | Colab 训练基座（Hugging Face 提交号） | 同上 |
 | Python（Mac 环境节点） | Python 3.14.8 | 仿真器、环境节点 | python --version |
 | numpy、requests 等 | 见 requirements.txt | Mac；阶段 5 的 RK3588 照装 | pip freeze |
+| Python（RK3588 环境节点） | 阶段 5 预检时填（代码在 3.8.20 + numpy 1.24 上测过） | 两板复测 | python3 --version |
 
 Jetson 的两项已在 evidence/G0/jetson_versions.txt 里现场核对。Colab 上的 torch 用预装版本，阶段 3 开训时补进这张表：
 

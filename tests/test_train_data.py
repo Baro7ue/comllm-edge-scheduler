@@ -9,7 +9,7 @@ import sys
 import tempfile
 import unittest
 
-from deploy.prompts import chatml, paper_messages
+from deploy.prompts import chatml, paper_messages_json
 from deploy.wire import state_from_dict
 from eval.check_gguf import repair_reference
 from eval.open_loop import effective_cost, jain, score
@@ -89,14 +89,14 @@ class TestMakeData(unittest.TestCase):
                     self.assertAlmostEqual(costs[a], r["costs"][a], places=3)
 
     def test_golden_texts(self):
-        """meta.json 里给 Colab 核对的样例 = 部署时 deploy/prompts.py 拼出来的全文。"""
+        """meta.json 里给 Colab 核对的样例 = deploy/prompts.py 拼出来的全文（论文格式是 JSON 拼法那种）。"""
         for i, golden in enumerate(self.meta["golden"]["compact"]):
             r = self.rows["train"][i]
             msgs = [{"role": "system", "content": COMPACT_SYSTEM}, {"role": "user", "content": r["user"]}]
             self.assertEqual(chatml(msgs), golden)
         for i, golden in enumerate(self.meta["golden"]["paper"]):
             s = state_from_dict(self.rows["test_seen"][i]["state"])
-            self.assertEqual(chatml(paper_messages(s)), golden)
+            self.assertEqual(chatml(paper_messages_json(s)), golden)
 
     def test_deterministic(self):
         """同样的参数再生成一次，每个文件的校验值都一样（Ethan 在 Mac 上生成的和这里的能对上）。"""

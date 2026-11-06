@@ -2,5 +2,13 @@
   "env_node": {"name": "mac", "ip": "192.168.50.1"},
   "scheduler_node": {"name": "jetson", "ip": "192.168.50.20", "port": 8100},
   "llama_server": {"bin": "~/llama.cpp/build/bin/llama-server", "port": 8080, "ctx": 4096},
-  "timeout_ms": 100
+  "timeout_ms": 100,
+  "models": {
+    "main_0.5b":      {"gguf": "~/models/comllm-0.5b-soft-T0.3-q8_0.gguf",    "fmt": "compact"},
+    "main_0.5b_q4":   {"gguf": "~/models/comllm-0.5b-soft-T0.3-q4_k_m.gguf",  "fmt": "compact"},
+    "soft_1.5b":      {"gguf": "~/models/comllm-1.5b-soft-T0.3-q8_0.gguf",    "fmt": "compact"},
+    "ps_0.5b":        {"gguf": "~/models/comllm-0.5b-soft-T0.3-ps-q8_0.gguf", "fmt": "compact"},
+    "base_0.5b":      {"gguf": "~/models/qwen2.5-0.5b-instruct-q8_0.gguf",    "fmt": "compact"},
+    "paper_sft_1.5b": {"gguf": "~/models/comllm-paper-sft-1.5b-q8_0.gguf",    "fmt": "paper"}
+  }
 }

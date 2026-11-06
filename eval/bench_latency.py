@@ -6,6 +6,7 @@
 
 在仓库根目录运行（Mac 上，Jetson 的调度服务已经起来）：
   python -m eval.bench_latency --fmt compact --cache on
+  python -m eval.bench_latency --fmt compact --cache on --model-key soft_1.5b    # 先让 Jetson 换模型再测
 结果在 runs/<UTC>_bench_<模型>_<格式>_<缓存>/：requests.csv 每行一次请求，summary.json 是汇总。
 
 各段耗时的关系（毫秒）：
@@ -19,6 +20,7 @@ import json
 import os
 from datetime import datetime, timezone
 
+from deploy import testbed
 from deploy.client import SchedulerClient, parse_host_port
 from eval.closed_loop import git_version, int_list
 from sim.baselines import make_policy
@@ -154,11 +156,15 @@ def main():
     ap.add_argument("--servers", type=int_list, default=[3, 7, 11])
     ap.add_argument("--scheduler", default=None, help="调度服务地址 IP:端口；不给就用 deploy/testbed.json")
     ap.add_argument("--name", default=None, help="目录名里的名字；不给就按 模型_格式_缓存 自动起")
+    ap.add_argument("--model-key", default=None, help="先让 Jetson 换成这个模型（deploy/testbed.json 的 models 里的键）")
     args = ap.parse_args()
 
-    # 1. 连调度服务，问它加载的是哪个模型
+    # 1. 连调度服务；给了 --model-key 就先换模型；再问它加载的是哪个模型
     host, port = parse_host_port(args.scheduler)
     client = SchedulerClient(host, port)
+    if args.model_key:
+        print(f"换模型 → {args.model_key}（十几秒到一分钟）", flush=True)
+        client.switch_model(args.model_key)
     info = client.info()
     model = short_model_name(info.get("llama", {}).get("model_path"))
     if args.fmt == "formula":
@@ -224,7 +230,8 @@ def main():
     summary = summarize(rows, args.servers)
     summary.update(model=model, fmt=args.fmt, cache=args.cache, decode=decode, scheduler_info=info)
     config = {"args": vars(args), "git": git_version(), "started_utc": stamp,
-              "scheduler": f"{client.host}:{client.port}", "scheduler_info": info}
+              "scheduler": f"{client.host}:{client.port}", "scheduler_info": info,
+              "env_node": testbed.load().get("env_node")}
     with open(os.path.join(out_dir, "config.json"), "w", encoding="utf-8") as f:
         json.dump(config, f, ensure_ascii=False, indent=2)
     with open(os.path.join(out_dir, "summary.json"), "w", encoding="utf-8") as f:

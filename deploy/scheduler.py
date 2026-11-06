@@ -21,11 +21,17 @@
    "prompt_n": 新算的提示词 token, "cache_n": 前缀缓存命中的 token, "prompt_ms": 预填充, "predicted_n": 生成 token 数,
    "predicted_ms": 解码, "text": 模型原文, "probs": 每个动作的概率, "p_chosen": 被选中 token 的概率}
 
+请求 POST /model {"key": "main_0.5b"}：换模型。停掉 llama-server，用 deploy/testbed.json 里这个键对应的
+  GGUF 重新拉起，空跑 3 次后返回新的 /info。换模型要十几秒到一分钟，这期间不要发决策请求。
+  阶段 5 的扫描脚本在环境节点上用它自动换模型，夜里跑不用人守着。
+
 在仓库根目录运行（Jetson 上）：
-  python -m deploy.scheduler --model ~/models/qwen2.5-1.5b-instruct-q4_k_m.gguf
+  python -m deploy.scheduler --model-key main_0.5b          # 按 deploy/testbed.json 的模型清单
+  python -m deploy.scheduler --model ~/models/xxx.gguf      # 直接给文件路径
 它会自己把 llama-server 拉起来；按 Ctrl-C 两个一起退出。
 """
 import argparse
+import hashlib
 import json
 import os
 import queue
@@ -149,14 +155,45 @@ class LlmWorker:
 
 # ===== 第 3 段：一次决策 =====
 class SchedulerService:
-    def __init__(self, worker, log, default_timeout_ms):
+    def __init__(self, worker, log, default_timeout_ms, llama=None, models=None):
         self.worker = worker
         self.log = log
         self.default_timeout_ms = default_timeout_ms
+        self.llama = llama               # LlamaProcess；llama-server 是单独起的（--external）时为 None
+        self.models = models if models is not None else testbed.load().get("models", {})   # 模型清单
+        self.switch_lock = threading.Lock()
         self.stats_lock = threading.Lock()
         self.n_requests = 0
         self.n_fallback = 0
         self.info = {}
+
+    def switch_model(self, key):
+        """换成模型清单里的 key，返回新的 /info。
+
+        1. 查清单得到 GGUF 路径（键不对、文件不存在就报错，当前模型不动）
+        2. 已经是这个模型：直接返回
+        3. llama-server 不是本服务拉起的：不能换，报错
+        4. 停掉旧的 llama-server，用新模型重新拉起，等就绪，空跑 3 次
+        5. 更新 /info（模型键、路径、文件校验值、llama-server 报的版本），记一行日志
+        """
+        if key not in self.models:
+            raise KeyError("模型键 " + str(key) + " 不在模型清单里；可选：" + ", ".join(sorted(self.models)))
+        entry = self.models[key]
+        if not os.path.exists(os.path.expanduser(entry["gguf"])):
+            raise FileNotFoundError("模型文件不存在：" + entry["gguf"] + "；当前模型不变")
+        with self.switch_lock:
+            if self.info.get("model_key") == key:
+                return self.info
+            if self.llama is None:
+                raise RuntimeError("llama-server 是单独起的（--external），本服务不能换模型")
+            t0 = time.perf_counter()
+            self.llama.restart(entry["gguf"])
+            warm_up(self.worker)
+            self.info["llama"] = read_props(self.llama.port)
+            self.info.update(model_info(key, entry["gguf"]))
+            self.log.write({"event": "switch_model", "model_key": key, "gguf": self.info["gguf"],
+                            "seconds": round(time.perf_counter() - t0, 1)})
+            return self.info
 
     def decide(self, req, t_in):
         """处理一个 /decide 请求，返回回复字典。t_in 是收到请求的时刻（perf_counter）。
@@ -265,6 +302,11 @@ class Handler(BaseHTTPRequestHandler):
         req = json.loads(self.rfile.read(n))
         if self.path == "/decide":
             self.send_json(self.service.decide(req, t_in))
+        elif self.path == "/model":
+            try:
+                self.send_json(self.service.switch_model(req.get("key", "")))
+            except Exception as e:      # 键不对、模型文件不存在、llama-server 起不来
+                self.send_json({"error": repr(e)}, status=400)
         else:
             self.send_json({"error": "unknown path"}, status=404)
 
@@ -283,12 +325,76 @@ class Handler(BaseHTTPRequestHandler):
 # ===== 第 5 段：拉起 llama-server =====
 def start_llama_server(bin_path, model, port, ctx, log_path):
     """后台启动 llama-server，返回进程对象。参数含义见运行步骤文档。"""
-    cmd = [os.path.expanduser(bin_path), "-m", os.path.expanduser(model),
+    path = os.path.expanduser(model)
+    if not os.path.exists(path):
+        raise FileNotFoundError("模型文件不存在：" + path)
+    cmd = [os.path.expanduser(bin_path), "-m", path,
            "--host", "127.0.0.1", "--port", str(port),
            "-ngl", "99", "-c", str(ctx), "--parallel", "1", "--cache-ram", "0"]
     log_f = open(log_path, "w", encoding="utf-8")
     print("启动 llama-server：", " ".join(cmd))
     return subprocess.Popen(cmd, stdout=log_f, stderr=subprocess.STDOUT)
+
+
+class LlamaProcess:
+    """本服务拉起的那个 llama-server 进程：记住参数，换模型时停掉再用新模型拉起。"""
+
+    def __init__(self, bin_path, port, ctx, log_dir):
+        self.bin_path = bin_path
+        self.port = port
+        self.ctx = ctx
+        self.log_dir = log_dir
+        self.proc = None
+
+    def start(self, model):
+        """拉起并等到就绪。日志文件名带时间，每个模型一份。"""
+        log_path = os.path.join(self.log_dir, f"llama_server_{utc_stamp()}.log")
+        self.proc = start_llama_server(self.bin_path, model, self.port, self.ctx, log_path)
+        wait_ready(self.port, self.proc)
+
+    def stop(self):
+        """请它退出，最多等 10 秒；还不退就强制结束。端口要空出来，下一个才能用。"""
+        if self.proc is None:
+            return
+        self.proc.terminate()
+        try:
+            self.proc.wait(timeout=10)
+        except subprocess.TimeoutExpired:
+            self.proc.kill()
+            self.proc.wait(timeout=10)
+        self.proc = None
+
+    def restart(self, model):
+        self.stop()
+        self.start(model)
+
+
+def file_sha256(path):
+    """文件的 SHA-256（十六进制），分块读，GB 级的模型文件也不占内存。"""
+    h = hashlib.sha256()
+    with open(os.path.expanduser(path), "rb") as f:
+        while True:
+            block = f.read(1 << 20)
+            if not block:
+                break
+            h.update(block)
+    return h.hexdigest()
+
+
+def model_info(key, gguf):
+    """写进 /info 的模型信息：清单里的键（直接给路径时为 None）、展开后的路径、文件校验值。
+    每个运行目录的 config.json 都会存一份 /info，所以每个数字都能追溯到是哪个模型文件跑出来的。"""
+    path = os.path.expanduser(gguf)
+    return {"model_key": key, "gguf": path, "gguf_sha256": file_sha256(path)}
+
+
+def key_for_path(path, cfg):
+    """直接给了 --model 路径时，看它是不是清单里某个模型；是就返回那个键，不是返回 None。"""
+    want = os.path.realpath(os.path.expanduser(path))
+    for key, entry in cfg.get("models", {}).items():
+        if os.path.realpath(os.path.expanduser(entry["gguf"])) == want:
+            return key
+    return None
 
 
 def wait_ready(port, proc, timeout_s=180.0):
@@ -338,6 +444,7 @@ def warm_up(worker):
 def main():
     cfg = testbed.load()
     ap = argparse.ArgumentParser()
+    ap.add_argument("--model-key", help="deploy/testbed.json 模型清单里的键，如 main_0.5b；由本服务拉起 llama-server")
     ap.add_argument("--model", help="GGUF 模型路径；给了就由本服务拉起 llama-server")
     ap.add_argument("--external", action="store_true", help="llama-server 已经单独起好了，不要再拉起")
     ap.add_argument("--host", default="0.0.0.0", help="本服务监听的地址，0.0.0.0 = 所有网卡")
@@ -348,35 +455,50 @@ def main():
     ap.add_argument("--timeout-ms", type=float, default=cfg["timeout_ms"], help="请求里没写超时就用这个")
     ap.add_argument("--log-dir", default="logs")
     args = ap.parse_args()
-    if args.model is None and not args.external:
-        ap.error("要么给 --model，要么加 --external")
+    if args.model is None and args.model_key is None and not args.external:
+        ap.error("要么给 --model-key 或 --model，要么加 --external")
+
+    # 1. 定下要加载的模型：给了键就查清单；给了路径就看它是不是清单里的某一个
+    key = args.model_key
+    gguf = args.model
+    if key is not None:
+        gguf = testbed.model_entry(key, cfg)["gguf"]
+    elif gguf is not None:
+        key = key_for_path(gguf, cfg)
 
     os.makedirs(args.log_dir, exist_ok=True)
     stamp = utc_stamp()
     log = JsonlLog(os.path.join(args.log_dir, f"scheduler_{stamp}.jsonl"))
-    proc = None
+    llama = None
     if not args.external:
-        proc = start_llama_server(args.llama_bin, args.model, args.llama_port, args.ctx,
-                                  os.path.join(args.log_dir, f"llama_server_{stamp}.log"))
+        llama = LlamaProcess(args.llama_bin, args.llama_port, args.ctx, args.log_dir)
     try:
-        wait_ready(args.llama_port, proc)
+        # 2. 拉起 llama-server（--external 时只等它就绪），空跑 3 次
+        if llama is not None:
+            llama.start(gguf)
+        else:
+            wait_ready(args.llama_port, None)
         worker = LlmWorker("127.0.0.1", args.llama_port, log)
         warm_up(worker)
-        service = SchedulerService(worker, log, args.timeout_ms)
+        # 3. 组装 /info：版本、模型键、文件校验值
+        service = SchedulerService(worker, log, args.timeout_ms, llama, cfg.get("models", {}))
         service.info = {"llama": read_props(args.llama_port), "default_timeout_ms": args.timeout_ms,
-                        "started_utc": stamp, "log": log.path, "git": git_version()}
+                        "started_utc": stamp, "log": log.path, "git": git_version(),
+                        "model_key": key, "gguf": None, "gguf_sha256": None}
+        if gguf is not None:
+            service.info.update(model_info(key, gguf))
         Handler.service = service
         httpd = ThreadingHTTPServer((args.host, args.port), Handler)
         httpd.daemon_threads = True
-        print(f"调度服务就绪：{args.host}:{args.port}，模型 {service.info['llama']['model_path']}，日志 {log.path}")
+        print(f"调度服务就绪：{args.host}:{args.port}，模型 {service.info['model_key']}（{service.info['llama']['model_path']}），"
+              f"日志 {log.path}")
         threading.Thread(target=print_stats, args=(service,), daemon=True).start()
         httpd.serve_forever()
     except KeyboardInterrupt:
         print("\n收到 Ctrl-C，退出")
     finally:
-        if proc is not None:
-            proc.terminate()
-            proc.wait(timeout=10)
+        if llama is not None:
+            llama.stop()
 
 
 def print_stats(service):

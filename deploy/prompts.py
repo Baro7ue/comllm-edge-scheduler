@@ -6,23 +6,26 @@
            grammar 用 GBNF 语法只允许合法字母，直接读生成的那个字母。
            两种读法选出的动作相同（只要前 20 名里有合法字母）；区别只在耗时：
            语法要逐个检查 15 万个词表 token 能不能接上，模型首选不是合法字母时这一步很贵。
-  paper：  论文格式长提示词，固定生成 12 个 token，不加语法。论文原版模型的答案是
-           {"action_name": "卸载到边缘服务器3"} 这样一段 JSON，用 Qwen 分词约 12 个 token。
-           用来量"论文原版做法"在同一套部署上要花多久。
+  paper：  论文格式长提示词，用原作者仓库训练和评测脚本的拼法（阶段 3 的论文原版基线就是这种拼法）：
+             系统提示 = "你是一个MEC任务卸载专家……"
+             用户内容 = 说明 + 空一行 + "**输入数据**：" + 换行 + 每行一个"键: 值"
+           不加语法，最多生成 20 个 token，遇到结束符就停。原作者的模型答"本地执行"或"卸载到边缘服务器k"，
+           加上结束符共 3–8 个 token。回答去掉首尾空白后必须正好是一个动作名，多一个字都算认不出来。
+           用来量"论文原版做法"（原作者的模型 + 它自己的提示词）在同一套部署上要花多久、闭环里表现如何。
 
 提示词用 Qwen2.5 的对话模板（ChatML）手工拼出来，和训练时 tokenizer.apply_chat_template 得到的文本一致：
   <|im_start|>system\n系统提示<|im_end|>\n<|im_start|>user\n用户内容<|im_end|>\n<|im_start|>assistant\n
 """
 import json
 import math
-import re
 
 from sim.render import LETTERS, paper_action_index, render_compact, render_paper
 
 QWEN_DEFAULT_SYSTEM = "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."
 COMPACT_N_PROBS = 20      # 读首个 token 概率最高的 20 个候选
-PAPER_N_PREDICT = 12      # 论文格式固定生成 12 个 token
-PAPER_ACTION_RE = re.compile(r"本地执行|卸载到边缘服务器\d+")
+PAPER_N_PREDICT = 20      # 论文格式最多生成 20 个 token（"卸载到边缘服务器11" 加结束符约 8 个，留余量）
+PAPER_SYSTEM = "你是一个MEC任务卸载专家。请严格按照用户的指示分析输入数据，输出卸载策略。不要包含任何解释、代码块标记或额外文本。"
+PAPER_INPUT_MARKER = "**输入数据**："
 
 
 def chatml(messages):
@@ -38,11 +41,35 @@ def chatml(messages):
     return text
 
 
-def paper_messages(s):
-    """论文格式的对话：系统提示用 Qwen 默认的那句，用户内容 = 说明文字 + 换行 + 状态字典的 JSON。"""
+def paper_lines(inp):
+    """状态字典 → 每行一个"键: 值"的文字。值是列表或字典时写成 JSON（中文原样），其余直接转成文字。
+
+    1. 按字典里的顺序逐个取出键和值
+    2. 值是列表或字典 → json.dumps；否则 str()
+    3. 每对拼成"键: 值"，用换行连起来
+    """
+    lines = []
+    for key in inp:
+        value = inp[key]
+        if isinstance(value, (list, dict)):
+            value = json.dumps(value, ensure_ascii=False)
+        lines.append(key + ": " + str(value))
+    return "\n".join(lines)
+
+
+def paper_messages_json(s):
+    """阶段 2、3 用过的另一种论文格式拼法：系统提示用 Qwen 默认的那句，用户内容 = 说明 + 换行 + 状态字典的 JSON。
+    部署不再用它；只留给 train/make_data.py 写核对样例（Colab 论文原版基线 notebook 的拼法试探要用）。"""
     p = render_paper(s)
     user = p["instruction"] + "\n" + json.dumps(p["input"], ensure_ascii=False)
     return [{"role": "system", "content": QWEN_DEFAULT_SYSTEM}, {"role": "user", "content": user}]
+
+
+def paper_messages(s):
+    """论文格式的对话：系统提示 = PAPER_SYSTEM；用户内容 = 说明 + 空一行 + "**输入数据**：" + 换行 + 每行一个"键: 值"。"""
+    p = render_paper(s)
+    user = p["instruction"] + "\n\n" + PAPER_INPUT_MARKER + "\n" + paper_lines(p["input"])
+    return [{"role": "system", "content": PAPER_SYSTEM}, {"role": "user", "content": user}]
 
 
 def compact_grammar(n_actions):
@@ -55,7 +82,7 @@ def build_llm_request(s, fmt, cache_prompt, decode="probs"):
 
     1. 按格式拼对话，转成 ChatML 文本
     2. compact：只算 1 个 token，要前 20 名候选的概率；decode = grammar 时再加 GBNF 语法
-       paper：  固定生成 12 个 token（ignore_eos：遇到结束符也不停）
+       paper：  最多生成 20 个 token，遇到结束符 <|im_end|> 就停
     3. temperature = 0：每次取概率最高的 token，同一个状态永远给同一个答案
     4. 只让 llama-server 回内容、概率、计时三项
     """
@@ -70,7 +97,6 @@ def build_llm_request(s, fmt, cache_prompt, decode="probs"):
     elif fmt == "paper":
         messages = paper_messages(s)
         body["n_predict"] = PAPER_N_PREDICT
-        body["ignore_eos"] = True
     else:
         raise ValueError("未知格式：" + str(fmt))
     body["prompt"] = chatml(messages)
@@ -112,7 +138,7 @@ def parse_action(fmt, decode, resp, n_actions):
 
     1. compact + probs：在前 20 名候选里找概率最大的合法字母；一个都没有就认不出来
     2. compact + grammar：生成的文本必须正好是一个合法字母
-    3. paper：在生成的文本里找第一个"本地执行 / 卸载到边缘服务器k"
+    3. paper：去掉首尾空白后必须正好是"本地执行"或"卸载到边缘服务器k"
     4. 最后检查编号在 0 到 n_actions-1 之间
     """
     text = resp.get("content", "").strip()
@@ -131,9 +157,7 @@ def parse_action(fmt, decode, resp, n_actions):
             if best >= 0:
                 a = best
     elif fmt == "paper":
-        m = PAPER_ACTION_RE.search(text)
-        if m is not None:
-            a = paper_action_index(m.group(0))
+        a = paper_action_index(text)
     if a is not None and (a < 0 or a >= n_actions):
         a = None
     return a, probs, p_chosen

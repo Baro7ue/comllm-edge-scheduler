@@ -19,6 +19,15 @@ class SchedulerClient:
         d, _ = self.conn.request("GET", "/info")
         return d
 
+    def switch_model(self, key, timeout_s=300.0):
+        """让调度服务换成模型清单里的 key，返回新的 /info。换模型要十几秒到一分钟，所以单独开一条等得久的连接。"""
+        conn = JsonConnection(self.host, self.port, timeout_s=timeout_s)
+        try:
+            d, _ = conn.request("POST", "/model", {"key": key})
+        finally:
+            conn.close()
+        return d
+
     def decide(self, state, fmt, cache_prompt, timeout_ms, req_id, decode="probs"):
         """发一次决策请求，返回 (调度服务的回复字典, 环境节点量到的往返毫秒)。
 
