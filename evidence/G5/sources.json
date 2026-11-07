@@ -1,0 +1,29 @@
+{
+  "e1": [
+    "runs/20261107T042911Z_s5_e1+e1_paper+e1_shed"
+  ],
+  "twoboard": [],
+  "virtual": [
+    "runs/20261106T144248Z_s5_virtual_e6",
+    "runs/20261107T071129Z_s5_virtual_e3",
+    "runs/20261107T071637Z_s5_virtual_e4a+e4b+e5"
+  ],
+  "bench": [
+    "runs/20261103T134910Z_bench_formula_formula_cacheon",
+    "runs/20261103T135032Z_bench_1.5b-q4_k_m_paper_cacheoff",
+    "runs/20261103T135957Z_bench_1.5b-q4_k_m_compact_cacheoff",
+    "runs/20261103T140258Z_bench_1.5b-q4_k_m_compact_cacheon",
+    "runs/20261103T140628Z_bench_1.5b-q8_0_compact_cacheon",
+    "runs/20261103T141102Z_bench_0.5b-q8_0_compact_cacheon",
+    "runs/20261106T125957Z_bench_formula_formula_cacheon",
+    "runs/20261106T130530Z_bench_comllm-0.5b-soft-T0.3-q8_0_compact_cacheon",
+    "runs/20261106T130641Z_bench_comllm-0.5b-soft-T0.3-q8_0_compact_cacheoff",
+    "runs/20261106T130733Z_bench_comllm-0.5b-soft-T0.3-q4_k_m_compact_cacheon",
+    "runs/20261106T130817Z_bench_comllm-1.5b-soft-T0.3-q8_0_compact_cacheon",
+    "runs/20261106T130947Z_bench_comllm-paper-sft-1.5b-q8_0_paper_cacheoff"
+  ],
+  "open_loop": [
+    "evidence/G3/open_loop.csv",
+    "evidence/G4/open_loop.csv"
+  ]
+}

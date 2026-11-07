@@ -1,0 +1,1 @@
+{"args": {"plan": "e1,e1_paper,e1_shed", "minutes": 3.0, "servers": 3, "warmup": 200, "only": null, "resume": null, "scheduler": null, "dry_run": false, "rehearse": false}, "git": "4567c59", "env_node": {"name": "mac", "ip": "192.168.50.1"}, "started_utc": "20261107T042911Z", "n_todo": 51}

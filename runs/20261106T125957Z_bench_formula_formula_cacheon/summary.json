@@ -1,0 +1,58 @@
+{
+  "n": 500,
+  "e2e_p50": 1.1416873894631863,
+  "e2e_p90": 1.2121793814003468,
+  "e2e_p99": 1.2814477435313165,
+  "e2e_mean": 1.1436315313912928,
+  "e2e_max": 1.461625099182129,
+  "service_mean": 0.2580570800091664,
+  "net_mean": 0.8855744513821264,
+  "llm_mean": 0.0,
+  "prompt_ms_mean": 0.0,
+  "predicted_ms_mean": 0.0,
+  "prompt_tokens_mean": 0.0,
+  "cache_n_mean": 0.0,
+  "predicted_n_mean": 0.0,
+  "python_mean": 0.2580570800091664,
+  "llama_other_mean": 0.0,
+  "sources": {
+    "formula": 500
+  },
+  "n_max": 291.4691700812187,
+  "by_servers": {
+    "3": {
+      "p50": 1.0846664663404226,
+      "p99": 1.2123625027015805,
+      "prompt_tokens": 0.0
+    },
+    "7": {
+      "p50": 1.1369581334292889,
+      "p99": 1.2640999769791963,
+      "prompt_tokens": 0.0
+    },
+    "11": {
+      "p50": 1.1900418903678656,
+      "p99": 1.2973537296056747,
+      "prompt_tokens": 0.0
+    }
+  },
+  "model": "formula",
+  "fmt": "formula",
+  "cache": "on",
+  "decode": "-",
+  "scheduler_info": {
+    "llama": {
+      "model_path": "/home/ethan/models/comllm-0.5b-soft-T0.3-q8_0.gguf",
+      "build_info": "b11719-5aeac37a3",
+      "total_slots": 1,
+      "n_ctx": 4096
+    },
+    "default_timeout_ms": 100,
+    "started_utc": "20261106T124922Z",
+    "log": "logs/scheduler_20261106T124922Z.jsonl",
+    "git": "1cb978a",
+    "model_key": "main_0.5b",
+    "gguf": "/home/ethan/models/comllm-0.5b-soft-T0.3-q8_0.gguf",
+    "gguf_sha256": "3b4c3232d725792b63be2ea4607a21ff6e97c51e5fbfffd05e300de380ba3783"
+  }
+}

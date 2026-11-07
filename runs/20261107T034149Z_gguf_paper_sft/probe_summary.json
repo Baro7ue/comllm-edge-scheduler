@@ -1,0 +1,11 @@
+{
+  "n": 200,
+  "same_as_cached": 191,
+  "diverged_from_pytorch": 116,
+  "pytorch_token_in_top10": 116,
+  "gap_below_0.2": 116,
+  "median_p_jetson": 0.213,
+  "median_p_pytorch": 0.34795,
+  "median_gap": -0.09605,
+  "median_min_margin_all_rows": 0.1357
+}

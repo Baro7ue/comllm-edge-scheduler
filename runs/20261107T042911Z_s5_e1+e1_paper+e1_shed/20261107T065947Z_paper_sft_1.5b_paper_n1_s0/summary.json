@@ -1,0 +1,36 @@
+{
+  "n_tasks": 500,
+  "mean_delay": 8.150341177533512,
+  "p95_delay": 9.37936932546404,
+  "drop_rate": 0.934,
+  "local_frac": 0.0,
+  "top_server_frac": 1.0,
+  "jain": 0.3333333333333333,
+  "pred_gap": 3.8745867402021164,
+  "llm_share": 0.654,
+  "unresolved": 0,
+  "drop_at": {
+    "server": 7,
+    "decision": 412,
+    "uplink": 48
+  },
+  "sources": {
+    "llm": 327,
+    "expired": 173
+  },
+  "fallback_reasons": {},
+  "decision_ms_p50": 1220.3727499581873,
+  "decision_ms_p99": 1470.8653560774403,
+  "decision_ms_mean": 1136.0387999228335,
+  "e2e_ms_p50": 472.9341249912977,
+  "e2e_ms_p99": 482.90708251297474,
+  "e2e_ms_mean": 473.9888105114255,
+  "lag_ms_max": 6.477500079199672,
+  "lag_ms_p99": 5.023416131734848,
+  "req_per_s": 3.146633102580239,
+  "rho": 1.491468881407884,
+  "n_max": 0.7032514817674126,
+  "errors": 0,
+  "last_error": "",
+  "model_key": "paper_sft_1.5b"
+}

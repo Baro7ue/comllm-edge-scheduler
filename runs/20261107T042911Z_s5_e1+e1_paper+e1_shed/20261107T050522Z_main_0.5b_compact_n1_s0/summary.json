@@ -1,0 +1,31 @@
+{
+  "n_tasks": 500,
+  "mean_delay": 3.962477385231821,
+  "p95_delay": 5.970629478686994,
+  "drop_rate": 0.0,
+  "local_frac": 0.256,
+  "top_server_frac": 0.6586021505376344,
+  "jain": 0.628498242363136,
+  "pred_gap": 0.31452592231902493,
+  "llm_share": 1.0,
+  "unresolved": 0,
+  "drop_at": {},
+  "sources": {
+    "llm": 500
+  },
+  "fallback_reasons": {},
+  "decision_ms_p50": 46.47264592349529,
+  "decision_ms_p99": 57.827181421685964,
+  "decision_ms_mean": 47.188865364715454,
+  "e2e_ms_p50": 42.34829195775092,
+  "e2e_ms_p99": 47.863297436852,
+  "e2e_ms_mean": 42.15093007823452,
+  "lag_ms_max": 10.06537489593029,
+  "lag_ms_p99": 10.02666680375114,
+  "req_per_s": 3.146633102580239,
+  "rho": 0.13263351188871783,
+  "n_max": 7.9080896368039255,
+  "errors": 0,
+  "last_error": "",
+  "model_key": "main_0.5b"
+}

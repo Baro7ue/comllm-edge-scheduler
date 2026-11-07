@@ -1,0 +1,39 @@
+{
+  "args": {
+    "fmt": "compact",
+    "cache": "on",
+    "decode": "probs",
+    "n": 500,
+    "warmup": 10,
+    "servers": [
+      3,
+      7,
+      11
+    ],
+    "scheduler": null,
+    "name": null,
+    "model_key": "main_0.5b_q4"
+  },
+  "git": "87c193e",
+  "started_utc": "20261106T130733Z",
+  "scheduler": "192.168.50.20:8100",
+  "scheduler_info": {
+    "llama": {
+      "model_path": "/home/ethan/models/comllm-0.5b-soft-T0.3-q4_k_m.gguf",
+      "build_info": "b11719-5aeac37a3",
+      "total_slots": 1,
+      "n_ctx": 4096
+    },
+    "default_timeout_ms": 100,
+    "started_utc": "20261106T124922Z",
+    "log": "logs/scheduler_20261106T124922Z.jsonl",
+    "git": "1cb978a",
+    "model_key": "main_0.5b_q4",
+    "gguf": "/home/ethan/models/comllm-0.5b-soft-T0.3-q4_k_m.gguf",
+    "gguf_sha256": "85a8a20d65324be50791976e0e2fc4d472c9031d54cf66a4b9459e4d70024e77"
+  },
+  "env_node": {
+    "name": "mac",
+    "ip": "192.168.50.1"
+  }
+}

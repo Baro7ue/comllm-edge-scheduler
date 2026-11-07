@@ -1,0 +1,2 @@
+{"args": {"plan": "e6", "resume": null, "only": null, "scheduler": null, "smallnet": null, "dry_run": false, "rehearse": false}, "git": "b6e076d", "n_todo": 252, "started_utc": "20261106T144248Z"}
+{"args": {"plan": "e6", "resume": "runs/20261106T144248Z_s5_virtual_e6", "only": null, "scheduler": null, "smallnet": null, "dry_run": false, "rehearse": false}, "git": "4567c59-dirty", "n_todo": 221, "started_utc": "20261107T105644Z"}

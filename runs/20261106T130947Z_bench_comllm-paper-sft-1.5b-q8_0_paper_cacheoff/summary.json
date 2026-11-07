@@ -1,0 +1,58 @@
+{
+  "n": 500,
+  "e2e_p50": 945.246416493319,
+  "e2e_p90": 1041.6952709434554,
+  "e2e_p99": 1043.8834541104734,
+  "e2e_mean": 903.4078812371008,
+  "e2e_max": 1183.3595831412822,
+  "service_mean": 900.9734653880132,
+  "net_mean": 2.4344158490876,
+  "llm_mean": 900.0612374599893,
+  "prompt_ms_mean": 715.7725299999997,
+  "predicted_ms_mean": 174.99971800000023,
+  "prompt_tokens_mean": 1358.242,
+  "cache_n_mean": 0.0,
+  "predicted_n_mean": 5.672,
+  "python_mean": 0.9122279280238672,
+  "llama_other_mean": 9.28898945998938,
+  "sources": {
+    "llm": 500
+  },
+  "n_max": 0.36897324038935353,
+  "by_servers": {
+    "3": {
+      "p50": 719.5632919901982,
+      "p99": 723.3423165278509,
+      "prompt_tokens": 899.8614457831326
+    },
+    "7": {
+      "p50": 945.1645000372082,
+      "p99": 958.2437053415924,
+      "prompt_tokens": 1356.9041916167664
+    },
+    "11": {
+      "p50": 1041.0058330744505,
+      "p99": 1047.5729562202469,
+      "prompt_tokens": 1815.2155688622754
+    }
+  },
+  "model": "comllm-paper-sft-1.5b-q8_0",
+  "fmt": "paper",
+  "cache": "off",
+  "decode": "-",
+  "scheduler_info": {
+    "llama": {
+      "model_path": "/home/ethan/models/comllm-paper-sft-1.5b-q8_0.gguf",
+      "build_info": "b11719-5aeac37a3",
+      "total_slots": 1,
+      "n_ctx": 4096
+    },
+    "default_timeout_ms": 100,
+    "started_utc": "20261106T124922Z",
+    "log": "logs/scheduler_20261106T124922Z.jsonl",
+    "git": "1cb978a",
+    "model_key": "paper_sft_1.5b",
+    "gguf": "/home/ethan/models/comllm-paper-sft-1.5b-q8_0.gguf",
+    "gguf_sha256": "40c914087efaaa4becd29bb17d18ee2dd70366fd84f47d57072ded3c2a1280c8"
+  }
+}

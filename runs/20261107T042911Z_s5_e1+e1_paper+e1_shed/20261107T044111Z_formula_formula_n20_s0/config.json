@@ -1,0 +1,39 @@
+{
+  "args": {
+    "name": "formula_formula_n20_s0",
+    "policy": "formula",
+    "n": 20,
+    "servers": 3,
+    "minutes": 3.0,
+    "warmup": 200,
+    "seed": 0,
+    "cache": "on",
+    "timeout_ms": 100,
+    "fake_ms": 0.0,
+    "scheduler": null,
+    "shed_ms": 0,
+    "expect_model": null
+  },
+  "slots": 1800,
+  "git": "4567c59",
+  "started_utc": "20261107T044111Z",
+  "env_node": {
+    "name": "mac",
+    "ip": "192.168.50.1"
+  },
+  "scheduler_info": {
+    "llama": {
+      "model_path": "/home/ethan/models/comllm-paper-sft-1.5b-q8_0.gguf",
+      "build_info": "b11719-5aeac37a3",
+      "total_slots": 1,
+      "n_ctx": 4096
+    },
+    "default_timeout_ms": 100,
+    "started_utc": "20261107T041956Z",
+    "log": "logs/scheduler_20261107T041956Z.jsonl",
+    "git": "4567c59",
+    "model_key": "paper_sft_1.5b",
+    "gguf": "/home/ethan/models/comllm-paper-sft-1.5b-q8_0.gguf",
+    "gguf_sha256": "40c914087efaaa4becd29bb17d18ee2dd70366fd84f47d57072ded3c2a1280c8"
+  }
+}
