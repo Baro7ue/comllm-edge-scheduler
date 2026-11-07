@@ -4,6 +4,7 @@
 """
 import glob
 import hashlib
+import math
 import os
 import socket
 import tempfile
@@ -14,7 +15,7 @@ from http.server import ThreadingHTTPServer
 from deploy.client import SchedulerClient
 from deploy.prompts import PAPER_SYSTEM, build_llm_request, parse_action, paper_messages
 from deploy.scheduler import Handler, JsonlLog, LlamaProcess, LlmWorker, SchedulerService, model_info, warm_up
-from eval import s5_sweep, virtual_loop
+from eval import probe_paper_gguf, s5_sweep, virtual_loop
 from eval.realtime import LocalDecider, build_summary, run_realtime
 from sim import config as C
 from sim.baselines import make_policy
@@ -54,6 +55,9 @@ class TestPaperFormat(unittest.TestCase):
         b = build_llm_request(_state(3), "paper", False)
         self.assertEqual(b["n_predict"], 20)
         self.assertNotIn("ignore_eos", b)
+        self.assertEqual(b["top_k"], 1)
+        self.assertEqual(b["repeat_penalty"], 1.0)
+        self.assertEqual(b["temperature"], 0)
 
     def test_strict_parse(self):
         self.assertEqual(parse_action("paper", "-", {"content": "卸载到边缘服务器2"}, 4)[0], 2)
@@ -61,6 +65,31 @@ class TestPaperFormat(unittest.TestCase):
         self.assertIsNone(parse_action("paper", "-", {"content": "卸载到边缘服务器1服务器"}, 12)[0])
         self.assertIsNone(parse_action("paper", "-", {"content": "卸载到边缘服务器9"}, 4)[0])
         self.assertEqual(parse_action("paper", "-", {"content": "卸载到边缘服务器11"}, 12)[0], 11)
+
+
+class TestProbeSplit(unittest.TestCase):
+    """GGUF 和 PyTorch 回答的分岔点：Jetson 答服务器 4、PyTorch 答服务器 1，分岔在数字那一步。"""
+
+    @staticmethod
+    def _rec(tok, p, cands):
+        return {"token": tok, "logprob": math.log(p),
+                "top_logprobs": [{"token": t, "logprob": math.log(q)} for t, q in cands]}
+
+    def test_split(self):
+        cp = [self._rec("卸载", 0.6, [("卸载", 0.6), ("本地", 0.4)]), self._rec("到边缘", 0.99, [("到边缘", 0.99)]),
+              self._rec("服务器", 0.99, [("服务器", 0.99)]),
+              self._rec("4", 0.35, [("4", 0.35), ("1", 0.30), ("3", 0.2)]), self._rec("", 0.98, [("", 0.98)])]
+        step, p_j, p_pt, rank = probe_paper_gguf.split_point(cp, "卸载到边缘服务器1")
+        self.assertEqual((step, rank), (3, 2))
+        self.assertAlmostEqual(p_j, 0.35)
+        self.assertAlmostEqual(p_pt, 0.30)
+        self.assertEqual(probe_paper_gguf.split_point(cp, "卸载到边缘服务器4"), (None, None, None, None))
+        step, _, p_pt, rank = probe_paper_gguf.split_point(cp, "本地执行")
+        self.assertEqual((step, rank), (0, 2))
+        self.assertAlmostEqual(p_pt, 0.4)
+        m, at = probe_paper_gguf.min_margin(cp)
+        self.assertAlmostEqual(m, 0.05)
+        self.assertEqual(at, 3)
 
 
 class TestModelSwitch(unittest.TestCase):

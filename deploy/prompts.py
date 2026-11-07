@@ -24,6 +24,8 @@ from sim.render import LETTERS, paper_action_index, render_compact, render_paper
 QWEN_DEFAULT_SYSTEM = "You are Qwen, created by Alibaba Cloud. You are a helpful assistant."
 COMPACT_N_PROBS = 20      # 读首个 token 概率最高的 20 个候选
 PAPER_N_PREDICT = 20      # 论文格式最多生成 20 个 token（"卸载到边缘服务器11" 加结束符约 8 个，留余量）
+GREEDY = {"temperature": 0, "top_k": 1, "top_p": 1.0, "min_p": 0.0, "repeat_penalty": 1.0,
+          "presence_penalty": 0.0, "frequency_penalty": 0.0, "dry_multiplier": 0.0}   # 贪心解码，见 build_llm_request 第 3 步
 PAPER_SYSTEM = "你是一个MEC任务卸载专家。请严格按照用户的指示分析输入数据，输出卸载策略。不要包含任何解释、代码块标记或额外文本。"
 PAPER_INPUT_MARKER = "**输入数据**："
 
@@ -83,11 +85,14 @@ def build_llm_request(s, fmt, cache_prompt, decode="probs"):
     1. 按格式拼对话，转成 ChatML 文本
     2. compact：只算 1 个 token，要前 20 名候选的概率；decode = grammar 时再加 GBNF 语法
        paper：  最多生成 20 个 token，遇到结束符 <|im_end|> 就停
-    3. temperature = 0：每次取概率最高的 token，同一个状态永远给同一个答案
+    3. 采样参数逐项写死成贪心（GREEDY）：每步只留概率最高的 token，重复惩罚全关。
+       只写 temperature = 0 不够：那样论文原版 1.5B 在 Jetson 上有一半回答不是它自己概率最高的那个
     4. 只让 llama-server 回内容、概率、计时三项
     """
-    body = {"temperature": 0, "cache_prompt": bool(cache_prompt), "stream": False,
+    body = {"cache_prompt": bool(cache_prompt), "stream": False,
             "response_fields": ["content", "completion_probabilities", "timings"]}   # 只要这三项，回复小一些
+    for key in GREEDY:
+        body[key] = GREEDY[key]
     if fmt == "compact":
         messages, _ = render_compact(s)
         body["n_predict"] = 1
