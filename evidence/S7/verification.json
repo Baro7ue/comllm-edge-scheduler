@@ -1,0 +1,27 @@
+{
+  "recorded_utc": "2026-11-08T08:32:42.104548+00:00",
+  "scope": "Local CPU unit tests and static notebook checks only; not GPU/Jetson/Colab training verification",
+  "base_commit": "1008a762e48978c3e08cd7406f9073ccd00a27c3",
+  "command": "python -m unittest discover -s tests",
+  "python": "3.14.8",
+  "tests": 126,
+  "seconds": 51.118,
+  "result": "OK",
+  "known_warning": "Existing tests report an unclosed local socket ResourceWarning; suite exit status is 0",
+  "notebook": {
+    "nbformat": 4,
+    "cells": 17,
+    "code_cells_ast_valid": 8,
+    "saved_outputs": 0
+  },
+  "files_sha256": {
+    "train/s7_train.py": "c4f661596820c6c745ea4b23243d511740e87990f59be2e781ed0573997e80c1",
+    "train/s7_reward.py": "83a5f330a46b543ba1493744c183ed2b50a19afd4b5da23fd377d9ad807fdc92",
+    "train/s7_assets.py": "267313e4a711fa4fcf2f4fbc9335d98062dc88eb6f02fa5575272e35be33f2fb",
+    "train/S7_7B复现.ipynb": "4e9412ae9fa5293553c8069220135160a88a4c07900e10a04918932c8c0fc632",
+    "tests/test_s7_train.py": "c2af3a30e687876fbf80852db04144fbb0227681179df4dfabc2102cb6adfeb6",
+    "tests/test_s7_reward.py": "08ffd679d8cb9e27977b30ed9e5d4da542f1e42823628f3e6398a620bfa92852",
+    "tests/test_s7_assets.py": "582bdd5292b9c2cc9f19597e97c2800e1714cdb4afe5c80edbfaf5c4eca70179"
+  },
+  "code_archive_sha256": "043439d6d438311d79e5772cba520a4fb44133bd5beda19b5db2f3ced551ecd5"
+}

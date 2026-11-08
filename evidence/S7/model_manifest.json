@@ -1,0 +1,126 @@
+{
+  "status": "local_headers_validated_not_colab_training",
+  "source_model_dir": "/Users/ethan/Documents/COMLLM训练部署及改良/my_model/qwen2.5-7b-mec-sft-final-all",
+  "integrity_scope": "file sizes, headers, index membership, dtype/shape/offsets; payload SHA256 only when present",
+  "config": {
+    "architectures": [
+      "Qwen2ForCausalLM"
+    ],
+    "attention_dropout": 0.0,
+    "bos_token_id": 151643,
+    "eos_token_id": 151645,
+    "hidden_act": "silu",
+    "hidden_size": 3584,
+    "initializer_range": 0.02,
+    "intermediate_size": 18944,
+    "layer_types": [
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention"
+    ],
+    "max_position_embeddings": 32768,
+    "max_window_layers": 28,
+    "model_type": "qwen2",
+    "num_attention_heads": 28,
+    "num_hidden_layers": 28,
+    "num_key_value_heads": 4,
+    "rms_norm_eps": 1e-06,
+    "rope_scaling": null,
+    "rope_theta": 1000000.0,
+    "sliding_window": null,
+    "tie_word_embeddings": false,
+    "torch_dtype": "float16",
+    "transformers_version": "4.55.2",
+    "use_cache": true,
+    "use_sliding_window": false,
+    "vocab_size": 152064
+  },
+  "config_sha256": "387a627ff601a46fd82a9c60f7bfa7676b01ac95f1447d2a211a4efefe2111d3",
+  "index_sha256": "d5d034438722d73f9265668fea86ea2ef01c55d57a50949a941143b1476f5642",
+  "tensor_count": 339,
+  "total_parameters": 7615616512,
+  "total_payload_bytes": 15231233024,
+  "dtypes": {
+    "F16": 339
+  },
+  "shards": [
+    {
+      "file": "model-00001-of-00004.safetensors",
+      "bytes": 4877660672,
+      "header_bytes": 11768,
+      "header_sha256": "ef7c71ac8cfa4ceb240d529f7cc53f813f6e9199c55c828e99703a06220be358",
+      "tensor_count": 104,
+      "payload_bytes": 4877648896,
+      "dtypes": {
+        "F16": 104
+      },
+      "sha256": "c980260c668f34d99a1a435b26952decb3c4e6d5d1e20ae9946af75d3e1f4a88"
+    },
+    {
+      "file": "model-00002-of-00004.safetensors",
+      "bytes": 4932750888,
+      "header_bytes": 13856,
+      "header_sha256": "da3402d6655553d84aea80df3a7dbb60f5abcf26edeea5e6f2c42a7e84b86029",
+      "tensor_count": 122,
+      "payload_bytes": 4932737024,
+      "dtypes": {
+        "F16": 122
+      },
+      "sha256": "e084b0dfb7bfa8dba0f718228ce19ddbda106f2c058a4eec1ccb8acd4e4cc850"
+    },
+    {
+      "file": "model-00003-of-00004.safetensors",
+      "bytes": 4330865088,
+      "header_bytes": 12728,
+      "header_sha256": "61b367ca5f20ed99520b9e41ae81a505180956a805c10963ee2bc069d2c54bf7",
+      "tensor_count": 112,
+      "payload_bytes": 4330852352,
+      "dtypes": {
+        "F16": 112
+      },
+      "sha256": "b07a389aeb07080edf72496f0d7d3d5cb41cd6b5cc0acefc507be983c535bf25"
+    },
+    {
+      "file": "model-00004-of-00004.safetensors",
+      "bytes": 1089994880,
+      "header_bytes": 120,
+      "header_sha256": "87aa44d097832adc69f5c1caffd233b837dbacb1b152e6ca047e588bc7595430",
+      "tensor_count": 1,
+      "payload_bytes": 1089994752,
+      "dtypes": {
+        "F16": 1
+      },
+      "sha256": "053d06aa9a6579967b3653c789151a7edf361899e7804c10a756b53286f602e8"
+    }
+  ],
+  "payload_hash_source": {
+    "file": "/Users/ethan/.codex/worktrees/comllm-colab-7b/s7_code/model_manifest.full_hash.json",
+    "sha256": "defba4b4ec66dd74100fc9a5dc5546ab5c8bcec7e159961283ef42d176923ed8",
+    "verification": "previous payload hashes reused; current sizes and headers rechecked, payload not rehashed"
+  }
+}
