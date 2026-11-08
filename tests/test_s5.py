@@ -4,6 +4,7 @@
 """
 import glob
 import hashlib
+import json
 import math
 import os
 import socket
@@ -12,10 +13,13 @@ import threading
 import unittest
 from http.server import ThreadingHTTPServer
 
+from deploy import testbed
 from deploy.client import SchedulerClient
 from deploy.prompts import PAPER_SYSTEM, build_llm_request, parse_action, paper_messages
 from deploy.scheduler import Handler, JsonlLog, LlamaProcess, LlmWorker, SchedulerService, model_info, warm_up
-from eval import probe_paper_gguf, s5_sweep, virtual_loop
+from deploy.wire import state_to_dict
+from eval import jetson_open_loop, probe_paper_gguf, s5_sweep, virtual_loop
+from eval.open_loop import load_preds
 from eval.realtime import LocalDecider, build_summary, run_realtime
 from sim import config as C
 from sim.baselines import make_policy
@@ -143,6 +147,39 @@ class TestModelSwitch(unittest.TestCase):
         resp, _ = self.client.decide(_state(3), "compact", True, 1000, req_id=2)
         self.assertEqual(resp["source"], "llm")
 
+    def test_jetson_open_loop(self):
+        """Jetson 开环：每条状态答一次写进 preds.csv；断了接着跑不重答；--compare 和 Colab 的答案逐条比。"""
+        rows = []
+        for i in range(5):
+            rows.append({"state": state_to_dict(_state(3)), "_idx": i})
+        data = {"friend_clean": rows}
+        cfg = {"models": self.models}
+        out = os.path.join(self.tmp.name, "jetson_open", "x_a")
+        jetson_open_loop.run_model(self.client, "a", data, out, cfg)
+        jetson_open_loop.run_model(self.client, "a", data, out, cfg)      # 第二次：全部已答，不会重复写
+        preds = load_preds(os.path.join(out, "preds.csv"))
+        self.assertEqual(len(preds), 5)
+        self.assertEqual(set(preds.values()), {1})
+        with open(os.path.join(out, "config.json"), encoding="utf-8") as f:
+            info = json.load(f)
+        self.assertEqual(info["name"], "a（Jetson Q8_0）")
+        self.assertEqual(info["gguf_sha256"], hashlib.sha256(b"a" * 1000).hexdigest())
+        # Colab 那边同名模型：5 条里 4 条一样
+        colab = os.path.join(self.tmp.name, "colab", "run_a")
+        os.makedirs(colab)
+        with open(os.path.join(colab, "config.json"), "w", encoding="utf-8") as f:
+            json.dump({"name": "a"}, f)
+        with open(os.path.join(colab, "preds.csv"), "w", encoding="utf-8") as f:
+            f.write("split,idx,pred\n")
+            for i in range(5):
+                f.write(f"friend_clean,{i},{1 if i else 0}\n")
+        jetson_open_loop.COLAB_NAME["a"] = "a"
+        try:
+            lines = jetson_open_loop.compare([out], [os.path.join(self.tmp.name, "colab")])
+        finally:
+            del jetson_open_loop.COLAB_NAME["a"]
+        self.assertIn("| a（Jetson Q8_0） | friend_clean | 5 | 80.0 | 0 |", lines)
+
 
 class TestShed(unittest.TestCase):
     def test_overload_is_shed(self):
@@ -184,6 +221,36 @@ class TestVirtualLoop(unittest.TestCase):
         for _ in range(50):
             env.step(rec)
         self.assertEqual(rec.agree, rec.n)
+
+    def test_e4ps_two_teachers_three_students(self):
+        """e4ps 补齐 2 个老师 × 3 种学生：3 台、N = 20/40/60、种子 0 和 1，已经跑过的点不重跑，模型键都登记过。"""
+        pts = virtual_loop.expand("e4ps")
+        names = {p["point"] for p in pts}
+        self.assertEqual(len(pts), 35)
+        for key in ("main_0.5b", "soft_1.5b", "hard_1.5b", "ps_0.5b", "ps_soft_1.5b", "ps_hard_1.5b"):
+            for n in (20, 40, 60):
+                for seed in (0, 1):
+                    name = f"llm_{key}_k3_n{n}_sequential_s{seed}_t1000"
+                    done_before = (key in ("main_0.5b", "ps_0.5b") and seed == 0) or \
+                        (key == "soft_1.5b" and n == 40 and seed == 0)
+                    self.assertEqual(name in names, not done_before, name)
+        cfg = testbed.load()
+        for p in pts:
+            self.assertIn(p["policy"][4:], cfg["models"])
+            self.assertIn(p["policy"][4:], virtual_loop.EST_MS)
+
+    def test_e4ps_split(self):
+        """e4ps_a + e4ps_b 正好是 e4ps，不重叠；B 段只有 PS 老师的两个 1.5B。"""
+        a = {p["point"] for p in virtual_loop.expand("e4ps_a")}
+        b = virtual_loop.expand("e4ps_b")
+        b_names = {p["point"] for p in b}
+        whole = {p["point"] for p in virtual_loop.expand("e4ps")}
+        self.assertEqual(len(a), 23)
+        self.assertEqual(len(b_names), 12)
+        self.assertEqual(a & b_names, set())
+        self.assertEqual(a | b_names, whole)
+        for p in b:
+            self.assertIn(p["policy"], ("llm:ps_soft_1.5b", "llm:ps_hard_1.5b"))
 
     def test_smallnet_policy(self):
         paths = sorted(glob.glob(os.path.join("runs", "s3", "small_net_*", "weights.npz")))

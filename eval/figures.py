@@ -1,17 +1,18 @@
-"""一条命令从 CSV 重画全部 7 张图，并把简历要用的几个数字连同出处写成 figures/numbers.md（G5 的要求）。
+"""一条命令从 CSV 重画全部图（8 张，跑过 Colab 闭环再多 1 张），并把简历要用的几个数字连同出处写成 figures/numbers.md（G5 的要求）。
 
 在仓库根目录运行（Mac 上）：
   python -m eval.figures                 # 读 evidence/G5/sources.json 里登记的运行目录；没有这个文件就自动找最新的并写出来
   python -m eval.figures --rediscover    # 重新找最新的运行目录，覆盖 sources.json
-结果：figures/fig1_stability.png … fig7_lacs.png、figures/numbers.md；跑过两板复测时还有 figures/twoboard.md。
+结果：figures/fig1_stability.png … fig8_students.png、figures/numbers.md；跑过两板复测时还有 figures/twoboard.md。
 某张图的数据还没跑出来时，那张图跳过，屏幕上会说缺什么。
 
 数据从哪来（sources.json 的键）：
   e1          eval/s5_sweep.py 的扫描目录（results.csv）：实验 1 稳定边界，可以列几个目录
   twoboard    eval/s5_sweep.py --plan twoboard 的扫描目录：RK3588 当环境节点时的复测，和 e1 里同名的点对照
   bench       eval/bench_latency.py 的运行目录：实验 2 延迟分解，同一配置只取最新一次
-  virtual     eval/virtual_loop.py 的目录：实验 3 羊群效应、实验 4 消融和泛化、实验 5 开环 vs 闭环、实验 6 LACS
+  virtual     eval/virtual_loop.py 的目录：实验 3 羊群效应、实验 4 消融和泛化（含两个老师 × 三种学生）、实验 5 开环 vs 闭环、实验 6 LACS
   open_loop   阶段 3、4 的开环评测表 evidence/G3/open_loop.csv、evidence/G4/open_loop.csv
+  colab       Colab 闭环的目录 runs/*_s6_colab_loop*/（train/S6_Colab闭环.ipynb 的结果，点的名字和 virtual 里一样）
 """
 import argparse
 import csv
@@ -49,7 +50,10 @@ STYLE = {
     "main_0.5b":      ("0.5B 软标签（部署）", "#0b0b0b", "o"),
     "main_0.5b_q4":   ("0.5B 软标签 Q4_K_M", "#52514e", "o"),
     "soft_1.5b":      ("1.5B 软标签", "#8c564b", "s"),
+    "hard_1.5b":      ("1.5B 硬标签", "#5d3a1a", "^"),
     "ps_0.5b":        ("0.5B 平分算力标签", "#c2185b", "v"),
+    "ps_soft_1.5b":   ("1.5B 平分算力软标签", "#8e0e47", "s"),
+    "ps_hard_1.5b":   ("1.5B 平分算力硬标签", "#f08cb4", "^"),
     "base_0.5b":      ("未训练 0.5B", "#9e9e9e", "x"),
     "paper_sft_1.5b": ("论文原版 1.5B（sft）", "#d62728", "X"),
 }
@@ -58,7 +62,23 @@ STYLE = {
 OPEN_NAME = {"greedy": "公式·压缩精度（学生上限）", "lacs": "LACS-greedy", "psgreedy": "PS 感知贪心",
              "po2": "power-of-2", "random": "随机", "smallnet": "小网络 1313 参数",
              "llm:main_0.5b": "0.5b_soft_T0.3", "llm:ps_0.5b": "0.5b_soft_T0.3_ps",
-             "llm:soft_1.5b": "1.5b_soft_T0.3", "llm:base_0.5b": "未训练 0.5B", "llm:paper_sft_1.5b": "论文原版 sft"}
+             "llm:soft_1.5b": "1.5b_soft_T0.3", "llm:base_0.5b": "未训练 0.5B", "llm:paper_sft_1.5b": "论文原版 sft",
+             "llm:hard_1.5b": "1.5b_hard", "llm:ps_soft_1.5b": "1.5b_soft_T0.3_ps", "llm:ps_hard_1.5b": "1.5b_hard_ps"}
+
+PLATFORM_NAME = {"jetson": "Jetson Q8_0", "colab": "Colab 原精度"}
+# 图 8 上另外画的论文模型（只在 Colab 上跑闭环）：(策略名, 名字, 颜色)
+PAPER_MODELS_CLOSED = [("llm:comllm_7b_repro", "复现的 COMLLM-7B", "论文的模型", "#0b0b0b"),
+                       ("llm:grpo_7b_repro", "复现的 GRPO-7B", "论文的模型，不带 LACS", "#7a7974")]
+
+# 图 8：两个老师 × 三种学生。每个老师：(名字, 策略名, 虚线颜色, [(学生策略名, 学生名字, 颜色, 点形), ...])
+TEACHER_GRID = [
+    ("论文公式", "greedy", "#2a78d6",
+     [("llm:main_0.5b", "0.5B 软标签", "#0b2e63", "o"), ("llm:soft_1.5b", "1.5B 软标签", "#1f6fd1", "s"),
+      ("llm:hard_1.5b", "1.5B 硬标签", "#7fb2ee", "^")]),
+    ("PS 感知公式", "psgreedy", "#e87ba4",
+     [("llm:ps_0.5b", "0.5B 软标签", "#7a0b3a", "o"), ("llm:ps_soft_1.5b", "1.5B 软标签", "#c2185b", "s"),
+      ("llm:ps_hard_1.5b", "1.5B 硬标签", "#f08cb4", "^")]),
+]
 
 
 def style_of(key):
@@ -131,9 +151,10 @@ def discover(include_rehearse=False):
     2. virtual：runs/*_s5_virtual_*/ 全部（不同计划可能分几次跑）
     3. bench：runs/*bench*/summary.json 全部（画图时同一配置只取最新）
     4. 开环表：evidence/G3、G4 的 open_loop.csv
+    5. colab：runs/*_s6_colab_loop*/ 全部
     预演目录（名字带 rehearse）默认不算
     """
-    src = {"e1": [], "twoboard": [], "virtual": [], "bench": [], "open_loop": []}
+    src = {"e1": [], "twoboard": [], "virtual": [], "bench": [], "open_loop": [], "colab": []}
     for d in sorted(glob.glob(os.path.join("runs", "*_s5_*"))):
         if "rehearse" in d and not include_rehearse:
             continue
@@ -147,6 +168,8 @@ def discover(include_rehearse=False):
             src["e1"].append(d)
     for p in sorted(glob.glob(os.path.join("runs", "*bench*", "summary.json"))):
         src["bench"].append(os.path.dirname(p))
+    for p in sorted(glob.glob(os.path.join("runs", "*_s6_colab_loop*", "results.csv"))):
+        src["colab"].append(os.path.dirname(p))
     for p in (os.path.join("evidence", "G3", "open_loop.csv"), os.path.join("evidence", "G4", "open_loop.csv")):
         if os.path.exists(p):
             src["open_loop"].append(p)
@@ -254,21 +277,31 @@ def twoboard_table(e1_rows, tb_rows, bench, path, numbers):
     return True
 
 
-# ===== 第 2 段：七张图 =====
+# ===== 第 2 段：八张图 =====
 def fig1_stability(rows, bench, numbers):
     """图 1 稳定边界：横轴 N，左平均延迟、右丢弃率；每个 (模型, 是否分流) 一条线，竖虚线是理论 N_max。
 
     1. 按 (模型, 分流) 分组，同一 N 的几个种子取平均，竖线画最小到最大
     2. 理论 N_max = 1 / (3 × 单次决策平均秒数)：优先用实验 1 里最小 N 那次的往返（和实验 1 同样 3 台服务器），
        没有才用实验 2 的延迟基准（基准混了 3/7/11 台，提示词更长，算出的 N_max 偏小）；竖虚线顶上标出数值
-    3. 稳定边界 M = 决策环节丢弃（过了截止期还没拿到决策）在每个种子上都低于 1% 的最大 N；一个都不稳定就写最小 N 时丢了多少
+    3. 稳定边界 M = 决策环节丢弃（过了截止期还没拿到决策）在每个种子上都低于 1% 的最大 N；一个都不稳定就写最小 N 时丢了多少；
+       再写上测到的最大 N 时的总丢弃率（含服务器排满丢的）
     4. 只测了一个 N 的模型（论文原版 1.5B 只测 N = 1），在右图点旁直接写丢弃率
-    5. 图例放到两格下方
+    5. 数每个模型每个 N 有几个种子，写进注释
+    6. 图例放到两格下方
     """
     groups = {}
     for r in rows:
         key = (r["model_key"], float(r["shed_ms"]) > 0)
         groups.setdefault(key, {}).setdefault(int(r["n"]), []).append(r)
+    seed_count = {}
+    for key, by_n in groups.items():
+        fewest = None
+        for n in by_n:
+            k = len(by_n[n])
+            if fewest is None or k < fewest:
+                fewest = k
+        seed_count[key] = fewest
     bench_mean = {}
     for s in bench:
         if s["fmt"] in ("compact", "formula", "paper") and s["cache"] == ("off" if s["fmt"] == "paper" else "on"):
@@ -314,6 +347,8 @@ def fig1_stability(rows, bench, numbers):
         else:
             first = mean([float(r["drop_decision"]) for r in by_n[ns[0]]])
             m_text = f"1 台都撑不住（实测：N = {ns[0]} 时决策环节就丢弃 {100 * first:.1f}%）"
+        last_drop = mean([float(r["drop_rate"]) for r in by_n[ns[-1]]])
+        m_text += f"；测到的最大 N = {ns[-1]} 时总丢弃率 {100 * last_drop:.1f}%"
         dirs = set()
         for v in by_n.values():
             for r in v:
@@ -336,8 +371,19 @@ def fig1_stability(rows, bench, numbers):
     for i in range(len(handles)):
         items.append((handles[i], labels[i]))
     items.append((Line2D([], [], color=MUTED, linestyle=":"), "理论容量 N_max = 1/(3 × 单次决策秒数)"))
+    most = max(seed_count.values())
+    fewer = []
+    for key in sorted(seed_count):
+        if seed_count[key] < most:
+            name = style_of(key[0])[0]
+            if key[1]:
+                name = name + " + 超载分流"
+            fewer.append(f"{name} {seed_count[key]} 个")
+    seeds_text = f"每点 3 分钟、{most} 个种子"
+    if fewer:
+        seeds_text += "（" + "，".join(fewer) + "）"
     finish(fig, [(list(axes), items, 3)],
-           "实时闭环，3 台服务器，每点 3 分钟；竖线是几个种子的最小到最大。超载分流：等决策超过 100 ms 就改用公式。")
+           f"实时闭环，3 台服务器，{seeds_text}；竖线是种子之间的最小到最大。超载分流：等决策超过 100 ms 就改用公式。")
     return fig
 
 
@@ -404,12 +450,18 @@ def fig2_latency(bench, e1_rows, numbers):
         numbers.append(("论文原版 1.5B 单次决策（开缓存、3 台服务器）", f"往返 p50 {p50:.1f} ms（实测，实验 1、N = {n}）",
                         paper[n][0]["_dir"]))
     finish(fig, [([ax], None, 5)], note)
-    for s in rows:
+    for i in range(len(rows)):
+        s = rows[i]
+        value = f"p50 {s['e2e_p50']:.1f} ms，p99 {s['e2e_p99']:.1f} ms"
+        if float(s.get("prompt_tokens_mean", 0) or 0) > 0:
+            value += f"，平均提示词 {float(s['prompt_tokens_mean']):.0f} token"
+        value += "（实测）"
         if s["_key"] == "main_0.5b" and s["fmt"] == "compact" and s["cache"] == "on":
-            numbers.append(("单次决策 X（部署配置）", f"p50 {s['e2e_p50']:.1f} ms，p99 {s['e2e_p99']:.1f} ms（实测）", s["_dir"]))
-        if s["_key"] == "paper_sft_1.5b" and s["fmt"] == "paper" and s["cache"] == "off":
-            numbers.append(("论文原版 1.5B 单次决策 Y（关缓存、3/7/11 台轮流）",
-                            f"p50 {s['e2e_p50']:.1f} ms，p99 {s['e2e_p99']:.1f} ms（实测）", s["_dir"]))
+            numbers.append(("单次决策 X（部署配置）", value, s["_dir"]))
+        elif s["_key"] == "paper_sft_1.5b" and s["fmt"] == "paper" and s["cache"] == "off":
+            numbers.append(("论文原版 1.5B 单次决策 Y（关缓存、3/7/11 台轮流）", value, s["_dir"]))
+        else:
+            numbers.append((f"单次决策（{labels[i]}）", value, s["_dir"]))
     return fig
 
 
@@ -553,8 +605,11 @@ def fig4_generalization(rows, open_rows, numbers):
     draw = {"greedy": {"linewidth": 7, "alpha": 0.3, "marker": None},
             "lacs": {"linewidth": 1, "markersize": 4},
             "psgreedy": {"linewidth": 1.8, "linestyle": "--"},
-            "llm:main_0.5b": {"linewidth": 1.8, "markersize": 5}}
-    for pol in ("greedy", "lacs", "psgreedy", "llm:main_0.5b"):
+            "llm:main_0.5b": {"linewidth": 1.8, "markersize": 5},
+            "llm:ps_0.5b": {"linewidth": 1.8, "markersize": 5}}
+    if len(cl.get("llm:ps_0.5b", {})) < 2:
+        cl.pop("llm:ps_0.5b", None)
+    for pol in ("greedy", "lacs", "psgreedy", "llm:main_0.5b", "llm:ps_0.5b"):
         if pol not in cl:
             continue
         xs = sorted(cl[pol])
@@ -580,12 +635,24 @@ def fig4_generalization(rows, open_rows, numbers):
                   transform=ax_r.transAxes, ha="right", va="top", fontsize=8, color=INK)
         numbers.append(("0.5B 闭环平均延迟 vs 单步最优（N = 40）", "；".join(gaps) + "（仿真实测）",
                         cl["llm:main_0.5b"][min(cl["llm:main_0.5b"])]["_dir"]))
+    if "llm:ps_0.5b" in cl and "psgreedy" in cl:
+        gaps = []
+        dirs = set()
+        for k in sorted(cl["llm:ps_0.5b"]):
+            if k in cl["psgreedy"]:
+                a = float(cl["llm:ps_0.5b"][k]["mean_delay"])
+                b = float(cl["psgreedy"][k]["mean_delay"])
+                gaps.append(f"{k} 台 {100 * (a - b) / b:+.1f}%")
+                dirs.add(cl["llm:ps_0.5b"][k]["_dir"])
+        numbers.append(("PS 老师 0.5B 闭环平均延迟 vs PS 感知贪心（N = 40）", "；".join(gaps) + "（仿真实测）",
+                        ", ".join(sorted(dirs))))
     handles, labels = ax_hi.get_legend_handles_labels()
     items = []
     for i in range(len(handles)):
         items.append((handles[i], labels[i]))
     items.append((Patch(color=GRID), "灰底：训练时没见过的台数"))
-    note = "灰底 4/6/8/10 台：训练集里没有，只用来测泛化。"
+    fig.suptitle("实验 4 · 台数泛化：训练时没见过 4/6/8/10 台服务器（灰底）", x=0.01, ha="left", fontsize=12, color=INK)
+    note = "灰底 4/6/8/10 台：训练集里没有，只用来测泛化。右图每点 1000 槽、种子 0，公式和 0.5B 面对同一串任务。"
     if "main_0.5b" in pr and "soft_1.5b" in pr and "paper_sft_1.5b" in pr:
         ours = min(min(pr["main_0.5b"]), min(pr["soft_1.5b"]))
         note += (f"\n开环 PR（论文式 28–29）：0.5B、1.5B 每个台数都 ≥ {ours:.1f}%，"
@@ -641,7 +708,7 @@ def fig5_open_vs_closed(rows, open_rows, numbers):
         axes[0].indicate_inset_zoom(ins, edgecolor=MUTED)
     fig.suptitle("实验 5 · 开环准确率高，闭环不一定好（3 台服务器，N = 40，虚拟时间闭环）", x=0.01, ha="left", fontsize=12,
                  color=INK)
-    note = ("开环准确率 = 和单步最优（论文公式）选得一样的比例。PS 感知贪心、0.5B 平分算力标签和论文公式常常选得不一样，"
+    note = ("每点 1000 槽、种子 0。开环准确率 = 和单步最优（论文公式）选得一样的比例。PS 感知贪心、0.5B 平分算力标签和论文公式常常选得不一样，"
             "开环准确率只有约 20%，闭环里却最快：论文公式高估平分算力服务器的排队。")
     for pol, acc, delay, drop, _ in pts:
         if pol == "random":
@@ -672,7 +739,8 @@ def fig6_ablation(rows, open_rows, numbers):
 
     1. 左图每个模型一组横条：见过的台数 / 没见过的台数 / 原作者干净测试集，条末写数值；没测的写"未测"
     2. 某个模型在某个数据集上只测了一部分（条数和公式那一行不一样），画成斜线空心条，图例里写清楚条数，不能和整套直接比
-    3. 右图：3 台、顺序决策、1000 槽，同一 N 几个种子取平均
+    3. 每个模型三个数据集的准确率写进数字表（README 结果表要用）
+    4. 右图：3 台、顺序决策、1000 槽，同一 N 几个种子取平均
     """
     fig = plt.figure(figsize=(15, 6.6))
     gs = fig.add_gridspec(1, 2, width_ratios=[1.35, 1])
@@ -708,6 +776,14 @@ def fig6_ablation(rows, open_rows, numbers):
             else:
                 ax.barh(y, v, height=bar_h, color=color)
             ax.text(v + 0.8, y, f"{v:.1f}", va="center", fontsize=7, color=INK)
+    for name, label in present:
+        parts = []
+        for split, slabel, _ in splits:
+            r = open_rows.get((name, split, "全部"))
+            if r is not None:
+                parts.append(f"{slabel} {float(r['acc_pct']):.1f}%（{r['n']} 条）")
+        numbers.append((f"开环准确率（{label}）", "；".join(parts) + "（实测，贪心解码）",
+                        "evidence/G3/open_loop.csv、evidence/G4/open_loop.csv"))
     ax.set_yticks(range(len(present)))
     labels = []
     for name, label in present:
@@ -728,11 +804,15 @@ def fig6_ablation(rows, open_rows, numbers):
         items.append((Patch(facecolor="white", edgecolor=color, hatch="///"),
                       f"斜线：{slabel}只测了 {n} 条（整套 {n_full} 条），不能和实心条直接比"))
     by = {}
+    drop = {}
+    per_seed = {}
     dirs = set()
     for r in rows:
         if int(r["servers"]) == 3 and r["mode"] == "sequential" and int(r["slots"]) == 1000 and \
                 r["policy"] in ("greedy", "psgreedy", "llm:main_0.5b", "llm:ps_0.5b"):
             by.setdefault(r["policy"], {}).setdefault(int(r["n"]), []).append(float(r["mean_delay"]))
+            drop.setdefault(r["policy"], {}).setdefault(int(r["n"]), []).append(float(r["drop_rate"]))
+            per_seed.setdefault(r["policy"], {}).setdefault(int(r["n"]), {})[int(r["seed"])] = float(r["mean_delay"])
             dirs.add(r["_dir"])
     for pol in ("greedy", "psgreedy", "llm:main_0.5b", "llm:ps_0.5b"):
         if pol not in by:
@@ -750,11 +830,38 @@ def fig6_ablation(rows, open_rows, numbers):
             if n in by["llm:ps_0.5b"]:
                 a = mean(by["llm:main_0.5b"][n])
                 b = mean(by["llm:ps_0.5b"][n])
-                parts.append(f"N = {n}：{a:.2f} → {b:.2f} 槽（{100 * (b - a) / a:+.1f}%）")
-        numbers.append(("平分算力标签 0.5B vs 主线 0.5B（模拟器按平分算力写，主场优势）", "；".join(parts) + "（仿真实测）",
-                        ", ".join(sorted(dirs))))
-    note = ("右图：虚线是两种公式老师，实线是照着它们训练的 0.5B 学生；模拟器按平分算力（PS）算服务时间，平分算力标签在这里有主场优势。\n"
-            "公式和 LLM 点是 4 个种子 / 1 个种子的平均（LLM 点要在 Jetson 上逐个作答，只跑了种子 0）。")
+                da = 100 * mean(drop["llm:main_0.5b"][n])
+                db = 100 * mean(drop["llm:ps_0.5b"][n])
+                parts.append(f"N = {n}：{a:.2f} → {b:.2f} 槽（{100 * (b - a) / a:+.1f}%），丢弃 {da:.1f}% → {db:.1f}%")
+        seeds = len(by["llm:ps_0.5b"][min(by["llm:ps_0.5b"])])
+        numbers.append(("平分算力标签 0.5B vs 主线 0.5B（模拟器按论文式 4 的平分算力排队）",
+                        "；".join(parts) + f"（仿真实测，{seeds} 个种子）", ", ".join(sorted(dirs))))
+        parts = []
+        used = set()
+        for stu, tea, name in (("llm:main_0.5b", "greedy", "论文公式老师"), ("llm:ps_0.5b", "psgreedy", "PS 老师")):
+            gaps = []
+            for n in sorted(per_seed.get(stu, {})):
+                common = sorted(set(per_seed[stu][n]) & set(per_seed.get(tea, {}).get(n, {})))
+                if common:
+                    a = mean([per_seed[stu][n][k] for k in common])
+                    b = mean([per_seed[tea][n][k] for k in common])
+                    gaps.append(100 * (a - b) / b)
+                    used.update(common)
+            if gaps:
+                parts.append(f"{name}：0.5B 比老师 {min(gaps):+.1f}% ~ {max(gaps):+.1f}%")
+        seed_text = "同一个种子 0" if used == {0} else f"同样的 {len(used)} 个种子"
+        numbers.append((f"两个 0.5B 学生 vs 各自的老师（3 台，N = 20/40/60，{seed_text}）",
+                        "；".join(parts) + "（仿真实测）", ", ".join(sorted(dirs))))
+    n_llm = 0
+    for pol in ("llm:main_0.5b", "llm:ps_0.5b"):
+        for n in per_seed.get(pol, {}):
+            n_llm = max(n_llm, len(per_seed[pol][n]))
+    n_formula = 0
+    for pol in ("greedy", "psgreedy"):
+        for n in per_seed.get(pol, {}):
+            n_formula = max(n_formula, len(per_seed[pol][n]))
+    note = ("右图：虚线是两种公式老师，实线是照着它们训练的 0.5B 学生；模拟器按论文式 4 的平分算力（PS）算服务时间，结论只适用于这种服务器。\n"
+            f"公式点是 {n_formula} 个种子的平均，LLM 点是 {n_llm} 个种子的平均（LLM 点要在 Jetson 上逐个作答）。")
     finish(fig, [([ax], items, 2), ([ax_r], None, 2)], note)
     return fig
 
@@ -855,6 +962,187 @@ def fig7_lacs(rows, numbers):
                         f"单步最优 {g:.2f} 槽，LACS λ = 0.3 {lam:.2f} 槽（仿真实测）", dirs))
     return fig
 
+def fig8_students(rows, open_rows, numbers, platform="jetson"):
+    """图 8 两个老师 × 三种学生（3 台，N = 20/40/60，顺序决策，1000 槽）：左 = 平均延迟，右 = 丢弃率。
+
+    platform：jetson = 学生在 Jetson 上用 GGUF Q8_0 作答（eval.virtual_loop）；colab = 在 Colab 上用 PyTorch 原精度作答
+    （eval.colab_loop）。老师是公式，在哪儿算都一样，两张图用同一份老师的点。Colab 那张图有复现的 COMLLM-7B 时也画上。
+
+    1. 收集 3 台、顺序决策、1000 槽的点：每个 (策略, N) 下按种子存平均延迟和丢弃率
+    2. 只用学生们都跑过的种子（老师跑过的种子更多，也只取这几个），所有线在同一批任务上比
+    3. 学生少于 3 个，或学生的 N 不全，就不画（返回 None），等 e4ps 跑完
+    4. 每个老师画一条虚线，三个学生画实线；同一个老师的学生用同一个色系，点形区分 0.5B 软 / 1.5B 软 / 1.5B 硬
+    5. 数字表：每个老师一行（闭环）；每个学生一行（开环准确率和 PR + 闭环 + 比老师）；同样的学生换老师差多少一行
+    """
+    # 1. 收集
+    cell = {}
+    dirs = set()
+    for r in rows:
+        if int(r["servers"]) != 3 or r["mode"] != "sequential" or int(r["slots"]) != 1000:
+            continue
+        cell.setdefault(r["policy"], {}).setdefault(int(r["n"]), {})[int(r["seed"])] = \
+            (float(r["mean_delay"]), float(r["drop_rate"]), r["_dir"])
+    ns = [20, 40, 60]
+    students = []
+    for _, _, _, studs in TEACHER_GRID:
+        for key, _, _, _ in studs:
+            if key in cell and all(n in cell[key] for n in ns):
+                students.append(key)
+    if len(students) < 3:
+        return None
+    # 2. 共同的种子
+    seeds = None
+    for key in students:
+        for n in ns:
+            have = set(cell[key][n])
+            seeds = have if seeds is None else seeds & have
+    seeds = sorted(seeds or [])
+    if not seeds:
+        return None
+
+    def avg(key, n):
+        """这个策略在 N 下、共同种子上的 (平均延迟, 丢弃率)；缺任何一个种子就返回 None。"""
+        got = cell.get(key, {}).get(n, {})
+        for k in seeds:
+            if k not in got:
+                return None
+        for k in seeds:
+            dirs.add(got[k][2])
+        return mean([got[k][0] for k in seeds]), mean([got[k][1] for k in seeds])
+
+    # 3/4. 画
+    fig, (ax_d, ax_x) = plt.subplots(1, 2, figsize=(13, 5.2))
+    items = []
+    extra = []
+    for tname, tkey, tcolor, studs in TEACHER_GRID:
+        vals = [avg(tkey, n) for n in ns]
+        if all(v is not None for v in vals):
+            ax_d.plot(ns, [v[0] for v in vals], color=tcolor, linestyle="--", linewidth=2.4, alpha=0.8)
+            ax_x.plot(ns, [100 * v[1] for v in vals], color=tcolor, linestyle="--", linewidth=2.4, alpha=0.8)
+            items.append((Line2D([], [], color=tcolor, linestyle="--", linewidth=2.4), f"{tname}（老师）"))
+        else:
+            items.append((Line2D([], [], color=tcolor, linestyle="--", linewidth=2.4, alpha=0.3), f"{tname}（老师，没测）"))
+        for key, slabel, color, marker in studs:
+            if key not in students:
+                items.append((Line2D([], [], color=color, marker=marker, linewidth=1.6, alpha=0.3),
+                              f"{tname}的学生 · {slabel}（没测）"))
+                continue
+            vals = [avg(key, n) for n in ns]
+            ax_d.plot(ns, [v[0] for v in vals], color=color, marker=marker, linewidth=1.6, markersize=5)
+            ax_x.plot(ns, [100 * v[1] for v in vals], color=color, marker=marker, linewidth=1.6, markersize=5)
+            items.append((Line2D([], [], color=color, marker=marker, linewidth=1.6), f"{tname}的学生 · {slabel}"))
+    plat = PLATFORM_NAME[platform]
+    for key, short, tag, color in PAPER_MODELS_CLOSED:
+        vals = [avg(key, n) for n in ns]
+        if all(v is not None for v in vals):
+            ax_d.plot(ns, [v[0] for v in vals], color=color, linestyle=":", marker="D", linewidth=1.8)
+            ax_x.plot(ns, [100 * v[1] for v in vals], color=color, linestyle=":", marker="D", linewidth=1.8)
+            extra.append((Line2D([], [], color=color, linestyle=":", marker="D", linewidth=1.8), short, tag, vals))
+    tidy(ax_d, f"两个老师 × 三种学生 · 平均延迟（虚拟时间闭环，3 台，{plat}）", "终端数 N", "平均延迟（槽）")
+    tidy(ax_x, f"两个老师 × 三种学生 · 丢弃率（{plat}）", "终端数 N", "丢弃率（%）")
+    for ax in (ax_d, ax_x):
+        ax.set_xticks(ns)
+    # 图例两行：第一行论文公式那一组，第二行 PS 那一组（matplotlib 按列填，所以交错排）
+    half = len(items) // 2
+    ordered = []
+    for i in range(half):
+        ordered.append(items[i])
+        ordered.append(items[half + i])
+    for handle, short, tag, _ in extra:
+        ordered.append((handle, f"{short}（{tag}）"))
+    who = "LLM 在 Jetson 上用 GGUF Q8_0 逐个作答" if platform == "jetson" else "LLM 在 Colab 上用 PyTorch 原精度（bf16）作答"
+    note = (f"每条线是同样 {len(seeds)} 个种子（{', '.join(str(k) for k in seeds)}）的平均，所有线在同一批任务上比。"
+            f"虚线是公式老师，实线是照着它训练的学生（{who}）"
+            + ("，点线是论文的模型" if extra else "") + "。\n"
+            "模拟器按论文式 4 的平分算力（PS）算服务时间，结论只适用于这种服务器。")
+    finish(fig, [([ax_d, ax_x], ordered, half)], note)
+
+    # 5. 数字表
+    src = ", ".join(sorted(dirs))
+    seed_text = f"{len(seeds)} 个种子"
+    for tname, tkey, _, studs in TEACHER_GRID:
+        tv = [avg(tkey, n) for n in ns]
+        t_ok = all(v is not None for v in tv)
+        if t_ok and platform == "jetson":
+            numbers.append((f"老师：{tname}（3 台，N = 20/40/60）",
+                            "平均延迟 " + " / ".join(f"{v[0]:.2f}" for v in tv) + " 槽，丢弃 "
+                            + " / ".join(f"{100 * v[1]:.1f}%" for v in tv) + f"（仿真实测，{seed_text}）", src))
+        for key, slabel, _, _ in studs:
+            parts = []
+            r = open_rows.get((OPEN_NAME.get(key, ""), "friend_clean", "全部"))
+            if r is not None:
+                parts.append(f"开环准确率 {float(r['acc_pct']):.1f}%、PR {float(r['pr_pct']):.2f}%"
+                             "（原作者干净测试集，尺子是论文公式）")
+            if key in students:
+                sv = [avg(key, n) for n in ns]
+                parts.append("闭环平均延迟 " + " / ".join(f"{v[0]:.2f}" for v in sv) + " 槽，丢弃 "
+                             + " / ".join(f"{100 * v[1]:.1f}%" for v in sv) + f"（仿真实测，{seed_text}）")
+                if t_ok:
+                    gaps = []
+                    for i in range(len(ns)):
+                        gaps.append(100 * (sv[i][0] - tv[i][0]) / tv[i][0])
+                    parts.append(f"比老师 {min(gaps):+.1f}% ~ {max(gaps):+.1f}%")
+            else:
+                parts.append("闭环没测")
+            numbers.append((f"学生：{tname}老师 · {slabel}（3 台，N = 20/40/60，{plat}）", "；".join(parts), src))
+    paper_studs = TEACHER_GRID[0][3]
+    ps_studs = TEACHER_GRID[1][3]
+    parts = []
+    for i in range(len(paper_studs)):
+        a_key, slabel = paper_studs[i][0], paper_studs[i][1]
+        b_key = ps_studs[i][0]
+        if a_key in students and b_key in students:
+            cells = []
+            for n in ns:
+                a = avg(a_key, n)
+                b = avg(b_key, n)
+                cells.append(f"N = {n} 延迟 {100 * (b[0] - a[0]) / a[0]:+.1f}%、丢弃 {100 * a[1]:.1f}% → {100 * b[1]:.1f}%")
+            parts.append(f"{slabel}：" + "，".join(cells))
+    if parts:
+        numbers.append((f"同样的学生，PS 老师 vs 论文公式老师（3 台，{plat}）", "；".join(parts) + f"（仿真实测，{seed_text}）",
+                        src))
+    for _, short, tag, vals in extra:
+        numbers.append((f"{short}（{tag}，3 台，N = 20/40/60，{plat}）",
+                        "闭环平均延迟 " + " / ".join(f"{v[0]:.2f}" for v in vals) + " 槽，丢弃 "
+                        + " / ".join(f"{100 * v[1]:.1f}%" for v in vals) + f"（仿真实测，{seed_text}）", src))
+    return fig
+
+
+def deploy_gap(virtual, colab, numbers):
+    """同一个学生、同一个点，Jetson（GGUF Q8_0）比 Colab（PyTorch 原精度）的闭环平均延迟差多少。
+
+    1. 两边按点的名字对上（eval.colab_loop 的点名和 eval.virtual_loop 的一样）
+    2. 每个学生、每个 N：两边都有的种子取平均，算 (Jetson − Colab) ÷ Colab
+    3. 每个学生一段，写进一行数字
+    """
+    by_point = {}
+    for r in virtual:
+        by_point[r["point"]] = r
+    parts = []
+    dirs = set()
+    for tname, _, _, studs in TEACHER_GRID:
+        for key, slabel, _, _ in studs:
+            per_n = {}
+            for r in colab:
+                if r["policy"] != key or r["point"] not in by_point:
+                    continue
+                j = by_point[r["point"]]
+                per_n.setdefault(int(r["n"]), []).append((float(j["mean_delay"]), float(r["mean_delay"])))
+                dirs.add(r["_dir"])
+                dirs.add(j["_dir"])
+            if not per_n:
+                continue
+            cells = []
+            for n in sorted(per_n):
+                a = mean([x[0] for x in per_n[n]])
+                b = mean([x[1] for x in per_n[n]])
+                cells.append(f"N = {n} {100 * (a - b) / b:+.1f}%")
+            parts.append(f"{tname}老师 · {slabel}：" + "，".join(cells))
+    if parts:
+        numbers.append(("部署前后的闭环平均延迟（Jetson Q8_0 比 Colab 原精度，3 台）", "；".join(parts) + "（仿真实测）",
+                        ", ".join(sorted(dirs))))
+    return bool(parts)
+
 
 # ===== 第 3 段：主程序 =====
 def main():
@@ -883,6 +1171,8 @@ def main():
     bench_all = load_bench(src.get("bench", []))
     bench = [b for b in bench_all if b["_env"] == "mac"]       # 图 1、图 2 只用 Mac 当环境节点时测的
     open_rows = load_open(src.get("open_loop", []))
+    colab = load_rows(src.get("colab", []))
+    teachers = [r for r in virtual if not r["policy"].startswith("llm:")]
 
     # 3. 逐张画；缺数据的跳过
     os.makedirs(args.out, exist_ok=True)
@@ -895,6 +1185,11 @@ def main():
         ("fig5_open_vs_closed.png", lambda: fig5_open_vs_closed(virtual, open_rows, numbers), "e5 + 开环表"),
         ("fig6_ablation.png", lambda: fig6_ablation(virtual, open_rows, numbers), "开环表 / e4a"),
         ("fig7_lacs.png", lambda: fig7_lacs(virtual, numbers), "实验 6（eval.virtual_loop --plan e6）"),
+        ("fig8_students.png", lambda: fig8_students(virtual, open_rows, numbers),
+         "两个老师 × 三种学生（eval.virtual_loop --plan e4ps）"),
+        ("fig8_students_colab.png",
+         lambda: fig8_students(teachers + colab, open_rows, numbers, platform="colab") if colab else None,
+         "Colab 闭环（train/S6_Colab闭环.ipynb）"),
     ]
     for fname, make, need in jobs:
         fig = make()
@@ -905,13 +1200,16 @@ def main():
         plt.close(fig)
         print("画好了：", os.path.join(args.out, fname))
 
+    if colab and deploy_gap(virtual, colab, numbers):
+        print("算好了部署前后的闭环差别（Jetson vs Colab）")
+
     # 4. 两板对照表（跑过两板复测才有）
     if twoboard_table(e1, twoboard, bench_all, os.path.join(args.out, "twoboard.md"), numbers):
         print("写好了：", os.path.join(args.out, "twoboard.md"))
 
     # 5. 简历数字和出处
     with open(os.path.join(args.out, "numbers.md"), "w", encoding="utf-8") as f:
-        f.write("# 阶段 5 关键数字\n\n由 `python -m eval.figures` 生成。每行最后一列是数据所在的运行目录（runs/ 下）。\n\n")
+        f.write("# 关键数字\n\n由 `python -m eval.figures` 生成，README 和简历里的数字都从这里取。每行最后一列是数据所在的运行目录（runs/ 下）或开环表。\n\n")
         f.write("| 数字 | 值 | 运行目录 |\n|---|---|---|\n")
         for name, value, where in numbers:
             f.write(f"| {name} | {value} | {where} |\n")

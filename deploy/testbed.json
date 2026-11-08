@@ -7,7 +7,10 @@
     "main_0.5b":      {"gguf": "~/models/comllm-0.5b-soft-T0.3-q8_0.gguf",    "fmt": "compact"},
     "main_0.5b_q4":   {"gguf": "~/models/comllm-0.5b-soft-T0.3-q4_k_m.gguf",  "fmt": "compact"},
     "soft_1.5b":      {"gguf": "~/models/comllm-1.5b-soft-T0.3-q8_0.gguf",    "fmt": "compact"},
+    "hard_1.5b":      {"gguf": "~/models/comllm-1.5b-hard-q8_0.gguf",         "fmt": "compact"},
     "ps_0.5b":        {"gguf": "~/models/comllm-0.5b-soft-T0.3-ps-q8_0.gguf", "fmt": "compact"},
+    "ps_soft_1.5b":   {"gguf": "~/models/comllm-1.5b-soft-T0.3-ps-q8_0.gguf", "fmt": "compact"},
+    "ps_hard_1.5b":   {"gguf": "~/models/comllm-1.5b-hard-ps-q8_0.gguf",      "fmt": "compact"},
     "base_0.5b":      {"gguf": "~/models/qwen2.5-0.5b-instruct-q8_0.gguf",    "fmt": "compact"},
     "paper_sft_1.5b": {"gguf": "~/models/comllm-paper-sft-1.5b-q8_0.gguf",    "fmt": "paper"}
   }

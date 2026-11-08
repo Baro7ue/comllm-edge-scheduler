@@ -10,6 +10,10 @@
   e4a     平分算力标签消融：3 台、N = 20/40/60，main_0.5b vs ps_0.5b，加两个老师和 LACS-greedy
   e4b     泛化：N = 40，3/4/6/7/8/10/11 台（4/6/8/10 训练时没见过），main_0.5b 和老师
   e5      开环 vs 闭环：3 台、N = 40，各种策略各跑一次（和 e4a 重复的点不重跑）
+  e4ps    两个老师 × 三种学生补齐：3 台、N = 20/40/60、种子 0 和 1，外加 ps_0.5b 在 4/6/7/8/10/11 台、N = 40。
+          35 个点，约 8 小时（估算）。分两段跑也行，结果一样：
+  e4ps_a  其中现在就能跑的 23 个点（不含 PS 老师的两个 1.5B），约 5 小时（估算）
+  e4ps_b  PS 老师的两个 1.5B 的 12 个点，等它们训完、GGUF 拷到 Jetson 再跑，约 3 小时（估算）
   e5_paper 论文原版 1.5B 闭环（可选，一次决策约 1 秒，只跑 400 槽）
   e6      LACS 往后看在闭环里有没有用：3/7/11 台 × N = 20/40/60/80，单步最优 vs LACS（λ = 0.3/1/2），
           另加 PS 感知贪心当"改公式"的参照，顺序决策 3 个种子；批量决策只比单步最优和 λ = 0.3。每点 2000 槽，和 e3 的点不重名，图 3 不受影响。
@@ -47,6 +51,15 @@ from sim.render import compact_state
 # ===== 第 1 段：计划 =====
 # 每项：(服务器台数列表, N 列表, 策略列表, 决策方式列表, 种子列表, 槽数, 热身槽数)
 TEACHERS = ["greedy", "psgreedy", "lacs"]
+# 两个老师 × 三种学生（0.5B 软、1.5B 软、1.5B 硬），3 台、N = 20/40/60、种子 0 和 1，外加 PS 0.5B 的泛化。
+# 只列还没跑过的点：两个 0.5B 的种子 0 在 e4a 里，soft_1.5b 的 N = 40 种子 0 在 e5 里。
+# A 段的模型都已经在 Jetson 上；B 段是 PS 老师的两个 1.5B，训完才有 GGUF
+E4PS_A = [([4, 6, 7, 8, 10, 11], [40], ["llm:ps_0.5b"], ["sequential"], [0], 1000, 200),
+          ([3], [20, 40, 60], ["llm:main_0.5b", "llm:ps_0.5b"], ["sequential"], [1], 1000, 200),
+          ([3], [20, 60], ["llm:soft_1.5b"], ["sequential"], [0, 1], 1000, 200),
+          ([3], [40], ["llm:soft_1.5b"], ["sequential"], [1], 1000, 200),
+          ([3], [20, 40, 60], ["llm:hard_1.5b"], ["sequential"], [0, 1], 1000, 200)]
+E4PS_B = [([3], [20, 40, 60], ["llm:ps_soft_1.5b", "llm:ps_hard_1.5b"], ["sequential"], [0, 1], 1000, 200)]
 PLANS = {
     "e3": [([3, 7, 11], [20, 40, 60, 80], ["greedy", "psgreedy"], ["sequential", "batch"], [0, 1], 1500, 200)],
     "e3_llm": [([11], [80], ["greedy", "llm:main_0.5b"], ["sequential", "batch"], [0], 1000, 200)],
@@ -57,12 +70,16 @@ PLANS = {
            ([3], [40], ["llm:main_0.5b", "llm:ps_0.5b", "llm:soft_1.5b", "llm:base_0.5b"], ["sequential"], [0],
             1000, 200)],
     "e5_paper": [([3], [40], ["llm:paper_sft_1.5b"], ["sequential"], [0], 400, 100)],
+    "e4ps_a": E4PS_A,
+    "e4ps_b": E4PS_B,
+    "e4ps": E4PS_A + E4PS_B,
     "e6": [([3, 7, 11], [20, 40, 60, 80], ["greedy", "lacs", "lacs:1", "lacs:2", "psgreedy"], ["sequential"], [0, 1, 2],
             2000, 200),
            ([3, 7, 11], [20, 40, 60, 80], ["greedy", "lacs"], ["batch"], [0, 1, 2], 2000, 200)],
 }
-EST_MS = {"main_0.5b": 55.0, "ps_0.5b": 55.0, "base_0.5b": 55.0, "main_0.5b_q4": 60.0, "soft_1.5b": 120.0,
-          "paper_sft_1.5b": 900.0}      # 每次决策约多少毫秒（估算），只用来报预计时长
+EST_MS = {"main_0.5b": 50.0, "ps_0.5b": 50.0, "base_0.5b": 50.0, "main_0.5b_q4": 60.0, "soft_1.5b": 80.0,
+          "hard_1.5b": 80.0, "ps_soft_1.5b": 80.0, "ps_hard_1.5b": 80.0,
+          "paper_sft_1.5b": 900.0}      # 每次决策约多少毫秒（估算，11/7 实测 3 台 0.5B 约 40、1.5B 约 76），只用来报预计时长
 
 FIELDS = ["point", "servers", "n", "policy", "mode", "seed", "slots", "warmup", "n_tasks", "mean_delay",
           "p95_delay", "drop_rate", "local_frac", "top_server_frac", "jain", "pred_gap", "server_share",
