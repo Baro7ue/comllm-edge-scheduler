@@ -1,0 +1,27 @@
+{
+  "arm": "full_support",
+  "updates": 6,
+  "status": "complete",
+  "runtime": {
+    "versions": {
+      "torch": "2.14.1+cu130",
+      "transformers": "5.20.2",
+      "peft": "0.21.2",
+      "accelerate": "1.15.0",
+      "numpy": "2.4.6"
+    },
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+  },
+  "initial_fingerprint": {
+    "lora_A_sha256": "ba69df5cbed80bbb017794e069f9068f356b7e17a89de8888106d782c060da89",
+    "torch_num_threads": 24,
+    "torch_num_interop_threads": 24,
+    "default_dtype": "torch.float32",
+    "attention_implementation": "sdpa"
+  },
+  "initial_rng_sha256": "ca545ae4a7a7731c85d775f57066bb4c09ee7cab57b30ebfb6c6013276431f4e",
+  "archived_candidate_reward_exact": null,
+  "archive_exactness_required": false,
+  "first_token_probe_scope_only": true,
+  "new_full_test_run": false
+}

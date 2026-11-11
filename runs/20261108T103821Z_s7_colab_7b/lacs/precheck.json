@@ -1,0 +1,505 @@
+{
+  "schema_version": 1,
+  "status": "lacs_small_artifact_precheck_passed",
+  "checked_utc": "2026-11-08T10:39:35.092345+00:00",
+  "scope": "Completed lacs small artifacts only; no actual adapter tensor verification and not joint final acceptance",
+  "source_drive_folder_id": "18KrkRkG4MkS7DZIJ7dHBy2QolkMT19TZ",
+  "source_lora_folder_id": "1MLQWwRNpzObXMym-vda39k0VCtB4Leqm",
+  "downloads": [
+    {
+      "id": "1piz0xea-IEfeJjGhdilRqexucXYh4Hot",
+      "path": "summary.json",
+      "url": "https://drive.google.com/file/d/1piz0xea-IEfeJjGhdilRqexucXYh4Hot/view?usp=drivesdk",
+      "mime_type": "application/json",
+      "metadata_size": 194,
+      "modified_time": "2026-11-08T10:36:57.617Z",
+      "parent_folder_id": "18KrkRkG4MkS7DZIJ7dHBy2QolkMT19TZ",
+      "fetch_size": 194,
+      "fetch_utc": "2026-11-08T10:38:14.892Z",
+      "downloaded_utc": "2026-11-08T10:38:45.360Z",
+      "local_sha256": "adbbecc07731e973e262dcc017d2d1e331605fe5060bf9c24987163b4df39407",
+      "local_bytes": 194,
+      "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/lacs/summary.json",
+      "current_local_sha256": "adbbecc07731e973e262dcc017d2d1e331605fe5060bf9c24987163b4df39407",
+      "provenance_matches_current": true
+    },
+    {
+      "id": "1EHs0CzXLElA8qZAralI-ekM6kyCBmeWp",
+      "path": "config.json",
+      "url": "https://drive.google.com/file/d/1EHs0CzXLElA8qZAralI-ekM6kyCBmeWp/view?usp=drivesdk",
+      "mime_type": "application/json",
+      "metadata_size": 6400,
+      "modified_time": "2026-11-08T09:37:04.427Z",
+      "parent_folder_id": "18KrkRkG4MkS7DZIJ7dHBy2QolkMT19TZ",
+      "fetch_size": 6400,
+      "fetch_utc": "2026-11-08T10:38:16.490Z",
+      "downloaded_utc": "2026-11-08T10:38:45.362Z",
+      "local_sha256": "11b18964ed31d148925de4cc9481e912dece91e7ac0b89f7e0789c475197dce4",
+      "local_bytes": 6400,
+      "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/lacs/config.json",
+      "current_local_sha256": "11b18964ed31d148925de4cc9481e912dece91e7ac0b89f7e0789c475197dce4",
+      "provenance_matches_current": true
+    },
+    {
+      "id": "1CwpcaZOJBxi_fKALI6QjnaO8LLjjxnnb",
+      "path": "token_audit.json",
+      "url": "https://drive.google.com/file/d/1CwpcaZOJBxi_fKALI6QjnaO8LLjjxnnb/view?usp=drivesdk",
+      "mime_type": "application/json",
+      "metadata_size": 89,
+      "modified_time": "2026-11-08T09:37:05.681Z",
+      "parent_folder_id": "18KrkRkG4MkS7DZIJ7dHBy2QolkMT19TZ",
+      "fetch_size": 89,
+      "fetch_utc": "2026-11-08T10:38:13.134Z",
+      "downloaded_utc": "2026-11-08T10:38:45.362Z",
+      "local_sha256": "39c0d6652cf9b59b404800137bbdbd97633be247b900d70ce72dbc372a8917c4",
+      "local_bytes": 89,
+      "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/lacs/token_audit.json",
+      "current_local_sha256": "39c0d6652cf9b59b404800137bbdbd97633be247b900d70ce72dbc372a8917c4",
+      "provenance_matches_current": true
+    },
+    {
+      "id": "1s10rGt8YIrHaZHISthPGXkid9f7n_mH6",
+      "path": "train_log.jsonl",
+      "url": "https://drive.google.com/file/d/1s10rGt8YIrHaZHISthPGXkid9f7n_mH6/view?usp=drivesdk",
+      "mime_type": "application/octet-stream",
+      "metadata_size": 40908,
+      "modified_time": "2026-11-08T10:23:02.890Z",
+      "parent_folder_id": "18KrkRkG4MkS7DZIJ7dHBy2QolkMT19TZ",
+      "fetch_size": 40908,
+      "fetch_utc": "2026-11-08T10:38:15.759Z",
+      "downloaded_utc": "2026-11-08T10:38:45.362Z",
+      "local_sha256": "0660a63e01195be51a23dc06ea5834ccbe4a3db41f81d24948cf7cd389315e85",
+      "local_bytes": 40908,
+      "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/lacs/train_log.jsonl",
+      "current_local_sha256": "0660a63e01195be51a23dc06ea5834ccbe4a3db41f81d24948cf7cd389315e85",
+      "provenance_matches_current": true
+    },
+    {
+      "id": "1brDKgSF9dznUVCo7jen9dh7vPYLTcBGH",
+      "path": "val_log.jsonl",
+      "url": "https://drive.google.com/file/d/1brDKgSF9dznUVCo7jen9dh7vPYLTcBGH/view?usp=drivesdk",
+      "mime_type": "application/octet-stream",
+      "metadata_size": 453,
+      "modified_time": "2026-11-08T10:23:32.346Z",
+      "parent_folder_id": "18KrkRkG4MkS7DZIJ7dHBy2QolkMT19TZ",
+      "fetch_size": 453,
+      "fetch_utc": "2026-11-08T10:38:15.731Z",
+      "downloaded_utc": "2026-11-08T10:38:45.362Z",
+      "local_sha256": "bf18b7c92871a4f9d9a178582e162146b75699cbe284ad9d3646c7d1f64f5b20",
+      "local_bytes": 453,
+      "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/lacs/val_log.jsonl",
+      "current_local_sha256": "bf18b7c92871a4f9d9a178582e162146b75699cbe284ad9d3646c7d1f64f5b20",
+      "provenance_matches_current": true
+    },
+    {
+      "id": "1MGr1nXr0SXi94Ex_cP8Heq6SmabEgjEn",
+      "path": "data_audit.json",
+      "url": "https://drive.google.com/file/d/1MGr1nXr0SXi94Ex_cP8Heq6SmabEgjEn/view?usp=drivesdk",
+      "mime_type": "application/json",
+      "metadata_size": 851,
+      "modified_time": "2026-11-08T09:36:57.922Z",
+      "parent_folder_id": "18KrkRkG4MkS7DZIJ7dHBy2QolkMT19TZ",
+      "fetch_size": 851,
+      "fetch_utc": "2026-11-08T10:38:15.730Z",
+      "downloaded_utc": "2026-11-08T10:38:45.362Z",
+      "local_sha256": "150ade6cab38af1511ba65f756bd38c03e0869f7c53316270d62a73f92a54af1",
+      "local_bytes": 851,
+      "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/lacs/data_audit.json",
+      "current_local_sha256": "150ade6cab38af1511ba65f756bd38c03e0869f7c53316270d62a73f92a54af1",
+      "provenance_matches_current": true
+    },
+    {
+      "id": "1atBSJ7b7z7ZC4jH1l8_n3Kwib45TZmJM",
+      "path": "preds.csv",
+      "url": "https://drive.google.com/file/d/1atBSJ7b7z7ZC4jH1l8_n3Kwib45TZmJM/view?usp=drivesdk",
+      "mime_type": "text/csv",
+      "metadata_size": 264121,
+      "modified_time": "2026-11-08T10:23:03.021Z",
+      "parent_folder_id": "18KrkRkG4MkS7DZIJ7dHBy2QolkMT19TZ",
+      "fetch_size": 264121,
+      "fetch_utc": "2026-11-08T10:38:15.909Z",
+      "downloaded_utc": "2026-11-08T10:38:45.362Z",
+      "local_sha256": "3fae2baf5a720eb2ac2803d0d3cd1e0a4e48ef9de3d7accc20515fe0548e6aac",
+      "local_bytes": 264121,
+      "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/lacs/preds.csv",
+      "current_local_sha256": "3fae2baf5a720eb2ac2803d0d3cd1e0a4e48ef9de3d7accc20515fe0548e6aac",
+      "provenance_matches_current": true
+    },
+    {
+      "id": "1TBcENeUe5ShNS0qY3AS3PEPjGVJEaP2T",
+      "path": "lora/adapter_config.json",
+      "url": "https://drive.google.com/file/d/1TBcENeUe5ShNS0qY3AS3PEPjGVJEaP2T/view?usp=drivesdk",
+      "mime_type": "application/json",
+      "metadata_size": 1174,
+      "modified_time": "2026-11-08T10:23:02.959Z",
+      "parent_folder_id": "1MLQWwRNpzObXMym-vda39k0VCtB4Leqm",
+      "fetch_size": 1174,
+      "fetch_utc": "2026-11-08T10:38:15.733Z",
+      "downloaded_utc": "2026-11-08T10:38:45.362Z",
+      "local_sha256": "3a20ed8d2c04c8ad99ddc8bfe65f1d6a318bae7c60034bca64eddd689924f2a8",
+      "local_bytes": 1174,
+      "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/lacs/lora/adapter_config.json",
+      "current_local_sha256": "3a20ed8d2c04c8ad99ddc8bfe65f1d6a318bae7c60034bca64eddd689924f2a8",
+      "provenance_matches_current": true
+    }
+  ],
+  "test_data_sha256_checks": {
+    "test_seen.jsonl": {
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/data/s3/test_seen.jsonl",
+      "local_sha256": "2eedec52aa8ec96da53a47e4e3409c6f9c20eefb6d9d2a647943c7a0d39af904",
+      "identity_sha256": "2eedec52aa8ec96da53a47e4e3409c6f9c20eefb6d9d2a647943c7a0d39af904",
+      "matches": true
+    },
+    "test_unseen.jsonl": {
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/data/s3/test_unseen.jsonl",
+      "local_sha256": "13c24ab18bbc157800129a58dd26a9f59c3e3424505f9e4b4571a91def19b03b",
+      "identity_sha256": "13c24ab18bbc157800129a58dd26a9f59c3e3424505f9e4b4571a91def19b03b",
+      "matches": true
+    },
+    "friend_clean.jsonl": {
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/data/s3/friend_clean.jsonl",
+      "local_sha256": "83d871639a37da2bf34b433ae23128b9df2498d3a3ba8fd47b2c74b3683c8fb7",
+      "identity_sha256": "83d871639a37da2bf34b433ae23128b9df2498d3a3ba8fd47b2c74b3683c8fb7",
+      "matches": true
+    }
+  },
+  "data_audit_equals_config_identity_data": true,
+  "identity_canonical_sha256": "f28f4146e127ad37b79f2063165a0e01d06dfcb1cc94ee66121e3b19b2a3cc61",
+  "lacs_checks": {
+    "group": "lacs",
+    "errors": [],
+    "summary": {
+      "step": 208,
+      "elapsed_train_s": 2503.4651944330008,
+      "training_complete": true,
+      "target_steps": 208,
+      "status": "complete",
+      "group": "lacs",
+      "invocation_seconds": 3608.256021806
+    },
+    "token_audit": {
+      "train_dropped": 0,
+      "val_dropped": 0,
+      "train_rows": 830,
+      "target_steps": 208
+    },
+    "identity": {
+      "settings": {
+        "mode": "full",
+        "seed": 0,
+        "epochs": 1,
+        "group_size": 4,
+        "prompts_per_step": 4,
+        "lr": 5e-06,
+        "beta": 0.005,
+        "temperature": 1.3,
+        "top_p": 0.95,
+        "max_new_tokens": 15,
+        "max_seq_length": 2048,
+        "lora_r": 64,
+        "lora_alpha": 128,
+        "lora_dropout": 0.05,
+        "loss_chunk": 1,
+        "eval_batch": 4,
+        "eval_every": 25,
+        "checkpoint_every": 10,
+        "max_steps": null
+      },
+      "base_model": {
+        "base": "/content/s7_sft7b",
+        "config": {
+          "architectures": [
+            "Qwen2ForCausalLM"
+          ],
+          "attention_dropout": 0.0,
+          "bos_token_id": 151643,
+          "eos_token_id": 151645,
+          "hidden_act": "silu",
+          "hidden_size": 3584,
+          "initializer_range": 0.02,
+          "intermediate_size": 18944,
+          "layer_types": [
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention",
+            "full_attention"
+          ],
+          "max_position_embeddings": 32768,
+          "max_window_layers": 28,
+          "model_type": "qwen2",
+          "num_attention_heads": 28,
+          "num_hidden_layers": 28,
+          "num_key_value_heads": 4,
+          "rms_norm_eps": 1e-06,
+          "rope_scaling": null,
+          "rope_theta": 1000000.0,
+          "sliding_window": null,
+          "tie_word_embeddings": false,
+          "torch_dtype": "float16",
+          "transformers_version": "4.55.2",
+          "use_cache": true,
+          "use_sliding_window": false,
+          "vocab_size": 152064
+        },
+        "files": {
+          "added_tokens.json": {
+            "bytes": 629,
+            "sha256": "f0acedf99e19ec0a5b797ffbd0b94328172ccd90f7f385bbc521cda2701b03ab"
+          },
+          "config.json": {
+            "bytes": 1381,
+            "sha256": "387a627ff601a46fd82a9c60f7bfa7676b01ac95f1447d2a211a4efefe2111d3"
+          },
+          "generation_config.json": {
+            "bytes": 257,
+            "sha256": "34365e1355f5a54806a8400884ec9e8b62e6799f2a2d4b530c86469544ca006f"
+          },
+          "merges.txt": {
+            "bytes": 1671853,
+            "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+          },
+          "model-00001-of-00004.safetensors": {
+            "bytes": 4877660672,
+            "sha256": "c980260c668f34d99a1a435b26952decb3c4e6d5d1e20ae9946af75d3e1f4a88"
+          },
+          "model-00002-of-00004.safetensors": {
+            "bytes": 4932750888,
+            "sha256": "e084b0dfb7bfa8dba0f718228ce19ddbda106f2c058a4eec1ccb8acd4e4cc850"
+          },
+          "model-00003-of-00004.safetensors": {
+            "bytes": 4330865088,
+            "sha256": "b07a389aeb07080edf72496f0d7d3d5cb41cd6b5cc0acefc507be983c535bf25"
+          },
+          "model-00004-of-00004.safetensors": {
+            "bytes": 1089994880,
+            "sha256": "053d06aa9a6579967b3653c789151a7edf361899e7804c10a756b53286f602e8"
+          },
+          "model.safetensors.index.json": {
+            "bytes": 28135,
+            "sha256": "d5d034438722d73f9265668fea86ea2ef01c55d57a50949a941143b1476f5642"
+          },
+          "special_tokens_map.json": {
+            "bytes": 644,
+            "sha256": "57255613bbe23c9497211ca68561ff429a51e871dbaf5a59998fa4c8f7fe168a"
+          },
+          "tokenizer.json": {
+            "bytes": 11421896,
+            "sha256": "9c5ae00e602b8860cbd784ba82a8aa14e8feecec692e7076590d014d7b7fdafa"
+          },
+          "tokenizer_config.json": {
+            "bytes": 4893,
+            "sha256": "5fd4cea2574beb6b70ba31582179880d331b723f5b5119ee67c29d45b983f7be"
+          },
+          "vocab.json": {
+            "bytes": 2776833,
+            "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+          }
+        }
+      },
+      "data": {
+        "source_train": 830,
+        "source_val": 100,
+        "train": 830,
+        "val": 100,
+        "train_heldout_removed": 0,
+        "train_duplicates_removed": 0,
+        "val_heldout_removed": 0,
+        "remaining_overlap": 0,
+        "eval_rows": {
+          "test_seen": 3010,
+          "test_unseen": 2408,
+          "friend_clean": 245
+        },
+        "sha256": {
+          "test_seen.jsonl": "2eedec52aa8ec96da53a47e4e3409c6f9c20eefb6d9d2a647943c7a0d39af904",
+          "test_unseen.jsonl": "13c24ab18bbc157800129a58dd26a9f59c3e3424505f9e4b4571a91def19b03b",
+          "friend_clean.jsonl": "83d871639a37da2bf34b433ae23128b9df2498d3a3ba8fd47b2c74b3683c8fb7",
+          "grpo_train.jsonl": "0bc61443ad6ae6a37c210dea01ca2e1dcb7e134e0815d73d52744730d4f7664b",
+          "grpo_val.jsonl": "a6fdc6c77dc453ab7f4b12f1e01c0d6053ecd583a7f45bf660993b71d5d8d7b5",
+          "meta.json": "6125c1bb0acdf5a8d20ae94998a97a347226c98e99e7e0f320cdfbf066c7c238"
+        }
+      },
+      "upstream_commit": "17adedef587d5dbc02c167d147692a61179cdf4b",
+      "implementation_sha256": {
+        "s7_train.py": "c4f661596820c6c745ea4b23243d511740e87990f59be2e781ed0573997e80c1",
+        "s7_reward.py": "83a5f330a46b543ba1493744c183ed2b50a19afd4b5da23fd377d9ad807fdc92"
+      }
+    },
+    "training_log": {
+      "rows": 208,
+      "steps_exact": true,
+      "finite_metrics": true,
+      "nonfinite_or_missing_metrics": []
+    },
+    "predictions": {
+      "rows": 5663,
+      "unique_keys": 5663,
+      "exact_keys": true,
+      "splits": {
+        "test_seen": {
+          "rows": 3010,
+          "search": {
+            "valid_count": 3010,
+            "legal_rate": 1.0,
+            "correct_count": 1035,
+            "accuracy_vs_best": 0.3438538205980066
+          },
+          "strict": {
+            "valid_count": 3010,
+            "legal_rate": 1.0,
+            "correct_count": 1035,
+            "accuracy_vs_best": 0.3438538205980066
+          }
+        },
+        "test_unseen": {
+          "rows": 2408,
+          "search": {
+            "valid_count": 2408,
+            "legal_rate": 1.0,
+            "correct_count": 813,
+            "accuracy_vs_best": 0.337624584717608
+          },
+          "strict": {
+            "valid_count": 2408,
+            "legal_rate": 1.0,
+            "correct_count": 813,
+            "accuracy_vs_best": 0.337624584717608
+          }
+        },
+        "friend_clean": {
+          "rows": 245,
+          "search": {
+            "valid_count": 245,
+            "legal_rate": 1.0,
+            "correct_count": 215,
+            "accuracy_vs_best": 0.8775510204081632
+          },
+          "strict": {
+            "valid_count": 245,
+            "legal_rate": 1.0,
+            "correct_count": 215,
+            "accuracy_vs_best": 0.8775510204081632
+          }
+        }
+      }
+    }
+  },
+  "training_log_all_numeric_values_finite": true,
+  "validation_log": {
+    "rows": 8,
+    "steps": [
+      25,
+      50,
+      75,
+      100,
+      125,
+      150,
+      175,
+      200
+    ],
+    "all_complete": true,
+    "all_have_100_rows": true,
+    "all_numeric_values_finite": true,
+    "records": [
+      {
+        "step": 25,
+        "n": 100,
+        "correct": 82,
+        "complete": true
+      },
+      {
+        "step": 50,
+        "n": 100,
+        "correct": 83,
+        "complete": true
+      },
+      {
+        "step": 75,
+        "n": 100,
+        "correct": 84,
+        "complete": true
+      },
+      {
+        "step": 100,
+        "n": 100,
+        "correct": 83,
+        "complete": true
+      },
+      {
+        "step": 125,
+        "n": 100,
+        "correct": 83,
+        "complete": true
+      },
+      {
+        "step": 150,
+        "n": 100,
+        "correct": 83,
+        "complete": true
+      },
+      {
+        "step": 175,
+        "n": 100,
+        "correct": 83,
+        "complete": true
+      },
+      {
+        "step": 200,
+        "n": 100,
+        "correct": 83,
+        "complete": true
+      }
+    ]
+  },
+  "adapter_config_checks": {
+    "peft_type_LORA": true,
+    "task_type_CAUSAL_LM": true,
+    "rank_64": true,
+    "alpha_128": true,
+    "dropout_005": true,
+    "target_modules": true
+  },
+  "adapter_tensor_verification": {
+    "status": "not_performed",
+    "downloaded": false,
+    "drive_file_id": "17hy8egshb-xddGYP8DB2O17iMV6IwvFK",
+    "drive_metadata_bytes": 645975704,
+    "cpu_tensor_finite_check": null,
+    "nonzero_lora_B_check": null
+  },
+  "final_acceptance": false,
+  "precheck_actions": {
+    "remote_operations": "Google Drive connector read-only folder listing and 8 bounded small-file fetches",
+    "downloaded_small_files": 8,
+    "downloaded_large_adapter_or_base_weights": false,
+    "executed_training_or_evaluation": false,
+    "gpu_apis_called": false,
+    "browser_colab_jetson_accessed": false,
+    "source_artifacts_or_models_modified": false,
+    "local_new_files_only": true
+  }
+}

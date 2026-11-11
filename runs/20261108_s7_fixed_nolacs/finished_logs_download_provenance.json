@@ -1,0 +1,40 @@
+{
+  "checked_utc": "2026-11-08T13:32:07.949Z",
+  "source_drive_root_id": "10LHcVnzb_Zs1LTSTswC5hEOFN0pOS-xn",
+  "source_drive_folder_id": "1BTGHyGFwuoX19ugwSlsFxYfs7ijnK9yy",
+  "scope": "Finished full training and validation logs only; predictions/export/final acceptance still pending",
+  "files": [
+    {
+      "drive_file_id": "1YKrEKh97sTk2iFEAWXdFVDX34B1DW0Ki",
+      "drive_parent_id": "1BTGHyGFwuoX19ugwSlsFxYfs7ijnK9yy",
+      "relative_path": "nolacs/train_log.jsonl",
+      "drive_modified_utc": "2026-11-08T13:30:57.550Z",
+      "metadata_bytes": 415725,
+      "fetch_bytes": 415725,
+      "fetched_utc": "2026-11-08T13:31:26.837Z",
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_fixed_nolacs/nolacs/train_log.jsonl",
+      "downloaded_utc": "2026-11-08T13:31:42.034Z",
+      "local_bytes": 415725,
+      "local_sha256": "ac91366f1ffcd06c762cc00c8c1b34a4e285c801e78b0e75dbb81ed19df00990"
+    },
+    {
+      "drive_file_id": "1cHhFqKaT8CcL_1aUQ8nxmBaNLYm1dc0O",
+      "drive_parent_id": "1BTGHyGFwuoX19ugwSlsFxYfs7ijnK9yy",
+      "relative_path": "nolacs/val_log.jsonl",
+      "drive_modified_utc": "2026-11-08T13:29:36.238Z",
+      "metadata_bytes": 453,
+      "fetch_bytes": 453,
+      "fetched_utc": "2026-11-08T13:31:28.144Z",
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_fixed_nolacs/nolacs/val_log.jsonl",
+      "downloaded_utc": "2026-11-08T13:31:42.042Z",
+      "local_bytes": 453,
+      "local_sha256": "f2d34f2599aa96153dd8f22291a4cb2dcdbeeea741b287d5467c051b551fe5ed"
+    }
+  ],
+  "precheck_actions": {
+    "downloaded_finished_logs": true,
+    "downloaded_full_predictions_or_summary": false,
+    "downloaded_model_or_checkpoint": false,
+    "gpu_used": false
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "checked_utc": "2026-11-08T13:32:25.362710+00:00",
+  "scope": "finished training/validation logs, not final predictions or adapter acceptance",
+  "source_provenance_sha256": "ca4bbec2a1d2bfaa8584d7fcbc26af049ebfb44f2cce2f18eb7f532d054ea4b2",
+  "training": {
+    "steps": 208,
+    "ordered_unique_steps": true,
+    "prompts_unique_once": 830,
+    "completions": 3320,
+    "finite_metrics": [
+      "loss",
+      "kl",
+      "lr",
+      "reward_mean",
+      "zero_std_frac",
+      "grad_norm_before_clip",
+      "elapsed_train_s"
+    ],
+    "last_elapsed_train_s": 2423.9621628089994,
+    "final_step_local": 0,
+    "grad_norm_positive_steps": 208
+  },
+  "validation": [
+    {
+      "step": 25,
+      "n": 100,
+      "correct": 82,
+      "complete": true
+    },
+    {
+      "step": 50,
+      "n": 100,
+      "correct": 82,
+      "complete": true
+    },
+    {
+      "step": 75,
+      "n": 100,
+      "correct": 83,
+      "complete": true
+    },
+    {
+      "step": 100,
+      "n": 100,
+      "correct": 82,
+      "complete": true
+    },
+    {
+      "step": 125,
+      "n": 100,
+      "correct": 84,
+      "complete": true
+    },
+    {
+      "step": 150,
+      "n": 100,
+      "correct": 84,
+      "complete": true
+    },
+    {
+      "step": 175,
+      "n": 100,
+      "correct": 84,
+      "complete": true
+    },
+    {
+      "step": 200,
+      "n": 100,
+      "correct": 84,
+      "complete": true
+    }
+  ],
+  "diagnostic": {
+    "script_sha256": "06d4ab8e2a4c81dfaad4872442b2fe337a5755221989c74c4f4eb8d365a05e81",
+    "audit_path": "/Users/ethan/Documents/comllm-edge-scheduler/artifacts/s7_fixed_training_diagnostics_20261108/audit.json",
+    "audit_sha256": "930f86215b5c337c6ef737058b4de73da306a2fd76943ac3b4bf7c20bb6f7b50",
+    "manifest_sha256": "f96461a7d3b658f70563de738e5e13ec13e9efa30083992183f4aedec27602de"
+  },
+  "precheck_actions": {
+    "gpu_used": false,
+    "full_predictions_downloaded": false,
+    "full_summary_downloaded": false,
+    "model_or_checkpoint_downloaded": false
+  }
+}

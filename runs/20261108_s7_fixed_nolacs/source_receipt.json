@@ -1,0 +1,61 @@
+{
+  "checked_utc": "2026-11-08T13:48:52.777395+00:00",
+  "drive_root_id": "10LHcVnzb_Zs1LTSTswC5hEOFN0pOS-xn",
+  "drive_nolacs_folder_id": "1BTGHyGFwuoX19ugwSlsFxYfs7ijnK9yy",
+  "acceptance_report": {
+    "drive_file_id": "1s6XwmG4Ey86TMJpnouMHHdSGVlqmOEuf",
+    "relative_path": "fixed_acceptance_20261108T134519.138956Z.json",
+    "sha256": "71f4ee5603d63ad6a377f5dd568c1f6f355c8f20510d7d2b735b9dea5b4ced94",
+    "status": "passed",
+    "execution_surface": "actual Colab webTerminal; exit0 reported by root, local report verified"
+  },
+  "executed_notebook": {
+    "drive_file_id": "1aLrsp1a81vNhHJsLOgBSag2HlOO42ire",
+    "relative_path": "archive/S7_7B复现.fixed.executed.ipynb",
+    "sha256": "2cc845e0f91fafe99dd7f21e23b3e7977f0f5a4ede1767ad646bf0dffc500124",
+    "cells": 22,
+    "cell21_full_complete": true,
+    "historical_expected_error_cell18_retained": true
+  },
+  "provenance_files": {
+    "immutable_download_provenance.json": {
+      "sha256": "3ed4637fe2475d2b36cd175b76df9e3aea83800e5dca45b7613d64a2555e53b7"
+    },
+    "finished_logs_download_provenance.json": {
+      "sha256": "ca4bbec2a1d2bfaa8584d7fcbc26af049ebfb44f2cce2f18eb7f532d054ea4b2"
+    },
+    "final_download_provenance.json": {
+      "sha256": "247c38d31393e327b9259494510384dd26fd2bb1a5d79f30f5bc7bd1b6a13c00"
+    }
+  },
+  "large_artifacts_not_downloaded": {
+    "adapter": {
+      "drive_file_id": "1SdCrvuVupUFWBmxevEo2tJnf08czhsW9",
+      "drive_parent_id": "1_YKlxcMpHnBj0khF-6-1gdd9rxuVMizI",
+      "bytes": 645975704,
+      "sha256": "d895e480ccd7beac2f866c82cf621fcf10106bae68a66428a067c7dca59e6799",
+      "actual_tensor_check": "CPU passed in referenced report"
+    },
+    "checkpoints_drive_folder_id": "1IDKlTaIMZl_Cym5mQNz298keq-_0ECY3"
+  },
+  "source_tools": {
+    "/Users/ethan/.codex/worktrees/comllm-colab-7b/s7_fixed_20261108/fixed_launch.py": {
+      "sha256": "a3ab4bb7f56eab7c4a44644f71fcba961fb421e4c721f102dddeddd510ef432d"
+    },
+    "/Users/ethan/.codex/worktrees/comllm-colab-7b/s7_fixed_20261108/fixed_acceptance.py": {
+      "sha256": "4ac3600661fba1aa1a9d4d409d30f25ad201173dfc93fb8fcfe6f600de13ca2c"
+    },
+    "/Users/ethan/.codex/worktrees/comllm-colab-7b/s7_fixed_20261108/fixed_comparison.py": {
+      "sha256": "84041cac90e5fdd8cea02b04b07f7ccb31ce8a67cd0968428216b637f410ed75"
+    },
+    "/Users/ethan/Documents/comllm-edge-scheduler/artifacts/s7_fixed_code_20261108/acceptance_terminal.py": {
+      "sha256": "84415ba01248900892812c89d398605a90d107789e3b0083b128d8a3a13c7a61"
+    }
+  },
+  "scope": "Final archive of small outputs only; large adapter/checkpoints/base weights remain Drive",
+  "archive_actions": {
+    "gpu_used_by_archival": false,
+    "new_training_started_by_archival": false,
+    "source_artifacts_modified": false
+  }
+}

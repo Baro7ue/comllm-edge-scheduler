@@ -1,0 +1,80 @@
+{
+  "role": "untrained_sft_baseline",
+  "status": "complete",
+  "no_training": true,
+  "training_steps": 0,
+  "predictions": 5663,
+  "expected_predictions": 5663,
+  "exact_prediction_keys": true,
+  "completed_by_split": {
+    "test_seen": 3010,
+    "test_unseen": 2408,
+    "friend_clean": 245
+  },
+  "new_predictions_this_invocation": 5663,
+  "decode": {
+    "format": "repo",
+    "parse": [
+      "search",
+      "strict"
+    ],
+    "do_sample": false,
+    "max_new_tokens": 15,
+    "repetition_penalty": 1.0,
+    "eval_batch": 4,
+    "max_seq_length": 2048,
+    "use_cache": true,
+    "seed": 0,
+    "eos_rule": "list({tokenizer.eos_token_id, tokenizer.convert_tokens_to_ids('<|im_end|>')}) filtered >=0"
+  },
+  "identity_sha256": "c8348f2aa5c931519c318abd82d52759b10b8b635cfad763a1ebb67ea34eb7c6",
+  "predictions_sha256": "b516d8487413870de3436a7fa0d06805ec7f5afff186fc8e231d5e33a7a5cdf9",
+  "checked_utc": "2026-11-08T12:08:54.074353+00:00",
+  "invocation_seconds": 499.0087513049999,
+  "runtime": {
+    "environment": {
+      "versions": {
+        "torch": "2.14.1+cu130",
+        "transformers": "5.20.2",
+        "peft": "0.21.2",
+        "accelerate": "1.15.0",
+        "numpy": "2.4.6"
+      },
+      "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+    },
+    "tokenizer": {
+      "eos_ids": [
+        151645
+      ],
+      "pad_token_id": 151643,
+      "padding_side": "left",
+      "num_beams": 1,
+      "num_beams_raw": null,
+      "num_beams_effective": 1,
+      "cuda_version": "13.0"
+    },
+    "adapter_audit": {
+      "adapter_loaded": false,
+      "lora_parameter_count": 0,
+      "optimizer_created": false,
+      "new_lora_B_zero_check": "not_applicable_no_adapter_constructed",
+      "model_class": "transformers.models.qwen2.modeling_qwen2.Qwen2ForCausalLM"
+    },
+    "decode": {
+      "format": "repo",
+      "parse": [
+        "search",
+        "strict"
+      ],
+      "do_sample": false,
+      "max_new_tokens": 15,
+      "repetition_penalty": 1.0,
+      "eval_batch": 4,
+      "max_seq_length": 2048,
+      "use_cache": true,
+      "seed": 0,
+      "eos_rule": "list({tokenizer.eos_token_id, tokenizer.convert_tokens_to_ids('<|im_end|>')}) filtered >=0"
+    }
+  },
+  "token_audit_sha256": "5a4d91bfa43e8ad70996bcc925ea9d289576fc5faa5e24759e01fff946a16008"
+}

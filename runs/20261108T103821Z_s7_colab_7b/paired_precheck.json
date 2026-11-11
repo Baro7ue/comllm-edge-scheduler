@@ -1,0 +1,589 @@
+{
+  "schema_version": 1,
+  "status": "paired_small_artifact_precheck_passed",
+  "checked_utc": "2026-11-08T10:39:35.140698+00:00",
+  "scope": "Paired completed training small-artifact precheck; actual adapter tensors not inspected; not final acceptance",
+  "source_drive_folders": {
+    "nolacs": "1ScA7FPrsTGI1VquSqy4sTmTloJ04l0yN",
+    "lacs": "18KrkRkG4MkS7DZIJ7dHBy2QolkMT19TZ"
+  },
+  "group_summaries": {
+    "nolacs": {
+      "step": 208,
+      "elapsed_train_s": 2502.6666326019936,
+      "training_complete": true,
+      "target_steps": 208,
+      "status": "complete",
+      "group": "nolacs",
+      "invocation_seconds": 3606.140981988
+    },
+    "lacs": {
+      "step": 208,
+      "elapsed_train_s": 2503.4651944330008,
+      "training_complete": true,
+      "target_steps": 208,
+      "status": "complete",
+      "group": "lacs",
+      "invocation_seconds": 3608.256021806
+    }
+  },
+  "identity_exactly_matches": true,
+  "identity_canonical_sha256": "f28f4146e127ad37b79f2063165a0e01d06dfcb1cc94ee66121e3b19b2a3cc61",
+  "group_lambda_values_correct": true,
+  "groups": {
+    "nolacs": {
+      "group": "nolacs",
+      "lambda_lacs": 0.0
+    },
+    "lacs": {
+      "group": "lacs",
+      "lambda_lacs": 0.3
+    }
+  },
+  "test_data_sha_both_match_local": true,
+  "nolacs_provenance_files_unchanged": true,
+  "nolacs_validation_100_complete": true,
+  "prediction_metrics": {
+    "nolacs": {
+      "rows": 5663,
+      "unique_keys": 5663,
+      "exact_keys": true,
+      "splits": {
+        "test_seen": {
+          "rows": 3010,
+          "search": {
+            "valid_count": 3010,
+            "legal_rate": 1.0,
+            "correct_count": 1046,
+            "accuracy_vs_best": 0.3475083056478405
+          },
+          "strict": {
+            "valid_count": 3010,
+            "legal_rate": 1.0,
+            "correct_count": 1046,
+            "accuracy_vs_best": 0.3475083056478405
+          }
+        },
+        "test_unseen": {
+          "rows": 2408,
+          "search": {
+            "valid_count": 2408,
+            "legal_rate": 1.0,
+            "correct_count": 833,
+            "accuracy_vs_best": 0.34593023255813954
+          },
+          "strict": {
+            "valid_count": 2408,
+            "legal_rate": 1.0,
+            "correct_count": 833,
+            "accuracy_vs_best": 0.34593023255813954
+          }
+        },
+        "friend_clean": {
+          "rows": 245,
+          "search": {
+            "valid_count": 245,
+            "legal_rate": 1.0,
+            "correct_count": 217,
+            "accuracy_vs_best": 0.8857142857142857
+          },
+          "strict": {
+            "valid_count": 245,
+            "legal_rate": 1.0,
+            "correct_count": 217,
+            "accuracy_vs_best": 0.8857142857142857
+          }
+        }
+      }
+    },
+    "lacs": {
+      "rows": 5663,
+      "unique_keys": 5663,
+      "exact_keys": true,
+      "splits": {
+        "test_seen": {
+          "rows": 3010,
+          "search": {
+            "valid_count": 3010,
+            "legal_rate": 1.0,
+            "correct_count": 1035,
+            "accuracy_vs_best": 0.3438538205980066
+          },
+          "strict": {
+            "valid_count": 3010,
+            "legal_rate": 1.0,
+            "correct_count": 1035,
+            "accuracy_vs_best": 0.3438538205980066
+          }
+        },
+        "test_unseen": {
+          "rows": 2408,
+          "search": {
+            "valid_count": 2408,
+            "legal_rate": 1.0,
+            "correct_count": 813,
+            "accuracy_vs_best": 0.337624584717608
+          },
+          "strict": {
+            "valid_count": 2408,
+            "legal_rate": 1.0,
+            "correct_count": 813,
+            "accuracy_vs_best": 0.337624584717608
+          }
+        },
+        "friend_clean": {
+          "rows": 245,
+          "search": {
+            "valid_count": 245,
+            "legal_rate": 1.0,
+            "correct_count": 215,
+            "accuracy_vs_best": 0.8775510204081632
+          },
+          "strict": {
+            "valid_count": 245,
+            "legal_rate": 1.0,
+            "correct_count": 215,
+            "accuracy_vs_best": 0.8775510204081632
+          }
+        }
+      }
+    }
+  },
+  "prediction_disagreements": {
+    "test_seen": {
+      "rows": 3010,
+      "search_prediction_disagreements": 491,
+      "strict_prediction_disagreements": 491,
+      "raw_text_disagreements": 491
+    },
+    "test_unseen": {
+      "rows": 2408,
+      "search_prediction_disagreements": 394,
+      "strict_prediction_disagreements": 394,
+      "raw_text_disagreements": 394
+    },
+    "friend_clean": {
+      "rows": 245,
+      "search_prediction_disagreements": 3,
+      "strict_prediction_disagreements": 3,
+      "raw_text_disagreements": 3
+    },
+    "total": {
+      "rows": 5663,
+      "search_prediction_disagreements": 888,
+      "strict_prediction_disagreements": 888,
+      "raw_text_disagreements": 888
+    }
+  },
+  "group_checks": {
+    "nolacs": {
+      "training_log": {
+        "rows": 208,
+        "steps_exact": true,
+        "finite_metrics": true,
+        "nonfinite_or_missing_metrics": []
+      },
+      "token_audit": {
+        "train_dropped": 0,
+        "val_dropped": 0,
+        "train_rows": 830,
+        "target_steps": 208
+      },
+      "errors": []
+    },
+    "lacs": {
+      "training_log": {
+        "rows": 208,
+        "steps_exact": true,
+        "finite_metrics": true,
+        "nonfinite_or_missing_metrics": []
+      },
+      "token_audit": {
+        "train_dropped": 0,
+        "val_dropped": 0,
+        "train_rows": 830,
+        "target_steps": 208
+      },
+      "validation_log_complete": true,
+      "errors": []
+    }
+  },
+  "artifact_provenance": {
+    "nolacs": [
+      {
+        "id": "113d3DsJGYf34TcCraCpRbd7G478J6S9I",
+        "path": "summary.json",
+        "url": "https://drive.google.com/file/d/113d3DsJGYf34TcCraCpRbd7G478J6S9I/view?usp=drivesdk",
+        "mime_type": "application/json",
+        "metadata_size": 196,
+        "modified_time": "2026-11-08T09:36:48.259Z",
+        "parent_folder_id": "1ScA7FPrsTGI1VquSqy4sTmTloJ04l0yN",
+        "fetch_size": 196,
+        "fetch_utc": "2026-11-08T09:39:58.632Z",
+        "downloaded_utc": "2026-11-08T09:40:29.533Z",
+        "local_sha256": "52ea3dc4d58cdc2f8618a3260c348335a482cfef392289e6e660c58eb1a2f45c",
+        "local_bytes": 196
+      },
+      {
+        "id": "1xXVjFWYqQ5T-x9XGSVdZLbw9EwXDD4SZ",
+        "path": "config.json",
+        "url": "https://drive.google.com/file/d/1xXVjFWYqQ5T-x9XGSVdZLbw9EwXDD4SZ/view?usp=drivesdk",
+        "mime_type": "application/json",
+        "metadata_size": 6419,
+        "modified_time": "2026-11-08T08:36:57.194Z",
+        "parent_folder_id": "1ScA7FPrsTGI1VquSqy4sTmTloJ04l0yN",
+        "fetch_size": 6419,
+        "fetch_utc": "2026-11-08T09:39:58.397Z",
+        "downloaded_utc": "2026-11-08T09:40:29.537Z",
+        "local_sha256": "d6a3e20e6334ea2eaab345ead2e9dd15f6c0ddae8a20db38eb20e22e8e75df24",
+        "local_bytes": 6419
+      },
+      {
+        "id": "1KABrmEJKEBxR7rQo2Hsv_UDerg-FQ2CH",
+        "path": "token_audit.json",
+        "url": "https://drive.google.com/file/d/1KABrmEJKEBxR7rQo2Hsv_UDerg-FQ2CH/view?usp=drivesdk",
+        "mime_type": "application/json",
+        "metadata_size": 89,
+        "modified_time": "2026-11-08T08:36:58.399Z",
+        "parent_folder_id": "1ScA7FPrsTGI1VquSqy4sTmTloJ04l0yN",
+        "fetch_size": 89,
+        "fetch_utc": "2026-11-08T09:39:58.950Z",
+        "downloaded_utc": "2026-11-08T09:40:29.537Z",
+        "local_sha256": "39c0d6652cf9b59b404800137bbdbd97633be247b900d70ce72dbc372a8917c4",
+        "local_bytes": 89
+      },
+      {
+        "id": "1jXSySaUy7eq5B7gG1a_V9hMjb7rsa4F8",
+        "path": "train_log.jsonl",
+        "url": "https://drive.google.com/file/d/1jXSySaUy7eq5B7gG1a_V9hMjb7rsa4F8/view?usp=drivesdk",
+        "mime_type": "application/octet-stream",
+        "metadata_size": 40881,
+        "modified_time": "2026-11-08T09:22:53.128Z",
+        "parent_folder_id": "1ScA7FPrsTGI1VquSqy4sTmTloJ04l0yN",
+        "fetch_size": 40881,
+        "fetch_utc": "2026-11-08T09:39:59.159Z",
+        "downloaded_utc": "2026-11-08T09:40:29.537Z",
+        "local_sha256": "f236358774ec951ff85e54e6721cdceb9277a384e0d976fd18974a92e7a4738d",
+        "local_bytes": 40881
+      },
+      {
+        "id": "1cyuULXNOLch_dZi2XYfy1-_5_eEGBSeA",
+        "path": "val_log.jsonl",
+        "url": "https://drive.google.com/file/d/1cyuULXNOLch_dZi2XYfy1-_5_eEGBSeA/view?usp=drivesdk",
+        "mime_type": "application/octet-stream",
+        "metadata_size": 453,
+        "modified_time": "2026-11-08T09:23:25.708Z",
+        "parent_folder_id": "1ScA7FPrsTGI1VquSqy4sTmTloJ04l0yN",
+        "fetch_size": 453,
+        "fetch_utc": "2026-11-08T09:39:58.747Z",
+        "downloaded_utc": "2026-11-08T09:40:29.538Z",
+        "local_sha256": "74b4c54f70c3f7974255895b2b81cf87b031d1ed0d142f63a230baea419b2aaf",
+        "local_bytes": 453
+      },
+      {
+        "id": "1qy3DFC12TLf_kjGl-ehqwJLHXwK5MDKa",
+        "path": "data_audit.json",
+        "url": "https://drive.google.com/file/d/1qy3DFC12TLf_kjGl-ehqwJLHXwK5MDKa/view?usp=drivesdk",
+        "mime_type": "application/json",
+        "metadata_size": 851,
+        "modified_time": "2026-11-08T08:36:50.676Z",
+        "parent_folder_id": "1ScA7FPrsTGI1VquSqy4sTmTloJ04l0yN",
+        "fetch_size": 851,
+        "fetch_utc": "2026-11-08T09:40:00.259Z",
+        "downloaded_utc": "2026-11-08T09:40:29.538Z",
+        "local_sha256": "150ade6cab38af1511ba65f756bd38c03e0869f7c53316270d62a73f92a54af1",
+        "local_bytes": 851
+      },
+      {
+        "id": "1_ARjGoJXT7RlPVeRG8vARqcjF4KyMeCG",
+        "path": "preds.csv",
+        "url": "https://drive.google.com/file/d/1_ARjGoJXT7RlPVeRG8vARqcjF4KyMeCG/view?usp=drivesdk",
+        "mime_type": "text/csv",
+        "metadata_size": 264151,
+        "modified_time": "2026-11-08T09:22:53.337Z",
+        "parent_folder_id": "1ScA7FPrsTGI1VquSqy4sTmTloJ04l0yN",
+        "fetch_size": 264151,
+        "fetch_utc": "2026-11-08T09:40:00.158Z",
+        "downloaded_utc": "2026-11-08T09:40:29.538Z",
+        "local_sha256": "54618a67d1f0cea91f991b91f81be8af936f190ae1bbe25b62dafc748dedb736",
+        "local_bytes": 264151
+      },
+      {
+        "id": "15OQfLxMK5-4gN4ZAJLybWrzT53ztt5qs",
+        "path": "lora/adapter_config.json",
+        "url": "https://drive.google.com/file/d/15OQfLxMK5-4gN4ZAJLybWrzT53ztt5qs/view?usp=drivesdk",
+        "mime_type": "application/json",
+        "metadata_size": 1174,
+        "modified_time": "2026-11-08T09:22:53.272Z",
+        "parent_folder_id": "1sbiasoKVGDdFONPSEak7_Bw7O_sX0824",
+        "fetch_size": 1174,
+        "fetch_utc": "2026-11-08T09:40:00.260Z",
+        "downloaded_utc": "2026-11-08T09:40:29.538Z",
+        "local_sha256": "27704a524daea4f2e88d6687f034bfaa59fc0d09bd8793850e04ce361c8e275c",
+        "local_bytes": 1174
+      }
+    ],
+    "lacs": [
+      {
+        "id": "1piz0xea-IEfeJjGhdilRqexucXYh4Hot",
+        "path": "summary.json",
+        "url": "https://drive.google.com/file/d/1piz0xea-IEfeJjGhdilRqexucXYh4Hot/view?usp=drivesdk",
+        "mime_type": "application/json",
+        "metadata_size": 194,
+        "modified_time": "2026-11-08T10:36:57.617Z",
+        "parent_folder_id": "18KrkRkG4MkS7DZIJ7dHBy2QolkMT19TZ",
+        "fetch_size": 194,
+        "fetch_utc": "2026-11-08T10:38:14.892Z",
+        "downloaded_utc": "2026-11-08T10:38:45.360Z",
+        "local_sha256": "adbbecc07731e973e262dcc017d2d1e331605fe5060bf9c24987163b4df39407",
+        "local_bytes": 194,
+        "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/lacs/summary.json",
+        "current_local_sha256": "adbbecc07731e973e262dcc017d2d1e331605fe5060bf9c24987163b4df39407",
+        "provenance_matches_current": true
+      },
+      {
+        "id": "1EHs0CzXLElA8qZAralI-ekM6kyCBmeWp",
+        "path": "config.json",
+        "url": "https://drive.google.com/file/d/1EHs0CzXLElA8qZAralI-ekM6kyCBmeWp/view?usp=drivesdk",
+        "mime_type": "application/json",
+        "metadata_size": 6400,
+        "modified_time": "2026-11-08T09:37:04.427Z",
+        "parent_folder_id": "18KrkRkG4MkS7DZIJ7dHBy2QolkMT19TZ",
+        "fetch_size": 6400,
+        "fetch_utc": "2026-11-08T10:38:16.490Z",
+        "downloaded_utc": "2026-11-08T10:38:45.362Z",
+        "local_sha256": "11b18964ed31d148925de4cc9481e912dece91e7ac0b89f7e0789c475197dce4",
+        "local_bytes": 6400,
+        "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/lacs/config.json",
+        "current_local_sha256": "11b18964ed31d148925de4cc9481e912dece91e7ac0b89f7e0789c475197dce4",
+        "provenance_matches_current": true
+      },
+      {
+        "id": "1CwpcaZOJBxi_fKALI6QjnaO8LLjjxnnb",
+        "path": "token_audit.json",
+        "url": "https://drive.google.com/file/d/1CwpcaZOJBxi_fKALI6QjnaO8LLjjxnnb/view?usp=drivesdk",
+        "mime_type": "application/json",
+        "metadata_size": 89,
+        "modified_time": "2026-11-08T09:37:05.681Z",
+        "parent_folder_id": "18KrkRkG4MkS7DZIJ7dHBy2QolkMT19TZ",
+        "fetch_size": 89,
+        "fetch_utc": "2026-11-08T10:38:13.134Z",
+        "downloaded_utc": "2026-11-08T10:38:45.362Z",
+        "local_sha256": "39c0d6652cf9b59b404800137bbdbd97633be247b900d70ce72dbc372a8917c4",
+        "local_bytes": 89,
+        "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/lacs/token_audit.json",
+        "current_local_sha256": "39c0d6652cf9b59b404800137bbdbd97633be247b900d70ce72dbc372a8917c4",
+        "provenance_matches_current": true
+      },
+      {
+        "id": "1s10rGt8YIrHaZHISthPGXkid9f7n_mH6",
+        "path": "train_log.jsonl",
+        "url": "https://drive.google.com/file/d/1s10rGt8YIrHaZHISthPGXkid9f7n_mH6/view?usp=drivesdk",
+        "mime_type": "application/octet-stream",
+        "metadata_size": 40908,
+        "modified_time": "2026-11-08T10:23:02.890Z",
+        "parent_folder_id": "18KrkRkG4MkS7DZIJ7dHBy2QolkMT19TZ",
+        "fetch_size": 40908,
+        "fetch_utc": "2026-11-08T10:38:15.759Z",
+        "downloaded_utc": "2026-11-08T10:38:45.362Z",
+        "local_sha256": "0660a63e01195be51a23dc06ea5834ccbe4a3db41f81d24948cf7cd389315e85",
+        "local_bytes": 40908,
+        "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/lacs/train_log.jsonl",
+        "current_local_sha256": "0660a63e01195be51a23dc06ea5834ccbe4a3db41f81d24948cf7cd389315e85",
+        "provenance_matches_current": true
+      },
+      {
+        "id": "1brDKgSF9dznUVCo7jen9dh7vPYLTcBGH",
+        "path": "val_log.jsonl",
+        "url": "https://drive.google.com/file/d/1brDKgSF9dznUVCo7jen9dh7vPYLTcBGH/view?usp=drivesdk",
+        "mime_type": "application/octet-stream",
+        "metadata_size": 453,
+        "modified_time": "2026-11-08T10:23:32.346Z",
+        "parent_folder_id": "18KrkRkG4MkS7DZIJ7dHBy2QolkMT19TZ",
+        "fetch_size": 453,
+        "fetch_utc": "2026-11-08T10:38:15.731Z",
+        "downloaded_utc": "2026-11-08T10:38:45.362Z",
+        "local_sha256": "bf18b7c92871a4f9d9a178582e162146b75699cbe284ad9d3646c7d1f64f5b20",
+        "local_bytes": 453,
+        "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/lacs/val_log.jsonl",
+        "current_local_sha256": "bf18b7c92871a4f9d9a178582e162146b75699cbe284ad9d3646c7d1f64f5b20",
+        "provenance_matches_current": true
+      },
+      {
+        "id": "1MGr1nXr0SXi94Ex_cP8Heq6SmabEgjEn",
+        "path": "data_audit.json",
+        "url": "https://drive.google.com/file/d/1MGr1nXr0SXi94Ex_cP8Heq6SmabEgjEn/view?usp=drivesdk",
+        "mime_type": "application/json",
+        "metadata_size": 851,
+        "modified_time": "2026-11-08T09:36:57.922Z",
+        "parent_folder_id": "18KrkRkG4MkS7DZIJ7dHBy2QolkMT19TZ",
+        "fetch_size": 851,
+        "fetch_utc": "2026-11-08T10:38:15.730Z",
+        "downloaded_utc": "2026-11-08T10:38:45.362Z",
+        "local_sha256": "150ade6cab38af1511ba65f756bd38c03e0869f7c53316270d62a73f92a54af1",
+        "local_bytes": 851,
+        "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/lacs/data_audit.json",
+        "current_local_sha256": "150ade6cab38af1511ba65f756bd38c03e0869f7c53316270d62a73f92a54af1",
+        "provenance_matches_current": true
+      },
+      {
+        "id": "1atBSJ7b7z7ZC4jH1l8_n3Kwib45TZmJM",
+        "path": "preds.csv",
+        "url": "https://drive.google.com/file/d/1atBSJ7b7z7ZC4jH1l8_n3Kwib45TZmJM/view?usp=drivesdk",
+        "mime_type": "text/csv",
+        "metadata_size": 264121,
+        "modified_time": "2026-11-08T10:23:03.021Z",
+        "parent_folder_id": "18KrkRkG4MkS7DZIJ7dHBy2QolkMT19TZ",
+        "fetch_size": 264121,
+        "fetch_utc": "2026-11-08T10:38:15.909Z",
+        "downloaded_utc": "2026-11-08T10:38:45.362Z",
+        "local_sha256": "3fae2baf5a720eb2ac2803d0d3cd1e0a4e48ef9de3d7accc20515fe0548e6aac",
+        "local_bytes": 264121,
+        "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/lacs/preds.csv",
+        "current_local_sha256": "3fae2baf5a720eb2ac2803d0d3cd1e0a4e48ef9de3d7accc20515fe0548e6aac",
+        "provenance_matches_current": true
+      },
+      {
+        "id": "1TBcENeUe5ShNS0qY3AS3PEPjGVJEaP2T",
+        "path": "lora/adapter_config.json",
+        "url": "https://drive.google.com/file/d/1TBcENeUe5ShNS0qY3AS3PEPjGVJEaP2T/view?usp=drivesdk",
+        "mime_type": "application/json",
+        "metadata_size": 1174,
+        "modified_time": "2026-11-08T10:23:02.959Z",
+        "parent_folder_id": "1MLQWwRNpzObXMym-vda39k0VCtB4Leqm",
+        "fetch_size": 1174,
+        "fetch_utc": "2026-11-08T10:38:15.733Z",
+        "downloaded_utc": "2026-11-08T10:38:45.362Z",
+        "local_sha256": "3a20ed8d2c04c8ad99ddc8bfe65f1d6a318bae7c60034bca64eddd689924f2a8",
+        "local_bytes": 1174,
+        "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/lacs/lora/adapter_config.json",
+        "current_local_sha256": "3a20ed8d2c04c8ad99ddc8bfe65f1d6a318bae7c60034bca64eddd689924f2a8",
+        "provenance_matches_current": true
+      }
+    ]
+  },
+  "precheck_reports": {
+    "nolacs": {
+      "path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/nolacs/precheck.json",
+      "sha256": "aaf1e7a3b1ee0427e269b8eec3e6d9751b573c102ad89aed61eae9716953d91c"
+    },
+    "lacs": {
+      "path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/lacs/precheck.json",
+      "sha256": "22e1900d4d865482ecae23adca1920bff1ca67470dd9eee5e2b9610742116b62"
+    }
+  },
+  "adapter_tensor_verification": {
+    "nolacs": "not_performed",
+    "lacs": "not_performed"
+  },
+  "final_acceptance": false,
+  "pending": [
+    "CPU finite and nonzero LoRA B checks on actual nolacs and lacs adapter_model.safetensors",
+    "joint final acceptance after adapter tensor verification"
+  ],
+  "precheck_actions": {
+    "remote_operations": "Google Drive connector read-only folder listing and 8 bounded small-file fetches",
+    "downloaded_small_files": 8,
+    "downloaded_large_adapter_or_base_weights": false,
+    "executed_training_or_evaluation": false,
+    "gpu_apis_called": false,
+    "browser_colab_jetson_accessed": false,
+    "source_artifacts_or_models_modified": false,
+    "local_new_files_only": true
+  },
+  "final_acceptance_reference": {
+    "status": "passed",
+    "source": "Downloaded actual Colab strict joint CPU acceptance report; this operation did not rerun tensor checks",
+    "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/acceptance_20261108T103821.435715Z.json",
+    "local_sha256": "28accfda57ff3a359f030ecd74d73bb789432cddd6bfc6ffabe9527388f2d92a",
+    "drive_file_id": "1Md8N-fxuQ2T6aSt5ESdYxZzeAtQrWbAa",
+    "drive_parent_folder_id": "1x6wN8T1jNGMkNkrvYBEQsZabX_c3TK5C",
+    "report_checked_utc": "2026-11-08T10:38:21.435715+00:00",
+    "reference_verified_utc": "2026-11-08T10:41:39.983528+00:00",
+    "outer_status": "passed",
+    "verifier_status": "passed",
+    "paired_identity_matches": true,
+    "downloaded_pair_matches_both_local_config_identities": true,
+    "adapter_sha256_values_differ": true,
+    "groups": {
+      "nolacs": {
+        "adapter_sha256": "4b5dc12b1300d91d18d5cc9cfeefe791ebe04fb579d1868f3741dab7d69c905e",
+        "bytes": 645975704,
+        "tensor_count": 392,
+        "parameters": 161480704,
+        "all_tensors_finite": true,
+        "nonzero_lora_B_tensor_count": 196,
+        "tensor_check_device": "cpu"
+      },
+      "lacs": {
+        "adapter_sha256": "dc1ce5def49209b34bb03fbf863c5ebe96a6aedda1a86a9ba4bfa7d1e5e51012",
+        "bytes": 645975704,
+        "tensor_count": 392,
+        "parameters": 161480704,
+        "all_tensors_finite": true,
+        "nonzero_lora_B_tensor_count": 196,
+        "tensor_check_device": "cpu"
+      }
+    },
+    "supporting_files": [
+      {
+        "id": "1hzEkZV9wYEhtx_r5JgTyZKexo5t6HHJc",
+        "path": "colab_environment.json",
+        "url": "https://drive.google.com/file/d/1hzEkZV9wYEhtx_r5JgTyZKexo5t6HHJc/view?usp=drivesdk",
+        "mime_type": "application/json",
+        "metadata_size": 361,
+        "modified_time": "2026-11-08T10:36:58.708Z",
+        "parent_ids": [
+          "1x6wN8T1jNGMkNkrvYBEQsZabX_c3TK5C"
+        ],
+        "fetch_size": 361,
+        "fetch_utc": "2026-11-08T10:40:53.672Z",
+        "downloaded_utc": "2026-11-08T10:41:08.326Z",
+        "local_sha256": "1ba1b814e721eca051869a7969b09a22351a7b963dce6221925aeba071734746",
+        "local_bytes": 361
+      },
+      {
+        "id": "161o6sOq15ULLwMHzN0nfBglYSeT0SXl1",
+        "path": "pair.json",
+        "url": "https://drive.google.com/file/d/161o6sOq15ULLwMHzN0nfBglYSeT0SXl1/view?usp=drivesdk",
+        "mime_type": "application/json",
+        "metadata_size": 5252,
+        "modified_time": "2026-11-08T09:37:05.212Z",
+        "parent_ids": [
+          "1x6wN8T1jNGMkNkrvYBEQsZabX_c3TK5C"
+        ],
+        "fetch_size": 5252,
+        "fetch_utc": "2026-11-08T10:40:55.875Z",
+        "downloaded_utc": "2026-11-08T10:41:08.326Z",
+        "local_sha256": "0e2e10c441106e9b650fca0d64a5edbdaa7e46c675d999220d6a064f0f7a6f1d",
+        "local_bytes": 5252
+      }
+    ],
+    "report_download_provenance": {
+      "id": "1Md8N-fxuQ2T6aSt5ESdYxZzeAtQrWbAa",
+      "path": "acceptance_20261108T103821.435715Z.json",
+      "url": "https://drive.google.com/file/d/1Md8N-fxuQ2T6aSt5ESdYxZzeAtQrWbAa/view?usp=drivesdk",
+      "mime_type": "application/json",
+      "metadata_size": 56761,
+      "modified_time": "2026-11-08T10:38:24.722Z",
+      "parent_ids": [
+        "1x6wN8T1jNGMkNkrvYBEQsZabX_c3TK5C"
+      ],
+      "fetch_size": 56761,
+      "fetch_utc": "2026-11-08T10:40:53.499Z",
+      "downloaded_utc": "2026-11-08T10:41:08.325Z",
+      "local_sha256": "28accfda57ff3a359f030ecd74d73bb789432cddd6bfc6ffabe9527388f2d92a",
+      "local_bytes": 56761
+    },
+    "precheck_sha256_before_adding_reference": "85760185cec9e299876490a8bb764e93503e957a68fb1083419b4801e06f44fe",
+    "precheck_snapshot_preserved": true,
+    "precheck_actions": {
+      "downloaded_small_files": 3,
+      "downloaded_adapter_or_base_weights": false,
+      "ran_tensor_checks_locally": false,
+      "executed_training_or_evaluation": false,
+      "gpu_apis_called": false,
+      "browser_colab_jetson_accessed": false
+    }
+  }
+}

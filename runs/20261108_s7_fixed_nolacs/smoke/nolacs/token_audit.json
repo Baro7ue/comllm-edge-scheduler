@@ -1,0 +1,6 @@
+{
+  "train_dropped": 0,
+  "val_dropped": 0,
+  "train_rows": 830,
+  "target_steps": 8
+}

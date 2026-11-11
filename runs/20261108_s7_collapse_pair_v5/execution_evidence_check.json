@@ -1,0 +1,25 @@
+{
+  "checked_utc": "2026-11-08T14:20:41.729400+00:00",
+  "status": "passed",
+  "source_files": 32,
+  "source_bytes": 130904,
+  "all_metadata_fetch_local_sizes_and_sha_match": true,
+  "execution_source_manifest_verified_files": 6,
+  "execution_stdout_sha256": "fd4b7db0107853616b46f0218072540b941304a71031d2e11bab9c2e09baf517",
+  "completed_update_stdout_records": 20,
+  "root_completed_updates": 20,
+  "prior_failed_updates": 4,
+  "whole_investigation_updates": 24,
+  "v5_root_runtime_seconds": 281.0864513380002,
+  "v5_stdout_complete_marker": true,
+  "v5_stdout_unhandled_traceback": false,
+  "probe_source_sha256": "66615b07692a83221ab33ed25192af38fe1595e3bd3781c7d3a0f90abe8797ad",
+  "cpu_postprocessor_audit_sha256": "5502ccf34951cc6c57f1ca90da4b4d69ae9749b1747092fae02e0f1c8da78cc6",
+  "download_provenance_sha256": "6bcb37595a3544c0b5ea9a2c59206879484d20e8197bdc4b90b87eaa305844bf",
+  "scope": "Matched-initialization diagnostic; not exact archived replay; prior failures count budget only",
+  "archival_actions": {
+    "gpu_used": false,
+    "new_training_or_inference_started": false,
+    "source_runs_modified": false
+  }
+}

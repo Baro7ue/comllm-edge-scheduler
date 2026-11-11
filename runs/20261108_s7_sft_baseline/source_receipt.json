@@ -1,0 +1,19 @@
+{
+  "checked_utc": "2026-11-08T12:11:34.536114+00:00",
+  "status": "completed_baseline_archived_and_cpu_compared",
+  "source_success_drive_folder_id": "1V3fqSprQwZd5ShDz9n3u5hEr7JcleZQ1",
+  "source_failed_v1_drive_folder_id": "15eIk_XgvCajTraINzRMw94yTIWkDPTIT",
+  "source_notebook_drive_file_id": "1aLrsp1a81vNhHJsLOgBSag2HlOO42ire",
+  "baseline_script_sha256": "b6e0ea1177bee23b06536d9dd3b55c71c7acbc072eea4b045c4a68390dcd1740",
+  "baseline_predictions_sha256": "b516d8487413870de3436a7fa0d06805ec7f5afff186fc8e231d5e33a7a5cdf9",
+  "final_summary_sha256": "6f483c208a89d84ca825b1a9e12cc8f5d90c6b90b7a4da0f8113adcd5713e9b6",
+  "notebook_sha256": "7ad602de7db5e9aeae8ccca793c53698951593239faeef200b7916bc0696e317",
+  "comparison_output": "/Users/ethan/Documents/comllm-edge-scheduler/artifacts/s7_sft_baseline_comparison_20261108",
+  "comparison_audit_sha256": "c1e790e142eca86300bbe15560992e0ccda64a29f2c173a0d3f8e09def77c01a",
+  "comparison_manifest_sha256": "a200420afb4b9ee5f4b48f9dade784ff5e83520f9f49bd95494f5052a461cc52",
+  "comparison_script_sha256": "8ad7acf2fd4e9b472edabfe110e7dabfcf410a8d0c21373156e2e30c849da417",
+  "final_download_provenance_sha256": "873dfe7c91aa9c4b870cb9026f480643efd58e3ed4f446d4485adbb2acf67618",
+  "no_training_or_gpu_execution_by_archiver": true,
+  "no_large_weights_downloaded": true,
+  "old_finetuned_runs_unchanged": true
+}

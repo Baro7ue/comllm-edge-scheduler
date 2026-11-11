@@ -1,0 +1,72 @@
+{
+  "checked_utc": "2026-11-08T14:23:43.878257+00:00",
+  "status": "complete_archived_and_cpu_checked",
+  "role": "new_matched_initialization_diagnostic",
+  "source_drive_root_id": "1XDjO_3Kn2xcIrXjYaYiS_ukGFuiXUT36",
+  "source_drive_root_name": "s7_collapse_pair_v5_20261108",
+  "source_drive_code_file_id": "14WishkLfvbFfrWkYJWzF2nCkfsITWua1",
+  "source_drive_code_sha256": "66615b07692a83221ab33ed25192af38fe1595e3bd3781c7d3a0f90abe8797ad",
+  "source_count": 32,
+  "source_bytes": 130904,
+  "download_provenance": {
+    "path": "final_download_provenance.json",
+    "sha256": "6bcb37595a3544c0b5ea9a2c59206879484d20e8197bdc4b90b87eaa305844bf",
+    "contains": "Drive IDs/parents/modification/fetch/download UTC/raw and local byte counts/SHA for all32 source files"
+  },
+  "execution_evidence": {
+    "directory": "execution_evidence",
+    "source_manifest_sha256": "d1da5847d8ed74f3434722349300daaa64da9ece30e5b439dba09d36b6d7ca3d",
+    "source_manifest_entries_verified": 6,
+    "stdout_complete_marker": true,
+    "current_stdout_has_unhandled_traceback": false
+  },
+  "initial_state_guard": {
+    "A_fingerprint": {
+      "lora_A_sha256": "ba69df5cbed80bbb017794e069f9068f356b7e17a89de8888106d782c060da89",
+      "torch_num_threads": 24,
+      "torch_num_interop_threads": 24,
+      "default_dtype": "torch.float32",
+      "attention_implementation": "sdpa"
+    },
+    "combined_torch_cpu_cuda_rng_sha256": "ca545ae4a7a7731c85d775f57066bb4c09ee7cab57b30ebfb6c6013276431f4e",
+    "all3_equal_and_B_zero": true
+  },
+  "updates": {
+    "baseline": 7,
+    "full_support": 6,
+    "balanced_prefix": 7,
+    "prior_failed_v3": 2,
+    "prior_failed_v4": 2,
+    "all_attempts_total": 24
+  },
+  "analysis": {
+    "directory": "/Users/ethan/Documents/comllm-edge-scheduler/artifacts/s7_collapse_audit_20261108/paired_results",
+    "manifest_sha256": "ee51e8754cf255e512ff25917397b0ee4fdbd5bdfad2be6cfb7429fa578d4473",
+    "audit_sha256": "5502ccf34951cc6c57f1ca90da4b4d69ae9749b1747092fae02e0f1c8da78cc6",
+    "independent_check_sha256": "948bf2669698fcbf367070a474e10d2f5a7bad0862c2d97758629aefd59bc288"
+  },
+  "source_snapshots": {
+    "archive/collapse_pair_v5.py": {
+      "bytes": 15958,
+      "sha256": "66615b07692a83221ab33ed25192af38fe1595e3bd3781c7d3a0f90abe8797ad"
+    },
+    "archive/independent_check.json": {
+      "bytes": 75213,
+      "sha256": "948bf2669698fcbf367070a474e10d2f5a7bad0862c2d97758629aefd59bc288"
+    },
+    "archive/launch_terminal_v5.py": {
+      "bytes": 1450,
+      "sha256": "9680cfdf368b411bd25e72ca569d211908fd6617f850b6f0be3108a3530f3870"
+    },
+    "archive/postprocess.py": {
+      "bytes": 22040,
+      "sha256": "dbec7b3006d99d0127d26deca3234eeeb9fc35eede84935b5dfb69ed424bb918"
+    }
+  },
+  "scope": "Small artifact/source/log archive only; no diagnostic adapter exported; no large model/checkpoint downloaded",
+  "archival_actions": {
+    "new_training_or_gpu_inference_started": false,
+    "previous_runs_modified": false,
+    "root_summary_report_modified": false
+  }
+}

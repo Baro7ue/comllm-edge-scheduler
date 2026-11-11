@@ -1,0 +1,34 @@
+{
+  "files": {
+    "stdout.log": {
+      "source": "/content/s7_collapse_pair_v5_20261108.log",
+      "bytes": 3286,
+      "sha256": "fd4b7db0107853616b46f0218072540b941304a71031d2e11bab9c2e09baf517"
+    },
+    "launch.json": {
+      "source": "/content/s7_collapse_pair_v5_launch.json",
+      "bytes": 378,
+      "sha256": "785211f44fb7a5645d354c6cefe6c5e4593467aafd42653df9ec4947dd3d801b"
+    },
+    "failed_v3_stdout.log": {
+      "source": "/content/s7_collapse_probe_20261108.log",
+      "bytes": 1057,
+      "sha256": "8350a1a8f781b68bd300d987836b1f3893eada9934aa34c401dd31ead9e6e09b"
+    },
+    "failed_v3_launch.json": {
+      "source": "/content/s7_collapse_probe_launch.json",
+      "bytes": 347,
+      "sha256": "7e752fae3542e3086c1e89e2587fa6ab6732156445682e2c6e0de3400d4f8e85"
+    },
+    "failed_v4_stdout.log": {
+      "source": "/content/s7_collapse_probe_v4_20261108.log",
+      "bytes": 921,
+      "sha256": "6e6e36531e6c24ccdb49fa98f4b9a83beda8b183bbaa5d507e6efea6e868a316"
+    },
+    "failed_v4_launch.json": {
+      "source": "/content/s7_collapse_probe_v4_launch.json",
+      "bytes": 380,
+      "sha256": "e28dea5ca83525b52a0542a71b2d1cf46b3e50b7584a286baa66060b0337abdf"
+    }
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "checked_utc": "2026-11-08T13:47:37.858Z",
+  "source_drive_root_id": "10LHcVnzb_Zs1LTSTswC5hEOFN0pOS-xn",
+  "scope": "Final small artifacts from completed208-step fixed nolacs; actual CPU acceptance report and executed notebook; weights/checkpoints remain Drive",
+  "files": [
+    {
+      "drive_file_id": "1s6XwmG4Ey86TMJpnouMHHdSGVlqmOEuf",
+      "drive_parent_id": "10LHcVnzb_Zs1LTSTswC5hEOFN0pOS-xn",
+      "relative_path": "fixed_acceptance_20261108T134519.138956Z.json",
+      "drive_modified_utc": "2026-11-08T13:45:19.142Z",
+      "metadata_bytes": 36702,
+      "fetch_bytes": 36702,
+      "fetched_utc": "2026-11-08T13:46:41.357Z",
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_fixed_nolacs/fixed_acceptance_20261108T134519.138956Z.json",
+      "downloaded_utc": "2026-11-08T13:47:06.202Z",
+      "local_bytes": 36702,
+      "local_sha256": "71f4ee5603d63ad6a377f5dd568c1f6f355c8f20510d7d2b735b9dea5b4ced94"
+    },
+    {
+      "drive_file_id": "1RTCT457QpzO97Y9xgduXMO7X5f5ZBEns",
+      "drive_parent_id": "1BTGHyGFwuoX19ugwSlsFxYfs7ijnK9yy",
+      "relative_path": "nolacs/summary.json",
+      "drive_modified_utc": "2026-11-08T13:44:35.454Z",
+      "metadata_bytes": 196,
+      "fetch_bytes": 196,
+      "fetched_utc": "2026-11-08T13:46:42.726Z",
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_fixed_nolacs/nolacs/summary.json",
+      "downloaded_utc": "2026-11-08T13:47:06.220Z",
+      "local_bytes": 196,
+      "local_sha256": "cc555be05ef0da8dadbbbf86d1834155db1f3055ee14a700d35684e293aed997"
+    },
+    {
+      "drive_file_id": "1Qa1ai9q6nlpuR7mLm-2Ml8lri3DjYmUw",
+      "drive_parent_id": "1BTGHyGFwuoX19ugwSlsFxYfs7ijnK9yy",
+      "relative_path": "nolacs/preds.csv",
+      "drive_modified_utc": "2026-11-08T13:30:40.737Z",
+      "metadata_bytes": 264148,
+      "fetch_bytes": 264148,
+      "fetched_utc": "2026-11-08T13:47:19.929Z",
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_fixed_nolacs/nolacs/preds.csv",
+      "downloaded_utc": "2026-11-08T13:47:37.811Z",
+      "expected_sha256": "77c3a9693407413265a310c92f3cb2834434be397923562a3d89e2e25940465c",
+      "local_bytes": 264148,
+      "local_sha256": "77c3a9693407413265a310c92f3cb2834434be397923562a3d89e2e25940465c"
+    },
+    {
+      "drive_file_id": "1MuDH-SorTCQVx-DGyPo4WW6qyQrLYo22",
+      "drive_parent_id": "1BTGHyGFwuoX19ugwSlsFxYfs7ijnK9yy",
+      "relative_path": "nolacs/policy_consistency_probe.json",
+      "drive_modified_utc": "2026-11-08T13:30:40.094Z",
+      "metadata_bytes": 637,
+      "fetch_bytes": 637,
+      "fetched_utc": "2026-11-08T13:47:19.668Z",
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_fixed_nolacs/nolacs/policy_consistency_probe.json",
+      "downloaded_utc": "2026-11-08T13:47:37.821Z",
+      "expected_sha256": "ea2a2d35cbd0a7b0d8a5386b9edae9a15dbf436adba1235844378876aa1b5b6e",
+      "local_bytes": 637,
+      "local_sha256": "ea2a2d35cbd0a7b0d8a5386b9edae9a15dbf436adba1235844378876aa1b5b6e"
+    },
+    {
+      "drive_file_id": "1p0wh5KkCcMUZphY79hh_KJSW3HxFLGRj",
+      "drive_parent_id": "1_YKlxcMpHnBj0khF-6-1gdd9rxuVMizI",
+      "relative_path": "nolacs/lora/adapter_config.json",
+      "drive_modified_utc": "2026-11-08T13:30:40.668Z",
+      "metadata_bytes": 1173,
+      "fetch_bytes": 1173,
+      "fetched_utc": "2026-11-08T13:47:18.044Z",
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_fixed_nolacs/nolacs/lora/adapter_config.json",
+      "downloaded_utc": "2026-11-08T13:47:37.839Z",
+      "expected_sha256": null,
+      "local_bytes": 1173,
+      "local_sha256": "f75af7d8fe008562d61f30898c35e4a5d3675578646fc98a6a59804121a1d32b"
+    },
+    {
+      "drive_file_id": "1aLrsp1a81vNhHJsLOgBSag2HlOO42ire",
+      "drive_parent_id": "1wieBcfsk6qpX1cvfKMYKxDYpa2bnkuOT",
+      "relative_path": "archive/S7_7B复现.fixed.executed.ipynb",
+      "drive_modified_utc": "2026-11-08T13:45:01.882Z",
+      "metadata_bytes": 49524,
+      "fetch_bytes": 49524,
+      "fetched_utc": "2026-11-08T13:47:18.375Z",
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_fixed_nolacs/archive/S7_7B复现.fixed.executed.ipynb",
+      "downloaded_utc": "2026-11-08T13:47:37.852Z",
+      "expected_sha256": null,
+      "local_bytes": 49524,
+      "local_sha256": "2cc845e0f91fafe99dd7f21e23b3e7977f0f5a4ede1767ad646bf0dffc500124"
+    }
+  ],
+  "precheck_actions": {
+    "downloaded_only_completed_final_artifacts": true,
+    "downloaded_model_or_checkpoint": false,
+    "gpu_used": false
+  }
+}

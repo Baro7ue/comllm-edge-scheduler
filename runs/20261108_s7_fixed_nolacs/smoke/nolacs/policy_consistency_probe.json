@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "rows": 2,
+  "dropout_zero": true,
+  "active_dropout_modules": [],
+  "initial_lora_B_all_zero": false,
+  "lora_B_nonzero_count": 196,
+  "require_nonzero_b": true,
+  "base_parameters_frozen": true,
+  "optimizer_lora_only": true,
+  "scope": "forced-token raw/temperature logps; excludes top_p truncation; no training",
+  "reference_logprob_max_abs_diff": 0.0,
+  "reference_logprobs_sha256": "10ea03dedf983fd8f923a24a6b2a61fa6fd2f873f13b64841c79cbd0cab95a04",
+  "finite": true,
+  "eval_repeat_logprob_max_abs_diff": 0.0,
+  "train_eval_logprob_max_abs_diff": 0.0,
+  "ratio_max_abs_error": 0.0,
+  "RNG_restored": true
+}

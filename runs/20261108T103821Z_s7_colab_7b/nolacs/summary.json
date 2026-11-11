@@ -1,0 +1,9 @@
+{
+  "step": 208,
+  "elapsed_train_s": 2502.6666326019936,
+  "training_complete": true,
+  "target_steps": 208,
+  "status": "complete",
+  "group": "nolacs",
+  "invocation_seconds": 3606.140981988
+}

@@ -1,0 +1,30 @@
+{
+  "role": "untrained_sft_baseline",
+  "splits": {
+    "test_seen": {
+      "rows": 3010,
+      "dropped": 0,
+      "prompt_tokens_min": 898,
+      "prompt_tokens_max": 1826,
+      "prompt_tokens_median": 1357.0,
+      "ordered_prompt_token_ids_sha256": "578f2852571d006158488cc5322df2a67f4debf6240dab5e8cc9463cc5c173ae"
+    },
+    "test_unseen": {
+      "rows": 2408,
+      "dropped": 0,
+      "prompt_tokens_min": 1012,
+      "prompt_tokens_max": 1708,
+      "prompt_tokens_median": 1358.5,
+      "ordered_prompt_token_ids_sha256": "0c66bdc280991c274b72176038b78d986b7c92ab60e996ea82aa98b4ca9b4cf7"
+    },
+    "friend_clean": {
+      "rows": 245,
+      "dropped": 0,
+      "prompt_tokens_min": 898,
+      "prompt_tokens_max": 1821,
+      "prompt_tokens_median": 1356,
+      "ordered_prompt_token_ids_sha256": "bc44e5fc6823a8559632e1d199b807f4193dcbb608f7a9d9df3412f59e1f7dc4"
+    }
+  },
+  "filtered_rows": 0
+}

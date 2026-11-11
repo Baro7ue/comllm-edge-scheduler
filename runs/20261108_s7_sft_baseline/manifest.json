@@ -1,0 +1,54 @@
+{
+  "checked_utc": "2026-11-08T12:11:34.537541+00:00",
+  "files": {
+    "archive/S7_7B复现.baseline.executed.ipynb": {
+      "bytes": 32215,
+      "sha256": "7ad602de7db5e9aeae8ccca793c53698951593239faeef200b7916bc0696e317"
+    },
+    "archive/notebook_archive_check.json": {
+      "bytes": 1130,
+      "sha256": "c6ad73a2791c24d2d78527738cb5107ed07f96c5e07adc8e9f8ced6913b0204e"
+    },
+    "config.json": {
+      "bytes": 12281,
+      "sha256": "59cb14f847f47efea301e0f8b90865c90e59bdfb88af5bf5a0e661f23bc7fcd8"
+    },
+    "failure_v1/config.json": {
+      "bytes": 12281,
+      "sha256": "fa235c0f9ea38da93ba97e9bef8cdc108225bdc1a0ff5eec93cb3e8cc547c4dc"
+    },
+    "failure_v1/summary.json": {
+      "bytes": 1019,
+      "sha256": "39a4fb276836e36159ead67ad7f4f223c7dace45522f8d21ad8a32b1d63d20eb"
+    },
+    "final_download_provenance.json": {
+      "bytes": 2442,
+      "sha256": "873dfe7c91aa9c4b870cb9026f480643efd58e3ed4f446d4485adbb2acf67618"
+    },
+    "immutable_download_provenance.json": {
+      "bytes": 3659,
+      "sha256": "4d1c1f611453d1dbb130212036ecf7a52d9738c91168128d4258e2fd77ff2601"
+    },
+    "preds.csv": {
+      "bytes": 212990,
+      "sha256": "b516d8487413870de3436a7fa0d06805ec7f5afff186fc8e231d5e33a7a5cdf9"
+    },
+    "runtime.json": {
+      "bytes": 1107,
+      "sha256": "59e3e4cac6ab66b07a8581215e700bb305772f5baa2f18af571650b9039a08be"
+    },
+    "source_receipt.json": {
+      "bytes": 1365,
+      "sha256": "e5097d734c256ff47f9f29d5fee8f96ce35836e99dd4323215721afc58579dd0"
+    },
+    "summary.json": {
+      "bytes": 2292,
+      "sha256": "6f483c208a89d84ca825b1a9e12cc8f5d90c6b90b7a4da0f8113adcd5713e9b6"
+    },
+    "token_audit.json": {
+      "bytes": 913,
+      "sha256": "5a4d91bfa43e8ad70996bcc925ea9d289576fc5faa5e24759e01fff946a16008"
+    }
+  },
+  "manifest_self_excluded": true
+}

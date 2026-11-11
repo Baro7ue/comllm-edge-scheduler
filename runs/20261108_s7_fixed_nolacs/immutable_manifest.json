@@ -1,0 +1,80 @@
+{
+  "files": {
+    "pair.json": {
+      "bytes": 6215,
+      "sha256": "6c8fe420c0420cdffb7ecc36f9e44267982ec7078300fddee9f96747fbba56e3",
+      "drive_file_id": "12GZDxEo1elFwiJaZMs87F-RxerL0l6OO"
+    },
+    "smoke_restore_passed.json": {
+      "bytes": 248,
+      "sha256": "11575bf7ff1aa3a4eaada3b8b5b0048245a1e35d6e3334a6a77e9e40bfb5f3cc",
+      "drive_file_id": "1gAmQoOHhtmXDFXIIUl14JFQoe4fTtjiW"
+    },
+    "smoke_restore_check_20261108T124459.295206Z.json": {
+      "bytes": 965,
+      "sha256": "6bd8b98bd75e60f880ea0a9fc3d30dc9b62a26a0d883818c573e10949a2b5e21",
+      "drive_file_id": "1K5gKTKe3-f07N-v3ms1F4TYiMk9zbzbu"
+    },
+    "smoke_initial_probe.json": {
+      "bytes": 635,
+      "sha256": "7da4d15e84f4b52e48c8bfe67a8f24989dca93a48fc8c922d70f41a78a1dfe56",
+      "drive_file_id": "18GQvdMuOSkbJcvSjFehVLh5yXLDzaI5X"
+    },
+    "fixed_preflight.json": {
+      "bytes": 7631,
+      "sha256": "6daf020263014d44814f3ca66f214ae39a529b42362acaa48de11579427b1469",
+      "drive_file_id": "1MB_QMOeUV2eGkMxETe4Y2YpkD_lvgo82"
+    },
+    "smoke/pair.json": {
+      "bytes": 6213,
+      "sha256": "56b342265c0266847eb42d439e029565580833f23d2db5c460262e56a6efede5",
+      "drive_file_id": "1AnffpxVpq28NbnAFeR6gvDxDv2Ed2Bej"
+    },
+    "smoke/nolacs/config.json": {
+      "bytes": 7524,
+      "sha256": "78788890d6bcba7f6939fba404e05a20ec3f0c14a7bf1863401f0ed60a682bff",
+      "drive_file_id": "1RFIA62da8WzdEQI5zehMxSlrrzrdLAKs"
+    },
+    "smoke/nolacs/summary.json": {
+      "bytes": 201,
+      "sha256": "d40b49608121d0e1f197d1252c216e5547137b99b3237596636b603d8a987bc4",
+      "drive_file_id": "17jWGgUN5WINQm9RAsggToMGcCLRMq14K"
+    },
+    "smoke/nolacs/token_audit.json": {
+      "bytes": 87,
+      "sha256": "baee9df4e77dec27dcb51d56b24d42b2676e122822f03ee7dd178ee241b90cd8",
+      "drive_file_id": "16N6OKBs23x6QOCQHxrA53HgkkvkndyLV"
+    },
+    "smoke/nolacs/policy_consistency_probe_before.json": {
+      "bytes": 635,
+      "sha256": "7da4d15e84f4b52e48c8bfe67a8f24989dca93a48fc8c922d70f41a78a1dfe56",
+      "drive_file_id": "1Dl5RYuiOMf7Rbx_NsmhoQB4zH03BlTiU"
+    },
+    "smoke/nolacs/policy_consistency_probe.json": {
+      "bytes": 637,
+      "sha256": "ea2a2d35cbd0a7b0d8a5386b9edae9a15dbf436adba1235844378876aa1b5b6e",
+      "drive_file_id": "1VOK4xsAZXCrc7t-19SXi2UnMOszL1Yvk"
+    },
+    "nolacs/config.json": {
+      "bytes": 7526,
+      "sha256": "d402a4abf53332279e8bebb849ebb502d9d6f212168cb1a49ba7f1f1c6dda298",
+      "drive_file_id": "1dbQF8UmuVklYK__NUbdj5tmUEmt6_XAI"
+    },
+    "nolacs/token_audit.json": {
+      "bytes": 89,
+      "sha256": "39c0d6652cf9b59b404800137bbdbd97633be247b900d70ce72dbc372a8917c4",
+      "drive_file_id": "1_2DGF9PHybyKEi0BxdThkMdCrLM5Wr2b"
+    },
+    "nolacs/policy_consistency_probe_before.json": {
+      "bytes": 635,
+      "sha256": "7da4d15e84f4b52e48c8bfe67a8f24989dca93a48fc8c922d70f41a78a1dfe56",
+      "drive_file_id": "1f5IWvm5_k11O-Wl3gVJdLE5DD25Tqw5m"
+    },
+    "nolacs/data_audit.json": {
+      "bytes": 851,
+      "sha256": "150ade6cab38af1511ba65f756bd38c03e0869f7c53316270d62a73f92a54af1",
+      "drive_file_id": "1nfY8uxLYcH7MDS1pxeWM_-wQPJ33tIbn"
+    }
+  },
+  "scope": "immutable source snapshot only; future full artifacts excluded"
+}

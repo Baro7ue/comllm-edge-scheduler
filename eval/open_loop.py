@@ -115,6 +115,9 @@ def score(rows, preds, split):
     1. 逐条：是否命中最优、多花延迟、论文式 26 的成本、是否丢弃 / 非法 / 本地
     2. 汇总成百分比和平均值
     3. LBI：按服务器台数分组，各算一次 Jain 再平均
+    4. 本地动作单独看：本地最优占比、本地召回（本地最优的状态里选了本地的比例）、
+       本地精确（选了本地的状态里本地确实最优的比例）、卸载状态准确率（最优是某台服务器的状态里选对的比例）。
+       分母是 0 时记 nan
     """
     answered = []
     for r in rows:
@@ -131,11 +134,20 @@ def score(rows, preds, split):
     drops = 0
     invalid = 0
     local = 0
+    best_local = 0
+    local_hit = 0
+    offload_hit = 0
     counts_by_k = {}
     for i, r in enumerate(rows):
         a = preds[(split, r["_idx"])]
         costs = r["costs"]
         best = r["best"]
+        if best == 0:
+            best_local += 1
+            if a == 0:
+                local_hit += 1
+        elif a == best:
+            offload_hit += 1
         legal = 0 <= a < r["n_actions"]
         if not legal:
             invalid += 1
@@ -170,6 +182,10 @@ def score(rows, preds, split):
         "invalid_pct": 100.0 * invalid / n,
         "local_pct": 100.0 * local / n,
         "lbi_pct": 100.0 * float(np.mean(lbis)) if lbis else float("nan"),
+        "best_local_pct": 100.0 * best_local / n,
+        "local_recall_pct": 100.0 * local_hit / best_local if best_local else float("nan"),
+        "local_precision_pct": 100.0 * local_hit / local if local else float("nan"),
+        "offload_acc_pct": 100.0 * offload_hit / (n - best_local) if n > best_local else float("nan"),
     }
 
 
@@ -263,29 +279,60 @@ def main():
                 if m is not None:
                     table.append(dict(policy=label, split=split, servers=k, **m))
 
-    # 3. 写 CSV（全部数字）和 Markdown（给人看的两张表）
+    # 2b. 再按终端数 N 各算一遍（原作者测试集没有 N，记 −1，跳过）；单独写一个 CSV，
+    #     不和上面按台数的表混在一起（figures.py 按 (策略, 集合, 台数) 读 open_loop.csv）
+    by_n = []
+    for label, preds in policies:
+        for split, rows in data.items():
+            ns = set()
+            for r in rows:
+                if r.get("n_terminals", -1) > 0:
+                    ns.add(r["n_terminals"])
+            for nt in sorted(ns):
+                sub = []
+                for r in rows:
+                    if r.get("n_terminals") == nt:
+                        sub.append(r)
+                m = score(sub, preds, split)
+                if m is not None:
+                    by_n.append(dict(policy=label, split=split, terminals=nt, **m))
+
+    # 3. 写 CSV（全部数字）和 Markdown（给人看的表）
     os.makedirs(args.out, exist_ok=True)
-    fields = ["policy", "split", "servers", "n", "acc_pct", "regret", "al", "pr_pct", "drop_pct", "invalid_pct",
-              "local_pct", "lbi_pct"]
-    with open(os.path.join(args.out, "open_loop.csv"), "w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=fields)
-        w.writeheader()
-        for row in table:
-            out = {}
-            for k, v in row.items():
-                out[k] = round(v, 4) if isinstance(v, float) else v
-            w.writerow(out)
+    metric_fields = ["n", "acc_pct", "regret", "al", "pr_pct", "drop_pct", "invalid_pct", "local_pct", "lbi_pct",
+                     "best_local_pct", "local_recall_pct", "local_precision_pct", "offload_acc_pct"]
+    for fn, rows_out, key in (("open_loop.csv", table, "servers"), ("open_loop_by_n.csv", by_n, "terminals")):
+        with open(os.path.join(args.out, fn), "w", newline="", encoding="utf-8") as f:
+            w = csv.DictWriter(f, fieldnames=["policy", "split", key] + metric_fields)
+            w.writeheader()
+            for row in rows_out:
+                out = {}
+                for k, v in row.items():
+                    out[k] = round(v, 4) if isinstance(v, float) else v
+                w.writerow(out)
     lines = ["# " + args.title, "",
-             "由 `python -m eval.open_loop` 生成。单位：槽。AL、PR 按论文式 26–29，ρ = 10（论文表 I）。", ""]
+             "由 `python -m eval.open_loop` 生成。单位：槽。AL、PR 按论文式 26–29，ρ = 10（论文表 I）。",
+             "本地召回 = 本地最优的状态里选了本地的比例；本地精确 = 选了本地的状态里本地确实最优的比例；"
+             "卸载准确率 = 最优是某台服务器的状态里选对的比例。分母为 0 记 –。", ""]
     for split in data:
+        n_rows = len(data[split])
+        n_local = 0
+        for r in data[split]:
+            if r["best"] == 0:
+                n_local += 1
         lines += [f"## {SPLIT_NAMES[split]}", "",
-                  "| 策略 | 条数 | 准确率 % | 多花延迟 | AL | PR % | 丢弃率 % | 非法率 % | 本地 % | LBI % |",
-                  "|---|---|---|---|---|---|---|---|---|---|"]
+                  f"{n_rows} 条，本地最优 {n_local} 条（{100.0 * n_local / n_rows:.2f}%）；"
+                  f"从不选本地的策略准确率最多 {100.0 * (n_rows - n_local) / n_rows:.2f}%。", "",
+                  "| 策略 | 条数 | 准确率 % | 多花延迟 | AL | PR % | 丢弃率 % | 非法率 % | 本地 % | "
+                  "本地召回 % | 本地精确 % | 卸载准确率 % | LBI % |",
+                  "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
         for row in table:
             if row["split"] == split and row["servers"] == "全部":
                 lines.append(f"| {row['policy']} | {row['n']} | {fmt(row['acc_pct'], 1)} | {fmt(row['regret'], 3)} | "
                              f"{fmt(row['al'], 3)} | {fmt(row['pr_pct'], 1)} | {fmt(row['drop_pct'], 1)} | "
-                             f"{fmt(row['invalid_pct'], 1)} | {fmt(row['local_pct'], 1)} | {fmt(row['lbi_pct'], 1)} |")
+                             f"{fmt(row['invalid_pct'], 1)} | {fmt(row['local_pct'], 1)} | "
+                             f"{fmt(row['local_recall_pct'], 1)} | {fmt(row['local_precision_pct'], 1)} | "
+                             f"{fmt(row['offload_acc_pct'], 1)} | {fmt(row['lbi_pct'], 1)} |")
         lines.append("")
     ks_all = set()
     for split in ("test_seen", "test_unseen"):
@@ -305,6 +352,39 @@ def main():
             cells.append(fmt(v, 1))
         lines.append(f"| {label} | " + " | ".join(cells) + " |")
     lines.append("")
+
+    # 按台数、按终端数 N 的本地召回（见过 + 没见过的台数；N 两份集合各一张）
+    lines += ["## 按服务器台数的本地召回 %", "",
+              "| 策略 | " + " | ".join(f"{k} 台" for k in ks_all) + " |",
+              "|---|" + "---|" * len(ks_all)]
+    for label, _ in policies:
+        cells = []
+        for k in ks_all:
+            v = None
+            for row in table:
+                if row["policy"] == label and row["servers"] == k and row["split"] in ("test_seen", "test_unseen"):
+                    v = row["local_recall_pct"]
+            cells.append(fmt(v, 1))
+        lines.append(f"| {label} | " + " | ".join(cells) + " |")
+    lines.append("")
+    for split in ("test_seen", "test_unseen"):
+        ns_all = sorted({row["terminals"] for row in by_n if row["split"] == split})
+        if not ns_all:
+            continue
+        for metric, name in (("pr_pct", "PR %"), ("local_recall_pct", "本地召回 %")):
+            lines += [f"## 按终端数 N 的{name}（{SPLIT_NAMES[split]}）", "",
+                      "| 策略 | " + " | ".join(f"N = {nt}" for nt in ns_all) + " |",
+                      "|---|" + "---|" * len(ns_all)]
+            for label, _ in policies:
+                cells = []
+                for nt in ns_all:
+                    v = None
+                    for row in by_n:
+                        if row["policy"] == label and row["split"] == split and row["terminals"] == nt:
+                            v = row[metric]
+                    cells.append(fmt(v, 1))
+                lines.append(f"| {label} | " + " | ".join(cells) + " |")
+            lines.append("")
     with open(os.path.join(args.out, "open_loop.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
     print("\n".join(lines))

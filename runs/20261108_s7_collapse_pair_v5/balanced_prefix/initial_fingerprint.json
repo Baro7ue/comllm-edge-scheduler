@@ -1,0 +1,7 @@
+{
+  "lora_A_sha256": "ba69df5cbed80bbb017794e069f9068f356b7e17a89de8888106d782c060da89",
+  "torch_num_threads": 24,
+  "torch_num_interop_threads": 24,
+  "default_dtype": "torch.float32",
+  "attention_implementation": "sdpa"
+}

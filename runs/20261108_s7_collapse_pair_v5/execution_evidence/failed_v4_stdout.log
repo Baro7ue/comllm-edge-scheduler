@@ -1,0 +1,9 @@
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:  15%|█▌        | 52/339 [00:00<00:00, 507.33it/s]Loading weights:  41%|████      | 138/339 [00:00<00:00, 706.10it/s]Loading weights:  69%|██████▊   | 233/339 [00:00<00:00, 806.44it/s]Loading weights:  97%|█████████▋| 328/339 [00:00<00:00, 853.80it/s]Loading weights: 100%|██████████| 339/339 [00:00<00:00, 822.57it/s]
+{"arm": "replay", "update": 1, "local_samples": 3, "GT_local": 0, "replay_exact_so_far": true}
+Traceback (most recent call last):
+  File "/content/s7_collapse_probe_v4.py", line 262, in <module>
+    main()
+    ~~~~^^
+  File "/content/s7_collapse_probe_v4.py", line 222, in main
+    raise RuntimeError('Original first7 samples/rewards not reproduced; interventions refused')
+RuntimeError: Original first7 samples/rewards not reproduced; interventions refused

@@ -1,0 +1,31 @@
+{
+  "checked_utc": "2026-11-08T13:48:52.776799+00:00",
+  "status": "passed",
+  "scope": "Local final small-artifact/archive and source-SHA verification; actual model tensors were checked by completed Colab CPU acceptance report",
+  "acceptance_report_sha256": "71f4ee5603d63ad6a377f5dd568c1f6f355c8f20510d7d2b735b9dea5b4ced94",
+  "acceptance_source_files_verified": 11,
+  "exact_unique_prediction_keys": 5663,
+  "raw_parser_and_identity_checks": "passed frozen fixed_comparison.py execution",
+  "all_data_sha256_match_local": true,
+  "old_immutable_source_sha256_preserved": true,
+  "cpu_tensor_report": {
+    "tensor_count": 392,
+    "parameters": 161480704,
+    "finite": true,
+    "nonzero_B_tensors": 196,
+    "adapter_sha256": "d895e480ccd7beac2f866c82cf621fcf10106bae68a66428a067c7dca59e6799"
+  },
+  "notebook_check_sha256": "3104a2d1993584559821368f3f91cdfb964da0e426b74862d27126ffebe9ba11",
+  "comparison": {
+    "path": "/Users/ethan/Documents/comllm-edge-scheduler/artifacts/s7_fixed_comparison_20261108",
+    "audit_sha256": "d8b15ec8ed38550adaa4b4ea05b9fc89cd098d3ccf377df163a216fcde791d17",
+    "script_sha256": "84041cac90e5fdd8cea02b04b07f7ccb31ce8a67cd0968428216b637f410ed75",
+    "source_manifest_verified": true
+  },
+  "archive_actions": {
+    "only_small_artifacts_downloaded": true,
+    "model_or_checkpoint_downloaded": false,
+    "training_or_gpu_inference_started": false,
+    "previous_runs_modified": false
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "checked_utc": "2026-11-08T12:11:34.531911+00:00",
+  "notebook_drive_file_id": "1aLrsp1a81vNhHJsLOgBSag2HlOO42ire",
+  "path": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_sft_baseline/archive/S7_7B复现.baseline.executed.ipynb",
+  "sha256": "7ad602de7db5e9aeae8ccca793c53698951593239faeef200b7916bc0696e317",
+  "cells": 20,
+  "code_cells": 11,
+  "all_code_cells_compile": true,
+  "retained_expected_failure_v1": {
+    "cell": 18,
+    "error": {
+      "cell": 18,
+      "ename": "AssertionError",
+      "evalue": "基线未完成，返回1；保留进度，核对上方错误"
+    },
+    "local_failure_folder": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_sft_baseline/failure_v1"
+  },
+  "v2": {
+    "cell": 19,
+    "unhandled_errors": [],
+    "output_summary_exactly_matches_downloaded_final_summary": true,
+    "status": "complete",
+    "predictions": 5663,
+    "predictions_sha256": "b516d8487413870de3436a7fa0d06805ec7f5afff186fc8e231d5e33a7a5cdf9",
+    "baseline_script_sha256": "b6e0ea1177bee23b06536d9dd3b55c71c7acbc072eea4b045c4a68390dcd1740"
+  },
+  "other_unhandled_errors": []
+}

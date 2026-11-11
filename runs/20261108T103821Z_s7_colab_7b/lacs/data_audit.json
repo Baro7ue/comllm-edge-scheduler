@@ -1,0 +1,23 @@
+{
+  "source_train": 830,
+  "source_val": 100,
+  "train": 830,
+  "val": 100,
+  "train_heldout_removed": 0,
+  "train_duplicates_removed": 0,
+  "val_heldout_removed": 0,
+  "remaining_overlap": 0,
+  "eval_rows": {
+    "test_seen": 3010,
+    "test_unseen": 2408,
+    "friend_clean": 245
+  },
+  "sha256": {
+    "test_seen.jsonl": "2eedec52aa8ec96da53a47e4e3409c6f9c20eefb6d9d2a647943c7a0d39af904",
+    "test_unseen.jsonl": "13c24ab18bbc157800129a58dd26a9f59c3e3424505f9e4b4571a91def19b03b",
+    "friend_clean.jsonl": "83d871639a37da2bf34b433ae23128b9df2498d3a3ba8fd47b2c74b3683c8fb7",
+    "grpo_train.jsonl": "0bc61443ad6ae6a37c210dea01ca2e1dcb7e134e0815d73d52744730d4f7664b",
+    "grpo_val.jsonl": "a6fdc6c77dc453ab7f4b12f1e01c0d6053ecd583a7f45bf660993b71d5d8d7b5",
+    "meta.json": "6125c1bb0acdf5a8d20ae94998a97a347226c98e99e7e0f320cdfbf066c7c238"
+  }
+}

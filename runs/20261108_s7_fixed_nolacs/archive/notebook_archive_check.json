@@ -1,0 +1,22 @@
+{
+  "checked_utc": "2026-11-08T13:48:52.754739+00:00",
+  "drive_file_id": "1aLrsp1a81vNhHJsLOgBSag2HlOO42ire",
+  "sha256": "2cc845e0f91fafe99dd7f21e23b3e7977f0f5a4ede1767ad646bf0dffc500124",
+  "cells": 22,
+  "code_cells": 13,
+  "all_code_cells_compile": true,
+  "first20_sources_equal_archived_baseline_notebook": true,
+  "error_outputs": [
+    {
+      "cell_index_0_based": 18,
+      "ename": "AssertionError",
+      "evalue": "基线未完成，返回1；保留进度，核对上方错误",
+      "status": "historical expected failed baseline v1"
+    }
+  ],
+  "full_cell_index_0_based": 21,
+  "full_cell_complete": true,
+  "full_cell_finished_message": true,
+  "cpu_acceptance_execution_surface": "Colab webTerminal; no additional notebook cell22",
+  "cpu_acceptance_report_sha256": "71f4ee5603d63ad6a377f5dd568c1f6f355c8f20510d7d2b735b9dea5b4ced94"
+}

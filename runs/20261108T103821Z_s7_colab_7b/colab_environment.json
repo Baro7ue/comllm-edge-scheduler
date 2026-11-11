@@ -1,0 +1,12 @@
+{
+  "versions": {
+    "torch": "2.14.1+cu130",
+    "transformers": "5.20.2",
+    "peft": "0.21.2",
+    "accelerate": "1.15.0",
+    "numpy": "2.4.6"
+  },
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "code_archive_sha256": "043439d6d438311d79e5772cba520a4fb44133bd5beda19b5db2f3ced551ecd5",
+  "upstream": "17adedef587d5dbc02c167d147692a61179cdf4b"
+}

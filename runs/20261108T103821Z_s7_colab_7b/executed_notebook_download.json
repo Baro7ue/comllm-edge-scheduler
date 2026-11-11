@@ -1,0 +1,14 @@
+{
+  "drive_file_id": "1aLrsp1a81vNhHJsLOgBSag2HlOO42ire",
+  "url": "https://drive.google.com/file/d/1aLrsp1a81vNhHJsLOgBSag2HlOO42ire/view?usp=drivesdk",
+  "mime_type": "application/x-ipynb+json",
+  "drive_modified_time": "2026-11-08T10:38:39.884Z",
+  "drive_parent_ids": [
+    "1wieBcfsk6qpX1cvfKMYKxDYpa2bnkuOT"
+  ],
+  "metadata_bytes": 24564,
+  "fetch_bytes": 24564,
+  "local_path": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108/S7_7B复现.executed.ipynb",
+  "local_sha256": "c813ecd955cb30465e29e1978787bcb7c1fc1ddda21b3a07d21b467bf16f199c",
+  "downloaded_utc": "2026-11-08T10:43:10.975Z"
+}

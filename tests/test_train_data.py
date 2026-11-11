@@ -9,6 +9,8 @@ import sys
 import tempfile
 import unittest
 
+import numpy as np
+
 from deploy.prompts import chatml, paper_messages_json
 from deploy.wire import state_from_dict
 from eval.check_gguf import repair_reference
@@ -132,6 +134,26 @@ class TestOpenLoopMetrics(unittest.TestCase):
         self.assertAlmostEqual(m["al"], (1.0 + 20.0) / 2)
         self.assertAlmostEqual(m["pr_pct"], 100.0 * 1.0 / 10.5)
         self.assertIsNone(score(rows, {}, "t"))
+
+    def test_score_local(self):
+        """本地召回 / 精确 / 卸载准确率：4 条，2 条本地最优。
+        第 0 条本地最优选了本地（命中），第 1 条本地最优选了服务器（漏掉），
+        第 2 条服务器最优选了本地（误选），第 3 条服务器最优选对。"""
+        rows = []
+        for i, best in enumerate((0, 0, 1, 1)):
+            costs = [1.0, 2.0] if best == 0 else [2.0, 1.0]
+            rows.append({"_idx": i, "costs": costs, "best": best, "n_actions": 2, "servers": 1})
+        preds = {("t", 0): 0, ("t", 1): 1, ("t", 2): 0, ("t", 3): 1}
+        m = score(rows, preds, "t")
+        self.assertAlmostEqual(m["best_local_pct"], 50.0)
+        self.assertAlmostEqual(m["local_recall_pct"], 50.0)
+        self.assertAlmostEqual(m["local_precision_pct"], 50.0)
+        self.assertAlmostEqual(m["offload_acc_pct"], 50.0)
+        # 从不选本地：召回 0，精确没有分母
+        m = score(rows, {("t", i): 1 for i in range(4)}, "t")
+        self.assertAlmostEqual(m["local_recall_pct"], 0.0)
+        self.assertTrue(np.isnan(m["local_precision_pct"]))
+        self.assertAlmostEqual(m["offload_acc_pct"], 100.0)
 
 
 class TestGgufReference(unittest.TestCase):

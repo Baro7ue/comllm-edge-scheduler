@@ -1,0 +1,15 @@
+{
+  "pid": 36622,
+  "command": [
+    "timeout",
+    "--kill-after=10s",
+    "1200s",
+    "/usr/bin/python3",
+    "-u",
+    "/content/s7_collapse_probe.py"
+  ],
+  "source_sha256": "69deede9916a9d7b0be4dc13ced23200398f8b72a981f4c4af1c723b90f4f793",
+  "log": "/content/s7_collapse_probe_20261108.log",
+  "max_updates": 24,
+  "timeout_seconds": 1200
+}

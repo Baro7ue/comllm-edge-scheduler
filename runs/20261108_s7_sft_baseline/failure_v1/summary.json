@@ -1,0 +1,37 @@
+{
+  "role": "untrained_sft_baseline",
+  "status": "failed",
+  "no_training": true,
+  "training_steps": 0,
+  "predictions": 0,
+  "expected_predictions": 5663,
+  "exact_prediction_keys": false,
+  "completed_by_split": {
+    "test_seen": 0,
+    "test_unseen": 0,
+    "friend_clean": 0
+  },
+  "new_predictions_this_invocation": 0,
+  "decode": {
+    "format": "repo",
+    "parse": [
+      "search",
+      "strict"
+    ],
+    "do_sample": false,
+    "max_new_tokens": 15,
+    "repetition_penalty": 1.0,
+    "eval_batch": 4,
+    "max_seq_length": 2048,
+    "use_cache": true,
+    "seed": 0,
+    "eos_rule": "list({tokenizer.eos_token_id, tokenizer.convert_tokens_to_ids('<|im_end|>')}) filtered >=0"
+  },
+  "identity_sha256": "5a0e87641bde10e02b475658f29a417af71961a46059ec63808bcd57121797c4",
+  "predictions_sha256": null,
+  "checked_utc": "2026-11-08T11:57:25.075576+00:00",
+  "invocation_seconds": 22.253892853000025,
+  "runtime": null,
+  "token_audit_sha256": null,
+  "error": "ValueError: unexpected EOS/beam settings"
+}

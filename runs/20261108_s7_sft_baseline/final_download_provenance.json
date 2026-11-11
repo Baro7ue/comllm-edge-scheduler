@@ -1,0 +1,55 @@
+{
+  "checked_utc": "2026-11-08T12:10:33.492Z",
+  "scope": "Final stopped-and-complete baseline predictions/summary and 20-cell executed notebook; no GPU or training run here",
+  "source_success_folder_id": "1V3fqSprQwZd5ShDz9n3u5hEr7JcleZQ1",
+  "summary_complete_confirmed_before_prediction_fetch": true,
+  "expected_prediction_sha256": "b516d8487413870de3436a7fa0d06805ec7f5afff186fc8e231d5e33a7a5cdf9",
+  "predictions_sha256_matches_final_summary": true,
+  "files": [
+    {
+      "drive_file_id": "1CDM07AzEwv6ziXQzBy9Uh0AFkJ3pIzSs",
+      "relative_path": "summary.json",
+      "drive_parent_ids": [
+        "1V3fqSprQwZd5ShDz9n3u5hEr7JcleZQ1"
+      ],
+      "metadata_bytes": 2292,
+      "fetch_bytes": 2292,
+      "drive_modified_utc": "2026-11-08T12:08:59.727Z",
+      "fetched_utc": "2026-11-08T12:09:50.572Z",
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_sft_baseline/summary.json",
+      "local_bytes": 2292,
+      "local_sha256": "6f483c208a89d84ca825b1a9e12cc8f5d90c6b90b7a4da0f8113adcd5713e9b6",
+      "downloaded_utc": "2026-11-08T12:10:33.492Z"
+    },
+    {
+      "drive_file_id": "1Od0EmmGgoph1EDdjuJncUet_MdLR2Ahq",
+      "relative_path": "preds.csv",
+      "drive_parent_ids": [
+        "1V3fqSprQwZd5ShDz9n3u5hEr7JcleZQ1"
+      ],
+      "metadata_bytes": 212990,
+      "fetch_bytes": 212990,
+      "drive_modified_utc": "2026-11-08T12:00:54.048Z",
+      "fetched_utc": "2026-11-08T12:10:05.123Z",
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_sft_baseline/preds.csv",
+      "local_bytes": 212990,
+      "local_sha256": "b516d8487413870de3436a7fa0d06805ec7f5afff186fc8e231d5e33a7a5cdf9",
+      "downloaded_utc": "2026-11-08T12:10:33.492Z"
+    },
+    {
+      "drive_file_id": "1aLrsp1a81vNhHJsLOgBSag2HlOO42ire",
+      "relative_path": "archive/S7_7B复现.baseline.executed.ipynb",
+      "drive_parent_ids": [
+        "1wieBcfsk6qpX1cvfKMYKxDYpa2bnkuOT"
+      ],
+      "metadata_bytes": 32215,
+      "fetch_bytes": 32215,
+      "drive_modified_utc": "2026-11-08T12:09:22.141Z",
+      "fetched_utc": "2026-11-08T12:09:50.575Z",
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_sft_baseline/archive/S7_7B复现.baseline.executed.ipynb",
+      "local_bytes": 32215,
+      "local_sha256": "7ad602de7db5e9aeae8ccca793c53698951593239faeef200b7916bc0696e317",
+      "downloaded_utc": "2026-11-08T12:10:33.492Z"
+    }
+  ]
+}

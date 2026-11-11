@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "checked_utc": "2026-11-08T10:44:03.342503+00:00",
+  "source_local_directory": "/Users/ethan/.codex/worktrees/comllm-colab-7b/results_20261108",
+  "archive_local_directory": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108T103821Z_s7_colab_7b",
+  "drive_root_id": "1x6wN8T1jNGMkNkrvYBEQsZabX_c3TK5C",
+  "drive_root_url": "https://drive.google.com/drive/folders/1x6wN8T1jNGMkNkrvYBEQsZabX_c3TK5C",
+  "acceptance_report_drive_file_id": "1Md8N-fxuQ2T6aSt5ESdYxZzeAtQrWbAa",
+  "acceptance_report_name": "acceptance_20261108T103821.435715Z.json",
+  "acceptance_report_sha256": "28accfda57ff3a359f030ecd74d73bb789432cddd6bfc6ffabe9527388f2d92a",
+  "executed_notebook_drive_file_id": "1aLrsp1a81vNhHJsLOgBSag2HlOO42ire",
+  "executed_notebook_name": "S7_7B复现.executed.ipynb",
+  "executed_notebook_sha256": "c813ecd955cb30465e29e1978787bcb7c1fc1ddda21b3a07d21b467bf16f199c",
+  "executed_notebook_checks": {
+    "total_cells": 18,
+    "code_cells": 9,
+    "all_code_cells_compile": true,
+    "code_sources_identical_to_main": true,
+    "main_source_notebook_path": "/Users/ethan/Documents/comllm-edge-scheduler/train/S7_7B复现.ipynb",
+    "main_source_notebook_sha256": "b0ec14653c438626c22f079d425dc36b896c45afff92d487911616ca8d909653",
+    "wrapper_pinned_helper_sha256": "b057077aebf322f99f60ae5c462772490415bba107b976c9c43b55d4ba1bbfd1",
+    "local_helper_sha256_matches": true,
+    "last_output_contains_strict_joint_acceptance_success": true,
+    "last_output_names_expected_acceptance_report": true
+  },
+  "archived_scope": "Small artifacts, executed notebook, provenance, prechecks and strict joint CPU acceptance report only; large adapters and base model weights remain on Google Drive and are not included.",
+  "large_adapters_remain_drive": {
+    "nolacs": {
+      "folder_id": "1sbiasoKVGDdFONPSEak7_Bw7O_sX0824",
+      "adapter_file_id": "1bNVDj2iEkkKyUW5El7zaDQKkT35H3MoG"
+    },
+    "lacs": {
+      "folder_id": "1MLQWwRNpzObXMym-vda39k0VCtB4Leqm",
+      "adapter_file_id": "17hy8egshb-xddGYP8DB2O17iMV6IwvFK"
+    }
+  },
+  "archive_actions": {
+    "remote_read_only": true,
+    "downloaded_large_weights": false,
+    "browser_colab_jetson_accessed": false,
+    "executed_training_or_evaluation": false,
+    "gpu_apis_called": false,
+    "overwrote_existing_runs": false,
+    "source_files_modified": false
+  },
+  "source_file_count": 27,
+  "source_total_bytes": 787412,
+  "copied_source_files_readback_sha256_verified": true
+}

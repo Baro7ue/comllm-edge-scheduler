@@ -1,0 +1,78 @@
+{
+  "checked_utc": "2026-11-08T12:03:03.115Z",
+  "files": [
+    {
+      "drive_file_id": "1GDTh3fv1eDAryiE_tpYfb2HlQtrogmTK",
+      "relative_path": "config.json",
+      "drive_folder_id": "1V3fqSprQwZd5ShDz9n3u5hEr7JcleZQ1",
+      "scope": "successful_v2_immutable",
+      "drive_modified_utc": "2026-11-08T12:00:43.792Z",
+      "metadata_bytes": 12281,
+      "fetch_bytes": 12281,
+      "fetched_utc": "2026-11-08T12:02:44.310Z",
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_sft_baseline/config.json",
+      "local_bytes": 12281,
+      "local_sha256": "59cb14f847f47efea301e0f8b90865c90e59bdfb88af5bf5a0e661f23bc7fcd8",
+      "downloaded_utc": "2026-11-08T12:03:03.115Z"
+    },
+    {
+      "drive_file_id": "1g3QHuq9ZFfq-5jJhqmAp5AbzpkMR1gpE",
+      "relative_path": "runtime.json",
+      "drive_folder_id": "1V3fqSprQwZd5ShDz9n3u5hEr7JcleZQ1",
+      "scope": "successful_v2_immutable",
+      "drive_modified_utc": "2026-11-08T12:00:49.284Z",
+      "metadata_bytes": 1107,
+      "fetch_bytes": 1107,
+      "fetched_utc": "2026-11-08T12:02:42.536Z",
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_sft_baseline/runtime.json",
+      "local_bytes": 1107,
+      "local_sha256": "59e3e4cac6ab66b07a8581215e700bb305772f5baa2f18af571650b9039a08be",
+      "downloaded_utc": "2026-11-08T12:03:03.115Z"
+    },
+    {
+      "drive_file_id": "1U01CPJ0uBEwEjaSQ7bjm1J9VJxdyVUMC",
+      "relative_path": "token_audit.json",
+      "drive_folder_id": "1V3fqSprQwZd5ShDz9n3u5hEr7JcleZQ1",
+      "scope": "successful_v2_immutable",
+      "drive_modified_utc": "2026-11-08T12:00:54.045Z",
+      "metadata_bytes": 913,
+      "fetch_bytes": 913,
+      "fetched_utc": "2026-11-08T12:02:43.353Z",
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_sft_baseline/token_audit.json",
+      "local_bytes": 913,
+      "local_sha256": "5a4d91bfa43e8ad70996bcc925ea9d289576fc5faa5e24759e01fff946a16008",
+      "downloaded_utc": "2026-11-08T12:03:03.115Z"
+    },
+    {
+      "drive_file_id": "1onttp-oz3J40Wb5dVKLcJ51fVqv3id-R",
+      "relative_path": "failure_v1/config.json",
+      "drive_folder_id": "15eIk_XgvCajTraINzRMw94yTIWkDPTIT",
+      "scope": "failed_v1_preserved",
+      "drive_modified_utc": "2026-11-08T11:57:15.117Z",
+      "metadata_bytes": 12281,
+      "fetch_bytes": 12281,
+      "fetched_utc": "2026-11-08T12:02:44.989Z",
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_sft_baseline/failure_v1/config.json",
+      "local_bytes": 12281,
+      "local_sha256": "fa235c0f9ea38da93ba97e9bef8cdc108225bdc1a0ff5eec93cb3e8cc547c4dc",
+      "downloaded_utc": "2026-11-08T12:03:03.115Z"
+    },
+    {
+      "drive_file_id": "1tzVLdbZPdF92gLLEpFQaWdPh37fuSJZY",
+      "relative_path": "failure_v1/summary.json",
+      "drive_folder_id": "15eIk_XgvCajTraINzRMw94yTIWkDPTIT",
+      "scope": "failed_v1_preserved",
+      "drive_modified_utc": "2026-11-08T11:57:25.079Z",
+      "metadata_bytes": 1019,
+      "fetch_bytes": 1019,
+      "fetched_utc": "2026-11-08T12:02:45.570Z",
+      "local_path": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261108_s7_sft_baseline/failure_v1/summary.json",
+      "local_bytes": 1019,
+      "local_sha256": "39a4fb276836e36159ead67ad7f4f223c7dace45522f8d21ad8a32b1d63d20eb",
+      "downloaded_utc": "2026-11-08T12:03:03.115Z"
+    }
+  ],
+  "scope": "Only successful-v2 immutable config/runtime/token audit plus failed-v1 config/summary; successful-v2 predictions and summary deliberately not fetched while running",
+  "successful_v2_preds_downloaded": false,
+  "successful_v2_summary_downloaded": false
+}

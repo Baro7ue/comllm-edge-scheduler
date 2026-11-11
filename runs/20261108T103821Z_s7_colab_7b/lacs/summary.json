@@ -1,0 +1,9 @@
+{
+  "step": 208,
+  "elapsed_train_s": 2503.4651944330008,
+  "training_complete": true,
+  "target_steps": 208,
+  "status": "complete",
+  "group": "lacs",
+  "invocation_seconds": 3608.256021806
+}

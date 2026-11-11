@@ -1,14 +1,14 @@
 # comllm-edge-scheduler
 
-**English summary.** This repository deploys an LLM-based task-offloading scheduler for mobile edge computing on an NVIDIA Jetson Orin Nano 8GB, building on the open-source paper COMLLM (Yang, Cheng and Zhang, [arXiv:2604.07148](https://arxiv.org/abs/2604.07148)). Qwen2.5-0.5B/1.5B are LoRA-fine-tuned on soft labels from the paper's one-step cost model and served by llama.cpp (CUDA) with a compact prompt, a one-token answer and prefix caching. An environment node simulates terminals and edge servers in real time and asks the Jetson for every decision over Ethernet, so decision latency counts toward task delay. Measured on the board, a decision takes 55.0 ms p50 / 72.0 ms p99, against 945.2 ms p50 for the paper-format 1.5B model on the same board. One scheduler node stays stable up to 7 terminals (theory 7.9), and up to at least 20 with overload shedding. In simulation, sequential decisions with virtual state updates cut mean delay by 18.1% against batch herding (11 servers, 80 terminals), and the 0.5B model stays within −0.1% to +0.5% of the one-step optimum across seven server counts from 3 to 11, including four never seen in training. We also train a second 0.5B whose teacher is a processor-sharing-aware version of the paper's delay formula; in a 3-server closed loop it cuts mean delay by a further 9.9–19.6% (simulation, one seed; the simulator itself uses processor sharing, which favours this teacher). This is an independent project based on the paper, not an official COMLLM release. The documentation below is in Chinese.
+**English summary.** This repository deploys an LLM-based task-offloading scheduler for mobile edge computing on an NVIDIA Jetson Orin Nano 8GB, building on the open-source paper COMLLM (Yang, Cheng and Zhang, [arXiv:2604.07148](https://arxiv.org/abs/2604.07148)). Qwen2.5-0.5B/1.5B are LoRA-fine-tuned on soft labels from the paper's one-step cost model and served by llama.cpp (CUDA) with a compact prompt, a one-token answer and prefix caching. An environment node simulates terminals and edge servers in real time and asks the Jetson for every decision over Ethernet, so decision latency counts toward task delay. Measured on the board, a decision takes 55.0 ms p50 / 72.0 ms p99, against 945.2 ms p50 for the paper-format 1.5B model on the same board. One scheduler node stays stable up to 7 terminals (theory 7.9), and up to at least 20 with overload shedding. In simulation, sequential decisions with virtual state updates cut mean delay by 18.1% against batch herding (11 servers, 80 terminals), and the 0.5B model stays within −0.1% to +0.5% of the one-step optimum across seven server counts from 3 to 11, including four never seen in training. We also train a second 0.5B whose teacher is a processor-sharing-aware version of the paper's delay formula; in a 3-server closed loop it cuts mean delay by a further 9.9–19.6% (simulation, one seed; the simulator itself uses processor sharing, which favours this teacher). We also reproduce a 7B model with the paper's recipe (GRPO from the authors' SFT-7B). It reaches PR 98.85–99.26% on the authors' cleaned test set, where only 2.45% of states favour local execution, but 71.55–75.32% on our two broader test sets (46–48% local-optimal), because after training it never chooses local execution; our paper-teacher students score 99.88–99.99% on all three. This is an independent project based on the paper, not an official COMLLM release. The documentation below is in Chinese.
 
 基于开源论文 COMLLM（arXiv:2604.07148）的任务卸载调度器端侧部署。Jetson Orin Nano 8GB 做调度节点（llama.cpp/CUDA）；环境节点按真实时钟仿真终端和边缘服务器，经以太网向 Jetson 要每一个决策，决策的耗时算进任务延迟。环境节点最终用 RK3588，开发期用 Mac 代替。
 
-> 状态（2026-11-08）：部署和闭环实验做完；评测矩阵（PS 老师的两个 1.5B 学生、Jetson 开环、Colab 闭环、复现的 COMLLM-7B）11/13 前补齐。RK3588 当环境节点的两板复测排在 11/16–11/18；在那之前，所有实时数字都是 Mac 当环境节点测的。
+> 状态（2026-11-11）：部署和闭环实验做完；PS 老师的两个 1.5B 学生和复现的 COMLLM-7B 已在 Colab 上做完开环（见"和 7B 比"）。评测矩阵剩下的 Jetson 开环和 Colab 闭环 11/13 前补齐。RK3588 当环境节点的两板复测排在 11/16–11/18；在那之前，所有实时数字都是 Mac 当环境节点测的。
 
 ## 这个项目做了两件事
 
-1. **在论文的评价体系里，看更小的模型能不能到 7B 的水平。** 开环、用论文的单步最优打分（PR，式 28–29），比我们的 0.5B/1.5B、原作者的 1.5B 和 COMLLM-7B。论文报的 COMLLM-7B 是 96.86%，权重拿不到，所以按论文方法从原作者的 SFT-7B 复现一个，在同一份测试集上比（复现的不一定等于原版）。部署的 0.5B 在 Jetson 上一次决策 55 ms。
+1. **在论文的评价体系里，把更小的模型和 7B 放在一起比。** 开环、用论文的单步最优打分（准确率、PR，式 28–29），比我们的 0.5B/1.5B、原作者的 1.5B 和 COMLLM-7B。论文报的 COMLLM-7B 是 96.86%，权重拿不到，所以按论文方法从原作者的 SFT-7B 复现一个（复现的不一定等于原版）。三套测试集的本地最优占比从 2.45% 到 47.97% 不等，所以分开报，并单独报本地召回（见"和 7B 比"）。部署的 0.5B 在 Jetson 上一次决策 55 ms。
 2. **在论文自己的假设下，换一个更贴合这个假设的老师。** 论文假设服务器平分算力（式 4），调度和打分用的时延近似在高负载时偏悲观。按式 4 推出 PS 感知公式当第二个老师，同样训练 0.5B/1.5B 学生；闭环里先比两个老师，再比各自的学生。
 
 两部分的学生学的都是公式，不是 7B 模型的输出。开环和闭环在 Colab（PyTorch 原精度）和 Jetson（GGUF Q8_0）上分别跑，两边的差别就是部署带来的变化；7B 只在 Colab 上跑。
@@ -25,7 +25,7 @@
 | 批量决策的羊群效应 | 改成顺序决策 + 虚拟状态更新：平均延迟 5.11 → 4.19 槽（−18.1%），丢弃 2.4% → 0.1%。3 台服务器时反而变差（+9.3%），原因见下面"局限" | 仿真，11 台服务器、80 台终端，单步最优公式 | 图 3 |
 | 没见过的服务器台数 | 0.5B 闭环平均延迟和单步最优差 −0.1% ~ +0.5%；开环准确率 96.5%（见过的台数）、94.4%（没见过的台数） | 闭环：仿真，N = 40，3/4/6/7/8/10/11 台；开环：3010 条和 2408 条 | 图 4 |
 | PS 公式和论文公式在闭环里比 | 公式对公式：PS 公式平均延迟平均低 9.27%（−22.73% ~ +3.79%）。照它们训练的两个 0.5B：PS 那个低 13.4% / 19.6% / 9.9%，丢弃 0.1% / 5.9% / 17.3% → 0.0% / 0.0% / 0.9% | 仿真，虚拟时间闭环，顺序决策。公式：3/7/11 台 × N = 20–80，3 个种子；0.5B：3 台、N = 20/40/60，1 个种子。仿真器按论文式 4 的平分算力排队，结论只适用于这种服务器 | 图 6、图 7 |
-| 和原作者的 1.5B 比 | 原作者干净测试集上准确率：我们的 0.5B 95.9%，原作者 sft 1.5B 13.5% | 245 条，贪心解码；准确率 = 和单步最优选得一样的比例 | 图 6 |
+| 和原作者的 1.5B 比 | 准确率（见过的台数 / 没见过的台数 / 原作者干净测试集）：我们的 0.5B 96.5% / 94.4% / 95.9%，原作者 sft 1.5B 21.7% / 12.3% / 13.5% | 3010 / 2408 / 245 条，贪心解码；准确率 = 和单步最优选得一样的比例。复现的 7B 见"和 7B 比" | 图 6 |
 
 ![图 1 稳定边界](figures/fig1_stability.png)
 
@@ -39,7 +39,7 @@
 
 ## 两个老师：开环和闭环要分开看
 
-论文的开环指标（AL、PR，式 26–29）在一组互相独立的状态上，用论文的时延公式给每个决策打分，参照答案是这个公式下的单步最优。所以开环比的其实是模型有多像这个公式。部署的 0.5B 在原作者测试集上 PR 99.94%，已经接近上限。论文的 LACS 在 λ = 0.3 下几乎不改变决策：闭环里 99.7% 的决策和单步最优一样，平均延迟只差 +0.04%（仿真）。
+论文的开环指标（AL、PR，式 26–29）在一组互相独立的状态上，用论文的时延公式给每个决策打分，参照答案是这个公式下的单步最优。所以开环比的其实是模型有多像这个公式。部署的 0.5B 在见过的台数、没见过的台数和原作者干净测试集上 PR 分别是 99.98%、99.95%、99.94%，已经接近上限。论文的 LACS 在 λ = 0.3 下几乎不改变决策：闭环里 99.7% 的决策和单步最优一样，平均延迟只差 +0.04%（仿真）。
 
 所以开环只用这一把尺子：我们的模型和论文原版模型都按单步最优打分。
 
@@ -51,13 +51,61 @@
 | 公式本身，3 台、N = 40 | 5.28 槽，丢弃 6.0% | 4.12 槽，丢弃 0.0% |
 | 0.5B 学生，3 台、N = 40 | 5.29 槽，丢弃 5.9% | 4.25 槽，丢弃 0.0% |
 | 学生比自己的老师，3 台、N = 20/40/60 | −0.1% ~ +0.2% | −1.6% ~ +3.2% |
-| 开环：论文的 PR（原作者测试集） | 99.94% | 74.1% |
+| 开环：论文的 PR（见过的台数 / 没见过的台数 / 原作者干净测试集） | 99.98% / 99.95% / 99.94% | 65.7% / 66.6% / 74.1% |
 | 台数泛化（闭环，3–11 台） | 和单步最优差 −0.1% ~ +0.5% | 没测 |
 | Jetson 实时：单次决策、稳定边界 | 55.0 ms，7 台终端 | 没测 |
 
-PS 公式在轻负载时和论文公式差不多（N = 20 时 7 台慢 0.07%、11 台慢 3.79%），负载越高越占优（7 台、N = 80 时快 22.73%）。PS 学生在开环 PR 上只有 74.1%，因为开环的尺子就是论文公式；它好不好要看闭环。
+PS 公式在轻负载时和论文公式差不多（N = 20 时 7 台慢 0.07%、11 台慢 3.79%），负载越高越占优（7 台、N = 80 时快 22.73%）。PS 学生在开环 PR 上只有 65.7%–74.1%，因为开环的尺子就是论文公式；它好不好要看闭环。
 
 比法对两个公式是一样的：同一个仿真器、同一串任务、同样的种子，两个公式看到的信息也一样。仿真器的服务器按论文式 4 自己写的平分算力排队，PS 感知公式正是从这个假设推出来的，所以这是在论文自己的假设下比，PS 公式更贴合这个假设。结论只适用于平分算力的服务器；先来先服务的服务器上谁更好要另外测，这个对照还没做。
+
+## 和 7B 比：三套测试集分开看
+
+开环有三套测试集，"本地最优"（留在终端本地算最快）的占比差得很远：
+
+| | 见过的台数（3/5/7/9/11） | 没见过的台数（4/6/8/10） | 原作者干净测试集 |
+|---|---|---|---|
+| 条数 | 3010 | 2408 | 245 |
+| 本地最优占比 | 47.97% | 45.93% | 2.45%（6 条） |
+| 从不选本地时准确率最多能到 | 52.03% | 54.07% | 97.55% |
+
+原作者干净测试集是原作者的测试文件（306 条）去掉和原作者训练数据重合的 61 条后剩下的。去掉的 61 条里 41 条本地最优，所以剩下的几乎不考本地，只看这一套看不出模型会不会选本地。下面两张表都来自 [evidence/G6/open_loop.md](evidence/G6/open_loop.md)，那里还有 PS 老师的学生、公式基线，以及按服务器台数和终端数 N 的分解。
+
+准确率 / PR（%）：
+
+| 模型 | 见过的台数 | 没见过的台数 | 原作者干净测试集 |
+|---|---|---|---|
+| 我们的 0.5B 软标签（部署） | 96.5 / 99.98 | 94.4 / 99.95 | 95.9 / 99.94 |
+| 我们的 1.5B 软标签 | 96.2 / 99.98 | 93.7 / 99.94 | 98.0 / 99.98 |
+| 我们的 1.5B 硬标签 | 96.0 / 99.88 | 95.2 / 99.93 | 99.2 / 99.99 |
+| 复现的 7B，λ = 0.3（论文 LACS） | 34.4 / 71.55 | 33.8 / 72.77 | 87.8 / 98.85 |
+| 复现的 7B，λ = 0 | 34.8 / 72.53 | 34.6 / 75.32 | 88.6 / 99.26 |
+| 原作者 SFT-7B（复现的起点） | 39.8 / 76.50 | 39.5 / 75.92 | 20.4 / 65.07 |
+| 原作者 1.5B sft | 21.7 / 65.20 | 12.3 / 64.50 | 13.5 / 70.44 |
+| 原作者 1.5B GRPO | 14.8 / 64.37 | 10.4 / 64.28 | 13.9 / 74.19 |
+| 原作者 1.5B score-GRPO | 17.8 / 64.82 | 10.6 / 64.38 | 13.5 / 72.53 |
+
+本地召回 · 本地精确：召回 = 本地最优的状态里选了本地的比例，精确 = 选了本地的状态里本地确实最优的比例。前两套是 %，原作者干净测试集只有 6 条本地最优，写条数：
+
+| 模型 | 见过的台数 | 没见过的台数 | 原作者干净测试集 |
+|---|---|---|---|
+| 我们的 0.5B 软标签（部署） | 99.6 · 98.4 | 99.5 · 97.2 | 6/6 · 6/6 |
+| 我们的 1.5B 软标签 | 99.5 · 98.4 | 99.1 · 97.4 | 6/6 · 6/6 |
+| 我们的 1.5B 硬标签 | 99.1 · 97.2 | 99.3 · 97.3 | 5/6 · 5/5 |
+| 复现的 7B，λ = 0.3（论文 LACS） | 0 · 没选过本地 | 0 · 没选过本地 | 0/6 · 没选过本地 |
+| 复现的 7B，λ = 0 | 0 · 没选过本地 | 0 · 没选过本地 | 0/6 · 没选过本地 |
+| 原作者 SFT-7B（复现的起点） | 67.5 · 49.9 | 74.4 · 46.4 | 6/6 · 6/166 |
+| 原作者 1.5B sft | 28.5 · 40.0 | 6.6 · 32.7 | 0/6 · 0/38 |
+| 原作者 1.5B GRPO | 11.0 · 39.5 | 0.4 · 30.8 | 0/6 · 0/5 |
+| 原作者 1.5B score-GRPO | 18.8 · 41.9 | 1.8 · 27.0 | 0/6 · 0/14 |
+
+**复现的 7B 在原作者干净测试集上接近上限，换到另外两套就掉下来。** 做法：从原作者的 SFT-7B 出发，按论文方法做 GRPO，λ = 0.3 和 λ = 0 各训一个（Colab，830 条训练题，208 次更新，结果在 `runs/20261108T103821Z_s7_colab_7b`）。原作者干净测试集上 PR 98.85% / 99.26%，另外两套只有 71.55%–75.32%。主要原因是训练后完全不选本地：5663 条测试状态里一次都没选，而另外两套近一半状态本地最优。PR 掉得最多的正是本地最优多的地方。以 λ = 0.3、见过的台数为例：N = 5 时 PR 93.7%，N = 80 时 59.3%，这两档的本地最优占比是 21.6% 和 72.8%；3 台服务器时 59.0%，11 台时 87.0%。最优是某台服务器的状态上，它选对 62%–67%，也低于我们的三个学生（89%–94%）。
+
+**本地动作是在 GRPO 前几步丢掉的。** 起点 SFT-7B 会选本地，但不看状态：在原作者干净测试集上选了 166 次本地，而本地最优只有 6 条。GRPO 用的 830 条训练题只有 49 条（5.9%）本地最优，网络排队全是 0，本地排队最多 3 槽，9 台和 11 台服务器的题里一条本地最优都没有；两套测试集都有本地最优，网络排队不为 0 的分别有 1008 条和 867 条。逐步审计了 λ = 0 那次训练：前 7 步采到 41 个本地回答，其中 35 个答在本该卸载的题上，29 个被罚；答对的 6 个只有 2 个被奖励。第 8 步到第 208 步的 3208 个回答里一个本地都没有。每题只采 4 个回答，约九成的题 4 个回答奖励几乎一样（标准差 < 1e-6），没有信号再把本地拉回来。在同一起点的单种子对照（`runs/20261108_s7_collapse_pair_v5`）里，第 6 次更新后，本地最优探针题上"本地执行"首 token 的平均概率从 SFT 的 75.43% 降到 11.34%，第 7 次后降到 5.75%；16 道探针题里有 7 道的这个 token 已被 top_p = 0.95 截掉。只把 top_p 改成 1，贪心解码仍然不选本地。每批换成一半本地最优的题，本地保住了，但 8 道该卸载的题也全选了本地。
+
+排除过的原因：答案解析（两种解析口径结果一样）、奖励计算（59041 个动作的成本逐项对照，差 0）、λ（λ = 0 也一样）。修正 LoRA dropout 和重复惩罚两处训练与打分不一致后，按 λ = 0 重训一次，准确率是 31.96% / 31.98% / 85.71%，比修正前略低，本地仍是 0（`runs/20261108_s7_fixed_nolacs`）。
+
+**怎么解读。** 这是"论文方法 + 原作者数据"的复现结果，不等于原版 COMLLM-7B，论文报的 96.86% 也不和这里的数字放在一起比。它说明只用原作者干净测试集评，会把"不会选本地"这个缺陷盖住。我们的学生在三套上都接近公式上限，但这不等于"小模型达到或超过 7B"。两边的训练数据、训练方法、提示词格式和模型大小都不一样，不是只差模型大小的对照。另外，前两套测试集出自我们自己的仿真器，学生就是在这个仿真器的状态分布上训练的，这对学生有利：和测试集完全相同的输入是 0 条，但对仿真器的适配没有排除。"同样的训练数据下，7B 和小模型谁强"这个问题没有回答，要回答得用更宽的数据重做 7B 的 SFT 和 GRPO。
 
 ## 系统
 
@@ -90,7 +138,7 @@ flowchart LR
 1. **训练。** 自己写的仿真器在 3/5/7/9/11 台服务器上生成状态，每个动作用论文的单步成本公式算成本，软标签 = softmax(−成本 / T)。每次抽 4 万条，LoRA 微调 Qwen2.5-0.5B 和 1.5B，只在答案那 1 个 token 上算 KL。论文的 COMLLM-7B 权重拿不到，所以老师是公式，不是 7B 模型。0.5B 和 1.5B 的质量几乎一样，部署 0.5B。另用 PS 感知公式当老师训练了一个 0.5B，作为第二条线（见上一节）。
 2. **加速。** 提示词压缩成每台服务器一行数字，答案是 1 个字母。llama-server 只算 1 个 token，在概率最高的 20 个候选里取最大的合法字母，不用生成，也不用语法约束。静态说明放在前缀，开 KV 缓存。只算 1 个 token 时 INT4 不比 Q8_0 快，所以用 Q8_0。
 3. **系统评测。** 实时闭环按真实时钟跑，决策的耗时算进任务延迟，用来量稳定边界。虚拟时间闭环每个决策都等 Jetson 答完再往下走，决策耗时不计入，用来在 N = 20–80 的重负载下比决策质量：羊群效应、台数泛化、开环 vs 闭环、平分算力标签、LACS 往后看。
-4. **GRPO 诊断。** 原作者的 1.5B 偏向服务器 1。这个偏向在 sft 模型里就有，贪心解码把它放大。从原作者 sft 出发做 GRPO，原作者干净测试集准确率从 13.5% 升到 81.2%（修正后的奖励）和 87.8%（原作者仓库的奖励）。我们的硬标签 1.5B 已经在公式上限，再做 GRPO 反而略降（见过的台数 96.0% → 92.9%）。
+4. **GRPO 诊断。** 原作者的 1.5B 偏向服务器 1。这个偏向在 sft 模型里就有，贪心解码把它放大。从原作者 sft 出发做 GRPO，原作者干净测试集准确率从 13.5% 升到 81.2%（修正后的奖励）和 87.8%（原作者仓库的奖励）。这两个模型只在原作者干净测试集和见过台数的前 1000 条（每种台数前 200 条，N 只有 5/10/20）上测过，后者只有 44.3% 和 52.1%，没在完整的两套上测。我们的硬标签 1.5B 已经在公式上限，再做 GRPO 反而略降（见过的台数 96.0% → 92.9%）。
 
 每一步的命令、参数和完整结果在 [docs/stages.md](docs/stages.md)。
 
@@ -102,7 +150,7 @@ cd comllm-edge-scheduler
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-python -m unittest discover -s tests     # 81 个测试；没有原作者数据时跳过其中 5 个
+python -m unittest discover -s tests     # 86 个测试；没有原作者数据时跳过其中 5 个
 python -m eval.figures                   # 从 runs/ 里的 CSV 重画 7 张图，并写出 figures/numbers.md
 ```
 
@@ -118,8 +166,8 @@ python -m eval.figures                   # 从 runs/ 里的 CSV 重画 7 张图�
 - **PS 老师那条线测得少。** 它的学生只在 3 台服务器、1 个种子上跑了闭环，台数泛化和 Jetson 实时数字都没测；优势是在平分算力的服务器上测的，先来先服务的服务器上没测。
 - **闭环质量对比用虚拟时间，样本少。** LLM 的虚拟时间点只跑了 1 个种子，实时闭环每点 2 个种子、3 分钟。差别在 1% 以内的结论只说"分不开"。
 - **平均延迟只算完成的任务。** 丢得多的策略会显得快，一定要和丢弃率一起看。
-- **没有和 COMLLM-7B 直接比。** 它的权重拿不到；论文报的数字用的是另一份测试集，不和这里的数字放在一起。
-- **原作者的测试集按答案配平过**，分布和闭环里遇到的状态不一样，所以它只作为补充测试集。
+- **复现的 7B 不等于原版 COMLLM-7B。** 原版权重拿不到；论文报的数字用的是另一份测试集，不和这里的数字放在一起。复现的 7B 训练后完全不选本地，只在 Colab 上跑了开环。没有用更宽的数据重做 7B 的 SFT 或 GRPO，所以"同样数据下 7B 和小模型谁强"没有回答。
+- **原作者的测试集按答案配平过**，分布和闭环里遇到的状态不一样。去掉和原作者训练数据重合的题后，245 条里只有 6 条本地最优，从不选本地也能有 97.55% 的准确率。所以它只作为补充测试集，开环结果三套分开报。
 - **只测了一块 Jetson Orin Nano 8GB**（MAXN_SUPER，llama.cpp 5aeac37a3），环境节点到目前只用过 Mac。
 
 ## 和原论文的差别

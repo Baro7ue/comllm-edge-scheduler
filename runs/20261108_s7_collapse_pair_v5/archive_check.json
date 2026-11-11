@@ -1,0 +1,33 @@
+{
+  "checked_utc": "2026-11-08T14:23:43.877510+00:00",
+  "status": "passed",
+  "role": "new_matched_initialization_diagnostic",
+  "is_archived_replay": false,
+  "original_drive_source_files": 32,
+  "original_drive_source_bytes": 130904,
+  "download_provenance_sha256": "6bcb37595a3544c0b5ea9a2c59206879484d20e8197bdc4b90b87eaa305844bf",
+  "execution_evidence_check_sha256": "ff38832c6ba190f21b88cc78aef6c00492ec019063c2a31529fd532e66188fd4",
+  "new_optimizer_updates": 20,
+  "prior_failed_optimizer_updates": 4,
+  "whole_investigation_optimizer_updates": 24,
+  "root_runtime_seconds": 281.0864513380002,
+  "source_sha256": "66615b07692a83221ab33ed25192af38fe1595e3bd3781c7d3a0f90abe8797ad",
+  "postprocessor_audit_sha256": "5502ccf34951cc6c57f1ca90da4b4d69ae9749b1747092fae02e0f1c8da78cc6",
+  "additional_metrics_sha256": "b95785983ec87e5953c879861d69e4ed22c8267d6bad9d1c7f3f6bb6f7ad62cd",
+  "independent_check_sha256": "948bf2669698fcbf367070a474e10d2f5a7bad0862c2d97758629aefd59bc288",
+  "independent_status": "passed",
+  "analysis_manifest_sha256": "ee51e8754cf255e512ff25917397b0ee4fdbd5bdfad2be6cfb7429fa578d4473",
+  "all32_source_files_readback_verified": true,
+  "all_analysis_files_readback_verified": true,
+  "scope_limits": [
+    "Fair after6 comparison across3 matched-initialization arms; after7 only baseline/balanced.",
+    "SFT reference probabilities measured adapter-disabled after6; tag0 is not time-zero.",
+    "Canonical first-token masses and selected16-row panel; no full-test-generalization claim.",
+    "Failed_v3/v4 only provide failure/budget evidence, not intervention outcomes."
+  ],
+  "archival_actions": {
+    "new_gpu_work_started": false,
+    "large_weights_downloaded": false,
+    "previous_runs_modified": false
+  }
+}

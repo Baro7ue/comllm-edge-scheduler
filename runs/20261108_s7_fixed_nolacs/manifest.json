@@ -1,0 +1,134 @@
+{
+  "files": {
+    "archive/S7_7B复现.fixed.executed.ipynb": {
+      "bytes": 49524,
+      "sha256": "2cc845e0f91fafe99dd7f21e23b3e7977f0f5a4ede1767ad646bf0dffc500124"
+    },
+    "archive/notebook_archive_check.json": {
+      "bytes": 855,
+      "sha256": "3104a2d1993584559821368f3f91cdfb964da0e426b74862d27126ffebe9ba11"
+    },
+    "final_archive_check.json": {
+      "bytes": 1438,
+      "sha256": "c70294a562cb8890ec1fd87bb50eeb6252c29baa25c24c12786b0b8dacca3a24"
+    },
+    "final_download_provenance.json": {
+      "bytes": 4611,
+      "sha256": "247c38d31393e327b9259494510384dd26fd2bb1a5d79f30f5bc7bd1b6a13c00"
+    },
+    "finished_logs_download_provenance.json": {
+      "bytes": 1762,
+      "sha256": "ca4bbec2a1d2bfaa8584d7fcbc26af049ebfb44f2cce2f18eb7f532d054ea4b2"
+    },
+    "finished_logs_precheck.json": {
+      "bytes": 2003,
+      "sha256": "7e428011a18a0eb5f86d9f512fdccfdc60cb07a4f24dd65bb4b1e58e03889a20"
+    },
+    "fixed_acceptance_20261108T134519.138956Z.json": {
+      "bytes": 36702,
+      "sha256": "71f4ee5603d63ad6a377f5dd568c1f6f355c8f20510d7d2b735b9dea5b4ced94"
+    },
+    "fixed_preflight.json": {
+      "bytes": 7631,
+      "sha256": "6daf020263014d44814f3ca66f214ae39a529b42362acaa48de11579427b1469"
+    },
+    "immutable_download_provenance.json": {
+      "bytes": 10051,
+      "sha256": "3ed4637fe2475d2b36cd175b76df9e3aea83800e5dca45b7613d64a2555e53b7"
+    },
+    "immutable_manifest.json": {
+      "bytes": 3216,
+      "sha256": "9496a0a4ee0e10d2d158a3bb6190fadaa6f6291766edfaae04f52e65f1c94e25"
+    },
+    "immutable_precheck.json": {
+      "bytes": 1580,
+      "sha256": "b9d3a3493ddfbff252936e8568abcd50ca31dd4caadbaafdaae64b521050e99b"
+    },
+    "nolacs/config.json": {
+      "bytes": 7526,
+      "sha256": "d402a4abf53332279e8bebb849ebb502d9d6f212168cb1a49ba7f1f1c6dda298"
+    },
+    "nolacs/data_audit.json": {
+      "bytes": 851,
+      "sha256": "150ade6cab38af1511ba65f756bd38c03e0869f7c53316270d62a73f92a54af1"
+    },
+    "nolacs/lora/adapter_config.json": {
+      "bytes": 1173,
+      "sha256": "f75af7d8fe008562d61f30898c35e4a5d3675578646fc98a6a59804121a1d32b"
+    },
+    "nolacs/policy_consistency_probe.json": {
+      "bytes": 637,
+      "sha256": "ea2a2d35cbd0a7b0d8a5386b9edae9a15dbf436adba1235844378876aa1b5b6e"
+    },
+    "nolacs/policy_consistency_probe_before.json": {
+      "bytes": 635,
+      "sha256": "7da4d15e84f4b52e48c8bfe67a8f24989dca93a48fc8c922d70f41a78a1dfe56"
+    },
+    "nolacs/preds.csv": {
+      "bytes": 264148,
+      "sha256": "77c3a9693407413265a310c92f3cb2834434be397923562a3d89e2e25940465c"
+    },
+    "nolacs/summary.json": {
+      "bytes": 196,
+      "sha256": "cc555be05ef0da8dadbbbf86d1834155db1f3055ee14a700d35684e293aed997"
+    },
+    "nolacs/token_audit.json": {
+      "bytes": 89,
+      "sha256": "39c0d6652cf9b59b404800137bbdbd97633be247b900d70ce72dbc372a8917c4"
+    },
+    "nolacs/train_log.jsonl": {
+      "bytes": 415725,
+      "sha256": "ac91366f1ffcd06c762cc00c8c1b34a4e285c801e78b0e75dbb81ed19df00990"
+    },
+    "nolacs/val_log.jsonl": {
+      "bytes": 453,
+      "sha256": "f2d34f2599aa96153dd8f22291a4cb2dcdbeeea741b287d5467c051b551fe5ed"
+    },
+    "pair.json": {
+      "bytes": 6215,
+      "sha256": "6c8fe420c0420cdffb7ecc36f9e44267982ec7078300fddee9f96747fbba56e3"
+    },
+    "smoke/nolacs/config.json": {
+      "bytes": 7524,
+      "sha256": "78788890d6bcba7f6939fba404e05a20ec3f0c14a7bf1863401f0ed60a682bff"
+    },
+    "smoke/nolacs/policy_consistency_probe.json": {
+      "bytes": 637,
+      "sha256": "ea2a2d35cbd0a7b0d8a5386b9edae9a15dbf436adba1235844378876aa1b5b6e"
+    },
+    "smoke/nolacs/policy_consistency_probe_before.json": {
+      "bytes": 635,
+      "sha256": "7da4d15e84f4b52e48c8bfe67a8f24989dca93a48fc8c922d70f41a78a1dfe56"
+    },
+    "smoke/nolacs/summary.json": {
+      "bytes": 201,
+      "sha256": "d40b49608121d0e1f197d1252c216e5547137b99b3237596636b603d8a987bc4"
+    },
+    "smoke/nolacs/token_audit.json": {
+      "bytes": 87,
+      "sha256": "baee9df4e77dec27dcb51d56b24d42b2676e122822f03ee7dd178ee241b90cd8"
+    },
+    "smoke/pair.json": {
+      "bytes": 6213,
+      "sha256": "56b342265c0266847eb42d439e029565580833f23d2db5c460262e56a6efede5"
+    },
+    "smoke_initial_probe.json": {
+      "bytes": 635,
+      "sha256": "7da4d15e84f4b52e48c8bfe67a8f24989dca93a48fc8c922d70f41a78a1dfe56"
+    },
+    "smoke_restore_check_20261108T124459.295206Z.json": {
+      "bytes": 965,
+      "sha256": "6bd8b98bd75e60f880ea0a9fc3d30dc9b62a26a0d883818c573e10949a2b5e21"
+    },
+    "smoke_restore_passed.json": {
+      "bytes": 248,
+      "sha256": "11575bf7ff1aa3a4eaada3b8b5b0048245a1e35d6e3334a6a77e9e40bfb5f3cc"
+    },
+    "source_receipt.json": {
+      "bytes": 2764,
+      "sha256": "339a68ce5a793b4def01b6fe324ba3581bca46f5fec84f7314e7491bafd87958"
+    }
+  },
+  "manifest_self_excluded": true,
+  "scope": "Final small-artifact archive; remote large weights excluded"
+}

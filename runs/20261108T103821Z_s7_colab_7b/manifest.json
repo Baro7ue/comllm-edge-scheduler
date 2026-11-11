@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-11-08T10:44:03.352688+00:00",
+  "hash_algorithm": "SHA-256",
+  "manifest_self_excluded": true,
+  "files": {
+    "S7_7B复现.executed.ipynb": {
+      "bytes": 24564,
+      "sha256": "c813ecd955cb30465e29e1978787bcb7c1fc1ddda21b3a07d21b467bf16f199c"
+    },
+    "acceptance_20261108T103821.435715Z.json": {
+      "bytes": 56761,
+      "sha256": "28accfda57ff3a359f030ecd74d73bb789432cddd6bfc6ffabe9527388f2d92a"
+    },
+    "acceptance_download_provenance.json": {
+      "bytes": 1822,
+      "sha256": "7822442c15acfdbfed3636e3ec3a42dae0303cc9dab495943c416c8d29c12297"
+    },
+    "colab_environment.json": {
+      "bytes": 361,
+      "sha256": "1ba1b814e721eca051869a7969b09a22351a7b963dce6221925aeba071734746"
+    },
+    "executed_notebook_download.json": {
+      "bytes": 614,
+      "sha256": "c931609a0430986980521e5efc920fc441a43ca1f6141cd889199f1ce1a70fea"
+    },
+    "lacs/config.json": {
+      "bytes": 6400,
+      "sha256": "11b18964ed31d148925de4cc9481e912dece91e7ac0b89f7e0789c475197dce4"
+    },
+    "lacs/data_audit.json": {
+      "bytes": 851,
+      "sha256": "150ade6cab38af1511ba65f756bd38c03e0869f7c53316270d62a73f92a54af1"
+    },
+    "lacs/download_provenance.json": {
+      "bytes": 4720,
+      "sha256": "a6e23c9748ea3ba4ae887eda6c07401ef2fbc9f6113653aef123fb92ca98e9de"
+    },
+    "lacs/lora/adapter_config.json": {
+      "bytes": 1174,
+      "sha256": "3a20ed8d2c04c8ad99ddc8bfe65f1d6a318bae7c60034bca64eddd689924f2a8"
+    },
+    "lacs/precheck.json": {
+      "bytes": 18461,
+      "sha256": "22e1900d4d865482ecae23adca1920bff1ca67470dd9eee5e2b9610742116b62"
+    },
+    "lacs/preds.csv": {
+      "bytes": 264121,
+      "sha256": "3fae2baf5a720eb2ac2803d0d3cd1e0a4e48ef9de3d7accc20515fe0548e6aac"
+    },
+    "lacs/summary.json": {
+      "bytes": 194,
+      "sha256": "adbbecc07731e973e262dcc017d2d1e331605fe5060bf9c24987163b4df39407"
+    },
+    "lacs/token_audit.json": {
+      "bytes": 89,
+      "sha256": "39c0d6652cf9b59b404800137bbdbd97633be247b900d70ce72dbc372a8917c4"
+    },
+    "lacs/train_log.jsonl": {
+      "bytes": 40908,
+      "sha256": "0660a63e01195be51a23dc06ea5834ccbe4a3db41f81d24948cf7cd389315e85"
+    },
+    "lacs/val_log.jsonl": {
+      "bytes": 453,
+      "sha256": "bf18b7c92871a4f9d9a178582e162146b75699cbe284ad9d3646c7d1f64f5b20"
+    },
+    "nolacs/config.json": {
+      "bytes": 6419,
+      "sha256": "d6a3e20e6334ea2eaab345ead2e9dd15f6c0ddae8a20db38eb20e22e8e75df24"
+    },
+    "nolacs/data_audit.json": {
+      "bytes": 851,
+      "sha256": "150ade6cab38af1511ba65f756bd38c03e0869f7c53316270d62a73f92a54af1"
+    },
+    "nolacs/download_provenance.json": {
+      "bytes": 4720,
+      "sha256": "8ef97c04cd25fbabf24a70d9f6d930f59f12e79d6f4cb94a9b38782b36f11824"
+    },
+    "nolacs/lora/adapter_config.json": {
+      "bytes": 1174,
+      "sha256": "27704a524daea4f2e88d6687f034bfaa59fc0d09bd8793850e04ce361c8e275c"
+    },
+    "nolacs/precheck.json": {
+      "bytes": 18466,
+      "sha256": "aaf1e7a3b1ee0427e269b8eec3e6d9751b573c102ad89aed61eae9716953d91c"
+    },
+    "nolacs/preds.csv": {
+      "bytes": 264151,
+      "sha256": "54618a67d1f0cea91f991b91f81be8af936f190ae1bbe25b62dafc748dedb736"
+    },
+    "nolacs/summary.json": {
+      "bytes": 196,
+      "sha256": "52ea3dc4d58cdc2f8618a3260c348335a482cfef392289e6e660c58eb1a2f45c"
+    },
+    "nolacs/token_audit.json": {
+      "bytes": 89,
+      "sha256": "39c0d6652cf9b59b404800137bbdbd97633be247b900d70ce72dbc372a8917c4"
+    },
+    "nolacs/train_log.jsonl": {
+      "bytes": 40881,
+      "sha256": "f236358774ec951ff85e54e6721cdceb9277a384e0d976fd18974a92e7a4738d"
+    },
+    "nolacs/val_log.jsonl": {
+      "bytes": 453,
+      "sha256": "74b4c54f70c3f7974255895b2b81cf87b031d1ed0d142f63a230baea419b2aaf"
+    },
+    "pair.json": {
+      "bytes": 5252,
+      "sha256": "0e2e10c441106e9b650fca0d64a5edbdaa7e46c675d999220d6a064f0f7a6f1d"
+    },
+    "paired_precheck.json": {
+      "bytes": 23267,
+      "sha256": "3f355388954790521cbb553b83808c585cfba33a5014c70f970bb6fdaa36120d"
+    },
+    "source_receipt.json": {
+      "bytes": 2477,
+      "sha256": "7a362222df9c2f641979a597dc5367a05a8a1a83ae5fe33e9bf62a1428ccbcd5"
+    }
+  }
+}

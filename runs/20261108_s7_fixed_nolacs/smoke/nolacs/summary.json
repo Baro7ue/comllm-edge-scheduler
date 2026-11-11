@@ -1,0 +1,9 @@
+{
+  "step": 8,
+  "elapsed_train_s": 89.65219923799896,
+  "training_complete": true,
+  "target_steps": 8,
+  "status": "smoke_complete",
+  "group": "nolacs",
+  "invocation_seconds": 122.35246613000027
+}

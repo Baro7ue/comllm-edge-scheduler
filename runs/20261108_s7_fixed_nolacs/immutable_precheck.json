@@ -1,0 +1,37 @@
+{
+  "checked_utc": "2026-11-08T12:52:42.722236+00:00",
+  "status": "passed_immutable_precheck_only",
+  "scope": "Completed8-step smoke/reload and full initial immutable evidence; not final training/model acceptance",
+  "drive_root_id": "10LHcVnzb_Zs1LTSTswC5hEOFN0pOS-xn",
+  "source_provenance_sha256": "3ed4637fe2475d2b36cd175b76df9e3aea83800e5dca45b7613d64a2555e53b7",
+  "files_checked": 15,
+  "downloaded_bytes": 40092,
+  "fixed_identity_sha256": "2781d143d025a31c6653d6b69c7d90b6541af49833a77afbd9cb9eab14eb196a",
+  "smoke": {
+    "steps": 8,
+    "post_nonzero_lora_B_tensors": 196,
+    "reload_optimizer_steps": 0,
+    "reference_sha256": "10ea03dedf983fd8f923a24a6b2a61fa6fd2f873f13b64841c79cbd0cab95a04"
+  },
+  "full_initial": {
+    "all_lora_B_zero": true,
+    "nonzero_lora_B_count": 0,
+    "probe_sha256": "7da4d15e84f4b52e48c8bfe67a8f24989dca93a48fc8c922d70f41a78a1dfe56",
+    "source": {
+      "drive_file_id": "1f5IWvm5_k11O-Wl3gVJdLE5DD25Tqw5m",
+      "drive_parent_id": "1BTGHyGFwuoX19ugwSlsFxYfs7ijnK9yy",
+      "downloaded_utc": "2026-11-08T12:47:03.645Z",
+      "sha256": "7da4d15e84f4b52e48c8bfe67a8f24989dca93a48fc8c922d70f41a78a1dfe56",
+      "bytes": 635
+    }
+  },
+  "data_sha256_match_local": true,
+  "source_model_tensors_checked": false,
+  "final_acceptance": "pending completed full208/predictions5663 and actual CPU tensor acceptance",
+  "precheck_actions": {
+    "downloaded_immutable_small_files": true,
+    "downloaded_running_full_summary_or_predictions": false,
+    "downloaded_model_or_checkpoint": false,
+    "gpu_used_by_precheck": false
+  }
+}

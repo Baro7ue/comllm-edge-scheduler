@@ -1,0 +1,24 @@
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:  23%|██▎       | 77/339 [00:00<00:00, 756.37it/s]Loading weights:  51%|█████     | 173/339 [00:00<00:00, 874.35it/s]Loading weights:  80%|███████▉  | 270/339 [00:00<00:00, 901.75it/s]Loading weights: 100%|██████████| 339/339 [00:00<00:00, 937.31it/s]
+{"arm": "baseline", "update": 1, "local_samples": 3, "GT_local": 0, "archived_exact_so_far": true}
+{"arm": "baseline", "update": 2, "local_samples": 8, "GT_local": 0, "archived_exact_so_far": false}
+{"arm": "baseline", "update": 3, "local_samples": 12, "GT_local": 0, "archived_exact_so_far": false}
+{"arm": "baseline", "update": 4, "local_samples": 9, "GT_local": 1, "archived_exact_so_far": false}
+{"arm": "baseline", "update": 5, "local_samples": 4, "GT_local": 0, "archived_exact_so_far": false}
+{"arm": "baseline", "update": 6, "local_samples": 3, "GT_local": 1, "archived_exact_so_far": false}
+{"arm": "baseline", "update": 7, "local_samples": 0, "GT_local": 0, "archived_exact_so_far": false}
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 41/339 [00:00<00:00, 404.26it/s]Loading weights:  40%|████      | 137/339 [00:00<00:00, 707.09it/s]Loading weights:  72%|███████▏  | 244/339 [00:00<00:00, 863.21it/s]Loading weights: 100%|██████████| 339/339 [00:00<00:00, 850.82it/s]
+{"arm": "full_support", "update": 1, "local_samples": 3, "GT_local": 0, "archived_exact_so_far": null}
+{"arm": "full_support", "update": 2, "local_samples": 8, "GT_local": 0, "archived_exact_so_far": null}
+{"arm": "full_support", "update": 3, "local_samples": 12, "GT_local": 0, "archived_exact_so_far": null}
+{"arm": "full_support", "update": 4, "local_samples": 7, "GT_local": 1, "archived_exact_so_far": null}
+{"arm": "full_support", "update": 5, "local_samples": 3, "GT_local": 0, "archived_exact_so_far": null}
+{"arm": "full_support", "update": 6, "local_samples": 1, "GT_local": 1, "archived_exact_so_far": null}
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:  19%|█▉        | 64/339 [00:00<00:00, 579.09it/s]Loading weights:  50%|█████     | 170/339 [00:00<00:00, 830.24it/s]Loading weights:  79%|███████▉  | 268/339 [00:00<00:00, 887.25it/s]Loading weights: 100%|██████████| 339/339 [00:00<00:00, 889.48it/s]
+{"arm": "balanced_prefix", "update": 1, "local_samples": 7, "GT_local": 2, "archived_exact_so_far": null}
+{"arm": "balanced_prefix", "update": 2, "local_samples": 9, "GT_local": 2, "archived_exact_so_far": null}
+{"arm": "balanced_prefix", "update": 3, "local_samples": 13, "GT_local": 2, "archived_exact_so_far": null}
+{"arm": "balanced_prefix", "update": 4, "local_samples": 11, "GT_local": 2, "archived_exact_so_far": null}
+{"arm": "balanced_prefix", "update": 5, "local_samples": 11, "GT_local": 2, "archived_exact_so_far": null}
+{"arm": "balanced_prefix", "update": 6, "local_samples": 11, "GT_local": 2, "archived_exact_so_far": null}
+{"arm": "balanced_prefix", "update": 7, "local_samples": 13, "GT_local": 2, "archived_exact_so_far": null}
+COLLAPSE_PROBE_COMPLETE /content/drive/MyDrive/COMLLM/s7_collapse_pair_v5_20261108
