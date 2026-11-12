@@ -1,0 +1,29 @@
+{
+  "scope": "7B closed-loop generation-config validation compatibility fix",
+  "branch": "comllm-stage7-v1",
+  "original_notebook_sha256": "6a18ba4ac4596862f08be5887fa3a8c446c15405588fe8bce7d723d9e6770b30",
+  "fixed_notebook": "train/S7_7B闭环_校验修复_v1.ipynb",
+  "fixed_notebook_sha256": "dcbb3e04401af6f407a0437d7f5f0b6d5e23e7cbae97082e18e0807d1dc5fe49",
+  "source_change": "Only sixth code cell: add read-only effective-generation-settings guard and replace combined raw assertion.",
+  "unchanged": [
+    "other six code-cell sources",
+    "model loading",
+    "base and adapter identities",
+    "decode parameters",
+    "12-point matrix",
+    "provenance and runtime resume checks",
+    "old run artifacts",
+    "preexisting untracked notebook",
+    "four premodified PNGs"
+  ],
+  "checks": {
+    "unit_test_command": ".venv/bin/python -B -m unittest tests.test_s7_closed_notebook tests.test_readme tests.test_colab_loop",
+    "passed": 13,
+    "new_regression_tests": 5,
+    "independent_review": "passed",
+    "remote_clean_patch_bytewise_readback": "passed"
+  },
+  "remote_notebook_id": "1NzefdqRgIiR2a8bLc4AiGRlUu_Wr6iQu",
+  "gpu_run_verified_after_fix": false,
+  "temporary_environment_cell": "runtime preparation only; removed before original seven cells run; not part of committed notebook"
+}
