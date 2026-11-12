@@ -1,0 +1,47 @@
+{
+  "status": "stopped_before_model_loading",
+  "archived_utc": "2026-11-12T09:26:12.677071+00:00",
+  "notebook_id": "1NzefdqRgIiR2a8bLc4AiGRlUu_Wr6iQu",
+  "fix_commit": "2852269",
+  "code_sources_match_fixed_notebook": true,
+  "completed_points": 0,
+  "failed_code_cell": 6,
+  "error": {
+    "name": "AssertionError",
+    "message": "运行硬件/版本变化，拒绝续跑",
+    "location": "existing runtime_identity.json equality check before invocation/model loading"
+  },
+  "previous_gpu": "NVIDIA A100-SXM4-80GB",
+  "current_resource_panel_gpu_capacity_gb": 40,
+  "current_torch_gpu_name": "not exported by notebook",
+  "environment_versions": {
+    "torch": "2.14.1+cu130",
+    "transformers": "5.20.2",
+    "peft": "0.21.2",
+    "accelerate": "1.15.0",
+    "numpy": "2.4.6"
+  },
+  "preflight": {
+    "code_members": 36,
+    "golden": 4.197929414659039,
+    "strict_adapter_training_identity": "passed",
+    "base_files_sha": "13 files passed; copied in 348.570 seconds",
+    "provenance": "passed; 0 of 12 complete"
+  },
+  "generation_guard_reached": false,
+  "model_loading_started": false,
+  "earlier_mount_attempt": {
+    "error": "ValueError: mount failed",
+    "retry_authorized_by_user": "重新跑",
+    "retry_mount_succeeded": true
+  },
+  "old_drive_output": "s7_closed_runs_20261108",
+  "old_runtime_identity_overwritten": false,
+  "resume_protection_changed": false,
+  "runtime_retained_pending_user_direction": true,
+  "old_drive_output_verification": {
+    "files": 3,
+    "ids_sizes_modified_times": "unchanged from preflight",
+    "new_invocation_results_or_acceptance": false
+  }
+}
