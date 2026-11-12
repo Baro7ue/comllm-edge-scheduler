@@ -1,0 +1,21 @@
+{
+  "status": "prepared_not_executed",
+  "user_authorization": "新建目录，用当前 A100 继续（推荐）",
+  "source_notebook": "train/S7_7B闭环_校验修复_v1.ipynb",
+  "notebook": "train/S7_7B闭环_A10040GB_v1.ipynb",
+  "sha256": "c5ccabda67581145c8c3341c7306b7f824020c6251ed2f73a14fac3052507370",
+  "old_output_preserved": "s7_closed_runs_20261108",
+  "new_output": "s7_closed_runs_20261112_a100_40gb",
+  "code_delta": "Only first code cell OUT path changes; other six code-cell sources identical to reviewed generation-guard fix. Markdown output paths updated.",
+  "model_decode_matrix_and_resume_guards": "unchanged",
+  "old_points": 0,
+  "target_points": 12,
+  "gpu_run_verified": false,
+  "checks": {
+    "cpu_tests_passed": 13,
+    "remote_clean_bytewise_readback": "passed",
+    "new_output_directory_preflight": "absent",
+    "active_sessions_before_new_runtime": "none",
+    "independent_source_and_static_compile_review": "passed"
+  }
+}
