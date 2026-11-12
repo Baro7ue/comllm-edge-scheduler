@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-11-12T13:35:50.102314+00:00",
+  "archive_status": "user_paused",
+  "hash_algorithm": "SHA-256",
+  "self_excluded": true,
+  "files": {
+    "S7_7B闭环_executed.ipynb": {
+      "bytes": 47010,
+      "sha256": "26facef899f00bda44d28bd845ea4dcbd1b6763eaffca0c691a090197cec7ead"
+    },
+    "environment_preparation_executed.ipynb": {
+      "bytes": 23474,
+      "sha256": "49220fe45f0a99ef59294730a7083397e52d2f9cc6295e85d5a9c2ce2475e8c9"
+    },
+    "gpu_process_probe.png": {
+      "bytes": 117103,
+      "sha256": "82e4d7bf1118d95bbd002618838f727c4a7ebc1a3c730929ae4851f822554522"
+    },
+    "gpu_process_probe.txt": {
+      "bytes": 2273,
+      "sha256": "2a562d2b81f9969b870fbda90296e7611540ea013e33979903d066d059c5cc3d"
+    },
+    "invocation_20261112T111226.771318Z.json": {
+      "bytes": 1575,
+      "sha256": "1be0c272cc528c2c4e59e848aa98dd0fb32dc37c07120959c5b71a8e30001951"
+    },
+    "no_active_sessions.png": {
+      "bytes": 44601,
+      "sha256": "c0d67e3fb3cc5b513c2376508c41875e1078f6185787de288c63b21184461f92"
+    },
+    "paused_status.json": {
+      "bytes": 2829,
+      "sha256": "59176fba434aba0855334d989309a66d61806deb79f5afa49dc65bade5ba1927"
+    },
+    "provenance.json": {
+      "bytes": 91103,
+      "sha256": "bd7fa35f3cc430b9a816a000e1fb2f6f80975501f2d2d7c1ccf00b18ab13c871"
+    },
+    "runtime_identity.json": {
+      "bytes": 203,
+      "sha256": "2e27473a92532f0ce1873af29d21224fd56a372ddfcfd997f19e108dbeef9323"
+    },
+    "source_receipt.json": {
+      "bytes": 2887,
+      "sha256": "9b3640d776d0167c01084a12991f9396f115bca15d05f5d6a570cf7308590d13"
+    }
+  },
+  "updated_utc": "2026-11-12T13:36:47.841565+00:00"
+}

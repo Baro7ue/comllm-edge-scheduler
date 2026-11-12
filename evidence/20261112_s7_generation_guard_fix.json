@@ -25,5 +25,14 @@
   },
   "remote_notebook_id": "1NzefdqRgIiR2a8bLc4AiGRlUu_Wr6iQu",
   "gpu_run_verified_after_fix": false,
-  "temporary_environment_cell": "runtime preparation only; removed before original seven cells run; not part of committed notebook"
+  "temporary_environment_cell": "runtime preparation only; removed before original seven cells run; not part of committed notebook",
+  "gpu_generation_guard_observation": {
+    "status": "passed for grpo_7b_repro",
+    "raw_num_beams": null,
+    "effective_num_beams": 1,
+    "effective_repetition_penalty": 1.05,
+    "full_12_point_loop_complete": false,
+    "run_status": "user paused before first six-point write",
+    "evidence": "runs/20261112T133417Z_s7_colab_closed_loop_paused/S7_7B闭环_executed.ipynb"
+  }
 }

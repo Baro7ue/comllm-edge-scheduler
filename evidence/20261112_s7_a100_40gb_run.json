@@ -1,5 +1,5 @@
 {
-  "status": "prepared_not_executed",
+  "status": "user_paused_before_first_group_completion",
   "user_authorization": "新建目录，用当前 A100 继续（推荐）",
   "source_notebook": "train/S7_7B闭环_校验修复_v1.ipynb",
   "notebook": "train/S7_7B闭环_A10040GB_v1.ipynb",
@@ -17,5 +17,24 @@
     "new_output_directory_preflight": "absent",
     "active_sessions_before_new_runtime": "none",
     "independent_source_and_static_compile_review": "passed"
-  }
+  },
+  "actual_gpu": "NVIDIA A100-SXM4-80GB",
+  "directory_name_note": "a100_40gb is the approved output name; runtime identity records actual 80GB GPU",
+  "invocation_started_utc": "2026-11-12T11:12:26.771381Z",
+  "completed_points": 0,
+  "first_group_complete": false,
+  "second_group_complete": false,
+  "generation_guard_passed_on_gpu": true,
+  "generation_guard_observed": {
+    "raw_num_beams": null,
+    "effective_num_beams": 1,
+    "raw_repetition_penalty": 1.05,
+    "effective_repetition_penalty": 1.05
+  },
+  "stopped_on_user_request": "先暂停；明天再跑",
+  "execution_interruption": "KeyboardInterrupt in code cell 6",
+  "ui_execution_elapsed_at_interrupt": "2h 20m 59s",
+  "runtime": "disconnected and deleted; Manage sessions showed No active sessions",
+  "archive": "runs/20261112T133417Z_s7_colab_closed_loop_paused",
+  "restart_note": "No completed points were written; first model must restart. Same-runtime-identity resume protection remains unchanged."
 }

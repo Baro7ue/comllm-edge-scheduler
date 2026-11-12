@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "archive_status": "user_paused",
+  "archived_utc": "2026-11-12T13:35:50.101406+00:00",
+  "drive_output_root_id": "15D61jVmXssr-YVIxKRPjByzGhRdJ_05t",
+  "drive_output_root_name": "s7_closed_runs_20261112_a100_40gb",
+  "downloaded_files": [
+    {
+      "local_file": "invocation_20261112T111226.771318Z.json",
+      "drive_file_id": "1q6MWTv1MAY3W5IyQOd6RJOH7FicS0xwC",
+      "drive_file_name": "invocation_20261112T111226.771318Z.json",
+      "drive_parent_id": "15D61jVmXssr-YVIxKRPjByzGhRdJ_05t",
+      "drive_modified_utc": "2026-11-12T11:12:26.775Z",
+      "listed_bytes": 1575,
+      "drive_url": "https://drive.google.com/file/d/1q6MWTv1MAY3W5IyQOd6RJOH7FicS0xwC/view",
+      "bytes": 1575,
+      "sha256": "1be0c272cc528c2c4e59e848aa98dd0fb32dc37c07120959c5b71a8e30001951",
+      "raw_bytes_preserved": true,
+      "download_started_utc": "2026-11-12 13:34:17 UTC",
+      "download_completed_utc": "2026-11-12 13:35:02 UTC"
+    },
+    {
+      "local_file": "runtime_identity.json",
+      "drive_file_id": "1c8d76waP8irIeFpKGAvYro-9ozecwu8R",
+      "drive_file_name": "runtime_identity.json",
+      "drive_parent_id": "15D61jVmXssr-YVIxKRPjByzGhRdJ_05t",
+      "drive_modified_utc": "2026-11-12T11:12:26.767Z",
+      "listed_bytes": 203,
+      "drive_url": "https://drive.google.com/file/d/1c8d76waP8irIeFpKGAvYro-9ozecwu8R/view",
+      "bytes": 203,
+      "sha256": "2e27473a92532f0ce1873af29d21224fd56a372ddfcfd997f19e108dbeef9323",
+      "raw_bytes_preserved": true,
+      "download_started_utc": "2026-11-12 13:34:17 UTC",
+      "download_completed_utc": "2026-11-12 13:35:02 UTC"
+    },
+    {
+      "local_file": "provenance.json",
+      "drive_file_id": "1lZ84fhRSxJA-LK7E-vSFkp5rTkIemRFF",
+      "drive_file_name": "provenance.json",
+      "drive_parent_id": "15D61jVmXssr-YVIxKRPjByzGhRdJ_05t",
+      "drive_modified_utc": "2026-11-12T11:11:59.444Z",
+      "listed_bytes": 91103,
+      "drive_url": "https://drive.google.com/file/d/1lZ84fhRSxJA-LK7E-vSFkp5rTkIemRFF/view",
+      "bytes": 91103,
+      "sha256": "bd7fa35f3cc430b9a816a000e1fb2f6f80975501f2d2d7c1ccf00b18ab13c871",
+      "raw_bytes_preserved": true,
+      "download_started_utc": "2026-11-12 13:34:17 UTC",
+      "download_completed_utc": "2026-11-12 13:35:02 UTC"
+    }
+  ],
+  "drive_output_root_direct_file_count": 3,
+  "results_csv_present": false,
+  "closed_acceptance_present": false,
+  "persisted_result_rows": 0,
+  "first_group_completion_confirmed": false,
+  "actual_gpu_recorded": "NVIDIA A100-SXM4-80GB",
+  "scope": "Original bytes of all three existing small Drive output files at the final paused-state listing. No model weights or adapters downloaded.",
+  "archive_actions": {
+    "monitoring_stopped": true,
+    "remote_files_modified": false,
+    "source_code_modified": false,
+    "model_or_training_tasks_started": false,
+    "large_weights_downloaded": false
+  }
+}

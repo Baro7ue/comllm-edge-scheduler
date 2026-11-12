@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "status": "user_paused",
+  "checked_utc": "2026-11-12T13:35:50.101406+00:00",
+  "user_request": "先暂停，明天再跑",
+  "first_group": "grpo_7b_repro",
+  "first_group_required_points": 6,
+  "first_group_completion_confirmed": false,
+  "persisted_result_rows": 0,
+  "required_full_run_points": 12,
+  "results_csv_exists": false,
+  "closed_acceptance_exists": false,
+  "invocation_started_utc": "2026-11-12T11:12:26.771381+00:00",
+  "pending_points_at_invocation": [
+    "llm_comllm_7b_repro_k3_n20_sequential_s0_t1000",
+    "llm_comllm_7b_repro_k3_n20_sequential_s1_t1000",
+    "llm_comllm_7b_repro_k3_n40_sequential_s0_t1000",
+    "llm_comllm_7b_repro_k3_n40_sequential_s1_t1000",
+    "llm_comllm_7b_repro_k3_n60_sequential_s0_t1000",
+    "llm_comllm_7b_repro_k3_n60_sequential_s1_t1000",
+    "llm_grpo_7b_repro_k3_n20_sequential_s0_t1000",
+    "llm_grpo_7b_repro_k3_n20_sequential_s1_t1000",
+    "llm_grpo_7b_repro_k3_n40_sequential_s0_t1000",
+    "llm_grpo_7b_repro_k3_n40_sequential_s1_t1000",
+    "llm_grpo_7b_repro_k3_n60_sequential_s0_t1000",
+    "llm_grpo_7b_repro_k3_n60_sequential_s1_t1000"
+  ],
+  "runtime_identity": {
+    "gpu": "NVIDIA A100-SXM4-80GB",
+    "versions": {
+      "torch": "2.14.1+cu130",
+      "transformers": "5.20.2",
+      "peft": "0.21.2",
+      "accelerate": "1.15.0",
+      "numpy": "2.4.6"
+    },
+    "bf16": true
+  },
+  "directory_name_note": "The directory name contains a100_40gb; the actual runtime and invocation records both name NVIDIA A100-SXM4-80GB.",
+  "execution_stop": {
+    "observation_source": "Root agent direct Colab UI report; not inferred from the Drive files.",
+    "reported_exception": "KeyboardInterrupt in the sixth code cell after the user requested immediate pause.",
+    "reported_runtime_state": "Disconnected and deleted; Manage sessions showed No active sessions.",
+    "first_group_finished_signal_observed": false,
+    "ui_execution_elapsed_at_interrupt": "2h 20m 59s",
+    "no_active_sessions_screenshot": "no_active_sessions.png"
+  },
+  "evidence_boundary": "Absence of results.csv means zero persisted complete point rows. It does not measure completed internal simulation work. This is a paused archive, not a 12-point acceptance report.",
+  "executed_notebook": "S7_7B闭环_executed.ipynb",
+  "source_matches_reviewed_notebook": true,
+  "first_five_code_cells_passed": true,
+  "effective_generation_guard_passed": true,
+  "live_gpu_probe": {
+    "before_pause": true,
+    "gpu_util_percent_samples": [
+      54,
+      79
+    ],
+    "pid": 916,
+    "memory_used_mib": 18574,
+    "process_state": "Rsl",
+    "evidence": [
+      "gpu_process_probe.png",
+      "gpu_process_probe.txt"
+    ]
+  },
+  "restart_note": "No result rows were persisted. The first model must restart; original runtime-identity protection is retained."
+}
