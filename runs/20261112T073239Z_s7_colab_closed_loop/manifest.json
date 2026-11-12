@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-11-12T07:34:10.342318+00:00",
+  "archive_status": "failed_execution_archived",
+  "hash_algorithm": "SHA-256",
+  "self_excluded": true,
+  "files": {
+    "S7_7B闭环.executed.ipynb": {
+      "bytes": 34682,
+      "sha256": "6a18ba4ac4596862f08be5887fa3a8c446c15405588fe8bce7d723d9e6770b30"
+    },
+    "failed_acceptance.json": {
+      "bytes": 3074,
+      "sha256": "6433a810db8ea766a16fca5b385801fbfd23994893b8ef8e1be5b0596ff97a14"
+    },
+    "invocation_20261112T072924.855348Z.json": {
+      "bytes": 1575,
+      "sha256": "22e6b5d8a6569b993e2acc5747b5595062138a7ef241d410445598b9be02e501"
+    },
+    "provenance.json": {
+      "bytes": 91103,
+      "sha256": "429b97a97a784453018f2c54313589183c0c5ff9292acb3d6b4cf23e29fec137"
+    },
+    "runtime_identity.json": {
+      "bytes": 203,
+      "sha256": "2e27473a92532f0ce1873af29d21224fd56a372ddfcfd997f19e108dbeef9323"
+    },
+    "screenshots/A05_generation_assertion_failed.jpg": {
+      "bytes": 513292,
+      "sha256": "1df8d347d7f41198d2331f3c4e07230beeea8049a31037210a23ba06f581b7c6"
+    },
+    "source_receipt.json": {
+      "bytes": 4752,
+      "sha256": "3bdb21c0ad2b48dc34749f83ebf10935bb014a247f046d2d06e2548635aacbd5"
+    }
+  }
+}

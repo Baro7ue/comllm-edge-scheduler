@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "scope": "Local delivery checks; this is not a successful 7B closed-loop acceptance.",
+  "base_commit": "98fe0506743fc9d17b2d37c922bb8fa780270e02",
+  "branch": "codex/colab-closed-loop-gguf-20261112",
+  "unit_tests": {
+    "command": ".venv/bin/python -B -m unittest tests.test_readme tests.test_colab_loop",
+    "executed_utc": "2026-11-12T07:45:39Z",
+    "tests": 8,
+    "status": "passed",
+    "elapsed_seconds": 0.328
+  },
+  "a": {
+    "status": "failed_before_closed_loop_decisions",
+    "archive": "runs/20261112T073239Z_s7_colab_closed_loop",
+    "completed_points": 0,
+    "required_points": 12,
+    "source_changed": false,
+    "error": "AssertionError in combined generation_config assertion; neither runtime value was printed."
+  },
+  "b_source_review": {
+    "notebooks": [
+      "train/S5_GRPO_论文原版转GGUF_20261112.ipynb",
+      "train/S5_score_GRPO_论文原版转GGUF_20261112.ipynb"
+    ],
+    "changes_only_source_output_metadata_filenames": true,
+    "template_stale_outputs_cleared_in_copies": true,
+    "llama_cpp": "5aeac37a3"
+  },
+  "protected_images": {
+    "figures/fig1_stability.png": {
+      "sha256": "09c5fa9a8849f7bbb1d7f0d8497ada482b923f97f3f0f4c994dee6c5bf6552dd",
+      "unchanged_from_session_baseline": true
+    },
+    "figures/fig4_generalization.png": {
+      "sha256": "d8740af5cad5d695d4f615160c0f85310e480d9b4832fb3d741eb8ee60e18691",
+      "unchanged_from_session_baseline": true
+    },
+    "figures/fig5_open_vs_closed.png": {
+      "sha256": "210ee9783259e016baec16b35b3eb1a616d91dec1b55b9233290b43160d21505",
+      "unchanged_from_session_baseline": true
+    },
+    "figures/fig6_ablation.png": {
+      "sha256": "d0c2434c8f9ac9db5f8055f0d5c60f4c06b813df1b9af47f72e4b26cbedd3941",
+      "unchanged_from_session_baseline": true
+    }
+  },
+  "readme_and_stages_completion_update": "not_applied_because_A_did_not_complete",
+  "b": {
+    "status": "both_conversions_completed",
+    "archive": "runs/20261112T074414Z_s6_paper_grpo_gguf",
+    "models": [
+      {
+        "label": "GRPO",
+        "filename": "comllm-paper-grpo-1.5b-q8_0.gguf",
+        "Drive_url": "https://drive.google.com/file/d/1Qi5EsQ0rWMYIWuQT-mFJXmgdvj27-VYi/view?usp=drivesdk",
+        "bytes": 1646572800,
+        "expected_sha256": "9cb76a1c3373d0f409060d257f6e0065b10fe21e4096dd530ef3a6d4500af10e",
+        "q8_seconds": 192,
+        "copy_seconds": 7
+      },
+      {
+        "label": "score-GRPO",
+        "filename": "comllm-paper-score-grpo-1.5b-q8_0.gguf",
+        "Drive_url": "https://drive.google.com/file/d/1th5W2Rd3O6t6DDbMurmirjncgSP15IsP/view?usp=drivesdk",
+        "bytes": 1646572800,
+        "expected_sha256": "57f52fb0d89bcb7985ff24aa818ed6fb355accf95d9b408189e0c25818b4aff6",
+        "q8_seconds": 203,
+        "copy_seconds": 11
+      }
+    ],
+    "remote_gguf_sha_independently_verified": false,
+    "jetson_runtime_validation": false
+  },
+  "runtime_cleanup": {
+    "verified_utc": "2026-11-12 07:56:57 UTC",
+    "user_confirmed_three_task_runtimes_ended": true,
+    "observed_colab_active_sessions": "No active sessions",
+    "active_sessions": 0
+  }
+}

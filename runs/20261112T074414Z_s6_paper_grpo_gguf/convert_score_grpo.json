@@ -1,0 +1,9 @@
+{
+  "source": "/content/drive/MyDrive/COMLLM/reference_model/qwen2.5-1.5b-mec-score-grpo-final-all",
+  "out": "/content/drive/MyDrive/COMLLM/s5/gguf/comllm-paper-score-grpo-1.5b-q8_0.gguf",
+  "outtype": "q8_0",
+  "llama_cpp": "5aeac37a3",
+  "sha256": "57f52fb0d89bcb7985ff24aa818ed6fb355accf95d9b408189e0c25818b4aff6",
+  "size_mb": 1647,
+  "utc": "20261112T074801Z"
+}

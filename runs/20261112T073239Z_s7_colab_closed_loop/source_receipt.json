@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "archive_status": "failed_execution_archived",
+  "archived_utc": "2026-11-12T07:34:10.341339+00:00",
+  "drive_parent_id": "1FrlSNoABfMTNLB5QyIOeyVZ76pnO6ALz",
+  "drive_output_root_id": "1nDcVroZoYHtKSk_pMDTlXQeoj511QRpO",
+  "drive_output_root_name": "s7_closed_runs_20261108",
+  "notebook_id": "1NzefdqRgIiR2a8bLc4AiGRlUu_Wr6iQu",
+  "downloaded_files": [
+    {
+      "local_file": "S7_7B闭环.executed.ipynb",
+      "drive_file_id": "1NzefdqRgIiR2a8bLc4AiGRlUu_Wr6iQu",
+      "drive_file_name": "S7_7B闭环.ipynb",
+      "drive_parent_ids": [
+        "1hG_svCGKmuDt6MIbR81U661xjBmzjDmf"
+      ],
+      "drive_modified_utc": "2026-11-12T07:29:43.332Z",
+      "drive_url": "https://drive.google.com/file/d/1NzefdqRgIiR2a8bLc4AiGRlUu_Wr6iQu/view",
+      "bytes": 34682,
+      "sha256": "6a18ba4ac4596862f08be5887fa3a8c446c15405588fe8bce7d723d9e6770b30",
+      "download_started_utc": "2026-11-12 07:32:17 UTC",
+      "download_completed_utc": "2026-11-12 07:32:39 UTC",
+      "raw_bytes_preserved": true
+    },
+    {
+      "local_file": "provenance.json",
+      "drive_file_id": "17xDWjIdvu46-dE18u6q2veXdebpa6opl",
+      "drive_file_name": "provenance.json",
+      "drive_parent_ids": [
+        "1nDcVroZoYHtKSk_pMDTlXQeoj511QRpO"
+      ],
+      "drive_modified_utc": "2026-11-12T07:28:58.806Z",
+      "drive_url": "https://drive.google.com/file/d/17xDWjIdvu46-dE18u6q2veXdebpa6opl/view",
+      "bytes": 91103,
+      "sha256": "429b97a97a784453018f2c54313589183c0c5ff9292acb3d6b4cf23e29fec137",
+      "download_started_utc": "2026-11-12 07:32:17 UTC",
+      "download_completed_utc": "2026-11-12 07:32:39 UTC",
+      "raw_bytes_preserved": true
+    },
+    {
+      "local_file": "runtime_identity.json",
+      "drive_file_id": "1GZhUtw93Uo70XUo4kEp7DZqqGHnRwhA5",
+      "drive_file_name": "runtime_identity.json",
+      "drive_parent_ids": [
+        "1nDcVroZoYHtKSk_pMDTlXQeoj511QRpO"
+      ],
+      "drive_modified_utc": "2026-11-12T07:29:24.851Z",
+      "drive_url": "https://drive.google.com/file/d/1GZhUtw93Uo70XUo4kEp7DZqqGHnRwhA5/view",
+      "bytes": 203,
+      "sha256": "2e27473a92532f0ce1873af29d21224fd56a372ddfcfd997f19e108dbeef9323",
+      "download_started_utc": "2026-11-12 07:32:17 UTC",
+      "download_completed_utc": "2026-11-12 07:32:39 UTC",
+      "raw_bytes_preserved": true
+    },
+    {
+      "local_file": "invocation_20261112T072924.855348Z.json",
+      "drive_file_id": "18YxYjVbcKFJNE3y4LlE0DFOCo2jOaRby",
+      "drive_file_name": "invocation_20261112T072924.855348Z.json",
+      "drive_parent_ids": [
+        "1nDcVroZoYHtKSk_pMDTlXQeoj511QRpO"
+      ],
+      "drive_modified_utc": "2026-11-12T07:29:24.859Z",
+      "drive_url": "https://drive.google.com/file/d/18YxYjVbcKFJNE3y4LlE0DFOCo2jOaRby/view",
+      "bytes": 1575,
+      "sha256": "22e6b5d8a6569b993e2acc5747b5595062138a7ef241d410445598b9be02e501",
+      "download_started_utc": "2026-11-12 07:32:17 UTC",
+      "download_completed_utc": "2026-11-12 07:32:39 UTC",
+      "raw_bytes_preserved": true
+    }
+  ],
+  "output_root_direct_listing": [
+    {
+      "id": "18YxYjVbcKFJNE3y4LlE0DFOCo2jOaRby",
+      "name": "invocation_20261112T072924.855348Z.json",
+      "bytes": 1575,
+      "modified_utc": "2026-11-12T07:29:24.859Z"
+    },
+    {
+      "id": "1GZhUtw93Uo70XUo4kEp7DZqqGHnRwhA5",
+      "name": "runtime_identity.json",
+      "bytes": 203,
+      "modified_utc": "2026-11-12T07:29:24.851Z"
+    },
+    {
+      "id": "17xDWjIdvu46-dE18u6q2veXdebpa6opl",
+      "name": "provenance.json",
+      "bytes": 91103,
+      "modified_utc": "2026-11-12T07:28:58.806Z"
+    }
+  ],
+  "output_root_direct_file_count": 3,
+  "results_csv_present": false,
+  "closed_acceptance_present": false,
+  "original_code_cells": 7,
+  "code_source_matches_pre_execution_snapshot": true,
+  "code_sources_sha256": "677729ffa0a8e5793764a8231ece0b9fdc03b282507d2600921ddf4d48c9d1cf",
+  "pre_execution_notebook_raw_sha256": "cc0f131328e074eacd696ce58f835371ee07bdeae503e2ab334794df57d66104",
+  "temporary_dependency_code_cell_present": false,
+  "local_evidence": [
+    {
+      "local_file": "screenshots/A05_generation_assertion_failed.jpg",
+      "source_local_file": "/Users/ethan/Documents/comllm-edge-scheduler/artifacts/colab_delivery_20261112/screenshots/A05_generation_assertion_failed.jpg",
+      "bytes": 513292,
+      "sha256": "1df8d347d7f41198d2331f3c4e07230beeea8049a31037210a23ba06f581b7c6",
+      "kind": "parent_observed_live_error_screenshot"
+    }
+  ],
+  "archive_actions": {
+    "downloaded_raw_small_files": 4,
+    "copied_local_screenshots": 1,
+    "ran_models": false,
+    "modified_notebook_source": false,
+    "modified_remote_files": false,
+    "modified_preexisting_run_files": false,
+    "downloaded_large_weights_or_adapters": false
+  }
+}

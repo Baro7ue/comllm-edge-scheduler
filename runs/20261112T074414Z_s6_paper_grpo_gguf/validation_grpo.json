@@ -1,0 +1,62 @@
+{
+  "validated_utc": "2026-11-12T07:45:03.648728+00:00",
+  "model": "paper_grpo_1.5b",
+  "conversion_status": "completed",
+  "evidence_status": "conversion_record_and_Drive_metadata_verified",
+  "overall_pass_claimed": false,
+  "checks": {
+    "three_cells_executed": true,
+    "error_outputs_absent": true,
+    "source_equals_clean_notebook": true,
+    "source_out_outtype_commit_match": true,
+    "Drive_GGUF_size_and_parent_match": true,
+    "conversion_under_30_minutes": true
+  },
+  "gguf": {
+    "drive_id": "1Qi5EsQ0rWMYIWuQT-mFJXmgdvj27-VYi",
+    "bytes": 1646572800,
+    "reported_sha256": "9cb76a1c3373d0f409060d257f6e0065b10fe21e4096dd530ef3a6d4500af10e",
+    "reported_sha256_origin": "Colab original conversion cell hashes local GGUF before cp to Drive",
+    "remote_sha256_independently_verified": false,
+    "actual_remote_sha256": null,
+    "limitation": "Google Drive connector raw fetch rejected with HTTP413: 1,646,572,800 bytes exceeds 268,435,456-byte limit; requested sha256Checksum/md5Checksum fields were not exposed. No workaround or further large-file download attempted."
+  },
+  "source_model": {
+    "Drive_folder_id": "1zsnXcbOReruAcfFbOzZKs9pd1JtxlBwZ",
+    "Drive_weight_id": "1wPjsDIrEXZUZ06VbThhwTz-Y251b_4su",
+    "path": "/content/drive/MyDrive/COMLLM/reference_model/qwen2.5-1.5b-mec-grpo-final-all",
+    "model_weight_bytes": 3087466808,
+    "structural_file_count": 10,
+    "source_weights_downloaded_for_this_check": false
+  },
+  "small_artifacts": [
+    {
+      "kind": "convert",
+      "file": "convert_grpo.json",
+      "source_drive_id": "1ugrheK7XfYXwDNZHzEoyrBCP_-a181IZ",
+      "source_url": "https://drive.google.com/file/d/1ugrheK7XfYXwDNZHzEoyrBCP_-a181IZ/view",
+      "bytes": 355,
+      "sha256": "352347d44a6f22a50aeae8b27a6661752de02040662ae6cfee48a66f4a9a9596",
+      "download_started_utc": "2026-11-12T07:44:14.085Z",
+      "download_completed_utc": "2026-11-12T07:44:16.638Z",
+      "local_sha256_recomputed": "352347d44a6f22a50aeae8b27a6661752de02040662ae6cfee48a66f4a9a9596"
+    },
+    {
+      "kind": "notebook",
+      "file": "S5_GRPO_executed.ipynb",
+      "source_drive_id": "1alZ9BHBucIyRFgQ30hj_UKk3pm6zzoEM",
+      "source_url": "https://drive.google.com/file/d/1alZ9BHBucIyRFgQ30hj_UKk3pm6zzoEM/view",
+      "bytes": 6870,
+      "sha256": "91e97cca0306ea69bd061c39c4ec8b4268ef5e4f253e8b55c948fb34b1ea7bce",
+      "download_started_utc": "2026-11-12T07:44:16.638Z",
+      "download_completed_utc": "2026-11-12T07:44:16.850Z",
+      "local_sha256_recomputed": "91e97cca0306ea69bd061c39c4ec8b4268ef5e4f253e8b55c948fb34b1ea7bce"
+    }
+  ],
+  "receipt_file_sha256": "ff7bbc9f063f261746951dcf998f542148327e7296005a40c7a31b268641b4c9",
+  "conversion_seconds": {
+    "q8": 192,
+    "copy_to_Drive": 7
+  },
+  "post_conversion_download_timing_is_not_conversion_timing": true
+}

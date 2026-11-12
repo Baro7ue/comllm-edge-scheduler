@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "status": "failed",
+  "checked_utc": "2026-11-12T07:34:10.341339+00:00",
+  "scope": "A original two-adapter 7B closed-loop invocation",
+  "invocation_started_utc": "2026-11-12T07:29:24.855418+00:00",
+  "hardware": {
+    "gpu": "NVIDIA A100-SXM4-80GB",
+    "versions": {
+      "torch": "2.14.1+cu130",
+      "transformers": "5.20.2",
+      "peft": "0.21.2",
+      "accelerate": "1.15.0",
+      "numpy": "2.4.6"
+    },
+    "bf16": true
+  },
+  "completed_points": 0,
+  "required_points": 12,
+  "pending_points": [
+    "llm_comllm_7b_repro_k3_n20_sequential_s0_t1000",
+    "llm_comllm_7b_repro_k3_n20_sequential_s1_t1000",
+    "llm_comllm_7b_repro_k3_n40_sequential_s0_t1000",
+    "llm_comllm_7b_repro_k3_n40_sequential_s1_t1000",
+    "llm_comllm_7b_repro_k3_n60_sequential_s0_t1000",
+    "llm_comllm_7b_repro_k3_n60_sequential_s1_t1000",
+    "llm_grpo_7b_repro_k3_n20_sequential_s0_t1000",
+    "llm_grpo_7b_repro_k3_n20_sequential_s1_t1000",
+    "llm_grpo_7b_repro_k3_n40_sequential_s0_t1000",
+    "llm_grpo_7b_repro_k3_n40_sequential_s1_t1000",
+    "llm_grpo_7b_repro_k3_n60_sequential_s0_t1000",
+    "llm_grpo_7b_repro_k3_n60_sequential_s1_t1000"
+  ],
+  "results_csv_exists": false,
+  "closed_acceptance_exists": false,
+  "execution_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    null
+  ],
+  "original_code_cells": 7,
+  "code_source_unchanged": true,
+  "failure": {
+    "code_cell": 6,
+    "json_physical_cell": 13,
+    "execution_count": 7,
+    "ename": "AssertionError",
+    "evalue": "",
+    "assertion_source_line_1based": 32,
+    "assertion_expression": "model.generation_config.repetition_penalty == 1.05 and model.generation_config.num_beams == 1",
+    "traceback": [
+      "---------------------------------------------------------------------------",
+      "AssertionError                            Traceback (most recent call last)",
+      "/tmp/ipykernel_1380/1090832527.py in <cell line: 0>()\n     30         try:\n     31             model.eval()\n---> 32             assert model.generation_config.repetition_penalty == 1.05 and model.generation_config.num_beams == 1\n     33             decide = CL.make_paper_decider(model,tok,'cuda',max_new_tokens=16,parse='search')\n     34             CL.run_points(POINTS[key],decide,str(results_path),sha=MODEL_SHA[key])\n",
+      "AssertionError: "
+    ],
+    "runtime_values_printed": false,
+    "observed_repetition_penalty": null,
+    "observed_num_beams": null,
+    "note": "The output establishes failure of the combined assertion only. Neither runtime field value was printed; this evidence does not establish that num_beams was None.",
+    "before_make_paper_decider_and_run_points": true
+  },
+  "passed_prior_stages": [
+    "36-member package and CPU golden / 12-point matrix",
+    "strict training acceptance / actual two-adapter SHA / pair identity",
+    "fixed SFT 13-file copy and SHA validation",
+    "provenance identity / 0 of 12 completed points"
+  ],
+  "screenshot": "screenshots/A05_generation_assertion_failed.jpg",
+  "final_acceptance_cell_executed": false
+}
