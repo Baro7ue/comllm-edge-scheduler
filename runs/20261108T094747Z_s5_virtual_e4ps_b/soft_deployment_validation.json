@@ -1,0 +1,14 @@
+{
+  "overall_agreement_pct": 74.0,
+  "overall_pytorch_equivalence": "not_established",
+  "b_scope_servers": 3,
+  "b_scope_reference_rows": 23,
+  "b_scope_agreement_rows": 23,
+  "all_200_prompt_matches": true,
+  "all_200_answers_from_llm": true,
+  "deployed_sha256": "ce3719c126785b7597dbc3ff5a4508fa75f96b532aa7bb490a834eb3a28dcd39",
+  "preflight_source": "runs/20261108T113215Z_gguf_ps_soft_1.5b_q8",
+  "decision": "Continue the authorized K=3 deployed-Q8 B evaluation; retain overall discrepancy for later analysis. The temporary 95% guard is not part of the original B protocol.",
+  "hard_results_prefix_bytes": 1830,
+  "hard_results_prefix_sha256": "78c6593e6d9d584a39e9e4ab4afeba1da2a284ed36fd028624b8b3c6cb7217b5"
+}

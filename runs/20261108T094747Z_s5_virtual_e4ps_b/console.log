@@ -1,0 +1,102 @@
+{"phase": "testing_ps_hard_1.5b", "pid": 97664, "updated_utc": "2026-11-08T09:47:47.299095+00:00", "completed_points": 0}
+计划 e4ps_b：共 6 个点，要跑 6 个，预计约 1.6 小时（估算）
+  llm_ps_hard_1.5b_k3_n20_sequential_s0_t1000      约   6000 次决策
+  llm_ps_hard_1.5b_k3_n20_sequential_s1_t1000      约   6000 次决策
+  llm_ps_hard_1.5b_k3_n40_sequential_s0_t1000      约  12000 次决策
+  llm_ps_hard_1.5b_k3_n40_sequential_s1_t1000      约  12000 次决策
+  llm_ps_hard_1.5b_k3_n60_sequential_s0_t1000      约  18000 次决策
+  llm_ps_hard_1.5b_k3_n60_sequential_s1_t1000      约  18000 次决策
+
+换模型 → ps_hard_1.5b（十几秒到一分钟）
+[1/6] llm_ps_hard_1.5b_k3_n20_sequential_s0_t1000      平均延迟  3.67 槽  丢弃   0.0%  本地   20%  和单步最优一致  20.5%  用时   7.5 分钟  累计 8 分钟
+[2/6] llm_ps_hard_1.5b_k3_n20_sequential_s1_t1000      平均延迟  3.73 槽  丢弃   0.0%  本地   22%  和单步最优一致  20.8%  用时   7.8 分钟  累计 15 分钟
+[3/6] llm_ps_hard_1.5b_k3_n40_sequential_s0_t1000      平均延迟  4.22 槽  丢弃   0.0%  本地   39%  和单步最优一致  38.4%  用时  15.3 分钟  累计 31 分钟
+[4/6] llm_ps_hard_1.5b_k3_n40_sequential_s1_t1000      平均延迟  4.24 槽  丢弃   0.0%  本地   39%  和单步最优一致  38.6%  用时  15.4 分钟  累计 46 分钟
+[5/6] llm_ps_hard_1.5b_k3_n60_sequential_s0_t1000      平均延迟  4.71 槽  丢弃  28.5%  本地   54%  和单步最优一致  12.3%  用时  22.8 分钟  累计 69 分钟
+[6/6] llm_ps_hard_1.5b_k3_n60_sequential_s1_t1000      平均延迟  5.00 槽  丢弃   2.0%  本地   56%  和单步最优一致  51.2%  用时  22.8 分钟  累计 92 分钟
+写好了： /Users/ethan/Documents/comllm-edge-scheduler/runs/20261108T094747Z_s5_virtual_e4ps_b/results.csv
+{"phase": "waiting_soft_download", "pid": 97664, "updated_utc": "2026-11-08T11:19:31.661755+00:00", "completed_points": 6, "expected_file": "comllm-1.5b-soft-T0.3-ps-q8_0.gguf"}
+{"phase": "deploying_soft_model", "pid": 97664, "updated_utc": "2026-11-08T11:31:48.270111+00:00", "completed_points": 6, "sha256": "ce3719c126785b7597dbc3ff5a4508fa75f96b532aa7bb490a834eb3a28dcd39"}
+{"phase": "checking_soft_model", "pid": 97664, "updated_utc": "2026-11-08T11:32:14.817479+00:00", "completed_points": 6}
+参考答案：合并后的模型 200 条（其中和 preds.csv 一致 160 条），用 preds.csv 补的 0 条
+调度服务加载的模型: /home/ethan/models/comllm-1.5b-soft-T0.3-ps-q8_0.gguf ，llama.cpp 版本: b11719-5aeac37a3
+一致 148/200（74.0%），LLM 自己答的 200/200，提示词对不上的 0 条
+  按参考答案来源：合并后的模型 148/200，preds.csv 补的 0/0
+不一致的 52 条：Jetson 平均多花 0.1889 槽，最多 2.6011 槽；平摊到 200 条是 0.04912 槽/条
+  第 5 条（8 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 2，多花 -0.1726 槽，来源 llm 
+  第 7 条（10 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 -0.1858 槽，来源 llm 
+  第 8 条（11 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 0.2463 槽，来源 llm 
+  第 15 条（9 台，参考 merged）：PyTorch 选 2（领先 0.0），Jetson 选 3，多花 0.7454 槽，来源 llm 
+  第 16 条（10 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 0.6896 槽，来源 llm 
+  第 20 条（5 台，参考 merged）：PyTorch 选 0（领先 0.0），Jetson 选 1，多花 0.5461 槽，来源 llm 
+  第 24 条（9 台，参考 merged）：PyTorch 选 2（领先 0.0），Jetson 选 3，多花 -0.114 槽，来源 llm 
+  第 26 条（11 台，参考 merged）：PyTorch 选 2（领先 0.0），Jetson 选 3，多花 0.6539 槽，来源 llm 
+  第 32 条（8 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 2，多花 0.6988 槽，来源 llm 
+  第 35 条（11 台，参考 merged）：PyTorch 选 2（领先 0.0），Jetson 选 3，多花 -0.2443 槽，来源 llm 
+  第 43 条（10 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 -0.0622 槽，来源 llm 
+  第 44 条（11 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 -0.2514 槽，来源 llm 
+  第 50 条（8 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 2，多花 0.8308 槽，来源 llm 
+  第 52 条（10 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 0.261 槽，来源 llm 
+  第 53 条（11 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 0.0066 槽，来源 llm 
+  第 60 条（9 台，参考 merged）：PyTorch 选 2（领先 0.0），Jetson 选 3，多花 0.2389 槽，来源 llm 
+  第 61 条（10 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 -0.2039 槽，来源 llm 
+  第 62 条（11 台，参考 merged）：PyTorch 选 2（领先 0.0），Jetson 选 3，多花 -0.039 槽，来源 llm 
+  第 68 条（8 台，参考 merged）：PyTorch 选 2（领先 0.125），Jetson 选 1，多花 -1.6204 槽，来源 llm 
+  第 69 条（9 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 0.4487 槽，来源 llm 
+  第 70 条（10 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 1.0433 槽，来源 llm 
+  第 79 条（10 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 1.0289 槽，来源 llm 
+  第 80 条（11 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 -0.5347 槽，来源 llm 
+  第 85 条（7 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 2，多花 -0.1902 槽，来源 llm 
+  第 98 条（11 台，参考 merged）：PyTorch 选 2（领先 0.0），Jetson 选 3，多花 0.9061 槽，来源 llm 
+  第 105 条（9 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 1.4427 槽，来源 llm 
+  第 107 条（11 台，参考 merged）：PyTorch 选 2（领先 0.0），Jetson 选 3，多花 -0.438 槽，来源 llm 
+  第 114 条（9 台，参考 merged）：PyTorch 选 2（领先 0.0），Jetson 选 3，多花 -0.6146 槽，来源 llm 
+  第 116 条（11 台，参考 merged）：PyTorch 选 3（领先 0.125），Jetson 选 7，多花 0.1812 槽，来源 llm 
+  第 119 条（5 台，参考 merged）：PyTorch 选 1（领先 0.125），Jetson 选 3，多花 2.2644 槽，来源 llm 
+  第 123 条（9 台，参考 merged）：PyTorch 选 2（领先 0.0），Jetson 选 3，多花 0.1919 槽，来源 llm 
+  第 125 条（11 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 0.7711 槽，来源 llm 
+  第 131 条（8 台，参考 merged）：PyTorch 选 2（领先 0.125），Jetson 选 1，多花 0.6141 槽，来源 llm 
+  第 132 条（9 台，参考 merged）：PyTorch 选 2（领先 0.0），Jetson 选 3，多花 -0.4932 槽，来源 llm 
+  第 140 条（8 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 2，多花 -0.8666 槽，来源 llm 
+  第 142 条（10 台，参考 merged）：PyTorch 选 2（领先 0.125），Jetson 选 1，多花 -1.5996 槽，来源 llm 
+  第 149 条（8 台，参考 merged）：PyTorch 选 2（领先 0.125），Jetson 选 1，多花 0.7244 槽，来源 llm 
+  第 150 条（9 台，参考 merged）：PyTorch 选 2（领先 0.0），Jetson 选 3，多花 -0.4975 槽，来源 llm 
+  第 158 条（8 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 2.6011 槽，来源 llm 
+  第 161 条（11 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 -0.7493 槽，来源 llm 
+  第 167 条（8 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 2，多花 -0.1523 槽，来源 llm 
+  第 169 条（10 台，参考 merged）：PyTorch 选 2（领先 0.125），Jetson 选 3，多花 -0.3529 槽，来源 llm 
+  第 175 条（7 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 2，多花 -0.4299 槽，来源 llm 
+  第 176 条（8 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 2，多花 -1.161 槽，来源 llm 
+  第 178 条（10 台，参考 merged）：PyTorch 选 2（领先 0.0），Jetson 选 3，多花 1.4072 槽，来源 llm 
+  第 179 条（11 台，参考 merged）：PyTorch 选 2（领先 0.0），Jetson 选 3，多花 1.0289 槽，来源 llm 
+  第 184 条（7 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 2，多花 2.5657 槽，来源 llm 
+  第 185 条（8 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 -2.279 槽，来源 llm 
+  第 186 条（9 台，参考 merged）：PyTorch 选 2（领先 0.0），Jetson 选 3，多花 -0.0734 槽，来源 llm 
+  第 194 条（8 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 2，多花 -2.5385 槽，来源 llm 
+  第 195 条（9 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 2.0892 槽，来源 llm 
+  第 196 条（10 台，参考 merged）：PyTorch 选 1（领先 0.0），Jetson 选 3，多花 1.4621 槽，来源 llm 
+写好了： runs/20261108T113215Z_gguf_ps_soft_1.5b_q8
+{"phase": "stopped", "pid": 97664, "updated_utc": "2026-11-08T11:32:37.697960+00:00", "error": "AssertionError({'name': 'ps_soft_1.5b_q8', 'expected': '/Users/ethan/Documents/comllm-edge-scheduler/runs/s3/ps_soft_1.5b_20261108T044612Z/jetson_check/expected_200.jsonl', 'model_path': '/home/ethan/models/comllm-1.5b-soft-T0.3-ps-q8_0.gguf', 'llama_build': 'b11719-5aeac37a3', 'n': 200, 'agree': 148, 'agree_pct': 74.0, 'ref_merged': 200, 'ref_merged_same_as_preds_csv': 160, 'ref_from_preds_csv': 0, 'agree_on_merged_ref': 148, 'agree_on_preds_csv_ref': 0, 'answered_by_llm': 200, 'prompt_text_mismatch': 0, 'disagree_mean_extra_cost': 0.1889, 'disagree_max_extra_cost': 2.6011, 'mean_extra_cost_all': 0.04912, 'git': '1008a76', 'started_utc': '20261108T113215Z', 'timeout_ms': 5000})", "results_preserved": true}
+Traceback (most recent call last):
+  File "/tmp/comllm_run_e4ps_b.py", line 83, in <module>
+    assert check['n']==200 and check['answered_by_llm']==200 and check['prompt_text_mismatch']==0 and check['agree_pct']>=95,check
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'name': 'ps_soft_1.5b_q8', 'expected': '/Users/ethan/Documents/comllm-edge-scheduler/runs/s3/ps_soft_1.5b_20261108T044612Z/jetson_check/expected_200.jsonl', 'model_path': '/home/ethan/models/comllm-1.5b-soft-T0.3-ps-q8_0.gguf', 'llama_build': 'b11719-5aeac37a3', 'n': 200, 'agree': 148, 'agree_pct': 74.0, 'ref_merged': 200, 'ref_merged_same_as_preds_csv': 160, 'ref_from_preds_csv': 0, 'agree_on_merged_ref': 148, 'agree_on_preds_csv_ref': 0, 'answered_by_llm': 200, 'prompt_text_mismatch': 0, 'disagree_mean_extra_cost': 0.1889, 'disagree_max_extra_cost': 2.6011, 'mean_extra_cost_all': 0.04912, 'git': '1008a76', 'started_utc': '20261108T113215Z', 'timeout_ms': 5000}
+{"phase": "testing_ps_soft_1.5b", "pid": 9017, "updated_utc": "2026-11-08T11:36:41.090119+00:00", "completed_points": 6, "overall_preflight_agreement_pct": 74.0, "b_scope_preflight": "23/23"}
+计划 e4ps_b：共 6 个点，要跑 6 个，预计约 1.6 小时（估算）
+  llm_ps_soft_1.5b_k3_n20_sequential_s0_t1000      约   6000 次决策
+  llm_ps_soft_1.5b_k3_n20_sequential_s1_t1000      约   6000 次决策
+  llm_ps_soft_1.5b_k3_n40_sequential_s0_t1000      约  12000 次决策
+  llm_ps_soft_1.5b_k3_n40_sequential_s1_t1000      约  12000 次决策
+  llm_ps_soft_1.5b_k3_n60_sequential_s0_t1000      约  18000 次决策
+  llm_ps_soft_1.5b_k3_n60_sequential_s1_t1000      约  18000 次决策
+
+换模型 → ps_soft_1.5b（十几秒到一分钟）
+[1/6] llm_ps_soft_1.5b_k3_n20_sequential_s0_t1000      平均延迟  3.63 槽  丢弃   0.0%  本地   19%  和单步最优一致  22.8%  用时   7.5 分钟  累计 8 分钟
+[2/6] llm_ps_soft_1.5b_k3_n20_sequential_s1_t1000      平均延迟  3.67 槽  丢弃   0.0%  本地   20%  和单步最优一致  23.3%  用时   7.8 分钟  累计 15 分钟
+[3/6] llm_ps_soft_1.5b_k3_n40_sequential_s0_t1000      平均延迟  4.11 槽  丢弃   0.0%  本地   37%  和单步最优一致  36.6%  用时  15.3 分钟  累计 31 分钟
+[4/6] llm_ps_soft_1.5b_k3_n40_sequential_s1_t1000      平均延迟  4.10 槽  丢弃   0.0%  本地   37%  和单步最优一致  37.0%  用时  15.5 分钟  累计 46 分钟
+[5/6] llm_ps_soft_1.5b_k3_n60_sequential_s0_t1000      平均延迟  5.13 槽  丢弃   0.4%  本地   55%  和单步最优一致  55.0%  用时  23.0 分钟  累计 69 分钟
+[6/6] llm_ps_soft_1.5b_k3_n60_sequential_s1_t1000      平均延迟  5.07 槽  丢弃   0.4%  本地   55%  和单步最优一致  54.7%  用时  22.8 分钟  累计 92 分钟
+写好了： /Users/ethan/Documents/comllm-edge-scheduler/runs/20261108T094747Z_s5_virtual_e4ps_b/results.csv
+{"phase": "complete", "pid": 9017, "updated_utc": "2026-11-08T13:08:40.840189+00:00", "completed_points": 12, "overall_soft_pytorch_equivalence": "not_established"}

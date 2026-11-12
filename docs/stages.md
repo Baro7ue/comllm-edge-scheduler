@@ -231,3 +231,15 @@ Mac        python -m eval.open_loop runs/s3/main_0.5b_20261104T131423Z runs/s3/s
 - 卸载准确率：最优是某台服务器的状态里选对的比例。
 
 分母是 0 时记"–"。原作者干净测试集没有终端数 N，不进按 N 的表。复现的 7B、它的起点 SFT-7B 和原作者的三个 1.5B 用论文格式贪心生成，我们的学生用压缩格式取 1 个 token，所以这张表比的是"整套做法"，不是只差模型大小。结论见 README 的"和 7B 比"。
+
+## 闭环：Colab 和 Jetson 对比（阶段 6）
+
+```
+Mac     python -m eval.colab_loop --pack        打包 sim/、deploy/、eval/ → data/s6_code/（code.zip + meta.json），整个文件夹传到 MyDrive/COMLLM/s6_code/
+Colab   train/S6_Colab闭环.ipynb，RUN = "students"   6 个学生 × 6 个点（3 台、N = 20/40/60、种子 0/1、1000 槽），结果写到 MyDrive/COMLLM/s6_runs/colab_loop/
+Mac     把 results.csv 和 sweep_config.json 下载到 runs/<UTC>_s6_colab_loop/
+```
+
+点的名字和 `eval.virtual_loop` 的一样，Colab 和 Jetson 的结果按名字一一对上。同一个模型的 6 个点各开一个线程跑仿真器，要决策时把状态交给主线程拼成一批，GPU 前向一次答完，所以 `ms_per_decision` 是批量摊下来的时间。notebook 第 4 格在 Colab 上重算核对点（单步公式、3 台、N = 20、种子 0），平均延迟必须和打包时 Mac 上算的完全一样，才往下跑。
+
+这次（`runs/20261112T064150Z_s6_colab_loop`）：代码 f9aad84，A100，transformers 5.20.2、peft 0.21.2，36 个点一次跑完，约 70 分钟，回退 0 次。对应的 Jetson 点在 `runs/20261107T071637Z_s5_virtual_e4a+e4b+e5`、`runs/20261108T044444Z_s5_virtual_e4ps_a` 和 `runs/20261108T094747Z_s5_virtual_e4ps_b`。两边对比和 PS 公式 1.5B 硬标签在 N = 60 的例外见 README 的"部署前后的闭环"。
