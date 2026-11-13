@@ -1,0 +1,19 @@
+{
+  "recorded_utc": "2026-11-13T10:48:04.102940+00:00",
+  "executed_notebook": "S7_7B闭环.executed.ipynb",
+  "executed_notebook_sha256": "72bcb3432abee1d7dc6a76e72192616aa1d8ea5135ba3fd3a0eff1e6930281d2",
+  "notebook_source_check": "All seven code-cell sources exactly match reviewed train/S7_7B闭环_A100普通档_v1.ipynb; zero error outputs.",
+  "final_acceptance_output": "closed_acceptance_20261113T092611.183871Z.json; 12 points passed",
+  "second_model_minutes_reported": 153.94,
+  "original_run_runtime_at_arrival": "Already disconnected; first Manage sessions showed No active sessions.",
+  "final_runtime_state": "No active sessions",
+  "cleanup_note": "Opening the disconnected Terminal while preparing screenshots unintentionally requested an empty hosted runtime. Page request was cancelled with reload; the newly appearing sole Unknown notebook GPU session was terminated via Manage sessions. No evaluation cell or model job was started. Final session list shows No active sessions.",
+  "final_session_screenshot": "sessions_released.png",
+  "summary_screenshots": [
+    "final_summary_1.png",
+    "final_summary_middle.png",
+    "final_summary_2.png"
+  ],
+  "drive_files_modified": false,
+  "evaluation_code_or_notebook_source_modified": false
+}

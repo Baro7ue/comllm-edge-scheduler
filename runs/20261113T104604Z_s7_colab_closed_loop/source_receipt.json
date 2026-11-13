@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "archive_status": "complete_12_points_verified",
+  "archived_utc": "2026-11-13T10:49:23.083030+00:00",
+  "drive_output_root_id": "1ICFU7_5wDykXbBl9uh-CQ3n6XG_h8Nff",
+  "drive_output_root_name": "s7_closed_runs_20261113_a100_standard",
+  "download_started_utc": "2026-11-13 10:45:01 UTC",
+  "download_completed_utc": "2026-11-13 10:46:04 UTC",
+  "source_files": [
+    {
+      "local_file": "results.csv",
+      "drive_file_id": "1wr55VHZzQltfxIIvcVDpEPccv6l8Iw_S",
+      "drive_file_name": "results.csv",
+      "drive_parent_id": "1ICFU7_5wDykXbBl9uh-CQ3n6XG_h8Nff",
+      "drive_modified_utc": "2026-11-13T09:26:16.167Z",
+      "bytes": 3508,
+      "sha256": "5f161784091f074c59a117fb58d62c782fef4ddca2a10c7a13d52b44c0f047c3",
+      "drive_url": "https://drive.google.com/file/d/1wr55VHZzQltfxIIvcVDpEPccv6l8Iw_S/view",
+      "raw_bytes_preserved": true
+    },
+    {
+      "local_file": "closed_acceptance_20261113T092611.183871Z.json",
+      "drive_file_id": "1xtTQy5ONlr-Tn5-szwL1-Lv3_gcx_8Em",
+      "drive_file_name": "closed_acceptance_20261113T092611.183871Z.json",
+      "drive_parent_id": "1ICFU7_5wDykXbBl9uh-CQ3n6XG_h8Nff",
+      "drive_modified_utc": "2026-11-13T09:26:11.189Z",
+      "bytes": 11761,
+      "sha256": "1b0db2b762c86101b874fc53a0e1c02506ffcbdeab6f63dcb955c6923fc67778",
+      "drive_url": "https://drive.google.com/file/d/1xtTQy5ONlr-Tn5-szwL1-Lv3_gcx_8Em/view",
+      "raw_bytes_preserved": true
+    },
+    {
+      "local_file": "invocation_20261113T065214.515921Z.json",
+      "drive_file_id": "1Jw4IxhXXVZdPWy3jFyUamqaHWmq-vudC",
+      "drive_file_name": "invocation_20261113T065214.515921Z.json",
+      "drive_parent_id": "1ICFU7_5wDykXbBl9uh-CQ3n6XG_h8Nff",
+      "drive_modified_utc": "2026-11-13T06:52:14.521Z",
+      "bytes": 1263,
+      "sha256": "9b11b47262435f3d6a06812dfa24a16adb297d5ef8a1aa7ed380c96e1d47b564",
+      "drive_url": "https://drive.google.com/file/d/1Jw4IxhXXVZdPWy3jFyUamqaHWmq-vudC/view",
+      "raw_bytes_preserved": true
+    },
+    {
+      "local_file": "invocation_20261113T035030.108585Z.json",
+      "drive_file_id": "1u91Q1orLLylMRGDjVijVEFiLuXQQ1Kki",
+      "drive_file_name": "invocation_20261113T035030.108585Z.json",
+      "drive_parent_id": "1ICFU7_5wDykXbBl9uh-CQ3n6XG_h8Nff",
+      "drive_modified_utc": "2026-11-13T03:50:30.112Z",
+      "bytes": 1575,
+      "sha256": "3fe5c0b74aec99883850bd4d38f4a533da59754dbf07806a540af2811410b3b9",
+      "drive_url": "https://drive.google.com/file/d/1u91Q1orLLylMRGDjVijVEFiLuXQQ1Kki/view",
+      "raw_bytes_preserved": true
+    },
+    {
+      "local_file": "runtime_identity.json",
+      "drive_file_id": "1ojq9kMucKhjKb7i1ulOsZxVRMVfDSXIA",
+      "drive_file_name": "runtime_identity.json",
+      "drive_parent_id": "1ICFU7_5wDykXbBl9uh-CQ3n6XG_h8Nff",
+      "drive_modified_utc": "2026-11-13T03:50:30.104Z",
+      "bytes": 203,
+      "sha256": "ad7e9b8060eaff4b82e192369d963cfb528da7bf1806b90d680390e0222e750a",
+      "drive_url": "https://drive.google.com/file/d/1ojq9kMucKhjKb7i1ulOsZxVRMVfDSXIA/view",
+      "raw_bytes_preserved": true
+    },
+    {
+      "local_file": "provenance.json",
+      "drive_file_id": "15eYqG39w2j54GqteD3FLaULk6pTVpGCo",
+      "drive_file_name": "provenance.json",
+      "drive_parent_id": "1ICFU7_5wDykXbBl9uh-CQ3n6XG_h8Nff",
+      "drive_modified_utc": "2026-11-13T03:50:06.947Z",
+      "bytes": 91103,
+      "sha256": "723d510c1cc8488842bf95e39319131fc4fce52f032bd89893ab1ea6a9a72164",
+      "drive_url": "https://drive.google.com/file/d/15eYqG39w2j54GqteD3FLaULk6pTVpGCo/view",
+      "raw_bytes_preserved": true
+    }
+  ],
+  "source_direct_file_count": 6,
+  "raw_source_files_preserved": true,
+  "closed_acceptance_file_id": "1xtTQy5ONlr-Tn5-szwL1-Lv3_gcx_8Em",
+  "closed_acceptance_file": "closed_acceptance_20261113T092611.183871Z.json",
+  "closed_acceptance_status": "complete",
+  "unique_points": 12,
+  "actual_gpu": "NVIDIA A100-SXM4-40GB",
+  "first_group_original_prefix_bytes": 1847,
+  "first_group_original_prefix_sha256": "f66c52678b9a0afb624367ff380cbd4a061c0caa0c63e1876444b3b1d2a187be",
+  "first_group_original_bytes_unchanged": true,
+  "verification_report": "archive_verification.json",
+  "download_actions": {
+    "source_root_only": true,
+    "small_raw_output_files": 6,
+    "executed_notebook_downloaded": false,
+    "screenshots_downloaded": false,
+    "large_weights_or_adapters_downloaded": false,
+    "drive_files_modified": false,
+    "other_run_directories_modified": false,
+    "model_or_training_tasks_started": false,
+    "browser_or_ui_operated": false
+  },
+  "scope": "Raw-byte archival and independent CPU consistency validation of the six small standard-root output files; model weight binaries were not downloaded."
+}

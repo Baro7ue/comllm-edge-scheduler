@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-11-13T10:49:23.083867+00:00",
+  "archive_status": "complete_12_points_verified",
+  "hash_algorithm": "SHA-256",
+  "self_excluded": true,
+  "files": {
+    "S7_7B闭环.executed.ipynb": {
+      "bytes": 35938,
+      "sha256": "72bcb3432abee1d7dc6a76e72192616aa1d8ea5135ba3fd3a0eff1e6930281d2"
+    },
+    "archive_verification.json": {
+      "bytes": 8475,
+      "sha256": "f1b585de5a9b0e04338d672acc9ce54086431c4c02156e9e4b1dad6c6986e45a"
+    },
+    "closed_acceptance_20261113T092611.183871Z.json": {
+      "bytes": 11761,
+      "sha256": "1b0db2b762c86101b874fc53a0e1c02506ffcbdeab6f63dcb955c6923fc67778"
+    },
+    "invocation_20261113T035030.108585Z.json": {
+      "bytes": 1575,
+      "sha256": "3fe5c0b74aec99883850bd4d38f4a533da59754dbf07806a540af2811410b3b9"
+    },
+    "invocation_20261113T065214.515921Z.json": {
+      "bytes": 1263,
+      "sha256": "9b11b47262435f3d6a06812dfa24a16adb297d5ef8a1aa7ed380c96e1d47b564"
+    },
+    "provenance.json": {
+      "bytes": 91103,
+      "sha256": "723d510c1cc8488842bf95e39319131fc4fce52f032bd89893ab1ea6a9a72164"
+    },
+    "report.md": {
+      "bytes": 4143,
+      "sha256": "928379236f52422b848e8358ff70739eaee463c88e6d9d72783f0fbb031ab831"
+    },
+    "results.csv": {
+      "bytes": 3508,
+      "sha256": "5f161784091f074c59a117fb58d62c782fef4ddca2a10c7a13d52b44c0f047c3"
+    },
+    "runtime_identity.json": {
+      "bytes": 203,
+      "sha256": "ad7e9b8060eaff4b82e192369d963cfb528da7bf1806b90d680390e0222e750a"
+    },
+    "source_receipt.json": {
+      "bytes": 4720,
+      "sha256": "81eccad01f39c87e2b2c13cb6b5af185bb6905b4b24e06f624c09b5753f857de"
+    },
+    "supervision/first_group_completed_dom.txt": {
+      "bytes": 36105,
+      "sha256": "d01d59ad9b64e0cde985de09bf88d1ceac32d415297144e48d7487a088a58fe6"
+    },
+    "supervision/gpu_probe_120min.txt": {
+      "bytes": 35238,
+      "sha256": "cb934f5595899b70f7fe9d7de95bf6482f69da758aea9e84b022616928d71f0e"
+    },
+    "supervision/gpu_probe_30min.png": {
+      "bytes": 158598,
+      "sha256": "819e0a94c2ba98332ddfb950b4acd6ed7d68c3d89cf296efea4f26e8f372a757"
+    },
+    "supervision/gpu_probe_95min.txt": {
+      "bytes": 35194,
+      "sha256": "927f90fd2c1c5b67f9a3f60c19350e8be57aeb7529218a207c8e28a90a5ef2fa"
+    },
+    "supervision/second_group_running.png": {
+      "bytes": 140194,
+      "sha256": "778dc1e9235b10d588b8d00ef535d363617fdadeabcbf810a060262c8e62cca5"
+    },
+    "supervision/second_group_running_dom.txt": {
+      "bytes": 35435,
+      "sha256": "05ad6b65e20dbfdd3b57d4260dbf5c6dd524fe3c7ca572d7952b7bdce9ad6208"
+    },
+    "supervision/stopped_gpu_dom.txt": {
+      "bytes": 37929,
+      "sha256": "dc0bda5a65f764c2da3922944819b54f413b1ae6ef22cbf8916657a9c387c8e4"
+    },
+    "ui/final_output_dom.txt": {
+      "bytes": 34086,
+      "sha256": "611c4170f02264fbe8326b2128f273fc4d23f1837dd9a208e557e3ba2c46c307"
+    },
+    "ui/final_summary_1.png": {
+      "bytes": 80564,
+      "sha256": "109117b71db0a67c8a5148cd4d4f382f38329b8b6e5005ce5708bd0ea77bd490"
+    },
+    "ui/final_summary_2.png": {
+      "bytes": 60089,
+      "sha256": "e9d0e23e106776085edcd834891c112eaf9cc8d12235787b0912576c5e6ae979"
+    },
+    "ui/final_summary_middle.png": {
+      "bytes": 51033,
+      "sha256": "094d3e29a5a2ca46f74205c91ac5e52a5585630a81b8b368f6de1324e42fa8e7"
+    },
+    "ui/sessions_released.png": {
+      "bytes": 40400,
+      "sha256": "2697da61ca2f986e31570cd72ce115da786cdc434e7271b01dd449df4ff55102"
+    },
+    "ui/sessions_released_dom.txt": {
+      "bytes": 28135,
+      "sha256": "f00986ae44bdf5a6076a522783b64932b20c7e68cde67056fa72c07634b7e7d1"
+    },
+    "ui/ui_finalization.json": {
+      "bytes": 1264,
+      "sha256": "b1aca30d69d5f4427428b5a5b78fd4823dcfa84907f9fe1b2151e045499194d5"
+    }
+  },
+  "updated_utc": "2026-11-13T10:51:25.649062+00:00",
+  "redaction": {
+    "note": "六个页面文本存档里 Google 账号按钮一行的姓名和邮箱已替换为 [redacted]，其余内容未改；这六个文件的 bytes 和 sha256 是替换后的值。",
+    "files": [
+      "supervision/first_group_completed_dom.txt",
+      "supervision/gpu_probe_120min.txt",
+      "supervision/gpu_probe_95min.txt",
+      "supervision/second_group_running_dom.txt",
+      "supervision/stopped_gpu_dom.txt",
+      "ui/final_output_dom.txt"
+    ],
+    "utc": "2026-11-13"
+  }
+}

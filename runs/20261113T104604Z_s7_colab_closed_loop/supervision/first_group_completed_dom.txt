@@ -1,0 +1,556 @@
+- generic: Change to a standard runtime
+- link "Skip to main content":
+  - /url: "#notebook-main"
+  - generic: Skip to main content
+- banner:
+  - link "Colab Pro home":
+    - /url: https://colab.research.google.com/
+  - img "Notebook stored in Google Drive":
+  - textbox "Notebook name": S7_7B闭环.ipynb
+  - generic: S7_7B闭环.ipynb_
+  - generic "Star":
+    - button "Star"
+  - generic "All changes saved":
+    - button "All changes saved"
+  - menubar:
+    - button "File":
+      - generic: File
+    - button "Edit":
+      - generic: Edit
+    - button "View":
+      - generic: View
+    - button "Insert":
+      - generic: Insert
+    - button "Runtime":
+      - generic: Runtime
+    - button "Tools":
+      - generic: Tools
+    - button "Help":
+      - generic: Help
+  - generic "Open comments pane":
+    - button "Open comments pane"
+  - generic "Open settings":
+    - button "Open settings"
+  - generic "Share notebook":
+    - button "Share notebook":
+      - generic: Share
+  - 'button "Google Account: [redacted], Google membership"':
+- button "Commands Show command palette ⌘/Ctrl+Shift+P":
+  - generic: Commands
+  - generic: Show command palette ⌘/Ctrl+Shift+P
+- button "Code Insert code cell below ⌘/Ctrl+M B":
+  - generic: Code
+  - generic: Insert code cell below ⌘/Ctrl+M B
+- button "Text Add text cell":
+  - generic: Text
+  - generic: Add text cell
+- button "Run all Run all cells in notebook":
+  - generic: Run all
+  - generic: Run all cells in notebook
+- generic "More actions":
+  - button "More actions"
+- generic "Focus the last run cell":
+  - button "Focus the last run cell" [disabled]
+- 'button "RAM Disk Waiting to finish the current execution. Python 3 Google Compute Engine backend (GPU) RAM: 5.38 GB/83.47 GB Disk: 29.87 GB/235.68 GB" [disabled]':
+  - generic: Connecting
+- generic "Additional connection options":
+  - button "Additional connection options"
+- generic "Toggle header visibility":
+  - button "Toggle header visibility"
+- complementary "left pane":
+  - toolbar:
+    - generic "Table of contents":
+      - button "Table of contents"
+    - generic "Find and replace":
+      - button "Find and replace"
+    - generic "Code snippets":
+      - button "Code snippets"
+    - generic "Data inspector":
+      - button "Data inspector"
+    - generic "Secrets":
+      - button "Secrets"
+    - generic "Files":
+      - button "Files"
+    - generic "Data explorer":
+      - button "Data explorer"
+- main "Notebook":
+  - 'region "Cell 0: Text cell: Stage 7：两组已验收7B的Colab闭环（准备稿，尚未执行）"':
+    - generic "Move cell up ⌘/Ctrl+M K":
+      - button "Move cell up ⌘/Ctrl+M K" [disabled]
+    - generic "Move cell down ⌘/Ctrl+M J":
+      - button "Move cell down ⌘/Ctrl+M J"
+    - generic "Edit":
+      - button "Edit"
+    - generic "Delete cell ⌘/Ctrl+M D":
+      - button "Delete cell ⌘/Ctrl+M D"
+    - generic "More cell actions":
+      - button "More cell actions"
+    - generic "Collapse 15 child cells under Stage 7：两组已验收7B的Colab闭环（准备稿，尚未执行） (Press <Shift> to also collapse sibling sections)":
+      - button "Collapse 15 child cells under Stage 7：两组已验收7B的Colab闭环（准备稿，尚未执行） (Press <Shift> to also collapse sibling sections)"
+    - heading "Stage 7：两组已验收7B的Colab闭环（准备稿，尚未执行）" [level=1]
+    - paragraph:
+      - text: 沿用
+      - code: S6_Colab闭环.ipynb
+      - text: 的 bf16 加载、LoRA合并和
+      - code: eval.colab_loop
+      - text: 批处理机制。 只运行
+      - code: grpo_7b_repro
+      - text: （nolacs）与
+      - code: comllm_7b_repro
+      - text: （lacs），各6点：3台服务器、N=20/40/60、seed=0/1、1000槽、200槽热身、sequential，共12个唯一点。
+    - paragraph:
+      - text: 两组闭环共同使用
+      - strong: paper / search / greedy / max_new_tokens=16 / repetition_penalty=1.05
+      - text: ；S7开环是
+      - strong: max15 / repetition_penalty=1.0
+      - text: ，不能将开环与闭环称为完全相同解码。 使用固定SFT目录，逐文件校验四片权重及元数据，并核对两组真实adapter SHA和2026-11-08 18:38香港时间的严格联合验收报告。
+    - paragraph:
+      - text: 执行前将独立
+      - code: s7_closed_code/
+      - text: 整个文件夹上传到
+      - code: MyDrive/COMLLM/s7_closed_code/
+      - text: （code.zip、meta.json、sha256_manifest.json）。它由既定S6的
+      - code: CL.pack
+      - text: 生成，含36个py/json成员；不要覆盖原S7训练包。 Drive应保留
+      - code: s7_runs/acceptance_20261108T103821.435715Z.json
+      - text: 。依赖沿用当前已验证Colab环境，本notebook不安装或卸载任何库。 全新输出根为
+      - code: MyDrive/COMLLM/s7_closed_runs_20261113_a100_standard/
+      - text: 。先完成CPU身份/公式golden校验，再加载GPU；没有主动开始运行本notebook之前，不会产生闭环结果。 续跑仅跳过完整点；provenance、硬件环境或已有行身份变化会拒绝继续。不要同时启动两个副本；报错即停，完成必须有最终12点验收报告。7B不转到Jetson。
+  - 'region "Cell 1: Text cell: 固定入口与现有依赖（不安装）"':
+    - generic "Collapse 1 child cell under 固定入口与现有依赖（不安装） (Press <Shift> to also collapse sibling sections)":
+      - button "Collapse 1 child cell under 固定入口与现有依赖（不安装） (Press <Shift> to also collapse sibling sections)"
+    - heading "1. 固定入口与现有依赖（不安装）" [level=2]
+  - 'region "Cell 2: Code cell:"':
+    - button "Run cell":
+    - generic: "[ ]"
+    - generic: import csv, gc, hashlib, importlib.metadata as metadata, json, math, os, shutil, sys, time, zipfile
+    - generic: from datetime import datetime, timezone
+    - generic: from pathlib import Path
+    - generic: from google.colab import drive
+    - generic: "for name, version in {'transformers':'5.20.2', 'peft':'0.21.2'}.items():"
+    - generic: "assert metadata.version(name) == version, f'{name}版本漂移；停止并核对环境'"
+    - generic: "VERSIONS = {k: metadata.version(k) for k in ('torch','transformers','peft','accelerate','numpy')}"
+    - generic: drive.mount('/content/drive')
+    - generic: DRIVE = Path('/content/drive/MyDrive/COMLLM')
+    - generic: CODE = DRIVE / 's7_closed_code'
+    - generic: WORK = Path('/content/comllm_s7_closed_20261108')
+    - generic: BASE_DRIVE = DRIVE / 'reference_model/qwen2.5-7b-mec-sft-final-all'
+    - generic: BASE = Path('/content/s7_sft7b')
+    - generic: TRAIN = DRIVE / 's7_runs'
+    - generic: OUT = DRIVE / 's7_closed_runs_20261113_a100_standard'
+    - generic: "RUNS = {'grpo_7b_repro':'nolacs', 'comllm_7b_repro':'lacs'}"
+    - generic: ACCEPTANCE_NAME = 'acceptance_20261108T103821.435715Z.json'
+    - generic: ACCEPTANCE_SHA = '28accfda57ff3a359f030ecd74d73bb789432cddd6bfc6ffabe9527388f2d92a'
+    - generic: CODE_SHA = '9b104f5a20994f4a315d88e1ec27604d7fde1838b0556f895ae4d8c4b3cd6f2c'
+    - generic: META_SHA = 'af213e865323a2efc54c7968e8008599af27f35b5f457f025600edc00d088dde'
+    - generic: MANIFEST_SHA = '7095bf765f8b4cb2ca6de8f909f095f0d2ff9819a8d8b990edc3d61df5dad2f4'
+    - generic: "ADAPTER_SHA = {'nolacs':'4b5dc12b1300d91d18d5cc9cfeefe791ebe04fb579d1868f3741dab7d69c905e',"
+    - generic: "'lacs':'dc1ce5def49209b34bb03fbf863c5ebe96a6aedda1a86a9ba4bfa7d1e5e51012'}"
+    - generic: "def sha(path):"
+    - generic: h = hashlib.sha256()
+    - generic: "with Path(path).open('rb') as f:"
+    - generic: "for chunk in iter(lambda: f.read(8*1024*1024), b''): h.update(chunk)"
+    - generic: return h.hexdigest()
+    - generic: "def canonical(value): return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',',':'), allow_nan=False)"
+    - generic: "def identity_sha(value): return hashlib.sha256(canonical(value).encode()).hexdigest()"
+    - generic: "def read_json(path): return json.loads(Path(path).read_text(encoding='utf-8'))"
+    - generic: "def write_new_json(path, value):"
+    - generic: "with Path(path).open('x', encoding='utf-8') as f: json.dump(value, f, ensure_ascii=False, indent=2, allow_nan=False)"
+    - generic: print('仅两组：', RUNS, '；新输出根：', OUT)
+    - region "Cell 2 output":
+      - generic "Show/hide output":
+        - button "Show/hide output"
+      - generic "Code cell output actions":
+        - button "Code cell output actions"
+      - generic: "Mounted at /content/drive 仅两组： {'grpo_7b_repro': 'nolacs', 'comllm_7b_repro': 'lacs'} ；新输出根： /content/drive/MyDrive/COMLLM/s7_closed_runs_20261113_a100_standard"
+  - 'region "Cell 3: Text cell: 独立闭环包、全部成员与CPU公式golden"':
+    - generic "Collapse 1 child cell under 独立闭环包、全部成员与CPU公式golden (Press <Shift> to also collapse sibling sections)":
+      - button "Collapse 1 child cell under 独立闭环包、全部成员与CPU公式golden (Press <Shift> to also collapse sibling sections)"
+    - heading "2. 独立闭环包、全部成员与CPU公式golden" [level=2]
+    - paragraph: 原S7训练包没有S6的独立meta与完整JSON依赖。这里核对独立小包；golden是S6的固定公式核对点，不依赖另一个golden数据文件。
+  - 'region "Cell 4: Code cell:"':
+    - button "Run cell":
+    - generic: "[ ]"
+    - generic: assert sha(CODE / 'code.zip') == CODE_SHA, '闭环ZIP SHA变化'
+    - generic: assert sha(CODE / 'meta.json') == META_SHA, '闭环meta SHA变化'
+    - generic: assert sha(CODE / 'sha256_manifest.json') == MANIFEST_SHA, '闭环成员清单变化'
+    - generic: META, MANIFEST = read_json(CODE / 'meta.json'), read_json(CODE / 'sha256_manifest.json')
+    - generic: assert MANIFEST['archive_sha256'] == CODE_SHA and MANIFEST['meta_sha256'] == META_SHA
+    - generic: "with zipfile.ZipFile(CODE / 'code.zip') as z:"
+    - generic: names = z.namelist()
+    - generic: assert z.testzip() is None and len(names) == len(set(names)) == 36
+    - generic: assert set(names) == set(META['files']) == set(MANIFEST['files'])
+    - generic: assert all(not Path(n).is_absolute() and '..' not in Path(n).parts for n in names)
+    - generic: "for name in names:"
+    - generic: payload, record = z.read(name), MANIFEST['files'][name]
+    - generic: assert len(payload) == record['bytes'] and hashlib.sha256(payload).hexdigest() == record['sha256'], name
+    - generic: WORK.mkdir(parents=True, exist_ok=True)
+    - generic: z.extractall(WORK)
+    - generic: assert 'deploy/testbed.json' in names
+    - generic: "for name in names: assert sha(WORK / name) == MANIFEST['files'][name]['sha256'], name"
+    - generic: "actual_members = {p.relative_to(WORK).as_posix() for p in WORK.rglob('*') if p.suffix in ('.py','.json') and '__pycache__' not in p.parts}"
+    - generic: assert actual_members == set(names), '本地闭环解压目录有额外代码/JSON，拒绝混用'
+    - generic: "for name in list(sys.modules):"
+    - generic: "if name.split('.')[0] in ('eval','sim','deploy'): del sys.modules[name]"
+    - generic: sys.path.insert(0, str(WORK))
+    - generic: os.chdir(WORK)
+    - generic: from eval import colab_loop as CL
+    - generic: assert Path(CL.__file__).resolve().is_relative_to(WORK.resolve())
+    - generic: assert CL.check_value() == META['check_mean_delay'] == 4.197929414659039
+    - generic: "POINTS = {key: CL.points_for(key) for key in RUNS}"
+    - generic: ALL_POINTS = [p for key in RUNS for p in POINTS[key]]
+    - generic: "assert len(ALL_POINTS) == len({p['point'] for p in ALL_POINTS}) == 12"
+    - generic: "for key, points in POINTS.items():"
+    - generic: "assert len(points) == 6 and {(p['n'],p['seed']) for p in points} == {(n,s) for n in (20,40,60) for s in (0,1)}"
+    - generic: assert all((p['servers'],p['slots'],p['warmup'],p['mode'],p['policy']) ==
+    - generic: (3,1000,200,'sequential','llm:'+key) for p in points)
+    - generic: print('独立闭环包36成员通过；CPU golden=', META['check_mean_delay'], '；唯一点=',len(ALL_POINTS))
+    - region "Cell 4 output":
+      - generic "Show/hide output":
+        - button "Show/hide output"
+      - generic "Code cell output actions":
+        - button "Code cell output actions"
+      - generic: 独立闭环包36成员通过；CPU golden= 4.197929414659039 ；唯一点= 12
+  - 'region "Cell 5: Text cell: 固定严格验收报告、两组adapter与训练身份（CPU读取）"':
+    - generic "Collapse 1 child cell under 固定严格验收报告、两组adapter与训练身份（CPU读取） (Press <Shift> to also collapse sibling sections)":
+      - button "Collapse 1 child cell under 固定严格验收报告、两组adapter与训练身份（CPU读取） (Press <Shift> to also collapse sibling sections)"
+    - heading "3. 固定严格验收报告、两组adapter与训练身份（CPU读取）" [level=2]
+  - 'region "Cell 6: Code cell:"':
+    - button "Run cell":
+    - generic: "[ ]"
+    - generic: acceptance_path = TRAIN / ACCEPTANCE_NAME
+    - generic: assert sha(acceptance_path) == ACCEPTANCE_SHA, '严格验收报告SHA变化'
+    - generic: ACCEPTANCE = read_json(acceptance_path)
+    - generic: assert ACCEPTANCE['status'] == ACCEPTANCE['verifier_result']['status'] == 'passed'
+    - generic: assert ACCEPTANCE['verifier_returncode'] == 0 and ACCEPTANCE['verifier_result']['paired_identity_matches']
+    - generic: ACCEPTED = ACCEPTANCE['verifier_result']['groups']
+    - generic: TRAIN_IDENTITY = ACCEPTED['nolacs']['identity']
+    - generic: assert ACCEPTED['lacs']['identity'] == TRAIN_IDENTITY == read_json(TRAIN / 'pair.json')
+    - generic: "ARTIFACTS = {}"
+    - generic: "for key, group in RUNS.items():"
+    - generic: folder = TRAIN / group
+    - generic: cfg, summary = read_json(folder/'config.json'), read_json(folder/'summary.json')
+    - generic: assert cfg['group'] == group and cfg['lambda_lacs'] == (0.0 if group == 'nolacs' else 0.3)
+    - generic: assert cfg['identity'] == TRAIN_IDENTITY
+    - generic: assert summary['status'] == 'complete' and summary['training_complete'] is True
+    - generic: assert summary['step'] == summary['target_steps'] == 208
+    - generic: adapter = folder / 'lora'
+    - generic: assert read_json(adapter/'adapter_config.json') == ACCEPTED[group]['adapter']['config']
+    - generic: assert sha(adapter/'adapter_model.safetensors') == ADAPTER_SHA[group] == ACCEPTED[group]['adapter']['sha256']
+    - generic: "adapter_files = {p.name:{'bytes':p.stat().st_size,'sha256':sha(p)} for p in"
+    - generic: "(adapter/'adapter_config.json', adapter/'adapter_model.safetensors')}"
+    - generic: "ARTIFACTS[key] = {'group':group,'lambda_lacs':cfg['lambda_lacs'], 'adapter_path':str(adapter),"
+    - generic: "'adapter_files':adapter_files,'training_identity':cfg['identity'],"
+    - generic: "'config_sha256':sha(folder/'config.json'),'summary_sha256':sha(folder/'summary.json')}"
+    - generic: print('严格验收报告、两组实际adapter SHA、pair训练身份通过')
+    - region "Cell 6 output":
+      - generic "Show/hide output":
+        - button "Show/hide output"
+      - generic "Code cell output actions":
+        - button "Code cell output actions"
+      - generic: 严格验收报告、两组实际adapter SHA、pair训练身份通过
+  - 'region "Cell 7: Text cell: 复用已验证本地SFT；缺失或不符时从固定Drive目录复制"':
+    - generic "Collapse 1 child cell under 复用已验证本地SFT；缺失或不符时从固定Drive目录复制 (Press <Shift> to also collapse sibling sections)":
+      - button "Collapse 1 child cell under 复用已验证本地SFT；缺失或不符时从固定Drive目录复制 (Press <Shift> to also collapse sibling sections)"
+    - heading "4. 复用已验证本地SFT；缺失或不符时从固定Drive目录复制" [level=2]
+    - paragraph: 四个分片及所有tokenizer/config文件都与真实验收报告中的SHA逐一一致才使用；不按hidden_size搜索目录。
+    - generic: Code
+    - generic: Text
+  - 'region "Cell 8: Code cell:"':
+    - button "Run cell":
+    - generic: "[ ]"
+    - generic: EXPECTED_BASE = TRAIN_IDENTITY['base_model']['files']
+    - generic: assert sum(name.endswith('.safetensors') for name in EXPECTED_BASE) == 4
+    - generic: BASE.mkdir(parents=True, exist_ok=True)
+    - generic: invalid = [name for name,record in EXPECTED_BASE.items() if not (BASE/name).is_file()
+    - generic: or (BASE/name).stat().st_size != record['bytes'] or sha(BASE/name) != record['sha256']]
+    - generic: assert shutil.disk_usage(BASE).free > sum(EXPECTED_BASE[n]['bytes'] for n in invalid) + 5*1024**3, '本地复制空间不足'
+    - generic: "for name in invalid:"
+    - generic: record, source, target = EXPECTED_BASE[name], BASE_DRIVE/name, BASE/name
+    - generic: "assert source.is_file() and source.stat().st_size == record['bytes'], f'固定Drive基座文件缺失或大小错误：{name}'"
+    - generic: temporary = target.with_name(target.name+'.partial')
+    - generic: shutil.copyfile(source, temporary)
+    - generic: "assert sha(temporary) == record['sha256'], f'固定Drive基座SHA错误：{name}'"
+    - generic: os.replace(temporary, target)
+    - generic: "assert {p.name for p in BASE.glob('*.safetensors')} == {n for n in EXPECTED_BASE if n.endswith('.safetensors')}, '本地基座存在额外分片'"
+    - generic: "BASE_FILES = {name:{'bytes':(BASE/name).stat().st_size,'sha256':sha(BASE/name)} for name in EXPECTED_BASE}"
+    - generic: assert BASE_FILES == EXPECTED_BASE
+    - generic: BASE_GENERATION = read_json(BASE/'generation_config.json')
+    - generic: assert BASE_GENERATION['repetition_penalty'] == 1.05, 'S6既定重复惩罚变化'
+    - generic: "DECODE = {'format':'paper','parse':'search','do_sample':False,'num_beams':1,"
+    - generic: "'max_new_tokens':16,'repetition_penalty':1.05,'eos_token':'<|im_end|>',"
+    - generic: "'inherited_generation_config':BASE_GENERATION}"
+    - generic: print('固定SFT全部文件SHA通过；复用', len(EXPECTED_BASE)-len(invalid), '文件，复制',len(invalid),'文件')
+    - region "Cell 8 output":
+      - generic "Show/hide output":
+        - button "Show/hide output"
+      - generic "Code cell output actions":
+        - button "Code cell output actions"
+      - generic: 固定SFT全部文件SHA通过；复用 0 文件，复制 13 文件
+  - 'region "Cell 9: Text cell: 保存provenance并保护续跑身份"':
+    - generic "Collapse 1 child cell under 保存provenance并保护续跑身份 (Press <Shift> to also collapse sibling sections)":
+      - button "Collapse 1 child cell under 保存provenance并保护续跑身份 (Press <Shift> to also collapse sibling sections)"
+    - heading "5. 保存provenance并保护续跑身份" [level=2]
+    - paragraph:
+      - text: CSV沿用S6旧列名
+      - code: gguf_sha256
+      - text: ，其中写入实际base+adapter文件SHA清单的联合SHA；此处没有生成GGUF。完整文件SHA、训练身份和验收报告保存在provenance。
+  - 'region "Cell 10: Code cell:"':
+    - button "Run cell":
+    - generic: "[ ]"
+    - generic: "MODEL_SHA = {key:identity_sha({'base_files':BASE_FILES,'adapter_files':ARTIFACTS[key]['adapter_files']}) for key in RUNS}"
+    - generic: "IDENTITY = {'schema_version':1, 'run_order':list(RUNS), 'points':ALL_POINTS, 'decode':DECODE,"
+    - generic: "'open_loop_decode':{'max_new_tokens':15,'repetition_penalty':1.0}, 'versions':VERSIONS,"
+    - generic: "'code':{'archive_sha256':CODE_SHA,'meta_sha256':META_SHA,'manifest_sha256':MANIFEST_SHA,'files':MANIFEST['files']},"
+    - generic: "'base_source':str(BASE_DRIVE),'base_used':str(BASE),'base_files':BASE_FILES,"
+    - generic: "'artifacts':ARTIFACTS,'model_identity_sha256':MODEL_SHA,"
+    - generic: "'acceptance':{'path':str(acceptance_path),'sha256':ACCEPTANCE_SHA,'report':ACCEPTANCE},"
+    - generic: "'legacy_gguf_sha256_column':'SHA256 of canonical base_files+adapter_files manifest; bf16 merged LoRA, no GGUF file'}"
+    - generic: OUT.mkdir(parents=True, exist_ok=True)
+    - generic: provenance_path, results_path = OUT/'provenance.json', OUT/'results.csv'
+    - generic: "if provenance_path.exists():"
+    - generic: assert read_json(provenance_path)['identity'] == IDENTITY, '闭环身份变化，拒绝续跑；必须使用独立输出根'
+    - generic: "else:"
+    - generic: assert not list(OUT.iterdir()), '输出根已有证据但缺少provenance，拒绝混入'
+    - generic: "write_new_json(provenance_path, {'created_utc':datetime.now(timezone.utc).isoformat(),'identity':IDENTITY})"
+    - generic: "EXPECTED_POINTS = {p['point']:p for p in ALL_POINTS}"
+    - generic: "def checked_rows(require_all=False):"
+    - generic: rows = []
+    - generic: "if results_path.exists():"
+    - generic: "with results_path.open(newline='',encoding='utf-8') as f:"
+    - generic: reader = csv.DictReader(f, strict=True)
+    - generic: assert reader.fieldnames == CL.FIELDS, '闭环CSV列变化'
+    - generic: rows = list(reader)
+    - generic: names = [r['point'] for r in rows]
+    - generic: assert len(names) == len(set(names)) and set(names) <= set(EXPECTED_POINTS), '重复或未知闭环点'
+    - generic: "for row in rows:"
+    - generic: assert None not in row and all(value is not None for value in row.values()), '闭环CSV缺字段或有额外列'
+    - generic: p = EXPECTED_POINTS[row['point']]
+    - generic: "for field in ('servers','n','seed','slots','warmup'): assert int(row[field]) == p[field], (row['point'],field)"
+    - generic: "for field in ('mode','policy'): assert row[field] == p[field], (row['point'],field)"
+    - generic: key = row['policy'].removeprefix('llm:')
+    - generic: assert row['gguf_sha256'] == MODEL_SHA[key], '闭环行模型身份变化'
+    - generic: "for field in ('mean_delay','p95_delay','drop_rate','local_frac','top_server_frac','jain','pred_gap','agree_greedy','ms_per_decision','wall_s'):"
+    - generic: assert math.isfinite(float(row[field])), (row['point'],field)
+    - generic: assert int(row['n_decisions']) > 0 and 0 <= int(row['fallback']) <= int(row['n_decisions'])
+    - generic: assert int(row['n_tasks']) > 0
+    - generic: shares = [float(x) for x in row['server_share'].split(';')]
+    - generic: assert len(shares) == p['servers'] and all(math.isfinite(x) and 0 <= x <= 1 for x in shares)
+    - generic: assert abs(sum(shares)) < 1e-9 or abs(sum(shares)-1) <= 0.0003, '服务器份额合计异常'
+    - generic: "for field in ('drop_rate','local_frac','top_server_frac','jain','agree_greedy'): assert 0 <= float(row[field]) <= 1"
+    - generic: "if require_all: assert set(names) == set(EXPECTED_POINTS) and len(rows) == 12, '12点尚未全部完成'"
+    - generic: return rows
+    - generic: existing = checked_rows()
+    - generic: print('provenance身份通过；已完成',len(existing),'/12点；仅跳过这些完整点')
+    - region "Cell 10 output":
+      - generic "Show/hide output":
+        - button "Show/hide output"
+      - generic "Code cell output actions":
+        - button "Code cell output actions"
+      - generic: provenance身份通过；已完成 0 /12点；仅跳过这些完整点
+  - 'region "Cell 11: Text cell: GPU加载并依次执行两组（这是实际执行入口，准备阶段未运行）"':
+    - generic "Collapse 1 child cell under GPU加载并依次执行两组（这是实际执行入口，准备阶段未运行） (Press <Shift> to also collapse sibling sections)":
+      - button "Collapse 1 child cell under GPU加载并依次执行两组（这是实际执行入口，准备阶段未运行） (Press <Shift> to also collapse sibling sections)"
+    - heading "6. GPU加载并依次执行两组（这是实际执行入口，准备阶段未运行）" [level=2]
+    - paragraph:
+      - text: 沿用S6：SFT bf16 → 合并指定LoRA →
+      - code: make_paper_decider
+      - text: →
+      - code: run_points
+      - text: 。每组结束强制核对6点；线程失败或缺点会停止。断线只保存已完整写入CSV的点，重新全部运行可在同一身份下继续。
+  - 'region "Cell 12: Code cell:"':
+    - button "Run cell":
+      - progressbar
+    - generic: "[ ]"
+    - generic: "def checked_generation_settings(generation_config):"
+    - generic: defaults = generation_config._get_default_generation_params()
+    - generic: "raw = {name: getattr(generation_config, name)"
+    - generic: "for name in ('num_beams', 'repetition_penalty')}"
+    - generic: "effective = {name: defaults[name] if value is None else value"
+    - generic: "for name, value in raw.items()}"
+    - generic: "print('生成配置检查：', {'raw': raw, 'effective': effective}, flush=True)"
+    - generic: beams, penalty = effective['num_beams'], effective['repetition_penalty']
+    - generic: assert type(beams) is int and beams == 1, (
+    - generic: "f\"num_beams不符：raw={raw['num_beams']!r}, effective={beams!r}\")"
+    - generic: assert type(penalty) in (int, float) and penalty == 1.05, (
+    - generic: "f\"repetition_penalty不符：raw={raw['repetition_penalty']!r}, effective={penalty!r}\")"
+    - generic: "return {'raw': raw, 'effective': effective}"
+    - generic: assert read_json(provenance_path)['identity'] == IDENTITY, '执行前provenance身份变化'
+    - generic: "for key in RUNS:"
+    - generic: adapter = Path(ARTIFACTS[key]['adapter_path'])
+    - generic: "for name, record in ARTIFACTS[key]['adapter_files'].items(): assert sha(adapter/name) == record['sha256'], '执行前adapter身份变化'"
+    - generic: "pending = set(EXPECTED_POINTS) - {r['point'] for r in checked_rows()}"
+    - generic: "if pending:"
+    - generic: import torch
+    - generic: from transformers import AutoModelForCausalLM, AutoTokenizer
+    - generic: from peft import PeftModel
+    - generic: assert torch.cuda.is_available() and torch.cuda.is_bf16_supported(), '需要bf16 CUDA GPU'
+    - generic: "hardware = {'gpu':torch.cuda.get_device_name(0),'versions':VERSIONS,'bf16':True}"
+    - generic: hardware_path = OUT/'runtime_identity.json'
+    - generic: "if hardware_path.exists(): assert read_json(hardware_path) == hardware, '运行硬件/版本变化，拒绝续跑'"
+    - generic: "else: write_new_json(hardware_path, hardware)"
+    - generic: stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S.%fZ')
+    - generic: "write_new_json(OUT/f'invocation_{stamp}.json', {'started_utc':datetime.now(timezone.utc).isoformat(),"
+    - generic: "'hardware':hardware,'provenance_sha256':sha(provenance_path),'pending_points':sorted(pending),'decode':DECODE})"
+    - generic: "for key in RUNS:"
+    - generic: "done = {r['point'] for r in checked_rows()}"
+    - generic: "if {p['point'] for p in POINTS[key]} <= done:"
+    - generic: print(key,'6点已完成，跳过模型加载'); continue
+    - generic: t0 = time.monotonic()
+    - generic: tok = AutoTokenizer.from_pretrained(str(BASE), local_files_only=True, trust_remote_code=False)
+    - generic: tok.padding_side = 'left'
+    - generic: assert tok.pad_token_id is not None
+    - generic: base = AutoModelForCausalLM.from_pretrained(str(BASE), local_files_only=True, trust_remote_code=False,
+    - generic: dtype=torch.bfloat16).to('cuda')
+    - generic: model = PeftModel.from_pretrained(base, ARTIFACTS[key]['adapter_path'], local_files_only=True).merge_and_unload()
+    - generic: del base
+    - generic: "try:"
+    - generic: model.eval()
+    - generic: checked_generation_settings(model.generation_config)
+    - generic: decide = CL.make_paper_decider(model,tok,'cuda',max_new_tokens=16,parse='search')
+    - generic: CL.run_points(POINTS[key],decide,str(results_path),sha=MODEL_SHA[key])
+    - generic: "assert {p['point'] for p in POINTS[key]} <= {r['point'] for r in checked_rows()}, f'{key}闭环缺点，停止'"
+    - generic: print(key,'6点完成；用时分钟',round((time.monotonic()-t0)/60,2))
+    - generic: "finally:"
+    - generic: "if 'decide' in locals(): del decide"
+    - generic: del model, tok
+    - generic: gc.collect()
+    - generic: torch.cuda.empty_cache()
+    - generic: "else:"
+    - generic: print('12点已完整存在；无需GPU加载')
+    - region "Cell 12 output":
+      - generic "Show/hide output":
+        - button "Show/hide output"
+      - generic "Code cell output actions":
+        - button "Code cell output actions"
+      - iframe:
+        - generic: "Loading weights: 100%"
+        - generic: 339/339 [00:03<00:00, 120.66it/s]
+        - generic: "生成配置检查： {'raw': {'num_beams': None, 'repetition_penalty': 1.05}, 'effective': {'num_beams': 1, 'repetition_penalty': 1.05}} llm_grpo_7b_repro_k3_n20_sequential_s0_t1000 平均延迟 4.84 槽 丢弃 6.1% 和单步最优一致 0.1% 回退 0 llm_grpo_7b_repro_k3_n20_sequential_s1_t1000 平均延迟 5.00 槽 丢弃 6.2% 和单步最优一致 0.1% 回退 0 llm_grpo_7b_repro_k3_n40_sequential_s0_t1000 平均延迟 6.84 槽 丢弃 53.6% 和单步最优一致 0.0% 回退 0 llm_grpo_7b_repro_k3_n40_sequential_s1_t1000 平均延迟 6.86 槽 丢弃 52.7% 和单步最优一致 0.0% 回退 0 llm_grpo_7b_repro_k3_n60_sequential_s0_t1000 平均延迟 7.22 槽 丢弃 84.0% 和单步最优一致 0.0% 回退 0 llm_grpo_7b_repro_k3_n60_sequential_s1_t1000 平均延迟 7.37 槽 丢弃 84.2% 和单步最优一致 0.0% 回退 0 共 71766 次决策，17993 批（平均每批 4.0 个），GPU 每次决策 128.0 ms，用时 153.5 分钟 grpo_7b_repro 6点完成；用时分钟 153.65"
+        - generic: "Loading weights: 100%"
+        - generic: 339/339 [00:02<00:00, 144.47it/s]
+        - generic: "生成配置检查： {'raw': {'num_beams': None, 'repetition_penalty': 1.05}, 'effective': {'num_beams': 1, 'repetition_penalty': 1.05}}"
+    - generic: Code
+    - generic: Text
+  - 'region "Cell 13: Text cell: 最终12点验收与结果摘要"':
+    - generic "Collapse 2 child cells under 最终12点验收与结果摘要 (Press <Shift> to also collapse sibling sections)":
+      - button "Collapse 2 child cells under 最终12点验收与结果摘要 (Press <Shift> to also collapse sibling sections)"
+    - heading "7. 最终12点验收与结果摘要" [level=2]
+    - paragraph: 仅有训练验收、provenance或模型加载成功都不代表闭环完成。需要12条精确点名、参数与模型身份全部匹配、指标有限，才写入新的闭环验收报告；不把准备稿称为闭环实测。
+  - 'region "Cell 14: Code cell:"':
+    - button "Run cell":
+    - generic: "[ ]"
+    - code:
+      - generic: assert read_json(provenance_path)['identity'] == IDENTITY, '最终验收前provenance身份变化'
+      - generic: rows = checked_rows(require_all=True)
+      - generic: "aggregate = {}"
+      - generic: "for key in RUNS:"
+      - generic: "aggregate[key] = {}"
+      - generic: "for n in (20,40,60):"
+      - generic: selected = [r for r in rows if r['policy'] == 'llm:'+key and int(r['n']) == n]
+      - generic: "assert len(selected) == 2 and {int(r['seed']) for r in selected} == {0,1}"
+      - generic: "aggregate[key][str(n)] = {'seeds':2,'mean_delay':sum(float(r['mean_delay']) for r in selected)/2,"
+      - generic: "'drop_rate':sum(float(r['drop_rate']) for r in selected)/2,"
+      - generic: "'fallback':sum(int(r['fallback']) for r in selected),"
+      - generic: "'agree_greedy':sum(float(r['agree_greedy']) for r in selected)/2}"
+      - generic: stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S.%fZ')
+      - generic: "final = {'status':'complete','checked_utc':datetime.now(timezone.utc).isoformat(),'unique_points':12,"
+      - generic: "'results_sha256':sha(results_path),'provenance_sha256':sha(provenance_path),"
+      - generic: "'training_acceptance_sha256':ACCEPTANCE_SHA,'code_archive_sha256':CODE_SHA,"
+      - generic: "'runtime':read_json(OUT/'runtime_identity.json'),'model_identity_sha256':MODEL_SHA,"
+      - generic: "'decode':DECODE,'aggregate':aggregate,'rows':rows}"
+      - generic: "final_path = OUT/f'closed_acceptance_{stamp}.json'"
+      - generic: write_new_json(final_path,final)
+      - generic: print('两组7B闭环12点验收通过：',final_path)
+      - generic: print(json.dumps(aggregate,ensure_ascii=False,indent=2))
+      - textbox "Editor content": "assert read_json(provenance_path)['identity'] == IDENTITY, '最终验收前provenance身份变化' rows = checked_rows(require_all=True) aggregate = {} for key in RUNS: aggregate[key] = {} for n in (20,40,60): selected = [r for r in rows if r['policy'] == 'llm:'+key and int(r['n']) == n] assert len(selected) == 2 and {int(r['seed']) for r in selected} == {0,1} aggregate[key][str(n)] = {'seeds':2,'mean_delay':sum(float(r['mean_delay']) for r in selected)/2, 'drop_rate':s"
+    - region "Cell 14 output"
+    - generic: Code
+    - generic: Text
+  - 'region "Cell 15: Text cell:"':
+    - paragraph:
+      - text: 结果留在独立
+      - code: s7_closed_runs_20261113_a100_standard/
+      - text: ，需要下载
+      - code: results.csv
+      - text: 、
+      - code: provenance.json
+      - text: 、
+      - code: runtime_identity.json
+      - text: 、调用记录与最终
+      - code: closed_acceptance_*.json
+      - text: 一同复核。 本notebook没有操作Jetson、没有训练，也不会覆盖S7训练包或训练结果。GPU运行完成后由执行者断开并删除Colab运行时。
+  - link "Colab paid products Link will open in a new tab":
+    - /url: /signup?utm_source=footer&utm_medium=link&utm_campaign=footer_links
+    - text: Colab paid products
+  - text: "-"
+  - link "Cancel Google AI contracts here Link will open in a new tab":
+    - /url: https://support.google.com/googleone/answer/9056360?authuser=0
+    - text: Cancel Google AI contracts here
+- generic: Resources
+- generic: Terminal
+- button
+- button
+- button
+- list:
+  - listitem: "'5.20.2', 'peft': '0.21.2', 'accelerate':"
+  - listitem: "'1.15.0', 'numpy': '2.4.6'}"
+  - listitem: torchao None
+  - listitem: /content# nvidia-smi --query-gpu=name,util
+  - listitem: ization.gpu,memory.used,memory.total --for
+  - listitem: mat=csv,noheader
+  - listitem: NVIDIA A100-SXM4-40GB, 69 %, 18586 MiB, 40
+  - listitem: 960 MiB
+  - listitem: /content# nvidia-smi --query-gpu=utilizati
+  - listitem: on.gpu --format=csv,noheader
+  - listitem: 100 %
+  - listitem: /content# nvidia-smi --query-gpu=utilizati
+  - listitem: on.gpu,memory.used,memory.total --format=c
+  - listitem: sv,noheader
+  - listitem: 63 %, 18586 MiB, 40960 MiB
+  - listitem: /content# date -u; nvidia-smi --query-gpu=
+  - listitem: utilization.gpu,memory.used,memory.total -
+  - listitem: "-format=csv,noheader"
+  - listitem: Fri Nov 13 06:28:03 AM UTC 2026
+  - listitem: 100 %, 18380 MiB, 40960 MiB
+  - listitem: /content#
+  - listitem: "[0] 0:bash* \"ec596c3395ac\" 06:28 13-Nov-26"
+- generic: t=csv,nohader Fri Nov 13 06:28:03 AM UTC 2026 100 %, 18380 MiB, 40960 MiB /content# [0] 0:bash* "ec596c3395ac" 06:28 13-Nov-26
+- textbox
+- generic: "'5.20.2', 'peft': '0.21.2', 'accelerate':"
+- generic: "'1.15.0', 'numpy': '2.4.6'}"
+- generic: torchao None
+- generic: /content
+- generic: "# nvidia-smi --query-gpu=name,util"
+- generic: ization.gpu,memory.used,memory.total --for
+- generic: mat=csv,noheader
+- generic: NVIDIA A100-SXM4-40GB, 69 %, 18586 MiB, 40
+- generic: 960 MiB
+- generic: /content
+- generic: "# nvidia-smi --query-gpu=utilizati"
+- generic: on.gpu --format=csv,noheader
+- generic: 100 %
+- generic: /content
+- generic: "# nvidia-smi --query-gpu=utilizati"
+- generic: on.gpu,memory.used,memory.total --format=c
+- generic: sv,noheader
+- generic: 63 %, 18586 MiB, 40960 MiB
+- generic: /content
+- generic: "# date -u; nvidia-smi --query-gpu="
+- generic: utilization.gpu,memory.used,memory.total -
+- generic: "-format=csv,noheader"
+- generic: Fri Nov 13 06:28:03 AM UTC 2026
+- generic: 100 %, 18380 MiB, 40960 MiB
+- generic: /content
+- generic: "#"
+- generic: "[0] 0:bash* \"ec596c3395ac\" 06:28 13-Nov-26"
+- region "Runtime status bar":
+  - button "Variables":
+    - generic: Variables
+  - button "Terminal":
+    - generic: Terminal
+  - button "10:13 PM":
+    - generic: 10:13 PM
+  - generic: Resuming execution
+- alert
+- alert

@@ -243,3 +243,22 @@ Mac     把 results.csv 和 sweep_config.json 下载到 runs/<UTC>_s6_colab_loop
 点的名字和 `eval.virtual_loop` 的一样，Colab 和 Jetson 的结果按名字一一对上。同一个模型的 6 个点各开一个线程跑仿真器，要决策时把状态交给主线程拼成一批，GPU 前向一次答完，所以 `ms_per_decision` 是批量摊下来的时间。notebook 第 4 格在 Colab 上重算核对点（单步公式、3 台、N = 20、种子 0），平均延迟必须和打包时 Mac 上算的完全一样，才往下跑。
 
 这次（`runs/20261112T064150Z_s6_colab_loop`）：代码 f9aad84，A100，transformers 5.20.2、peft 0.21.2，36 个点一次跑完，约 70 分钟，回退 0 次。对应的 Jetson 点在 `runs/20261107T071637Z_s5_virtual_e4a+e4b+e5`、`runs/20261108T044444Z_s5_virtual_e4ps_a` 和 `runs/20261108T094747Z_s5_virtual_e4ps_b`。两边对比和 PS 公式 1.5B 硬标签在 N = 60 的例外见 README 的"部署前后的闭环"。
+
+## 两组复现 7B 的 Colab 闭环（阶段 7）
+
+```text
+Colab   train/S7_7B闭环_A100普通档_v1.ipynb（原云端 notebook ID 不变），A100、支持 bf16
+        现有依赖 transformers==5.20.2、peft==0.21.2；notebook 本身不安装库
+        代码执行程序 → 全部运行；Drive 挂载由用户授权
+        → MyDrive/COMLLM/s7_closed_runs_20261113_a100_standard/
+Mac     下载 results.csv、provenance.json、runtime_identity.json、invocation_*.json、closed_acceptance_*.json
+        → runs/20261113T104604Z_s7_colab_closed_loop/
+```
+
+入口仍为 [原 Drive notebook](https://colab.research.google.com/drive/1NzefdqRgIiR2a8bLc4AiGRlUu_Wr6iQu)。固定 SFT 目录 `reference_model/qwen2.5-7b-mec-sft-final-all`；`grpo_7b_repro` 合并 `s7_runs/nolacs/lora`（λ = 0），`comllm_7b_repro` 合并 `s7_runs/lacs/lora`（λ = 0.3）。运行前核对 36 文件闭环包、SFT 与 adapter SHA、训练联合验收及 CPU 公式核对点 4.197929414659039；续跑要求 provenance 和硬件身份一致，只跳过完整写入的点。
+
+本次在 A100-SXM4-40GB 完成，torch 2.14.1+cu130、transformers 5.20.2、peft 0.21.2、accelerate 1.15.0、numpy 2.4.6。最终 `closed_acceptance_20261113T092611.183871Z.json` 为 complete，12 个唯一点齐全，CSV SHA 与报告一致。两个模型各 6 点：3 台服务器、N = 20/40/60、种子 0/1、sequential、1000 槽、200 槽热身；计分到达区间为 [200, 989)。12 点的 fallback 分别全为 0，local_frac 分别全为 0。
+
+闭环采用 paper / search / greedy，max_new_tokens = 16、repetition_penalty = 1.05；开环为 15 和 1.0，不能称解码完全相同。README 的 7B 闭环表按同模型、同 N 的两个种子等权平均，原始逐点数据保留在 CSV。学生参照取 `runs/20261112T064150Z_s6_colab_loop`，greedy、psgreedy、lacs（λ = 0.3）取 `runs/20261107T071637Z_s5_virtual_e4a+e4b+e5`；按 servers、n、mode、seed、slots、warmup 对齐，每个对应点的 n_tasks 和 n_decisions 相同。
+
+虚拟时间不计推理等待；mean_delay 和 p95_delay 只统计完成任务，必须与 drop_rate 一起读。agree_greedy 是所访问状态上的单步公式一致率，不是准确率，和 fallback / n_decisions 一样覆盖全部决策；local_frac 按计分任务统计。动作指标通常包含回退后的动作，本次没有回退。结果仅适用于两份复现权重，不是原版 COMLLM-7B 的成绩，也不是只差模型大小的控制实验；7B 未在 Jetson 上运行。

@@ -1,0 +1,11 @@
+{
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "versions": {
+    "torch": "2.14.1+cu130",
+    "transformers": "5.20.2",
+    "peft": "0.21.2",
+    "accelerate": "1.15.0",
+    "numpy": "2.4.6"
+  },
+  "bf16": true
+}

@@ -1,0 +1,269 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "root_id": "1ICFU7_5wDykXbBl9uh-CQ3n6XG_h8Nff",
+  "checked_utc": "2026-11-13T10:49:23.083030+00:00",
+  "rows": 12,
+  "unique_points": 12,
+  "exact_point_matrix": true,
+  "all_numeric_metrics_finite": true,
+  "acceptance_file": "closed_acceptance_20261113T092611.183871Z.json",
+  "acceptance_status": "complete",
+  "results_sha256": "5f161784091f074c59a117fb58d62c782fef4ddca2a10c7a13d52b44c0f047c3",
+  "provenance_sha256": "723d510c1cc8488842bf95e39319131fc4fce52f032bd89893ab1ea6a9a72164",
+  "acceptance_sha256": "1b0db2b762c86101b874fc53a0e1c02506ffcbdeab6f63dcb955c6923fc67778",
+  "file_hashes": {
+    "results.csv": "5f161784091f074c59a117fb58d62c782fef4ddca2a10c7a13d52b44c0f047c3",
+    "closed_acceptance_20261113T092611.183871Z.json": "1b0db2b762c86101b874fc53a0e1c02506ffcbdeab6f63dcb955c6923fc67778",
+    "invocation_20261113T065214.515921Z.json": "9b11b47262435f3d6a06812dfa24a16adb297d5ef8a1aa7ed380c96e1d47b564",
+    "invocation_20261113T035030.108585Z.json": "3fe5c0b74aec99883850bd4d38f4a533da59754dbf07806a540af2811410b3b9",
+    "runtime_identity.json": "ad7e9b8060eaff4b82e192369d963cfb528da7bf1806b90d680390e0222e750a",
+    "provenance.json": "723d510c1cc8488842bf95e39319131fc4fce52f032bd89893ab1ea6a9a72164"
+  },
+  "first_group_original_prefix_bytes": 1847,
+  "first_group_original_prefix_sha256": "f66c52678b9a0afb624367ff380cbd4a061c0caa0c63e1876444b3b1d2a187be",
+  "first_group_original_bytes_unchanged": true,
+  "model_identity_sha256": {
+    "grpo_7b_repro": "0919612eaea0a2f8a0ec72b445dac1d4c8313a97ff9327695b5a6d120553af88",
+    "comllm_7b_repro": "1521a93bbc481ea233b564aee25ed1d694f0a661d8fa24a1d76b77b6fd3d5398"
+  },
+  "runtime": {
+    "gpu": "NVIDIA A100-SXM4-40GB",
+    "versions": {
+      "torch": "2.14.1+cu130",
+      "transformers": "5.20.2",
+      "peft": "0.21.2",
+      "accelerate": "1.15.0",
+      "numpy": "2.4.6"
+    },
+    "bf16": true
+  },
+  "decode": {
+    "format": "paper",
+    "parse": "search",
+    "do_sample": false,
+    "num_beams": 1,
+    "max_new_tokens": 16,
+    "repetition_penalty": 1.05,
+    "eos_token": "<|im_end|>",
+    "inherited_generation_config": {
+      "bos_token_id": 151643,
+      "do_sample": true,
+      "eos_token_id": [
+        151645,
+        151643
+      ],
+      "pad_token_id": 151643,
+      "repetition_penalty": 1.05,
+      "temperature": 0.7,
+      "top_k": 20,
+      "top_p": 0.8,
+      "transformers_version": "4.55.2"
+    }
+  },
+  "report_rows_and_aggregate_match": true,
+  "invocation_identity_matches": true,
+  "invocations": [
+    {
+      "file": "invocation_20261113T035030.108585Z.json",
+      "started_utc": "2026-11-13T03:50:30.108644+00:00",
+      "pending_points": 12
+    },
+    {
+      "file": "invocation_20261113T065214.515921Z.json",
+      "started_utc": "2026-11-13T06:52:14.515996+00:00",
+      "pending_points": 6
+    }
+  ],
+  "aggregate": {
+    "grpo_7b_repro": {
+      "20": {
+        "seeds": 2,
+        "mean_delay": 4.91693,
+        "drop_rate": 0.06143,
+        "fallback": 0,
+        "agree_greedy": 0.00109,
+        "local_frac": 0
+      },
+      "40": {
+        "seeds": 2,
+        "mean_delay": 6.85047,
+        "drop_rate": 0.531505,
+        "fallback": 0,
+        "agree_greedy": 0.000375,
+        "local_frac": 0
+      },
+      "60": {
+        "seeds": 2,
+        "mean_delay": 7.296825,
+        "drop_rate": 0.840975,
+        "fallback": 0,
+        "agree_greedy": 0.00028,
+        "local_frac": 0
+      }
+    },
+    "comllm_7b_repro": {
+      "20": {
+        "seeds": 2,
+        "mean_delay": 4.937754999999999,
+        "drop_rate": 0.062485,
+        "fallback": 0,
+        "agree_greedy": 0.00167,
+        "local_frac": 0
+      },
+      "40": {
+        "seeds": 2,
+        "mean_delay": 6.808345,
+        "drop_rate": 0.550665,
+        "fallback": 0,
+        "agree_greedy": 0.00046,
+        "local_frac": 0
+      },
+      "60": {
+        "seeds": 2,
+        "mean_delay": 7.04481,
+        "drop_rate": 0.83987,
+        "fallback": 0,
+        "agree_greedy": 0.000335,
+        "local_frac": 0
+      }
+    }
+  },
+  "fallback_total": 0,
+  "metrics_by_point": [
+    {
+      "point": "llm_grpo_7b_repro_k3_n20_sequential_s0_t1000",
+      "policy": "llm:grpo_7b_repro",
+      "n": 20,
+      "seed": 0,
+      "fallback": 0,
+      "local_frac": 0,
+      "mean_delay": 4.83677,
+      "drop_rate": 0.06127,
+      "model_identity_sha256": "0919612eaea0a2f8a0ec72b445dac1d4c8313a97ff9327695b5a6d120553af88"
+    },
+    {
+      "point": "llm_grpo_7b_repro_k3_n20_sequential_s1_t1000",
+      "policy": "llm:grpo_7b_repro",
+      "n": 20,
+      "seed": 1,
+      "fallback": 0,
+      "local_frac": 0,
+      "mean_delay": 4.99709,
+      "drop_rate": 0.06159,
+      "model_identity_sha256": "0919612eaea0a2f8a0ec72b445dac1d4c8313a97ff9327695b5a6d120553af88"
+    },
+    {
+      "point": "llm_grpo_7b_repro_k3_n40_sequential_s0_t1000",
+      "policy": "llm:grpo_7b_repro",
+      "n": 40,
+      "seed": 0,
+      "fallback": 0,
+      "local_frac": 0,
+      "mean_delay": 6.83772,
+      "drop_rate": 0.53627,
+      "model_identity_sha256": "0919612eaea0a2f8a0ec72b445dac1d4c8313a97ff9327695b5a6d120553af88"
+    },
+    {
+      "point": "llm_grpo_7b_repro_k3_n40_sequential_s1_t1000",
+      "policy": "llm:grpo_7b_repro",
+      "n": 40,
+      "seed": 1,
+      "fallback": 0,
+      "local_frac": 0,
+      "mean_delay": 6.86322,
+      "drop_rate": 0.52674,
+      "model_identity_sha256": "0919612eaea0a2f8a0ec72b445dac1d4c8313a97ff9327695b5a6d120553af88"
+    },
+    {
+      "point": "llm_grpo_7b_repro_k3_n60_sequential_s0_t1000",
+      "policy": "llm:grpo_7b_repro",
+      "n": 60,
+      "seed": 0,
+      "fallback": 0,
+      "local_frac": 0,
+      "mean_delay": 7.22438,
+      "drop_rate": 0.84042,
+      "model_identity_sha256": "0919612eaea0a2f8a0ec72b445dac1d4c8313a97ff9327695b5a6d120553af88"
+    },
+    {
+      "point": "llm_grpo_7b_repro_k3_n60_sequential_s1_t1000",
+      "policy": "llm:grpo_7b_repro",
+      "n": 60,
+      "seed": 1,
+      "fallback": 0,
+      "local_frac": 0,
+      "mean_delay": 7.36927,
+      "drop_rate": 0.84153,
+      "model_identity_sha256": "0919612eaea0a2f8a0ec72b445dac1d4c8313a97ff9327695b5a6d120553af88"
+    },
+    {
+      "point": "llm_comllm_7b_repro_k3_n20_sequential_s0_t1000",
+      "policy": "llm:comllm_7b_repro",
+      "n": 20,
+      "seed": 0,
+      "fallback": 0,
+      "local_frac": 0,
+      "mean_delay": 4.85971,
+      "drop_rate": 0.06213,
+      "model_identity_sha256": "1521a93bbc481ea233b564aee25ed1d694f0a661d8fa24a1d76b77b6fd3d5398"
+    },
+    {
+      "point": "llm_comllm_7b_repro_k3_n20_sequential_s1_t1000",
+      "policy": "llm:comllm_7b_repro",
+      "n": 20,
+      "seed": 1,
+      "fallback": 0,
+      "local_frac": 0,
+      "mean_delay": 5.0158,
+      "drop_rate": 0.06284,
+      "model_identity_sha256": "1521a93bbc481ea233b564aee25ed1d694f0a661d8fa24a1d76b77b6fd3d5398"
+    },
+    {
+      "point": "llm_comllm_7b_repro_k3_n40_sequential_s0_t1000",
+      "policy": "llm:comllm_7b_repro",
+      "n": 40,
+      "seed": 0,
+      "fallback": 0,
+      "local_frac": 0,
+      "mean_delay": 6.85681,
+      "drop_rate": 0.55567,
+      "model_identity_sha256": "1521a93bbc481ea233b564aee25ed1d694f0a661d8fa24a1d76b77b6fd3d5398"
+    },
+    {
+      "point": "llm_comllm_7b_repro_k3_n40_sequential_s1_t1000",
+      "policy": "llm:comllm_7b_repro",
+      "n": 40,
+      "seed": 1,
+      "fallback": 0,
+      "local_frac": 0,
+      "mean_delay": 6.75988,
+      "drop_rate": 0.54566,
+      "model_identity_sha256": "1521a93bbc481ea233b564aee25ed1d694f0a661d8fa24a1d76b77b6fd3d5398"
+    },
+    {
+      "point": "llm_comllm_7b_repro_k3_n60_sequential_s0_t1000",
+      "policy": "llm:comllm_7b_repro",
+      "n": 60,
+      "seed": 0,
+      "fallback": 0,
+      "local_frac": 0,
+      "mean_delay": 7.1744,
+      "drop_rate": 0.84133,
+      "model_identity_sha256": "1521a93bbc481ea233b564aee25ed1d694f0a661d8fa24a1d76b77b6fd3d5398"
+    },
+    {
+      "point": "llm_comllm_7b_repro_k3_n60_sequential_s1_t1000",
+      "policy": "llm:comllm_7b_repro",
+      "n": 60,
+      "seed": 1,
+      "fallback": 0,
+      "local_frac": 0,
+      "mean_delay": 6.91522,
+      "drop_rate": 0.83841,
+      "model_identity_sha256": "1521a93bbc481ea233b564aee25ed1d694f0a661d8fa24a1d76b77b6fd3d5398"
+    }
+  ],
+  "scope": "Independent CPU/byte validation of the six small standard-root output files; no model weights or executed notebook downloaded.",
+  "local_python_hashlib_and_csv_readback_passed": true
+}
