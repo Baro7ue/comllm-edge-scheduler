@@ -1,0 +1,8 @@
+{
+  "model_key": "ps_hard_1.5b",
+  "drive_file_id": "181W2PUlUl_DkAk7BHxkxFT7FL7wYPGt_",
+  "file": "comllm-1.5b-hard-ps-q8_0.gguf",
+  "bytes": 1646572672,
+  "sha256": "96829485ba6013d6479ec8669f0aba7cc813b80e06ac013444eaac9301fcfeb9",
+  "prepared_utc": "2026-11-08T09:43:54.430416+00:00"
+}

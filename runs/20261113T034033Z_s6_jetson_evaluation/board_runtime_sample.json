@@ -1,0 +1,6 @@
+{
+  "tegrastats_single_snapshot": "11-13-2026 14:14:16 RAM 3128/7546MB (lfb 1x2MB) SWAP 84/2048MB (cached 18MB) CPU [1%@960,7%@960,1%@960,1%@960,0%@729,0%@729] GR3D_FREQ 99% cpu@65.562C/65.562C soc2@65.968C/65.968C soc0@65.468C/65.468C gpu@67.218C/67.218C tj@67.218C/67.218C soc1@66.156C/66.156C VDD_IN 17596mW/17596mW/17596mW VDD_CPU_GPU_CV 8818mW/8818mW/8818mW VDD_SOC 3982mW/3982mW/3982mW",
+  "note": "One read-only snapshot, not sustained thermal or clock validation.",
+  "captured_utc": "2026-11-13T06:14:17.003663+00:00",
+  "current_task": "open_paper_grpo_1.5b"
+}

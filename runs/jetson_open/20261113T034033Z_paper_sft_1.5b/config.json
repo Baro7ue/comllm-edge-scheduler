@@ -1,0 +1,16 @@
+{
+  "name": "论文原版 sft（Jetson Q8_0）",
+  "model_key": "paper_sft_1.5b",
+  "fmt": "paper",
+  "platform": "jetson",
+  "gguf": "~/models/comllm-paper-sft-1.5b-q8_0.gguf",
+  "gguf_sha256": "40c914087efaaa4becd29bb17d18ee2dd70366fd84f47d57072ded3c2a1280c8",
+  "git": "cafd7e4",
+  "splits": [
+    "test_seen",
+    "test_unseen",
+    "friend_clean"
+  ],
+  "n_rows": 5663,
+  "finished_utc": "20261113T054300Z"
+}

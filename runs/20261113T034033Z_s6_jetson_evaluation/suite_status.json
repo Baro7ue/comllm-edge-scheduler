@@ -1,0 +1,477 @@
+{
+  "started_utc": "2026-11-13T03:41:57.730965+00:00",
+  "tasks": {
+    "open_main_0.5b": {
+      "started_utc": "2026-11-13T03:41:57.756206+00:00",
+      "command": [
+        "eval.jetson_open_loop",
+        "--models",
+        "main_0.5b",
+        "--resume",
+        "runs/jetson_open/20261113T034033Z_main_0.5b"
+      ],
+      "status": "complete",
+      "returncode": 0,
+      "finished_utc": "2026-11-13T03:47:16.336471+00:00",
+      "output": "runs/jetson_open/20261113T034033Z_main_0.5b",
+      "prediction_sha256": "85b91bb7b5936bb495e732b388b7225467982b1463ea131957191b14c1a9f2d7",
+      "n_rows": 5663,
+      "non_llm": 0,
+      "scheduler_info_after": {
+        "llama": {
+          "model_path": "/home/ethan/models/comllm-0.5b-soft-T0.3-q8_0.gguf",
+          "build_info": "b11719-5aeac37a3",
+          "total_slots": 1,
+          "n_ctx": 4096
+        },
+        "default_timeout_ms": 100,
+        "started_utc": "20261113T034034Z",
+        "log": "logs/scheduler_20261113T034034Z.jsonl",
+        "git": "cafd7e4",
+        "model_key": "main_0.5b",
+        "gguf": "/home/ethan/models/comllm-0.5b-soft-T0.3-q8_0.gguf",
+        "gguf_sha256": "3b4c3232d725792b63be2ea4607a21ff6e97c51e5fbfffd05e300de380ba3783"
+      }
+    },
+    "open_soft_1.5b": {
+      "started_utc": "2026-11-13T03:47:16.346624+00:00",
+      "command": [
+        "eval.jetson_open_loop",
+        "--models",
+        "soft_1.5b",
+        "--resume",
+        "runs/jetson_open/20261113T034033Z_soft_1.5b"
+      ],
+      "status": "complete",
+      "returncode": 0,
+      "finished_utc": "2026-11-13T03:58:06.639630+00:00",
+      "output": "runs/jetson_open/20261113T034033Z_soft_1.5b",
+      "prediction_sha256": "cb2634c779f0c0f80fc831b323afbd3903d0fe99305f85f4a46952af46a2e3ee",
+      "n_rows": 5663,
+      "non_llm": 0,
+      "scheduler_info_after": {
+        "llama": {
+          "model_path": "/home/ethan/models/comllm-1.5b-soft-T0.3-q8_0.gguf",
+          "build_info": "b11719-5aeac37a3",
+          "total_slots": 1,
+          "n_ctx": 4096
+        },
+        "default_timeout_ms": 100,
+        "started_utc": "20261113T034034Z",
+        "log": "logs/scheduler_20261113T034034Z.jsonl",
+        "git": "cafd7e4",
+        "model_key": "soft_1.5b",
+        "gguf": "/home/ethan/models/comllm-1.5b-soft-T0.3-q8_0.gguf",
+        "gguf_sha256": "79680e01422f26be21f8686d2018387330fca532d2ca736290a9f4a292645810"
+      }
+    },
+    "open_hard_1.5b": {
+      "started_utc": "2026-11-13T03:58:06.650972+00:00",
+      "command": [
+        "eval.jetson_open_loop",
+        "--models",
+        "hard_1.5b",
+        "--resume",
+        "runs/jetson_open/20261113T034033Z_hard_1.5b"
+      ],
+      "status": "complete",
+      "returncode": 0,
+      "finished_utc": "2026-11-13T04:09:05.890669+00:00",
+      "output": "runs/jetson_open/20261113T034033Z_hard_1.5b",
+      "prediction_sha256": "c419b7d241b8d74d31dce1fb5174fccc6db4598058e874df6b09f43bd58ce747",
+      "n_rows": 5663,
+      "non_llm": 0,
+      "scheduler_info_after": {
+        "llama": {
+          "model_path": "/home/ethan/models/comllm-1.5b-hard-q8_0.gguf",
+          "build_info": "b11719-5aeac37a3",
+          "total_slots": 1,
+          "n_ctx": 4096
+        },
+        "default_timeout_ms": 100,
+        "started_utc": "20261113T034034Z",
+        "log": "logs/scheduler_20261113T034034Z.jsonl",
+        "git": "cafd7e4",
+        "model_key": "hard_1.5b",
+        "gguf": "/home/ethan/models/comllm-1.5b-hard-q8_0.gguf",
+        "gguf_sha256": "c1103a5521a2afb5ed4c54d8d28e140eb07b09161b41ab8ec4c4523811c22dd3"
+      }
+    },
+    "bench_hard_1.5b": {
+      "started_utc": "2026-11-13T04:09:05.907814+00:00",
+      "command": [
+        "eval.bench_latency",
+        "--fmt",
+        "compact",
+        "--cache",
+        "on",
+        "--model-key",
+        "hard_1.5b",
+        "--n",
+        "500",
+        "--warmup",
+        "10",
+        "--servers",
+        "3,7,11"
+      ],
+      "status": "complete",
+      "returncode": 0,
+      "finished_utc": "2026-11-13T04:10:00.845227+00:00",
+      "output": "runs/20261113T040906Z_bench_comllm-1.5b-hard-q8_0_compact_cacheon",
+      "summary_sha256": "2a049ee14c9f3270e5bbc616ac5e0fe62fad02cf37191a14bf7a6b9d2fcb1490"
+    },
+    "open_ps_0.5b": {
+      "started_utc": "2026-11-13T04:10:00.846195+00:00",
+      "command": [
+        "eval.jetson_open_loop",
+        "--models",
+        "ps_0.5b",
+        "--resume",
+        "runs/jetson_open/20261113T034033Z_ps_0.5b"
+      ],
+      "status": "complete",
+      "returncode": 0,
+      "finished_utc": "2026-11-13T04:15:30.246593+00:00",
+      "output": "runs/jetson_open/20261113T034033Z_ps_0.5b",
+      "prediction_sha256": "1f3c073df1212debfaaea588c060d0a65bb31d37003d4b96ba84c8ec5adfec0f",
+      "n_rows": 5663,
+      "non_llm": 0,
+      "scheduler_info_after": {
+        "llama": {
+          "model_path": "/home/ethan/models/comllm-0.5b-soft-T0.3-ps-q8_0.gguf",
+          "build_info": "b11719-5aeac37a3",
+          "total_slots": 1,
+          "n_ctx": 4096
+        },
+        "default_timeout_ms": 100,
+        "started_utc": "20261113T034034Z",
+        "log": "logs/scheduler_20261113T034034Z.jsonl",
+        "git": "cafd7e4",
+        "model_key": "ps_0.5b",
+        "gguf": "/home/ethan/models/comllm-0.5b-soft-T0.3-ps-q8_0.gguf",
+        "gguf_sha256": "7eebe06bd6470d7dcd27da1713f5fc62def3fe5ed81f5e253b7c459c86a29bcc"
+      }
+    },
+    "bench_ps_0.5b": {
+      "started_utc": "2026-11-13T04:15:30.256789+00:00",
+      "command": [
+        "eval.bench_latency",
+        "--fmt",
+        "compact",
+        "--cache",
+        "on",
+        "--model-key",
+        "ps_0.5b",
+        "--n",
+        "500",
+        "--warmup",
+        "10",
+        "--servers",
+        "3,7,11"
+      ],
+      "status": "complete",
+      "returncode": 0,
+      "finished_utc": "2026-11-13T04:15:58.827896+00:00",
+      "output": "runs/20261113T041530Z_bench_comllm-0.5b-soft-T0.3-ps-q8_0_compact_cacheon",
+      "summary_sha256": "85353bf99273cb2cb12fa1ac2bcd7b3f745ffa55c48e43c550d6a15649fc19de"
+    },
+    "open_ps_soft_1.5b": {
+      "started_utc": "2026-11-13T04:15:58.830015+00:00",
+      "command": [
+        "eval.jetson_open_loop",
+        "--models",
+        "ps_soft_1.5b",
+        "--resume",
+        "runs/jetson_open/20261113T034033Z_ps_soft_1.5b"
+      ],
+      "status": "complete",
+      "returncode": 0,
+      "finished_utc": "2026-11-13T04:26:52.152210+00:00",
+      "output": "runs/jetson_open/20261113T034033Z_ps_soft_1.5b",
+      "prediction_sha256": "34a0d88a1da9ccd7e53b36454d9f21ec3695a3c1ae202808151748fc995aef2d",
+      "n_rows": 5663,
+      "non_llm": 0,
+      "scheduler_info_after": {
+        "llama": {
+          "model_path": "/home/ethan/models/comllm-1.5b-soft-T0.3-ps-q8_0.gguf",
+          "build_info": "b11719-5aeac37a3",
+          "total_slots": 1,
+          "n_ctx": 4096
+        },
+        "default_timeout_ms": 100,
+        "started_utc": "20261113T034034Z",
+        "log": "logs/scheduler_20261113T034034Z.jsonl",
+        "git": "cafd7e4",
+        "model_key": "ps_soft_1.5b",
+        "gguf": "/home/ethan/models/comllm-1.5b-soft-T0.3-ps-q8_0.gguf",
+        "gguf_sha256": "ce3719c126785b7597dbc3ff5a4508fa75f96b532aa7bb490a834eb3a28dcd39"
+      }
+    },
+    "bench_ps_soft_1.5b": {
+      "started_utc": "2026-11-13T04:26:52.160620+00:00",
+      "command": [
+        "eval.bench_latency",
+        "--fmt",
+        "compact",
+        "--cache",
+        "on",
+        "--model-key",
+        "ps_soft_1.5b",
+        "--n",
+        "500",
+        "--warmup",
+        "10",
+        "--servers",
+        "3,7,11"
+      ],
+      "status": "complete",
+      "returncode": 0,
+      "finished_utc": "2026-11-13T04:27:46.745164+00:00",
+      "output": "runs/20261113T042652Z_bench_comllm-1.5b-soft-T0.3-ps-q8_0_compact_cacheon",
+      "summary_sha256": "ef09bf6f39aefe1b96bbc81f3b03cb89d33c136fbf4bc44f314a12537fd163ff"
+    },
+    "open_ps_hard_1.5b": {
+      "started_utc": "2026-11-13T04:27:46.746225+00:00",
+      "command": [
+        "eval.jetson_open_loop",
+        "--models",
+        "ps_hard_1.5b",
+        "--resume",
+        "runs/jetson_open/20261113T034033Z_ps_hard_1.5b"
+      ],
+      "status": "complete",
+      "returncode": 0,
+      "finished_utc": "2026-11-13T04:38:35.636182+00:00",
+      "output": "runs/jetson_open/20261113T034033Z_ps_hard_1.5b",
+      "prediction_sha256": "80e8d8abf85bc501fcf5ec733f660af6b9302d0f9010fef53c5dbc37d34c85a0",
+      "n_rows": 5663,
+      "non_llm": 0,
+      "scheduler_info_after": {
+        "llama": {
+          "model_path": "/home/ethan/models/comllm-1.5b-hard-ps-q8_0.gguf",
+          "build_info": "b11719-5aeac37a3",
+          "total_slots": 1,
+          "n_ctx": 4096
+        },
+        "default_timeout_ms": 100,
+        "started_utc": "20261113T034034Z",
+        "log": "logs/scheduler_20261113T034034Z.jsonl",
+        "git": "cafd7e4",
+        "model_key": "ps_hard_1.5b",
+        "gguf": "/home/ethan/models/comllm-1.5b-hard-ps-q8_0.gguf",
+        "gguf_sha256": "96829485ba6013d6479ec8669f0aba7cc813b80e06ac013444eaac9301fcfeb9"
+      }
+    },
+    "bench_ps_hard_1.5b": {
+      "started_utc": "2026-11-13T04:38:35.650361+00:00",
+      "command": [
+        "eval.bench_latency",
+        "--fmt",
+        "compact",
+        "--cache",
+        "on",
+        "--model-key",
+        "ps_hard_1.5b",
+        "--n",
+        "500",
+        "--warmup",
+        "10",
+        "--servers",
+        "3,7,11"
+      ],
+      "status": "complete",
+      "returncode": 0,
+      "finished_utc": "2026-11-13T04:39:30.267336+00:00",
+      "output": "runs/20261113T043835Z_bench_comllm-1.5b-hard-ps-q8_0_compact_cacheon",
+      "summary_sha256": "1c15c7abd802cfe40adbdedf7d2853777aaee31c261436f2900ed615882c4d43"
+    },
+    "open_paper_sft_1.5b": {
+      "started_utc": "2026-11-13T04:39:30.268487+00:00",
+      "command": [
+        "eval.jetson_open_loop",
+        "--models",
+        "paper_sft_1.5b",
+        "--resume",
+        "runs/jetson_open/20261113T034033Z_paper_sft_1.5b"
+      ],
+      "status": "complete",
+      "returncode": 0,
+      "finished_utc": "2026-11-13T05:43:00.732139+00:00",
+      "output": "runs/jetson_open/20261113T034033Z_paper_sft_1.5b",
+      "prediction_sha256": "b1946c972ec403c5d3b29db4ed271f6795c668752d037d8b5e02af39e79c30f1",
+      "n_rows": 5663,
+      "non_llm": 0,
+      "scheduler_info_after": {
+        "llama": {
+          "model_path": "/home/ethan/models/comllm-paper-sft-1.5b-q8_0.gguf",
+          "build_info": "b11719-5aeac37a3",
+          "total_slots": 1,
+          "n_ctx": 4096
+        },
+        "default_timeout_ms": 100,
+        "started_utc": "20261113T034034Z",
+        "log": "logs/scheduler_20261113T034034Z.jsonl",
+        "git": "cafd7e4",
+        "model_key": "paper_sft_1.5b",
+        "gguf": "/home/ethan/models/comllm-paper-sft-1.5b-q8_0.gguf",
+        "gguf_sha256": "40c914087efaaa4becd29bb17d18ee2dd70366fd84f47d57072ded3c2a1280c8"
+      }
+    },
+    "open_paper_grpo_1.5b": {
+      "started_utc": "2026-11-13T05:43:00.740314+00:00",
+      "command": [
+        "eval.jetson_open_loop",
+        "--models",
+        "paper_grpo_1.5b",
+        "--resume",
+        "runs/jetson_open/20261113T034033Z_paper_grpo_1.5b"
+      ],
+      "status": "complete",
+      "returncode": 0,
+      "finished_utc": "2026-11-13T06:50:12.701659+00:00",
+      "output": "runs/jetson_open/20261113T034033Z_paper_grpo_1.5b",
+      "prediction_sha256": "945debf911c3acedd114ec3b897e50e88bdc7c00c53819b934ea1c57249a124b",
+      "n_rows": 5663,
+      "non_llm": 0,
+      "scheduler_info_after": {
+        "llama": {
+          "model_path": "/home/ethan/models/comllm-paper-grpo-1.5b-q8_0.gguf",
+          "build_info": "b11719-5aeac37a3",
+          "total_slots": 1,
+          "n_ctx": 4096
+        },
+        "default_timeout_ms": 100,
+        "started_utc": "20261113T034034Z",
+        "log": "logs/scheduler_20261113T034034Z.jsonl",
+        "git": "cafd7e4",
+        "model_key": "paper_grpo_1.5b",
+        "gguf": "/home/ethan/models/comllm-paper-grpo-1.5b-q8_0.gguf",
+        "gguf_sha256": "9cb76a1c3373d0f409060d257f6e0065b10fe21e4096dd530ef3a6d4500af10e"
+      }
+    },
+    "bench_paper_grpo_1.5b": {
+      "started_utc": "2026-11-13T06:50:12.714443+00:00",
+      "command": [
+        "eval.bench_latency",
+        "--fmt",
+        "paper",
+        "--cache",
+        "off",
+        "--model-key",
+        "paper_grpo_1.5b",
+        "--n",
+        "500",
+        "--warmup",
+        "10",
+        "--servers",
+        "3,7,11"
+      ],
+      "status": "complete",
+      "returncode": 0,
+      "finished_utc": "2026-11-13T06:58:00.206874+00:00",
+      "output": "runs/20261113T065012Z_bench_comllm-paper-grpo-1.5b-q8_0_paper_cacheoff",
+      "summary_sha256": "9a04c5c00a1d8bdd01e238f0a7c05a3d6f3732f54137b8dc2c8f17fcf9db63b0"
+    },
+    "open_paper_score_grpo_1.5b": {
+      "started_utc": "2026-11-13T07:51:40.759799+00:00",
+      "command": [
+        "eval.jetson_open_loop",
+        "--models",
+        "paper_score_grpo_1.5b",
+        "--resume",
+        "runs/jetson_open/20261113T034033Z_paper_score_grpo_1.5b"
+      ],
+      "status": "complete",
+      "previous_attempts": [
+        {
+          "started_utc": "2026-11-13T06:58:00.208445+00:00",
+          "command": [
+            "eval.jetson_open_loop",
+            "--models",
+            "paper_score_grpo_1.5b",
+            "--resume",
+            "runs/jetson_open/20261113T034033Z_paper_score_grpo_1.5b"
+          ],
+          "status": "failed",
+          "returncode": 1
+        }
+      ],
+      "returncode": 0,
+      "finished_utc": "2026-11-13T08:07:31.240297+00:00",
+      "output": "runs/jetson_open/20261113T034033Z_paper_score_grpo_1.5b",
+      "prediction_sha256": "c54e9ea617f474247ba15610d7c97330361b8c26bb74aacf6d1da31b353db385",
+      "n_rows": 5663,
+      "non_llm": 0,
+      "scheduler_info_after": {
+        "llama": {
+          "model_path": "/home/ethan/models/comllm-paper-score-grpo-1.5b-q8_0.gguf",
+          "build_info": "b11719-5aeac37a3",
+          "total_slots": 1,
+          "n_ctx": 4096
+        },
+        "default_timeout_ms": 100,
+        "started_utc": "20261113T034034Z",
+        "log": "logs/scheduler_20261113T034034Z.jsonl",
+        "git": "cafd7e4",
+        "model_key": "paper_score_grpo_1.5b",
+        "gguf": "/home/ethan/models/comllm-paper-score-grpo-1.5b-q8_0.gguf",
+        "gguf_sha256": "57f52fb0d89bcb7985ff24aa818ed6fb355accf95d9b408189e0c25818b4aff6"
+      }
+    },
+    "bench_paper_score_grpo_1.5b": {
+      "started_utc": "2026-11-13T08:07:31.249560+00:00",
+      "command": [
+        "eval.bench_latency",
+        "--fmt",
+        "paper",
+        "--cache",
+        "off",
+        "--model-key",
+        "paper_score_grpo_1.5b",
+        "--n",
+        "500",
+        "--warmup",
+        "10",
+        "--servers",
+        "3,7,11"
+      ],
+      "status": "complete",
+      "returncode": 0,
+      "finished_utc": "2026-11-13T08:15:18.396113+00:00",
+      "output": "runs/20261113T080731Z_bench_comllm-paper-score-grpo-1.5b-q8_0_paper_cacheoff",
+      "summary_sha256": "3ab16b7c9ab98f066a8f445217918a4913e31698ad74f6be5e1d26b82e9f246f"
+    },
+    "bench_paper_sft_1.5b": {
+      "status": "complete",
+      "started_utc": "2026-11-13T08:15:21.361709+00:00",
+      "reason": "Historical SFT benchmark predates explicit greedy-sampler fix 4567c59; same sampler as the two new GRPO benchmarks is needed.",
+      "command": [
+        "/Users/ethan/Documents/comllm-edge-scheduler/.venv/bin/python",
+        "-u",
+        "-m",
+        "eval.bench_latency",
+        "--fmt",
+        "paper",
+        "--cache",
+        "off",
+        "--model-key",
+        "paper_sft_1.5b",
+        "--n",
+        "500",
+        "--warmup",
+        "10",
+        "--servers",
+        "3,7,11"
+      ],
+      "finished_utc": "2026-11-13T08:22:55.890318+00:00",
+      "output": "runs/20261113T081529Z_bench_comllm-paper-sft-1.5b-q8_0_paper_cacheoff",
+      "summary_sha256": "88efba5ed3d4f27c6b9c7e3f3a874447405e3ba3a719087b171154dfd39e649b"
+    }
+  },
+  "root": "/Users/ethan/.codex/worktrees/comllm-jetson-eval/comllm-edge-scheduler",
+  "status": "complete",
+  "pid": 96799,
+  "updated_utc": "2026-11-13T08:22:55.892249+00:00",
+  "current_task": null,
+  "finished_utc": "2026-11-13T08:22:55.892237+00:00"
+}

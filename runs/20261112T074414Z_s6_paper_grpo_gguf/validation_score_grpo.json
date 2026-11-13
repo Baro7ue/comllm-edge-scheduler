@@ -1,0 +1,62 @@
+{
+  "validated_utc": "2026-11-12T07:53:45.560671+00:00",
+  "model": "paper_score_grpo_1.5b",
+  "conversion_status": "completed",
+  "evidence_status": "conversion_record_and_Drive_metadata_verified",
+  "overall_pass_claimed": false,
+  "checks": {
+    "three_cells_executed": true,
+    "error_outputs_absent": true,
+    "source_equals_clean_notebook": true,
+    "source_out_outtype_commit_match": true,
+    "Drive_GGUF_size_and_parent_match": true,
+    "conversion_under_30_minutes": true
+  },
+  "gguf": {
+    "drive_id": "1th5W2Rd3O6t6DDbMurmirjncgSP15IsP",
+    "bytes": 1646572800,
+    "reported_sha256": "57f52fb0d89bcb7985ff24aa818ed6fb355accf95d9b408189e0c25818b4aff6",
+    "reported_sha256_origin": "Colab original conversion cell hashes local GGUF before cp to Drive",
+    "remote_sha256_independently_verified": false,
+    "actual_remote_sha256": null,
+    "limitation": "Requested checksum fields not exposed. Same-size GRPO raw fetch hit connector HTTP413/268435456-byte limit; score binary download was not attempted."
+  },
+  "source_model": {
+    "Drive_folder_id": "1SmlEOBxTaVxu-7tP2oLlH85HIgeu5WnS",
+    "Drive_weight_id": "12asMHmyqbmlipRnvAeab4NO2_8APQV6T",
+    "path": "/content/drive/MyDrive/COMLLM/reference_model/qwen2.5-1.5b-mec-score-grpo-final-all",
+    "model_weight_bytes": 3087466808,
+    "structural_file_count": 10,
+    "source_weights_downloaded_for_this_check": false
+  },
+  "small_artifacts": [
+    {
+      "kind": "convert",
+      "file": "convert_score_grpo.json",
+      "source_drive_id": "1Segi85AfQhzvBmx6gan-C0EFGKdxvamQ",
+      "source_url": "https://drive.google.com/file/d/1Segi85AfQhzvBmx6gan-C0EFGKdxvamQ/view",
+      "bytes": 367,
+      "sha256": "6d98ff3ceaf1c73450cefdddf98b29fa1e137ecbfc4d194f36d33838cbf04eda",
+      "download_started_utc": "2026-11-12T07:51:34.006Z",
+      "download_completed_utc": "2026-11-12T07:51:34.875Z",
+      "local_sha256_recomputed": "6d98ff3ceaf1c73450cefdddf98b29fa1e137ecbfc4d194f36d33838cbf04eda"
+    },
+    {
+      "kind": "notebook",
+      "file": "S5_score_GRPO_executed.ipynb",
+      "source_drive_id": "1il0dchhWLpu_UrLAE75JX7kdVXbAquJ-",
+      "source_url": "https://drive.google.com/file/d/1il0dchhWLpu_UrLAE75JX7kdVXbAquJ-/view",
+      "bytes": 6931,
+      "sha256": "595f1bb96c5ac13154d7f24f259396a32685ac029351b6a4605deda63b39decc",
+      "download_started_utc": "2026-11-12T07:51:34.875Z",
+      "download_completed_utc": "2026-11-12T07:51:35.226Z",
+      "local_sha256_recomputed": "595f1bb96c5ac13154d7f24f259396a32685ac029351b6a4605deda63b39decc"
+    }
+  ],
+  "receipt_file_sha256": "98f9119db4fb37928734f0e61f123af7ee68bee49bc6d5cc78f25e3b1fea8679",
+  "conversion_seconds": {
+    "q8": 203,
+    "copy_to_Drive": 11
+  },
+  "post_conversion_download_timing_is_not_conversion_timing": true
+}

@@ -1,0 +1,218 @@
+{
+  "complete": true,
+  "suite": "runs/20261113T034033Z_s6_jetson_evaluation",
+  "models": [
+    {
+      "model_key": "main_0.5b",
+      "jetson_run": "runs/jetson_open/20261113T034033Z_main_0.5b",
+      "jetson_predictions_sha256": "85b91bb7b5936bb495e732b388b7225467982b1463ea131957191b14c1a9f2d7",
+      "gguf_sha256": "3b4c3232d725792b63be2ea4607a21ff6e97c51e5fbfffd05e300de380ba3783",
+      "pytorch_run": "runs/s3/main_0.5b_20261104T131423Z",
+      "pytorch_predictions_sha256": "4bdbfbb16f54d6f559d2d3157cade7fb6bd4e3c9c325e307983d95d7859debcb",
+      "pytorch_config_sha256": "d51eb288f0ca45e69441b9102a40131934f87cf05b6bc131250008767456f3ed"
+    },
+    {
+      "model_key": "soft_1.5b",
+      "jetson_run": "runs/jetson_open/20261113T034033Z_soft_1.5b",
+      "jetson_predictions_sha256": "cb2634c779f0c0f80fc831b323afbd3903d0fe99305f85f4a46952af46a2e3ee",
+      "gguf_sha256": "79680e01422f26be21f8686d2018387330fca532d2ca736290a9f4a292645810",
+      "pytorch_run": "runs/s3/soft_1.5b_20261104T132257Z",
+      "pytorch_predictions_sha256": "30f8c17cdcc14dff37197b2d1a8f9e9ea248204585211a02f920319ed92054be",
+      "pytorch_config_sha256": "cb29f34c2ca2c892b95fc0cfd537a6273de361d97391add8f8dc4094cad426ab"
+    },
+    {
+      "model_key": "hard_1.5b",
+      "jetson_run": "runs/jetson_open/20261113T034033Z_hard_1.5b",
+      "jetson_predictions_sha256": "c419b7d241b8d74d31dce1fb5174fccc6db4598058e874df6b09f43bd58ce747",
+      "gguf_sha256": "c1103a5521a2afb5ed4c54d8d28e140eb07b09161b41ab8ec4c4523811c22dd3",
+      "pytorch_run": "runs/s3/hard_1.5b_20261104T134648Z",
+      "pytorch_predictions_sha256": "112d6682dd94c94f28859f6257a4e18f0a7e22ad2d37a96a0fe282da789337ce",
+      "pytorch_config_sha256": "62b82168ac2329ea18cc22552879c1c20d72c1d4a784ee5796ae17567ed2b41a"
+    },
+    {
+      "model_key": "ps_0.5b",
+      "jetson_run": "runs/jetson_open/20261113T034033Z_ps_0.5b",
+      "jetson_predictions_sha256": "1f3c073df1212debfaaea588c060d0a65bb31d37003d4b96ba84c8ec5adfec0f",
+      "gguf_sha256": "7eebe06bd6470d7dcd27da1713f5fc62def3fe5ed81f5e253b7c459c86a29bcc",
+      "pytorch_run": "runs/s3/ps_0.5b_20261104T140119Z",
+      "pytorch_predictions_sha256": "3d7985eb247606d5e2c7093e88a638f5cb46fafe17a2486b4c5ebe054ee71819",
+      "pytorch_config_sha256": "27827477d1efef3a9d447567546a094b1cce4b7a9b888a378e8abf2916a49729"
+    },
+    {
+      "model_key": "ps_soft_1.5b",
+      "jetson_run": "runs/jetson_open/20261113T034033Z_ps_soft_1.5b",
+      "jetson_predictions_sha256": "34a0d88a1da9ccd7e53b36454d9f21ec3695a3c1ae202808151748fc995aef2d",
+      "gguf_sha256": "ce3719c126785b7597dbc3ff5a4508fa75f96b532aa7bb490a834eb3a28dcd39",
+      "pytorch_run": "runs/s3/ps_soft_1.5b_20261108T044612Z",
+      "pytorch_predictions_sha256": "57703713a69f88b89f42b79f238c92614c6014bc05a147c0fc2f31329979dfaf",
+      "pytorch_config_sha256": "d7aaa2f92aa9b3f8910475f8996bafa3a5a79e5c6a276e5c4cb54fe67f10e75d"
+    },
+    {
+      "model_key": "ps_hard_1.5b",
+      "jetson_run": "runs/jetson_open/20261113T034033Z_ps_hard_1.5b",
+      "jetson_predictions_sha256": "80e8d8abf85bc501fcf5ec733f660af6b9302d0f9010fef53c5dbc37d34c85a0",
+      "gguf_sha256": "96829485ba6013d6479ec8669f0aba7cc813b80e06ac013444eaac9301fcfeb9",
+      "pytorch_run": "runs/s3/ps_hard_1.5b_20261108T064436Z",
+      "pytorch_predictions_sha256": "f8d994616a792c19f0c134db8de5340c1f0f05a3b85490d1015797233df56dce",
+      "pytorch_config_sha256": "c05447f05cfa79c28bba8ecb09117d17b8d78add87877d574e437c3a3e185822"
+    },
+    {
+      "model_key": "paper_sft_1.5b",
+      "jetson_run": "runs/jetson_open/20261113T034033Z_paper_sft_1.5b",
+      "jetson_predictions_sha256": "b1946c972ec403c5d3b29db4ed271f6795c668752d037d8b5e02af39e79c30f1",
+      "gguf_sha256": "40c914087efaaa4becd29bb17d18ee2dd70366fd84f47d57072ded3c2a1280c8",
+      "pytorch_run": "runs/s3/paper_20261105T040018Z/sft",
+      "pytorch_predictions_sha256": "c91d1cfd8899b3e42bfd41739cc8cdda0e888ea38be6b5e3382770c0ba4ce96b",
+      "pytorch_config_sha256": "ec89de3a0c15545f01dfade9626df668420c30bf6dcf62caa88c719d478bc1cd"
+    },
+    {
+      "model_key": "paper_grpo_1.5b",
+      "jetson_run": "runs/jetson_open/20261113T034033Z_paper_grpo_1.5b",
+      "jetson_predictions_sha256": "945debf911c3acedd114ec3b897e50e88bdc7c00c53819b934ea1c57249a124b",
+      "gguf_sha256": "9cb76a1c3373d0f409060d257f6e0065b10fe21e4096dd530ef3a6d4500af10e",
+      "pytorch_run": "runs/s3/paper_20261105T040018Z/grpo",
+      "pytorch_predictions_sha256": "eaed90fe16b27162c56abbf33b25f226a28f0e298dd9b04af07f5e8c0bc2ec4f",
+      "pytorch_config_sha256": "2724020f4941b5f32df573862253a907ebce756a4ee1f16b368a5f37f461566e"
+    },
+    {
+      "model_key": "paper_score_grpo_1.5b",
+      "jetson_run": "runs/jetson_open/20261113T034033Z_paper_score_grpo_1.5b",
+      "jetson_predictions_sha256": "c54e9ea617f474247ba15610d7c97330361b8c26bb74aacf6d1da31b353db385",
+      "gguf_sha256": "57f52fb0d89bcb7985ff24aa818ed6fb355accf95d9b408189e0c25818b4aff6",
+      "pytorch_run": "runs/s3/paper_20261105T040018Z/score-grpo",
+      "pytorch_predictions_sha256": "cffdf07e80d071359bfdd07ec6fd53b3bde4208b0d7a85b6d77111d91bc89611",
+      "pytorch_config_sha256": "9f2ace9cbc95318a07dffccc649344c5ce8824f9d8a741a8fe1965036fe78718"
+    }
+  ],
+  "benchmarks": [
+    {
+      "model_key": "main_0.5b",
+      "source_run": "runs/20261106T130530Z_bench_comllm-0.5b-soft-T0.3-q8_0_compact_cacheon",
+      "reused": true,
+      "p50_ms": 55.039645987562835,
+      "p99_ms": 71.96896676206958,
+      "mean_ms": 53.65874606836587,
+      "fmt": "compact",
+      "cache": "on",
+      "prompt_tokens_mean": 278.152,
+      "requests_sha256": "1bb9db67a414d8f6d5e51ae422c718a1c68edd5569417f6cdd88313a81310dda"
+    },
+    {
+      "model_key": "soft_1.5b",
+      "source_run": "runs/20261106T130817Z_bench_comllm-1.5b-soft-T0.3-q8_0_compact_cacheon",
+      "reused": true,
+      "p50_ms": 117.97841708175838,
+      "p99_ms": 151.04313550284132,
+      "mean_ms": 111.61803590646014,
+      "fmt": "compact",
+      "cache": "on",
+      "prompt_tokens_mean": 278.152,
+      "requests_sha256": "8ae01ce7f5ac1acfc078088961946c921d23bc3d2677c80b53c1239799e9fc43"
+    },
+    {
+      "model_key": "hard_1.5b",
+      "source_run": "runs/20261113T040906Z_bench_comllm-1.5b-hard-q8_0_compact_cacheon",
+      "reused": false,
+      "p50_ms": 112.48156242072582,
+      "p99_ms": 145.2045034011826,
+      "mean_ms": 106.39676757203415,
+      "fmt": "compact",
+      "cache": "on",
+      "prompt_tokens_mean": 278.152,
+      "requests_sha256": "cda547f8992cb497113a5cb53f7bb25f82fd266907a9a5e04279757357db5374"
+    },
+    {
+      "model_key": "ps_0.5b",
+      "source_run": "runs/20261113T041530Z_bench_comllm-0.5b-soft-T0.3-ps-q8_0_compact_cacheon",
+      "reused": false,
+      "p50_ms": 51.55002104584128,
+      "p99_ms": 105.3039261861704,
+      "mean_ms": 54.00944776739925,
+      "fmt": "compact",
+      "cache": "on",
+      "prompt_tokens_mean": 278.152,
+      "requests_sha256": "a2062f05f88616d118cbdd6766269b38ba359753f8747c64102e843a0a66d200"
+    },
+    {
+      "model_key": "ps_soft_1.5b",
+      "source_run": "runs/20261113T042652Z_bench_comllm-1.5b-soft-T0.3-ps-q8_0_compact_cacheon",
+      "reused": false,
+      "p50_ms": 112.3948129825294,
+      "p99_ms": 145.38008565548807,
+      "mean_ms": 106.31570055568591,
+      "fmt": "compact",
+      "cache": "on",
+      "prompt_tokens_mean": 278.152,
+      "requests_sha256": "12c1a92dfa4586a611e28eeaf25fc8eab872cf252bb062cba467c58b3de7315b"
+    },
+    {
+      "model_key": "ps_hard_1.5b",
+      "source_run": "runs/20261113T043835Z_bench_comllm-1.5b-hard-ps-q8_0_compact_cacheon",
+      "reused": false,
+      "p50_ms": 112.55093745421618,
+      "p99_ms": 145.29158465797082,
+      "mean_ms": 106.33777198614553,
+      "fmt": "compact",
+      "cache": "on",
+      "prompt_tokens_mean": 278.152,
+      "requests_sha256": "ff7a52192f77ff58b3d109a057c95e38b7b32841819eafe898c5fb7aa40bf54b"
+    },
+    {
+      "model_key": "paper_sft_1.5b",
+      "source_run": "runs/20261113T081529Z_bench_comllm-paper-sft-1.5b-q8_0_paper_cacheoff",
+      "reused": false,
+      "p50_ms": 911.403187434189,
+      "p99_ms": 1024.891399310436,
+      "mean_ms": 874.805946176406,
+      "fmt": "paper",
+      "cache": "off",
+      "prompt_tokens_mean": 1358.242,
+      "requests_sha256": "4b8c8f11d19dc544d1361bda7e363e80f1a22d7df6bad66565fef7f8a373e926"
+    },
+    {
+      "model_key": "paper_grpo_1.5b",
+      "source_run": "runs/20261113T065012Z_bench_comllm-paper-grpo-1.5b-q8_0_paper_cacheoff",
+      "reused": false,
+      "p50_ms": 911.5135836182162,
+      "p99_ms": 1161.1796906450763,
+      "mean_ms": 915.9506158079021,
+      "fmt": "paper",
+      "cache": "off",
+      "prompt_tokens_mean": 1358.242,
+      "requests_sha256": "8f6fa535e0f0c008c54441c60ee1d7f5ff9ad49c480fb7a87c75178f1a610e88"
+    },
+    {
+      "model_key": "paper_score_grpo_1.5b",
+      "source_run": "runs/20261113T080731Z_bench_comllm-paper-score-grpo-1.5b-q8_0_paper_cacheoff",
+      "reused": false,
+      "p50_ms": 910.635395324789,
+      "p99_ms": 1161.0771170281805,
+      "mean_ms": 915.6870413259603,
+      "fmt": "paper",
+      "cache": "off",
+      "prompt_tokens_mean": 1358.242,
+      "requests_sha256": "fa7fc3086550849e451b6e513c326baea832e0c0741c1631fa48ea2c672fe893"
+    }
+  ],
+  "test_sets": {
+    "test_seen": {
+      "n": 3010,
+      "sha256": "2eedec52aa8ec96da53a47e4e3409c6f9c20eefb6d9d2a647943c7a0d39af904"
+    },
+    "test_unseen": {
+      "n": 2408,
+      "sha256": "13c24ab18bbc157800129a58dd26a9f59c3e3424505f9e4b4571a91def19b03b"
+    },
+    "friend_clean": {
+      "n": 245,
+      "sha256": "83d871639a37da2bf34b433ae23128b9df2498d3a3ba8fd47b2c74b3683c8fb7"
+    }
+  },
+  "transport_interruption": {
+    "record": "runs/20261113T034033Z_s6_jetson_evaluation/interruption_20261113T0749.json",
+    "saved_rows": 4472,
+    "resumed_rows": 1191,
+    "completed_prefix_sha256": "8fd2db7dd0fd715423b3f8b74ef8a98435aa7a23f31637caf5dff8bad25adbd1",
+    "prefix_preserved": true
+  }
+}

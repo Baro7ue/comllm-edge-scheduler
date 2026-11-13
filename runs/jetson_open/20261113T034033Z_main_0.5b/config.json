@@ -1,0 +1,16 @@
+{
+  "name": "0.5b_soft_T0.3（Jetson Q8_0）",
+  "model_key": "main_0.5b",
+  "fmt": "compact",
+  "platform": "jetson",
+  "gguf": "~/models/comllm-0.5b-soft-T0.3-q8_0.gguf",
+  "gguf_sha256": "3b4c3232d725792b63be2ea4607a21ff6e97c51e5fbfffd05e300de380ba3783",
+  "git": "cafd7e4",
+  "splits": [
+    "test_seen",
+    "test_unseen",
+    "friend_clean"
+  ],
+  "n_rows": 5663,
+  "finished_utc": "20261113T034716Z"
+}

@@ -1,0 +1,2 @@
+0.02.287.313 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 4096, kv_unified = 'false'
+0.02.287.455 W srv          init: --cache-idle-slots requires --cache-ram, disabling

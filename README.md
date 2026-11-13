@@ -1,10 +1,10 @@
 # comllm-edge-scheduler
 
-**English summary.** This repository deploys an LLM-based task-offloading scheduler for mobile edge computing on an NVIDIA Jetson Orin Nano 8GB, building on the open-source paper COMLLM (Yang, Cheng and Zhang, [arXiv:2604.07148](https://arxiv.org/abs/2604.07148)). Qwen2.5-0.5B/1.5B are LoRA-fine-tuned on soft labels from the paper's one-step cost model and served by llama.cpp (CUDA) with a compact prompt, a one-token answer and prefix caching. An environment node simulates terminals and edge servers in real time and asks the Jetson for every decision over Ethernet, so decision latency counts toward task delay. Measured on the board, a decision takes 55.0 ms p50 / 72.0 ms p99, against 945.2 ms p50 for the paper-format 1.5B model on the same board. One scheduler node stays stable up to 7 terminals (theory 7.9), and up to at least 20 with overload shedding. In simulation, sequential decisions with virtual state updates cut mean delay by 18.1% against batch herding (11 servers, 80 terminals), and the 0.5B model stays within −0.1% to +0.5% of the one-step optimum across seven server counts from 3 to 11, including four never seen in training. We also train a second 0.5B whose teacher is a processor-sharing-aware version of the paper's delay formula; in a 3-server closed loop it cuts mean delay by a further 9.9–19.6% (simulation, one seed; the simulator itself uses processor sharing, which favours this teacher). We also reproduce a 7B model with the paper's recipe (GRPO from the authors' SFT-7B). It reaches PR 98.85–99.26% on the authors' cleaned test set, where only 2.45% of states favour local execution, but 71.55–75.32% on our two broader test sets (46–48% local-optimal), because after training it never chooses local execution; our paper-teacher students score 99.88–99.99% on all three. Running the same closed-loop points with the unquantized PyTorch students on Colab gives nearly the same mean delay and drop rate as the Q8_0 students on the Jetson in 17 of 18 model–load settings; the exception is a hard-label 1.5B student that, at the highest load, sometimes stops using one server on both platforms. This is an independent project based on the paper, not an official COMLLM release. The documentation below is in Chinese.
+**English summary.** This repository deploys an LLM-based task-offloading scheduler for mobile edge computing on an NVIDIA Jetson Orin Nano 8GB, building on the open-source paper COMLLM (Yang, Cheng and Zhang, [arXiv:2604.07148](https://arxiv.org/abs/2604.07148)). Qwen2.5-0.5B/1.5B are LoRA-fine-tuned on soft labels from the paper's one-step cost model and served by llama.cpp (CUDA) with a compact prompt, a one-token answer and prefix caching. An environment node simulates terminals and edge servers in real time and asks the Jetson for every decision over Ethernet, so decision latency counts toward task delay. Measured on the board, a decision takes 55.0 ms p50 / 72.0 ms p99, against 945.2 ms p50 for the paper-format 1.5B model on the same board. One scheduler node stays stable up to 7 terminals (theory 7.9), and up to at least 20 with overload shedding. In simulation, sequential decisions with virtual state updates cut mean delay by 18.1% against batch herding (11 servers, 80 terminals), and the 0.5B model stays within −0.1% to +0.5% of the one-step optimum across seven server counts from 3 to 11, including four never seen in training. We also train a second 0.5B whose teacher is a processor-sharing-aware version of the paper's delay formula; in a 3-server closed loop it cuts mean delay by a further 9.9–19.6% (simulation, one seed; the simulator itself uses processor sharing, which favours this teacher). We also reproduce a 7B model with the paper's recipe (GRPO from the authors' SFT-7B). It reaches PR 98.85–99.26% on the authors' cleaned test set, where only 2.45% of states favour local execution, but 71.55–75.32% on our two broader test sets (46–48% local-optimal), because after training it never chooses local execution; our paper-teacher students score 99.88–99.99% on all three. Running the same closed-loop points with the unquantized PyTorch students on Colab gives nearly the same mean delay and drop rate as the Q8_0 students on the Jetson in 17 of 18 model–load settings; the exception is a hard-label 1.5B student that, at the highest load, sometimes stops using one server on both platforms. All nine small models also have full 5,663-state Jetson Q8_0 open-loop predictions and 500-request latency coverage; deployment results are reported separately below. This is an independent project based on the paper, not an official COMLLM release. The documentation below is in Chinese.
 
 基于开源论文 COMLLM（arXiv:2604.07148）的任务卸载调度器端侧部署。Jetson Orin Nano 8GB 做调度节点（llama.cpp/CUDA）；环境节点按真实时钟仿真终端和边缘服务器，经以太网向 Jetson 要每一个决策，决策的耗时算进任务延迟。环境节点最终用 RK3588，开发期用 Mac 代替。
 
-> 状态（2026-11-12）：部署和闭环实验做完；PS 老师的两个 1.5B 学生和复现的 COMLLM-7B 已在 Colab 上做完开环（见"和 7B 比"），六个学生的 Colab 闭环也做完了（见"部署前后的闭环"）。评测矩阵只剩 Jetson 开环，11/13 前补齐。RK3588 当环境节点的两板复测排在 11/16–11/18；在那之前，所有实时数字都是 Mac 当环境节点测的。
+> 状态（2026-11-13）：九个小模型在 Colab/PyTorch 和 Jetson/Q8_0 上的全量开环已齐，六学生两平台核心闭环各 36/36，Jetson 九模型 500 请求延迟基准已覆盖（部分复用）。7B 开环结果与复现边界见对应章节，7B 闭环进度另行验收。RK3588 两板复测仍按原计划安排；当前实时数字均使用 Mac 作为环境节点。
 
 ## 这个项目做了两件事
 
@@ -52,8 +52,8 @@
 | 0.5B 学生，3 台、N = 40 | 5.29 槽，丢弃 5.9% | 4.25 槽，丢弃 0.0% |
 | 学生比自己的老师，3 台、N = 20/40/60 | −0.1% ~ +0.2% | −1.6% ~ +3.2% |
 | 开环：论文的 PR（见过的台数 / 没见过的台数 / 原作者干净测试集） | 99.98% / 99.95% / 99.94% | 65.7% / 66.6% / 74.1% |
-| 台数泛化（闭环，3–11 台） | 和单步最优差 −0.1% ~ +0.5% | 没测 |
-| Jetson 实时：单次决策、稳定边界 | 55.0 ms，7 台终端 | 没测 |
+| 台数泛化（闭环，3–11 台） | 和单步最优差 −0.1% ~ +0.5% | 0.5B 和 PS 老师差 −1.1% ~ +4.0%（N = 40，7 档台数，种子 0） |
+| Jetson：单次决策 / 实时稳定边界 | 55.0 ms / 7 台终端 | 51.55 ms（延迟基准）/ 实时稳定边界未测 |
 
 PS 公式在轻负载时和论文公式差不多（N = 20 时 7 台慢 0.07%、11 台慢 3.79%），负载越高越占优（7 台、N = 80 时快 22.73%）。PS 学生在开环 PR 上只有 65.7%–74.1%，因为开环的尺子就是论文公式；它好不好要看闭环。
 
@@ -128,9 +128,50 @@ PS 公式在轻负载时和论文公式差不多（N = 20 时 7 台慢 0.07%、1
 
 **18 组里 17 组两边几乎一样。** 平均延迟最多差 0.04 槽，丢弃率最多差 0.8 个百分点（PS 公式 0.5B，N = 60），和单步公式的一致率最多差 0.4 个百分点。这说明闭环的汇总指标接近，不说明两边每个决策都一样：PS 公式 1.5B 软标签做过 200 条单步核对，Q8_0 和合并后的 PyTorch 只有 148 条答案相同（`runs/20261108T094747Z_s5_virtual_e4ps_b` 里的 preflight_gate_stop.json）。
 
-**例外是 PS 公式 1.5B 硬标签在 N = 60。** Colab 的两个种子在计分期间都没往服务器 3 派过任务，只分给服务器 1 和 2（约 2:1），丢弃 28.0% 和 26.5%。Jetson 的种子 0 也是这样（丢弃 28.5%），种子 1 三台都用（丢弃 2.0%）。两边平均 27.3% 对 15.2% 的差别，来自 Jetson 的种子 1 没落进这种状态。没量化的 Colab 模型也会落进去，所以这不是量化造成的。同一点上 PS 公式本身丢弃 0.6%。为什么会停用服务器 3 还没查，两个种子也不够判断它多常发生。它的平均延迟看着最低（4.75 / 4.86 槽），是因为被丢的任务不计入延迟。
+**例外是 PS 公式 1.5B 硬标签在 N = 60。** Colab 的两个种子在计分期间都没往服务器 3 派过任务，只分给服务器 1 和 2（约 2:1），丢弃 28.0% 和 26.5%。Jetson 的种子 0 也是这样（丢弃 28.5%），种子 1 三台都用（丢弃 2.0%）。两边平均 27.3% 对 15.2% 的差别，来自 Jetson 的种子 1 没落进这种状态。这个故障也出现在未量化的 Colab 模型上；现有结果还不能分离量化、推理实现和闭环状态分化各自的影响。同一点上 PS 公式本身丢弃 0.6%。为什么会停用服务器 3 还没查，两个种子也不够判断它多常发生。它的平均延迟看着最低（4.75 / 4.86 槽），是因为被丢的任务不计入延迟。
 
 Colab 上同一个模型的 6 个点拼成一批作答，A100 上平均每次决策 8.3–9.9 ms，6 个模型一共约 70 分钟。这是批量摊下来的时间，不能和 Jetson 上的单次决策时间比。
+
+## 部署后的开环：九个模型的固定测试集
+
+九个小模型各在 Jetson 上重新回答 3010 条 Seen、2408 条 Unseen 和 245 条原作者干净测试状态，共 50,967 条预测。每个 `(split, idx)` 恰好一条，非 LLM 答案共 0 条；调度服务返回的超时、解析失败等非 LLM 回答以 −1 计入非法率，不把公式回退答案当成模型答案。
+本轮开环与延迟测试给每次请求 10 秒作答；实时调度服务的默认 100 毫秒是另一项设置。模型为 Q8_0，llama.cpp 固定 5aeac37a3，上下文 4096，串行单请求；开环均开启前缀缓存，compact 取一个 token，paper 最多生成 20 个 token。
+
+score-GRPO 中途遇到一次 HTTP 等待超时，板端已完成该次推理而客户端未收到回复。已有 4472 条原样保留，只续跑缺失的 1191 条；该次未落盘的尝试不计入表中，测试设置与服务均未改变。中断日志和已存前缀的校验值一并保留。
+
+上面的开环表复用 Colab/PyTorch 预测；这里是板端结果。下面每格为准确率 / PR（%），最后一列是和既有 PyTorch 预测逐条相同的比例，包含全部状态，不剔除成本打平的状态。PS 学生也按论文成本评分，它们的训练目标不同。
+
+| 模型 | Seen（3010） | Unseen（2408） | 原作者干净测试集（245） | 两平台逐条一致率：Seen / Unseen / 原作者（%） |
+|---|---|---|---|---|
+| 论文老师 0.5B 软标签 | 97.11 / 99.98 | 95.64 / 99.96 | 97.55 / 99.96 | 97.28 / 97.13 / 97.55 |
+| 论文老师 1.5B 软标签 | 96.51 / 99.98 | 94.14 / 99.94 | 97.55 / 99.97 | 97.14 / 97.38 / 98.78 |
+| 论文老师 1.5B 硬标签 | 95.85 / 99.88 | 95.22 / 99.93 | 99.18 / 99.99 | 99.57 / 99.63 / 100.00 |
+| PS 老师 0.5B 软标签 | 18.17 / 65.82 | 18.77 / 66.93 | 13.47 / 74.40 | 73.82 / 69.77 / 72.24 |
+| PS 老师 1.5B 软标签 | 18.70 / 65.90 | 18.56 / 66.46 | 14.69 / 75.07 | 72.33 / 76.95 / 66.53 |
+| PS 老师 1.5B 硬标签 | 18.50 / 65.89 | 18.56 / 67.24 | 15.10 / 75.48 | 99.97 / 99.17 / 100.00 |
+| 原作者 1.5B SFT | 23.12 / 65.43 | 16.32 / 65.10 | 11.84 / 66.15 | 94.42 / 86.13 / 82.86 |
+| 原作者 1.5B GRPO | 11.06 / 64.05 | 10.17 / 64.23 | 13.88 / 74.58 | 87.14 / 90.74 / 97.96 |
+| 原作者 1.5B score-GRPO | 15.08 / 64.61 | 11.25 / 64.36 | 13.06 / 73.28 | 86.31 / 88.87 / 93.06 |
+
+PS 软标签两学生的逐条一致率为 66.53%–76.95%，论文 PR 相差最多 0.74 个百分点。PS 硬标签 1.5B 的静态一致率为 99.17%–100.00%，仍存在上一节 N = 60 的闭环不稳定现象。汇总分数和逐状态答案提供不同信息；这些结果不建立 PyTorch 等价性，差异也不能全部归因于 Q8。进一步等价性归因调查继续暂缓。
+
+完整的本地召回、本地精确、按台数和 N 分解、预测来源及 SHA 见 [板端开环报告](evidence/G6/jetson_open/comparison.md)、[逐条一致率](evidence/G6/jetson_open/prediction_agreement.md) 和 [完整打分表](evidence/G6/jetson_open/open_loop.md)。
+
+**单次决策延迟基准。** 每组 500 次计入、10 次热身，3/7/11 台服务器轮流。学生用 compact / cache on，原作者模型用 paper / cache off。两个已有学生基准复用；新增缺失六组，并额外重测 SFT，使原作者三模型使用同一版明确固定的贪心参数（历史 SFT 基准早于该修正）。图 2 保留 11/06 的历史基准，最新覆盖见下表。不同日期、提示词和回答长度仍需结合配置解读，细小差异不作统计显著性判断。
+
+| 模型 | p50（ms） | p99（ms） | 来源 |
+|---|---:|---:|---|
+| 论文老师 0.5B 软标签 | 55.04 | 71.97 | 复用 11/06 |
+| 论文老师 1.5B 软标签 | 117.98 | 151.04 | 复用 11/06 |
+| 论文老师 1.5B 硬标签 | 112.48 | 145.20 | 本轮测量 |
+| PS 老师 0.5B 软标签 | 51.55 | 105.30 | 本轮测量 |
+| PS 老师 1.5B 软标签 | 112.39 | 145.38 | 本轮测量 |
+| PS 老师 1.5B 硬标签 | 112.55 | 145.29 | 本轮测量 |
+| 原作者 1.5B SFT | 911.40 | 1024.89 | 本轮测量 |
+| 原作者 1.5B GRPO | 911.51 | 1161.18 | 本轮测量 |
+| 原作者 1.5B score-GRPO | 910.64 | 1161.08 | 本轮测量 |
+
+延迟是环境节点量到的端到端往返时间，与开环准确率分开测。原始目录、代码与数据指纹及自动验收记录在 `runs/20261113T034033Z_s6_jetson_evaluation`；这次的模型登记代码版本为 cafd7e4。两个原作者 GRPO 文件在本机使用同版本转换器生成，产物与 Colab 记录的完整 SHA-256 相同，传到板端后再次核验通过。
 
 ## 系统
 
@@ -188,7 +229,7 @@ python -m eval.figures                   # 从 runs/ 里的 CSV 重画 7 张图�
 
 - **环境是仿真的。** 终端、上传链路和边缘服务器都是仿真器里的队列，参数取自论文表 I 和原作者的数据集。真实的只有调度节点和网络那一跳。
 - **两个老师都是单步公式，学生的上限就是老师。** 论文公式在闭环高负载下高估平分算力服务器的排队。按平分算力推导的 PS 感知贪心比它平均快 9.27%、最多快 22.73%（仿真，3/7/11 台 × N = 20–80，顺序决策）。3 台服务器时改成顺序决策反而变差，也是因为这个高估被一个个叠加。
-- **PS 老师那条线测得少。** 它的学生只在 3 台服务器上跑了闭环，每点 2 个种子（Colab 和 Jetson 各跑一遍；"两个老师"一节的 0.5B 数字只用了种子 0），台数泛化和 Jetson 实时数字都没测；优势是在平分算力的服务器上测的，先来先服务的服务器上没测。
+- **PS 学生的泛化测试仍有限。** 六学生在 3 台服务器的核心闭环每点 2 个种子，Colab 和 Jetson 各跑一遍（"两个老师"一节的 0.5B 数字只用了种子 0）。PS 0.5B 另在 Jetson 完成 3/4/6/7/8/10/11 台、N = 40 的种子 0 泛化测试，结果在 `runs/20261108T044444Z_s5_virtual_e4ps_a` 和既有 Stage 5 目录中；两个 PS 1.5B 的台数泛化与 PS 学生的实时容量仍未测。优势是在平分算力的服务器上测的，先来先服务的服务器上没测。
 - **闭环质量对比用虚拟时间，样本少。** LLM 的虚拟时间点每点 2 个种子（"两个老师"一节和结果一览里的 0.5B 数字只用了种子 0），实时闭环每点 2 个种子、3 分钟。差别在 1% 以内的结论只说"分不开"。PS 公式 1.5B 硬标签在 N = 60 跑了 4 次（两边各 2 个种子），3 次丢弃 26%–29%，1 次 2.0%，有的点 2 个种子也不够。
 - **平均延迟只算完成的任务。** 丢得多的策略会显得快，一定要和丢弃率一起看。
 - **复现的 7B 不等于原版 COMLLM-7B。** 原版权重拿不到；论文报的数字用的是另一份测试集，不和这里的数字放在一起。复现的 7B 训练后完全不选本地，只在 Colab 上跑了开环。没有用更宽的数据重做 7B 的 SFT 或 GRPO，所以"同样数据下 7B 和小模型谁强"没有回答。

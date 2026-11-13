@@ -1,0 +1,16 @@
+{
+  "name": "论文原版 score-grpo（Jetson Q8_0）",
+  "model_key": "paper_score_grpo_1.5b",
+  "fmt": "paper",
+  "platform": "jetson",
+  "gguf": "~/models/comllm-paper-score-grpo-1.5b-q8_0.gguf",
+  "gguf_sha256": "57f52fb0d89bcb7985ff24aa818ed6fb355accf95d9b408189e0c25818b4aff6",
+  "git": "cafd7e4",
+  "splits": [
+    "test_seen",
+    "test_unseen",
+    "friend_clean"
+  ],
+  "n_rows": 5663,
+  "finished_utc": "20261113T080731Z"
+}

@@ -1,0 +1,8 @@
+{
+  "status": "complete",
+  "finished_utc": "2026-11-13T08:22:57.353693+00:00",
+  "report": "evidence/G6/jetson_open/comparison.md",
+  "open_loop_models": 9,
+  "new_benchmarks": 7,
+  "reused_benchmarks": 2
+}

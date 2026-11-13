@@ -1,0 +1,9 @@
+{
+  "source": "/content/drive/MyDrive/COMLLM/reference_model/qwen2.5-1.5b-mec-grpo-final-all",
+  "out": "/content/drive/MyDrive/COMLLM/s5/gguf/comllm-paper-grpo-1.5b-q8_0.gguf",
+  "outtype": "q8_0",
+  "llama_cpp": "5aeac37a3",
+  "sha256": "9cb76a1c3373d0f409060d257f6e0065b10fe21e4096dd530ef3a6d4500af10e",
+  "size_mb": 1647,
+  "utc": "20261112T073955Z"
+}

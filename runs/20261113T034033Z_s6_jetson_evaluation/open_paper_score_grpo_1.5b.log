@@ -1,0 +1,70 @@
+  paper_score_grpo_1.5b 格式 paper    5663 条，约 90 分钟（估算）
+共 1 个模型，约 1.5 小时（估算）
+
+换模型 → paper_score_grpo_1.5b
+  paper_score_grpo_1.5b：200/5663 条，非 LLM 答案 0 条，平均 474 ms
+  paper_score_grpo_1.5b：400/5663 条，非 LLM 答案 0 条，平均 475 ms
+  paper_score_grpo_1.5b：600/5663 条，非 LLM 答案 0 条，平均 475 ms
+  paper_score_grpo_1.5b：800/5663 条，非 LLM 答案 0 条，平均 504 ms
+  paper_score_grpo_1.5b：1000/5663 条，非 LLM 答案 0 条，平均 523 ms
+  paper_score_grpo_1.5b：1200/5663 条，非 LLM 答案 0 条，平均 535 ms
+  paper_score_grpo_1.5b：1400/5663 条，非 LLM 答案 0 条，平均 559 ms
+  paper_score_grpo_1.5b：1600/5663 条，非 LLM 答案 0 条，平均 578 ms
+  paper_score_grpo_1.5b：1800/5663 条，非 LLM 答案 0 条，平均 592 ms
+  paper_score_grpo_1.5b：2000/5663 条，非 LLM 答案 0 条，平均 613 ms
+  paper_score_grpo_1.5b：2200/5663 条，非 LLM 答案 0 条，平均 631 ms
+  paper_score_grpo_1.5b：2400/5663 条，非 LLM 答案 0 条，平均 646 ms
+  paper_score_grpo_1.5b：2600/5663 条，非 LLM 答案 0 条，平均 662 ms
+  paper_score_grpo_1.5b：2800/5663 条，非 LLM 答案 0 条，平均 679 ms
+  paper_score_grpo_1.5b：3000/5663 条，非 LLM 答案 0 条，平均 694 ms
+  paper_score_grpo_1.5b：3200/5663 条，非 LLM 答案 0 条，平均 685 ms
+  paper_score_grpo_1.5b：3400/5663 条，非 LLM 答案 0 条，平均 676 ms
+  paper_score_grpo_1.5b：3600/5663 条，非 LLM 答案 0 条，平均 668 ms
+  paper_score_grpo_1.5b：3800/5663 条，非 LLM 答案 0 条，平均 667 ms
+  paper_score_grpo_1.5b：4000/5663 条，非 LLM 答案 0 条，平均 666 ms
+  paper_score_grpo_1.5b：4200/5663 条，非 LLM 答案 0 条，平均 665 ms
+  paper_score_grpo_1.5b：4400/5663 条，非 LLM 答案 0 条，平均 670 ms
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/ethan/.codex/worktrees/comllm-jetson-eval/comllm-edge-scheduler/eval/jetson_open_loop.py", line 217, in <module>
+    main()
+    ~~~~^^
+  File "/Users/ethan/.codex/worktrees/comllm-jetson-eval/comllm-edge-scheduler/eval/jetson_open_loop.py", line 213, in main
+    run_model(client, key, data, out_dir, cfg)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ethan/.codex/worktrees/comllm-jetson-eval/comllm-edge-scheduler/eval/jetson_open_loop.py", line 96, in run_model
+    pred, source, reason, ms = answer_one(client, r, fmt, n)
+                               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Users/ethan/.codex/worktrees/comllm-jetson-eval/comllm-edge-scheduler/eval/jetson_open_loop.py", line 57, in answer_one
+    resp, ms = client.decide(state_from_dict(row["state"]), fmt, True, 10000.0, req_id=req_id)
+               ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ethan/.codex/worktrees/comllm-jetson-eval/comllm-edge-scheduler/deploy/client.py", line 39, in decide
+    return self.conn.request("POST", "/decide", body)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ethan/.codex/worktrees/comllm-jetson-eval/comllm-edge-scheduler/deploy/http_json.py", line 47, in request
+    resp = self.conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1478, in getresponse
+    response.begin()
+    ~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 343, in begin
+    version, status, reason = self._read_status()
+                              ~~~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 304, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+TimeoutError: timed out
+  paper_score_grpo_1.5b 格式 paper    5663 条，约 90 分钟（估算）
+共 1 个模型，约 1.5 小时（估算）
+
+换模型 → paper_score_grpo_1.5b
+  paper_score_grpo_1.5b：4600/5663 条，非 LLM 答案 0 条，平均 772 ms
+  paper_score_grpo_1.5b：4800/5663 条，非 LLM 答案 0 条，平均 775 ms
+  paper_score_grpo_1.5b：5000/5663 条，非 LLM 答案 0 条，平均 800 ms
+  paper_score_grpo_1.5b：5200/5663 条，非 LLM 答案 0 条，平均 813 ms
+  paper_score_grpo_1.5b：5400/5663 条，非 LLM 答案 0 条，平均 826 ms
+  paper_score_grpo_1.5b：5600/5663 条，非 LLM 答案 0 条，平均 793 ms
+paper_score_grpo_1.5b 答完：5663 条，这次新答 1191 条，其中非 LLM 答案 0 条 → runs/jetson_open/20261113T034033Z_paper_score_grpo_1.5b

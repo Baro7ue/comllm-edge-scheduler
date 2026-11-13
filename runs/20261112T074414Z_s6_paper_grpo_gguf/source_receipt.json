@@ -1,0 +1,148 @@
+{
+  "created_utc": "2026-11-12T07:52:26.306Z",
+  "status": "two_conversions_completed_with_recorded_SHA_remote_binary_SHA_not_independently_verified",
+  "output_folder": {
+    "id": "1KP51KTGdpuMjKoXrQfvwh7RpGDsjtK7w",
+    "path": "MyDrive/COMLLM/s5/gguf"
+  },
+  "model_outputs": {
+    "grpo": {
+      "id": "1Qi5EsQ0rWMYIWuQT-mFJXmgdvj27-VYi",
+      "title": "comllm-paper-grpo-1.5b-q8_0.gguf",
+      "mime_type": "application/octet-stream",
+      "size": "1646572800",
+      "parent_ids": [
+        "1KP51KTGdpuMjKoXrQfvwh7RpGDsjtK7w"
+      ],
+      "modified_time": "2026-11-12T07:39:47.919Z",
+      "url": "https://drive.google.com/file/d/1Qi5EsQ0rWMYIWuQT-mFJXmgdvj27-VYi/view?usp=drivesdk"
+    },
+    "score_grpo": {
+      "id": "1th5W2Rd3O6t6DDbMurmirjncgSP15IsP",
+      "title": "comllm-paper-score-grpo-1.5b-q8_0.gguf",
+      "mime_type": "application/octet-stream",
+      "size": "1646572800",
+      "parent_ids": [
+        "1KP51KTGdpuMjKoXrQfvwh7RpGDsjtK7w"
+      ],
+      "modified_time": "2026-11-12T07:47:51.734Z",
+      "url": "https://drive.google.com/file/d/1th5W2Rd3O6t6DDbMurmirjncgSP15IsP/view?usp=drivesdk"
+    }
+  },
+  "conversion_records": {
+    "grpo": {
+      "id": "1ugrheK7XfYXwDNZHzEoyrBCP_-a181IZ",
+      "title": "convert_grpo.json",
+      "mime_type": "application/json",
+      "size": "355",
+      "parent_ids": [
+        "1KP51KTGdpuMjKoXrQfvwh7RpGDsjtK7w"
+      ],
+      "modified_time": "2026-11-12T07:39:55.231Z",
+      "url": null
+    },
+    "score_grpo": {
+      "id": "1Segi85AfQhzvBmx6gan-C0EFGKdxvamQ",
+      "title": "convert_score_grpo.json",
+      "mime_type": "application/json",
+      "size": "367",
+      "parent_ids": [
+        "1KP51KTGdpuMjKoXrQfvwh7RpGDsjtK7w"
+      ],
+      "modified_time": "2026-11-12T07:48:01.778Z",
+      "url": null
+    }
+  },
+  "original_sft_metadata_preservation": [
+    {
+      "title": "convert.json",
+      "unchanged_id_size_modified_time": true,
+      "metadata": {
+        "id": "1vX6Ex5qQ2qUdN5m4mNOpqld_HAPeackm",
+        "title": "convert.json",
+        "mime_type": "application/json",
+        "size": "353",
+        "parent_ids": null,
+        "modified_time": "2026-11-06T12:39:09.085Z",
+        "url": "https://drive.google.com/file/d/1vX6Ex5qQ2qUdN5m4mNOpqld_HAPeackm/view?usp=drivesdk"
+      }
+    },
+    {
+      "title": "comllm-paper-sft-1.5b-q8_0.gguf",
+      "unchanged_id_size_modified_time": true,
+      "metadata": {
+        "id": "1k_tatSuzl8iLpUhFqqrTAXJmK5UZnYzr",
+        "title": "comllm-paper-sft-1.5b-q8_0.gguf",
+        "mime_type": "application/octet-stream",
+        "size": "1646572800",
+        "parent_ids": null,
+        "modified_time": "2026-11-06T12:38:59.822Z",
+        "url": "https://drive.google.com/file/d/1k_tatSuzl8iLpUhFqqrTAXJmK5UZnYzr/view?usp=drivesdk"
+      }
+    }
+  ],
+  "GGUF_checksum_evidence": {
+    "origin": "Each original conversion cell computed SHA256 over the complete local Q8 GGUF, then cp succeeded to Drive; actual Drive file IDs, sizes and parents verified.",
+    "requested_Drive_fields": [
+      "sha256Checksum",
+      "md5Checksum"
+    ],
+    "fields_exposed_by_connector": [],
+    "Google_backend_checksum_availability": "unknown; connector did not expose these requested fields",
+    "independent_remote_SHA_verification": false,
+    "GRPO_raw_fetch_rejection": {
+      "http": 413,
+      "size_bytes": 1646572800,
+      "limit_bytes": 268435456
+    },
+    "score_raw_fetch_attempted": false,
+    "large_GGUF_body_streamed_locally": false,
+    "source_3GB_weights_downloaded": false
+  },
+  "UI_scope": {
+    "B_conversion_run_by": "user in CPU Colab runtimes",
+    "archival_UI_actions": false,
+    "Jetson_run": false
+  },
+  "source_change_scope": "Only SRC directory name, output Q8 filename and convert JSON filename; new copies had old outputs/counts cleared with explicit authorization. Executed source matches clean copy for both models.",
+  "network_configuration_modified": false,
+  "finalized_utc": "2026-11-12T07:53:45.560671+00:00",
+  "handoff_models": [
+    {
+      "model": "grpo",
+      "label": "GRPO",
+      "filename": "comllm-paper-grpo-1.5b-q8_0.gguf",
+      "Drive_id": "1Qi5EsQ0rWMYIWuQT-mFJXmgdvj27-VYi",
+      "Drive_url": "https://drive.google.com/file/d/1Qi5EsQ0rWMYIWuQT-mFJXmgdvj27-VYi/view?usp=drivesdk",
+      "bytes": 1646572800,
+      "expected_sha256": "9cb76a1c3373d0f409060d257f6e0065b10fe21e4096dd530ef3a6d4500af10e",
+      "sha256_origin": "Colab local Q8 before successful cp to Drive",
+      "remote_SHA_independently_verified": false,
+      "record_utc": "20261112T073955Z",
+      "q8_seconds": 192,
+      "copy_seconds": 7,
+      "executed_notebook": "S5_GRPO_executed.ipynb",
+      "convert_json": "convert_grpo.json",
+      "download_receipt": "grpo_download_receipt.json",
+      "clean_notebook_sha256": "a3ac6ac19c3c53e421feb4087f06952e7c8e915876f29e761bafe89056b35d7e"
+    },
+    {
+      "model": "score_grpo",
+      "label": "score-GRPO",
+      "filename": "comllm-paper-score-grpo-1.5b-q8_0.gguf",
+      "Drive_id": "1th5W2Rd3O6t6DDbMurmirjncgSP15IsP",
+      "Drive_url": "https://drive.google.com/file/d/1th5W2Rd3O6t6DDbMurmirjncgSP15IsP/view?usp=drivesdk",
+      "bytes": 1646572800,
+      "expected_sha256": "57f52fb0d89bcb7985ff24aa818ed6fb355accf95d9b408189e0c25818b4aff6",
+      "sha256_origin": "Colab local Q8 before successful cp to Drive",
+      "remote_SHA_independently_verified": false,
+      "record_utc": "20261112T074801Z",
+      "q8_seconds": 203,
+      "copy_seconds": 11,
+      "executed_notebook": "S5_score_GRPO_executed.ipynb",
+      "convert_json": "convert_score_grpo.json",
+      "download_receipt": "score_download_receipt.json",
+      "clean_notebook_sha256": "b36b97736d09f8ff5650d76c8909fad6becb60015899569d9fd219011bcb4046"
+    }
+  ]
+}

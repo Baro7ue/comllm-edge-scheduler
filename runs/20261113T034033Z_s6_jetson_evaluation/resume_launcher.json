@@ -1,0 +1,10 @@
+{
+  "resumed_utc": "2026-11-13T07:51:40.844042+00:00",
+  "main_pid": 96796,
+  "postprocessor_pid": 96799,
+  "saved_rows": 4472,
+  "remaining_rows": 1191,
+  "interruption": "interruption_20261113T0749.json",
+  "measurement_code_or_timeout_changed": false,
+  "service_restarted": false
+}

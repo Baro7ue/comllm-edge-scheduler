@@ -1,0 +1,104 @@
+{
+  "archived_utc": "2026-11-12T07:44:16.852Z",
+  "run_dir": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261112T074414Z_s6_paper_grpo_gguf",
+  "model": "paper_grpo_1.5b",
+  "conversion_complete": true,
+  "conversion_record": {
+    "source": "/content/drive/MyDrive/COMLLM/reference_model/qwen2.5-1.5b-mec-grpo-final-all",
+    "out": "/content/drive/MyDrive/COMLLM/s5/gguf/comllm-paper-grpo-1.5b-q8_0.gguf",
+    "outtype": "q8_0",
+    "llama_cpp": "5aeac37a3",
+    "sha256": "9cb76a1c3373d0f409060d257f6e0065b10fe21e4096dd530ef3a6d4500af10e",
+    "size_mb": 1647,
+    "utc": "20261112T073955Z"
+  },
+  "downloads": [
+    {
+      "kind": "convert",
+      "file": "convert_grpo.json",
+      "source_drive_id": "1ugrheK7XfYXwDNZHzEoyrBCP_-a181IZ",
+      "source_url": "https://drive.google.com/file/d/1ugrheK7XfYXwDNZHzEoyrBCP_-a181IZ/view",
+      "bytes": 355,
+      "sha256": "352347d44a6f22a50aeae8b27a6661752de02040662ae6cfee48a66f4a9a9596",
+      "download_started_utc": "2026-11-12T07:44:14.085Z",
+      "download_completed_utc": "2026-11-12T07:44:16.638Z"
+    },
+    {
+      "kind": "notebook",
+      "file": "S5_GRPO_executed.ipynb",
+      "source_drive_id": "1alZ9BHBucIyRFgQ30hj_UKk3pm6zzoEM",
+      "source_url": "https://drive.google.com/file/d/1alZ9BHBucIyRFgQ30hj_UKk3pm6zzoEM/view",
+      "bytes": 6870,
+      "sha256": "91e97cca0306ea69bd061c39c4ec8b4268ef5e4f253e8b55c948fb34b1ea7bce",
+      "download_started_utc": "2026-11-12T07:44:16.638Z",
+      "download_completed_utc": "2026-11-12T07:44:16.850Z"
+    }
+  ],
+  "drive_metadata": {
+    "gguf": {
+      "id": "1Qi5EsQ0rWMYIWuQT-mFJXmgdvj27-VYi",
+      "title": "comllm-paper-grpo-1.5b-q8_0.gguf",
+      "mime_type": "application/octet-stream",
+      "size": "1646572800",
+      "parent_ids": [
+        "1KP51KTGdpuMjKoXrQfvwh7RpGDsjtK7w"
+      ],
+      "modified_time": "2026-11-12T07:39:47.919Z"
+    },
+    "convert": {
+      "id": "1ugrheK7XfYXwDNZHzEoyrBCP_-a181IZ",
+      "title": "convert_grpo.json",
+      "mime_type": "application/json",
+      "size": "355",
+      "parent_ids": [
+        "1KP51KTGdpuMjKoXrQfvwh7RpGDsjtK7w"
+      ],
+      "modified_time": "2026-11-12T07:39:55.231Z"
+    },
+    "notebook": {
+      "id": "1alZ9BHBucIyRFgQ30hj_UKk3pm6zzoEM",
+      "title": "S5_GRPO_论文原版转GGUF_20261112.ipynb",
+      "mime_type": "application/vnd.google.colaboratory",
+      "size": "6870",
+      "parent_ids": [
+        "1bJkT6i845KNeIxIA3OlVMqq2rHzMiRzE"
+      ],
+      "modified_time": "2026-11-12T07:40:26.585Z"
+    }
+  },
+  "clean_notebook_sha256": "a3ac6ac19c3c53e421feb4087f06952e7c8e915876f29e761bafe89056b35d7e",
+  "source_equal_to_clean_copy": true,
+  "execution_counts": [
+    1,
+    2,
+    3
+  ],
+  "execution_errors": [],
+  "gguf_integrity": {
+    "status": "pending_independent_verification_connector_size_limit",
+    "expected_sha256_from_convert": "9cb76a1c3373d0f409060d257f6e0065b10fe21e4096dd530ef3a6d4500af10e",
+    "actual_stream_sha256": null,
+    "server_checksum_fields_requested": [
+      "sha256Checksum",
+      "md5Checksum"
+    ],
+    "server_checksum_fields_exposed": [],
+    "connector_raw_fetch_error": {
+      "http": 413,
+      "actual_file_bytes": 1646572800,
+      "limit_bytes": 268435456
+    },
+    "gguf_not_saved_locally": true
+  },
+  "source_model_weights_downloaded": false,
+  "conversion_wall_limit_minutes": 30,
+  "conversion_not_download_timing": {
+    "notebook_reported_q8_seconds": 192,
+    "notebook_reported_copy_seconds": 7,
+    "record_utc": "20261112T073955Z"
+  },
+  "notes": [
+    "The JSON SHA was computed by the conversion notebook before copy to Drive; independent Drive GGUF hash is still pending.",
+    "No browser, runtime, source notebook, network configuration, training file, or existing artifact was changed during this archival step."
+  ]
+}

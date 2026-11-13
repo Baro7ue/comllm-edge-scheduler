@@ -1,0 +1,107 @@
+{
+  "archived_utc": "2026-11-12T07:51:35.227Z",
+  "run_dir": "/Users/ethan/Documents/comllm-edge-scheduler/runs/20261112T074414Z_s6_paper_grpo_gguf",
+  "model": "paper_score_grpo_1.5b",
+  "conversion_complete": true,
+  "conversion_record": {
+    "source": "/content/drive/MyDrive/COMLLM/reference_model/qwen2.5-1.5b-mec-score-grpo-final-all",
+    "out": "/content/drive/MyDrive/COMLLM/s5/gguf/comllm-paper-score-grpo-1.5b-q8_0.gguf",
+    "outtype": "q8_0",
+    "llama_cpp": "5aeac37a3",
+    "sha256": "57f52fb0d89bcb7985ff24aa818ed6fb355accf95d9b408189e0c25818b4aff6",
+    "size_mb": 1647,
+    "utc": "20261112T074801Z"
+  },
+  "downloads": [
+    {
+      "kind": "convert",
+      "file": "convert_score_grpo.json",
+      "source_drive_id": "1Segi85AfQhzvBmx6gan-C0EFGKdxvamQ",
+      "source_url": "https://drive.google.com/file/d/1Segi85AfQhzvBmx6gan-C0EFGKdxvamQ/view",
+      "bytes": 367,
+      "sha256": "6d98ff3ceaf1c73450cefdddf98b29fa1e137ecbfc4d194f36d33838cbf04eda",
+      "download_started_utc": "2026-11-12T07:51:34.006Z",
+      "download_completed_utc": "2026-11-12T07:51:34.875Z"
+    },
+    {
+      "kind": "notebook",
+      "file": "S5_score_GRPO_executed.ipynb",
+      "source_drive_id": "1il0dchhWLpu_UrLAE75JX7kdVXbAquJ-",
+      "source_url": "https://drive.google.com/file/d/1il0dchhWLpu_UrLAE75JX7kdVXbAquJ-/view",
+      "bytes": 6931,
+      "sha256": "595f1bb96c5ac13154d7f24f259396a32685ac029351b6a4605deda63b39decc",
+      "download_started_utc": "2026-11-12T07:51:34.875Z",
+      "download_completed_utc": "2026-11-12T07:51:35.226Z"
+    }
+  ],
+  "drive_metadata": {
+    "gguf": {
+      "id": "1th5W2Rd3O6t6DDbMurmirjncgSP15IsP",
+      "title": "comllm-paper-score-grpo-1.5b-q8_0.gguf",
+      "mime_type": "application/octet-stream",
+      "size": "1646572800",
+      "parent_ids": [
+        "1KP51KTGdpuMjKoXrQfvwh7RpGDsjtK7w"
+      ],
+      "modified_time": "2026-11-12T07:47:51.734Z"
+    },
+    "convert": {
+      "id": "1Segi85AfQhzvBmx6gan-C0EFGKdxvamQ",
+      "title": "convert_score_grpo.json",
+      "mime_type": "application/json",
+      "size": "367",
+      "parent_ids": [
+        "1KP51KTGdpuMjKoXrQfvwh7RpGDsjtK7w"
+      ],
+      "modified_time": "2026-11-12T07:48:01.778Z"
+    },
+    "notebook": {
+      "id": "1il0dchhWLpu_UrLAE75JX7kdVXbAquJ-",
+      "title": "S5_score_GRPO_论文原版转GGUF_20261112.ipynb",
+      "mime_type": "application/vnd.google.colaboratory",
+      "size": "6931",
+      "parent_ids": [
+        "1bJkT6i845KNeIxIA3OlVMqq2rHzMiRzE"
+      ],
+      "modified_time": "2026-11-12T07:49:02.135Z"
+    }
+  },
+  "clean_notebook_sha256": "b36b97736d09f8ff5650d76c8909fad6becb60015899569d9fd219011bcb4046",
+  "source_equal_to_clean_copy": true,
+  "execution_counts": [
+    1,
+    2,
+    3
+  ],
+  "execution_errors": [],
+  "gguf_integrity": {
+    "status": "not_independently_verified_due_known_connector_size_limit",
+    "expected_sha256_from_convert": "57f52fb0d89bcb7985ff24aa818ed6fb355accf95d9b408189e0c25818b4aff6",
+    "actual_stream_sha256": null,
+    "server_checksum_fields_requested": [
+      "sha256Checksum",
+      "md5Checksum"
+    ],
+    "server_checksum_fields_exposed": [],
+    "score_GGUF_raw_download_attempted": false,
+    "known_GRPO_raw_fetch_error": {
+      "http": 413,
+      "actual_file_bytes": 1646572800,
+      "limit_bytes": 268435456
+    },
+    "gguf_not_saved_locally": true
+  },
+  "source_model_weights_downloaded": false,
+  "conversion_not_download_timing": {
+    "notebook_reported_clone_seconds": 42,
+    "notebook_reported_checkout_seconds": 1,
+    "notebook_reported_q8_seconds": 203,
+    "notebook_reported_copy_seconds": 11,
+    "record_utc": "20261112T074801Z"
+  },
+  "notes": [
+    "The JSON SHA was computed by the conversion notebook before copy to Drive; independent Drive GGUF hash remains unverified.",
+    "No score GGUF fetch was attempted after the same-size GRPO GGUF hit the connector 256MiB limit.",
+    "No browser, runtime, source notebook, network configuration, training file, or existing artifact was changed during this archival step."
+  ]
+}
