@@ -1,0 +1,35 @@
+{
+  "status": "environment_preparing_not_started",
+  "recorded_utc": "2026-11-13T03:40:19.655660+00:00",
+  "branch": "comllm-stage7-v1",
+  "notebook": "train/S7_7B闭环_A100普通档_v1.ipynb",
+  "notebook_sha256": "12bb7d7826c1a77ea2cd6bbdd2609074dc26aaa9850fbea343fa34629b109102",
+  "notebook_id": "1NzefdqRgIiR2a8bLc4AiGRlUu_Wr6iQu",
+  "user_authorization": [
+    "恢复既定环境后继续",
+    "切普通 A100，只改新输出路径"
+  ],
+  "source_change": "Only OUT in first code cell changes; two Markdown occurrences follow that output path. Remaining six code-cell sources are unchanged.",
+  "old_output_preserved": "s7_closed_runs_20261112_a100_40gb",
+  "new_output": "s7_closed_runs_20261113_a100_standard",
+  "new_output_preflight": "not present",
+  "checks": {
+    "independent_source_review": "passed",
+    "seven_code_cells_static_compile": "passed",
+    "remote_bytewise_readback": "passed",
+    "required_unit_tests_passed": 13
+  },
+  "observed_standard_resources": {
+    "gpu_memory_gb": 40,
+    "system_memory_gb": 83.5,
+    "compute_units_per_hour": 6.73
+  },
+  "observed_high_ram_compute_units_per_hour": 8.88,
+  "rate_note": "Observed UI per-hour rate; no claim about total compute-unit savings without measured runtime.",
+  "first_model": "grpo_7b_repro",
+  "first_model_lambda": 0,
+  "target_points": 12,
+  "completed_points": 0,
+  "gpu_inference_verified": false,
+  "code_models_decode_and_identity_guards": "unchanged"
+}
