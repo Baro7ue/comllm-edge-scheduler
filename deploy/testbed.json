@@ -12,6 +12,8 @@
     "ps_soft_1.5b":   {"gguf": "~/models/comllm-1.5b-soft-T0.3-ps-q8_0.gguf", "fmt": "compact"},
     "ps_hard_1.5b":   {"gguf": "~/models/comllm-1.5b-hard-ps-q8_0.gguf",      "fmt": "compact"},
     "base_0.5b":      {"gguf": "~/models/qwen2.5-0.5b-instruct-q8_0.gguf",    "fmt": "compact"},
-    "paper_sft_1.5b": {"gguf": "~/models/comllm-paper-sft-1.5b-q8_0.gguf",    "fmt": "paper"}
+    "paper_sft_1.5b": {"gguf": "~/models/comllm-paper-sft-1.5b-q8_0.gguf",    "fmt": "paper"},
+    "paper_grpo_1.5b": {"gguf": "~/models/comllm-paper-grpo-1.5b-q8_0.gguf", "fmt": "paper"},
+    "paper_score_grpo_1.5b": {"gguf": "~/models/comllm-paper-score-grpo-1.5b-q8_0.gguf", "fmt": "paper"}
   }
 }
