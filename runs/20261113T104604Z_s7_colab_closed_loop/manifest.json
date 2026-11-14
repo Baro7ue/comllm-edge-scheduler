@@ -6,8 +6,8 @@
   "self_excluded": true,
   "files": {
     "S7_7B闭环.executed.ipynb": {
-      "bytes": 35938,
-      "sha256": "72bcb3432abee1d7dc6a76e72192616aa1d8ea5135ba3fd3a0eff1e6930281d2"
+      "bytes": 35868,
+      "sha256": "d380c829f1df82f5807b0279ea967dea281dcaed7546f99e04741112a97035f7"
     },
     "archive_verification.json": {
       "bytes": 8475,
@@ -113,6 +113,23 @@
       "supervision/stopped_gpu_dom.txt",
       "ui/final_output_dom.txt"
     ],
-    "utc": "2026-11-13"
+    "utc": "2026-11-13",
+    "notebook": {
+      "note": "执行版 notebook 单元格元数据里的账号显示名和 Google 用户编号也已替换为 [redacted]；本 manifest 里它的 bytes 和 sha256 是替换后的值。evidence/20261113_s7_standard_a100_run.json 和 ui/ui_finalization.json 记录的仍是替换前的值。",
+      "files": [
+        {
+          "path": "runs/20261113T104604Z_s7_colab_closed_loop/S7_7B闭环.executed.ipynb",
+          "fields_replaced": 14,
+          "original": {
+            "bytes": 35938,
+            "sha256": "72bcb3432abee1d7dc6a76e72192616aa1d8ea5135ba3fd3a0eff1e6930281d2"
+          },
+          "redacted": {
+            "bytes": 35868,
+            "sha256": "d380c829f1df82f5807b0279ea967dea281dcaed7546f99e04741112a97035f7"
+          }
+        }
+      ]
+    }
   }
 }

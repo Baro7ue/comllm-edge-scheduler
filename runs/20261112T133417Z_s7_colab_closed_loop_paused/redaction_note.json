@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "date_utc": "2026-11-13",
+  "note": "Colab 在执行过的 notebook 的单元格元数据里记录了账号显示名和 Google 用户编号。发布前把这两个字段的值替换成 [redacted]，其余内容（代码、输出、时间戳）未改。本目录的 manifest、下载回执、校验记录以及 evidence/ 里的记录描述的是脱敏前的原文件，仍保留原来的大小和 SHA-256，没有改动；下面列出每个文件脱敏前后的值，用来对上。",
+  "files": [
+    {
+      "path": "runs/20261112T133417Z_s7_colab_closed_loop_paused/S7_7B闭环_executed.ipynb",
+      "fields_replaced": 14,
+      "original": {
+        "bytes": 47010,
+        "sha256": "26facef899f00bda44d28bd845ea4dcbd1b6763eaffca0c691a090197cec7ead"
+      },
+      "redacted": {
+        "bytes": 46940,
+        "sha256": "2092cbf024b8c429dfd2080c9f5384535c66a4970732c0d8420d5dd17c66ce50"
+      }
+    },
+    {
+      "path": "runs/20261112T133417Z_s7_colab_closed_loop_paused/environment_preparation_executed.ipynb",
+      "fields_replaced": 2,
+      "original": {
+        "bytes": 23474,
+        "sha256": "49220fe45f0a99ef59294730a7083397e52d2f9cc6295e85d5a9c2ce2475e8c9"
+      },
+      "redacted": {
+        "bytes": 23464,
+        "sha256": "92e79d068a3307d67eeb79a9ce0b434000a06710eaf1c11269ea4fcb156cf0f9"
+      }
+    }
+  ]
+}

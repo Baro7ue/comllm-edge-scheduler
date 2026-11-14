@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "date_utc": "2026-11-13",
+  "note": "Colab 在执行过的 notebook 的单元格元数据里记录了账号显示名和 Google 用户编号。发布前把这两个字段的值替换成 [redacted]，其余内容（代码、输出、时间戳）未改。本目录的 manifest、下载回执、校验记录以及 evidence/ 里的记录描述的是脱敏前的原文件，仍保留原来的大小和 SHA-256，没有改动；下面列出每个文件脱敏前后的值，用来对上。",
+  "files": [
+    {
+      "path": "runs/20261112T074414Z_s6_paper_grpo_gguf/S5_GRPO_executed.ipynb",
+      "fields_replaced": 6,
+      "original": {
+        "bytes": 6870,
+        "sha256": "91e97cca0306ea69bd061c39c4ec8b4268ef5e4f253e8b55c948fb34b1ea7bce"
+      },
+      "redacted": {
+        "bytes": 6840,
+        "sha256": "26401b12023d78962d1cca30efae17f23c5cc0e1e619f0342b32ec28d3e2dfff"
+      }
+    },
+    {
+      "path": "runs/20261112T074414Z_s6_paper_grpo_gguf/S5_score_GRPO_executed.ipynb",
+      "fields_replaced": 6,
+      "original": {
+        "bytes": 6931,
+        "sha256": "595f1bb96c5ac13154d7f24f259396a32685ac029351b6a4605deda63b39decc"
+      },
+      "redacted": {
+        "bytes": 6901,
+        "sha256": "88be68e5bb597030d6539ed767568504466d3f4de55dbc9b184cab002c743b2f"
+      }
+    },
+    {
+      "path": "train/S5_GRPO_论文原版转GGUF_20261112.ipynb",
+      "fields_replaced": 6,
+      "original": {
+        "bytes": 6492,
+        "sha256": "a3ac6ac19c3c53e421feb4087f06952e7c8e915876f29e761bafe89056b35d7e"
+      },
+      "redacted": {
+        "bytes": 6462,
+        "sha256": "485e97ecb93ef9008813c3c8b3fc4fbd6235f5889b7e7ce5331fe36c59a0bb09"
+      }
+    },
+    {
+      "path": "train/S5_score_GRPO_论文原版转GGUF_20261112.ipynb",
+      "fields_replaced": 6,
+      "original": {
+        "bytes": 6534,
+        "sha256": "b36b97736d09f8ff5650d76c8909fad6becb60015899569d9fd219011bcb4046"
+      },
+      "redacted": {
+        "bytes": 6504,
+        "sha256": "8f76a8abd17b92863177d9213b970118b92a84390f1a140642b7b9cb3cf69968"
+      }
+    }
+  ]
+}
