@@ -1,0 +1,34 @@
+.........................................................../Users/ethan/.codex/worktrees/comllm-jetson-eval/comllm-edge-scheduler/deploy/scheduler.py:352: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/jq/s0yz1kws47jfqxfvjn7qrwh00000gn/T/tmpvcykushc/llama_server_20261113T033843Z.log' mode='w' encoding='utf-8'>
+  self.proc = start_llama_server(self.bin_path, model, self.port, self.ctx, log_path)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+打包好了：/var/folders/jq/s0yz1kws47jfqxfvjn7qrwh00000gn/T/tmpg32l35hw/s6_code/code.zip（36 个文件，md5 7399368e0dd12613d5e24e0875705f82，代码版本 98fe050-dirty）
+核对点平均延迟 4.197929414659039：Colab 上重算必须一样
+
+  [G1] 公式复现标签：1914/1914
+
+  [G1] 论文格式逐字一致：1914/1914
+启动 llama-server： /Users/ethan/.codex/worktrees/comllm-jetson-eval/comllm-edge-scheduler/tests/fake_llama_server.py -m /var/folders/jq/s0yz1kws47jfqxfvjn7qrwh00000gn/T/tmpvcykushc/a.gguf --host 127.0.0.1 --port 60332 -ngl 99 -c 4096 --parallel 1 --cache-ram 0
+a 答完：5 条，这次新答 5 条，其中非 LLM 答案 0 条 → /var/folders/jq/s0yz1kws47jfqxfvjn7qrwh00000gn/T/tmpvcykushc/jetson_open/x_a
+a 答完：5 条，这次新答 0 条，其中非 LLM 答案 0 条 → /var/folders/jq/s0yz1kws47jfqxfvjn7qrwh00000gn/T/tmpvcykushc/jetson_open/x_a
+./Users/ethan/.codex/worktrees/comllm-jetson-eval/comllm-edge-scheduler/deploy/scheduler.py:352: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/jq/s0yz1kws47jfqxfvjn7qrwh00000gn/T/tmpvcykushc/llama_server_20261113T033844Z.log' mode='w' encoding='utf-8'>
+  self.proc = start_llama_server(self.bin_path, model, self.port, self.ctx, log_path)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/email/message.py:156: ResourceWarning: unclosed <socket.socket fd=13, family=2, type=1, proto=6, laddr=('127.0.0.1', 60341), raddr=('127.0.0.1', 60332)>
+  def __init__(self, policy=compat32):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/email/message.py:156: ResourceWarning: unclosed <socket.socket fd=20, family=2, type=1, proto=6, laddr=('127.0.0.1', 60352), raddr=('127.0.0.1', 60332)>
+  def __init__(self, policy=compat32):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/ethan/.codex/worktrees/comllm-jetson-eval/comllm-edge-scheduler/deploy/scheduler.py:192: ResourceWarning: unclosed <socket.socket fd=21, family=2, type=1, proto=6, laddr=('127.0.0.1', 60354), raddr=('127.0.0.1', 60332)>
+  self.info["llama"] = read_props(self.llama.port)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+..........................
+----------------------------------------------------------------------
+Ran 86 tests in 34.304s
+
+OK
+| 模型 | 测试集 | 条数 | 两边答案一样 % | Jetson 非 LLM 答案 |
+|---|---|---|---|---|
+| a（Jetson Q8_0） | friend_clean | 5 | 80.0 | 0 |
+启动 llama-server： /Users/ethan/.codex/worktrees/comllm-jetson-eval/comllm-edge-scheduler/tests/fake_llama_server.py -m /var/folders/jq/s0yz1kws47jfqxfvjn7qrwh00000gn/T/tmpvcykushc/b.gguf --host 127.0.0.1 --port 60332 -ngl 99 -c 4096 --parallel 1 --cache-ram 0
+<sys>:0: ResourceWarning: unclosed <socket.socket fd=17, family=2, type=1, proto=6, laddr=('127.0.0.1', 60345), raddr=('127.0.0.1', 60343)>

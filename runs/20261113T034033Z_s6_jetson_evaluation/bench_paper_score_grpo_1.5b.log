@@ -1,0 +1,17 @@
+换模型 → paper_score_grpo_1.5b（十几秒到一分钟）
+[100/500] 最近一次 909.9 ms，来源 llm
+[200/500] 最近一次 1158.5 ms，来源 llm
+[300/500] 最近一次 691.4 ms，来源 llm
+[400/500] 最近一次 911.6 ms，来源 llm
+[500/500] 最近一次 1149.6 ms，来源 llm
+
+配置：comllm-paper-score-grpo-1.5b-q8_0  格式 paper  读法 -  前缀缓存 off  共 500 次
+端到端（Mac 上量）：p50 910.6 ms  p99 1161.1 ms  平均 915.7 ms  最大 1164.7 ms
+平均拆分（ms）：网络+HTTP 2.4 | Python 服务 0.9 | llama-server 其他 9.1 | 预填充 702.0 | 解码 201.2
+提示词平均 1358 token，缓存命中 0，生成 6.9
+来源：{'llm': 500}
+理论容量 N_max = 1/(3 × 0.9157 s) = 0.4 台终端
+  3 台服务器：p50 690.9 ms  p99 695.3 ms  提示词 900 token
+  7 台服务器：p50 910.6 ms  p99 916.4 ms  提示词 1357 token
+  11 台服务器：p50 1150.0 ms  p99 1162.7 ms  提示词 1815 token
+写好了： runs/20261113T080731Z_bench_comllm-paper-score-grpo-1.5b-q8_0_paper_cacheoff

@@ -1,0 +1,51 @@
+{
+  "open_loop": {
+    "states_per_model": 5663,
+    "splits": {
+      "test_seen": 3010,
+      "test_unseen": 2408,
+      "friend_clean": 245
+    },
+    "cache_prompt": true,
+    "request_timeout_ms": 10000,
+    "non_llm_prediction": -1,
+    "compact_new_tokens": 1,
+    "paper_max_new_tokens": 20,
+    "paper_parse": "strict",
+    "compact_decode": "top-20 legal-letter argmax",
+    "sampling": {
+      "temperature": 0,
+      "top_k": 1,
+      "top_p": 1.0,
+      "min_p": 0.0,
+      "repeat_penalty": 1.0,
+      "presence_penalty": 0.0,
+      "frequency_penalty": 0.0,
+      "dry_multiplier": 0.0
+    },
+    "http_transport_timeout_s": 30.0
+  },
+  "latency": {
+    "requests": 500,
+    "warmup_requests": 10,
+    "servers": [
+      3,
+      7,
+      11
+    ],
+    "request_timeout_ms": 10000,
+    "compact_cache": true,
+    "paper_cache": false,
+    "state_fixture": "eval.bench_latency.collect_states, n_terminals=30, every=7, skip=300, seed=0",
+    "http_transport_timeout_s": 30.0
+  },
+  "server": {
+    "llama_cpp_commit": "5aeac37a35b44fde4bdffaec9159f2fcb253b622",
+    "n_ctx": 4096,
+    "parallel": 1,
+    "ngl": 99,
+    "cache_ram": 0,
+    "default_timeout_ms": 100
+  },
+  "historical_sft_control": "The 2026-11-06 SFT latency run predates the explicit greedy fix. A supplemental SFT run is scheduled after the original suite; original evidence remains unchanged."
+}

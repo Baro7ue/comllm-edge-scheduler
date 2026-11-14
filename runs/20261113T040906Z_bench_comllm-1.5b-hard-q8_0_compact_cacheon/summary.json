@@ -1,0 +1,61 @@
+{
+  "n": 500,
+  "e2e_p50": 112.48156242072582,
+  "e2e_p90": 135.66805894952267,
+  "e2e_p99": 145.2045034011826,
+  "e2e_mean": 106.39676757203415,
+  "e2e_max": 154.57908296957612,
+  "service_mean": 104.85857401200052,
+  "net_mean": 1.5381935600335055,
+  "llm_mean": 104.22201899399802,
+  "prompt_ms_mean": 96.57684399999994,
+  "predicted_ms_mean": 0.0010000000000000007,
+  "prompt_tokens_mean": 278.152,
+  "cache_n_mean": 133.354,
+  "predicted_n_mean": 1.0,
+  "python_mean": 0.6365550180024968,
+  "llama_other_mean": 7.6441749939980825,
+  "sources": {
+    "llm": 500
+  },
+  "letters_found": 1.0,
+  "probs_agree": 1.0,
+  "letter_mass_mean": 0.9999187352300252,
+  "n_max": 3.132927258411827,
+  "by_servers": {
+    "3": {
+      "p50": 76.07016642577946,
+      "p99": 79.97962894150983,
+      "prompt_tokens": 202.86746987951807
+    },
+    "7": {
+      "p50": 112.47962480410933,
+      "p99": 118.07615044526757,
+      "prompt_tokens": 277.92215568862275
+    },
+    "11": {
+      "p50": 133.96687502972782,
+      "p99": 145.68497851025313,
+      "prompt_tokens": 353.21556886227546
+    }
+  },
+  "model": "comllm-1.5b-hard-q8_0",
+  "fmt": "compact",
+  "cache": "on",
+  "decode": "probs",
+  "scheduler_info": {
+    "llama": {
+      "model_path": "/home/ethan/models/comllm-1.5b-hard-q8_0.gguf",
+      "build_info": "b11719-5aeac37a3",
+      "total_slots": 1,
+      "n_ctx": 4096
+    },
+    "default_timeout_ms": 100,
+    "started_utc": "20261113T034034Z",
+    "log": "logs/scheduler_20261113T034034Z.jsonl",
+    "git": "cafd7e4",
+    "model_key": "hard_1.5b",
+    "gguf": "/home/ethan/models/comllm-1.5b-hard-q8_0.gguf",
+    "gguf_sha256": "c1103a5521a2afb5ed4c54d8d28e140eb07b09161b41ab8ec4c4523811c22dd3"
+  }
+}

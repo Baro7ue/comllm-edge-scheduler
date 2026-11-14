@@ -1,0 +1,46 @@
+{
+  "source": "/Users/ethan/Documents/COMLLM\u8bad\u7ec3\u90e8\u7f72\u53ca\u6539\u826f/my_model/qwen2.5-1.5b-mec-grpo-final-all",
+  "files": {
+    "added_tokens.json": {
+      "sha256": "f0acedf99e19ec0a5b797ffbd0b94328172ccd90f7f385bbc521cda2701b03ab",
+      "bytes": 629
+    },
+    "chat_template.jinja": {
+      "sha256": "8aa40ce145adb73cb3a75194dc0224702a95850ec5275cabb728496bbd749fc6",
+      "bytes": 2561
+    },
+    "config.json": {
+      "sha256": "ab13417488207328069ea353c98eecf1184b72547d449605fb839576c3ec8403",
+      "bytes": 1379
+    },
+    "generation_config.json": {
+      "sha256": "ee0516a89c5ba456d18ea5b7562c48d8e4cde79c8637a579734e94dd2aba07a2",
+      "bytes": 256
+    },
+    "merges.txt": {
+      "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+      "bytes": 1671853
+    },
+    "model.safetensors": {
+      "sha256": "589c2b18027aacf81ec000a10eaa4951515fdf4988704ba51245f95be0ef6946",
+      "bytes": 3087466808
+    },
+    "special_tokens_map.json": {
+      "sha256": "a7d3d1755a57bf46e15a8c9608f97d280654934550d3104740f485fc5478e534",
+      "bytes": 641
+    },
+    "tokenizer.json": {
+      "sha256": "9c5ae00e602b8860cbd784ba82a8aa14e8feecec692e7076590d014d7b7fdafa",
+      "bytes": 11421896
+    },
+    "tokenizer_config.json": {
+      "sha256": "0d2be11c79ca0320ee8f81abe61f98f4b043df0cd2784109100fb5b21dc78d0b",
+      "bytes": 4890
+    },
+    "vocab.json": {
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+      "bytes": 2776833
+    }
+  },
+  "llama_cpp": "5aeac37a35b44fde4bdffaec9159f2fcb253b622"
+}

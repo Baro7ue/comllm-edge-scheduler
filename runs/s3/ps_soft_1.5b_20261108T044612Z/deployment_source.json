@@ -1,0 +1,7 @@
+{
+  "model_key": "ps_soft_1.5b",
+  "drive_file_id": "1PXbpunZ7r5-YhzIKVJJN5P8bWF6_mAFy",
+  "file": "comllm-1.5b-soft-T0.3-ps-q8_0.gguf",
+  "bytes": 1646572672,
+  "sha256": "ce3719c126785b7597dbc3ff5a4508fa75f96b532aa7bb490a834eb3a28dcd39"
+}

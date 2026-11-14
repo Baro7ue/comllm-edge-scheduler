@@ -10,6 +10,7 @@
   ps_0.5b         0.5B，标签按平分算力的估计来算（实验 4 消融）
   base_0.5b       没训练过的 Qwen2.5-0.5B-Instruct，Q8_0
   paper_sft_1.5b  原作者的 sft 1.5B，转成 Q8_0，用原作者仓库的提示词拼法
+  paper_grpo_1.5b / paper_score_grpo_1.5b  原作者两个 GRPO 1.5B，同样用论文格式
 """
 import json
 import os

@@ -200,7 +200,7 @@ RK3588  python -m eval.s5_sweep --plan twoboard                 两板复测：t
   - λ = 2 在 −11.78% ~ +26.92% 之间：负载重时帮忙，负载轻时（7、11 台，N = 20）更慢。
   - PS 感知贪心平均 −9.27%（−22.73% ~ +3.79%）。
   - 批量决策，11 台、N = 80：λ = 0.3 是 5.11 槽，单步最优 5.09 槽。往后看减轻不了羊群效应。
-- **原作者 1.5B 的 GGUF。** Jetson 上的 Q8_0 和 PyTorch 选的动作一致 91.5%，不一致的都在本地和卸载成本很接近的状态上（`runs/20261107T042021Z_gguf_paper_sft`）。所以闭环里原作者 1.5B 的数字代表的是 Jetson 上的 Q8_0。
+- **原作者 SFT 1.5B 的早期 GGUF 抽样。** 200 条状态中，Jetson Q8_0 和 PyTorch 的动作一致 183 条（91.5%，`runs/20261107T042021Z_gguf_paper_sft`）。这是抽样结果，不建立全量等价性；本轮九模型的完整 5663 状态结果见下方阶段 6。Jetson 闭环数字反映 Q8_0 部署策略。
 
 **看数字时注意。**
 
@@ -243,6 +243,24 @@ Mac     把 results.csv 和 sweep_config.json 下载到 runs/<UTC>_s6_colab_loop
 点的名字和 `eval.virtual_loop` 的一样，Colab 和 Jetson 的结果按名字一一对上。同一个模型的 6 个点各开一个线程跑仿真器，要决策时把状态交给主线程拼成一批，GPU 前向一次答完，所以 `ms_per_decision` 是批量摊下来的时间。notebook 第 4 格在 Colab 上重算核对点（单步公式、3 台、N = 20、种子 0），平均延迟必须和打包时 Mac 上算的完全一样，才往下跑。
 
 这次（`runs/20261112T064150Z_s6_colab_loop`）：代码 f9aad84，A100，transformers 5.20.2、peft 0.21.2，36 个点一次跑完，约 70 分钟，回退 0 次。对应的 Jetson 点在 `runs/20261107T071637Z_s5_virtual_e4a+e4b+e5`、`runs/20261108T044444Z_s5_virtual_e4ps_a` 和 `runs/20261108T094747Z_s5_virtual_e4ps_b`。两边对比和 PS 公式 1.5B 硬标签在 N = 60 的例外见 README 的"部署前后的闭环"。
+
+## Jetson 全量开环与补充延迟（阶段 6）
+
+六学生和原作者 SFT、GRPO、score-GRPO 均使用 Q8_0，每模型完整 5663 状态。先检查板端及环境节点进程，再串行运行；开环与延迟扫描不能同时切换同一调度服务。以下是复现入口，已有结果直接复算，无需重复推理。
+
+```bash
+python -m eval.jetson_open_loop --models main_0.5b,soft_1.5b,hard_1.5b,ps_0.5b,ps_soft_1.5b,ps_hard_1.5b,paper_sft_1.5b,paper_grpo_1.5b,paper_score_grpo_1.5b --dry-run
+# 正式运行去掉 --dry-run；中断后对单模型添加 --resume runs/jetson_open/<目录>
+python -m eval.open_loop runs/jetson_open/* --out evidence/G6/jetson_open --title "Jetson 全量开环（GGUF Q8_0）"
+python -m eval.jetson_open_loop --compare runs/jetson_open/* --colab runs/s3,runs/s4,runs/s3/paper_20261105T040018Z
+python -m eval.bench_latency --fmt compact --cache on --model-key ps_soft_1.5b --n 500 --warmup 10 --servers 3,7,11
+python -m eval.bench_latency --fmt paper --cache off --model-key paper_grpo_1.5b --n 500 --warmup 10 --servers 3,7,11
+python -m eval.latency_table > evidence/G2/latency_table.md
+```
+
+本轮记录在 `runs/20261113T034033Z_s6_jetson_evaluation`：preflight/protocol、模型准备与 SHA、每项日志和 suite_status、离线评分脚本及验收结果。每模型检查 5663 个唯一键与精确分集覆盖；非 LLM 答案记为 −1。两个既有学生延迟基准复用，缺失六组补齐；原作者 SFT 另做一组，以匹配固定贪心后的解码条件。开环与延迟测试每请求均为 10 秒超时，实时服务默认 100 毫秒不用于这些测试。表格和来源索引在 `evidence/G6/jetson_open/`。
+
+PS 0.5B 的台数泛化已在 Jetson 测过 3/4/6/7/8/10/11 台、N = 40、种子 0；和自己的 PS 老师相比平均延迟为 −1.06% 到 +3.95%，不代表多种子统计结论。出处为已归档 Stage 5 与 e4ps_a 结果。
 
 ## 两组复现 7B 的 Colab 闭环（阶段 7）
 

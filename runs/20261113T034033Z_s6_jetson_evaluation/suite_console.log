@@ -1,0 +1,39 @@
+2026-11-13T03:41:57.756468+00:00 open_main_0.5b started
+2026-11-13T03:47:16.346513+00:00 open_main_0.5b verified 5663 rows
+2026-11-13T03:47:16.346759+00:00 open_soft_1.5b started
+2026-11-13T03:58:06.650553+00:00 open_soft_1.5b verified 5663 rows
+2026-11-13T03:58:06.651775+00:00 open_hard_1.5b started
+2026-11-13T04:09:05.901971+00:00 open_hard_1.5b verified 5663 rows
+2026-11-13T04:09:05.908578+00:00 bench_hard_1.5b started
+2026-11-13T04:10:00.845971+00:00 bench_hard_1.5b verified 500 requests
+2026-11-13T04:10:00.846406+00:00 open_ps_0.5b started
+2026-11-13T04:15:30.255062+00:00 open_ps_0.5b verified 5663 rows
+2026-11-13T04:15:30.257232+00:00 bench_ps_0.5b started
+2026-11-13T04:15:58.829697+00:00 bench_ps_0.5b verified 500 requests
+2026-11-13T04:15:58.830579+00:00 open_ps_soft_1.5b started
+2026-11-13T04:26:52.160026+00:00 open_ps_soft_1.5b verified 5663 rows
+2026-11-13T04:26:52.160972+00:00 bench_ps_soft_1.5b started
+2026-11-13T04:27:46.746015+00:00 bench_ps_soft_1.5b verified 500 requests
+2026-11-13T04:27:46.746532+00:00 open_ps_hard_1.5b started
+2026-11-13T04:38:35.649731+00:00 open_ps_hard_1.5b verified 5663 rows
+2026-11-13T04:38:35.650883+00:00 bench_ps_hard_1.5b started
+2026-11-13T04:39:30.268340+00:00 bench_ps_hard_1.5b verified 500 requests
+2026-11-13T04:39:30.268715+00:00 open_paper_sft_1.5b started
+2026-11-13T05:43:00.740098+00:00 open_paper_sft_1.5b verified 5663 rows
+2026-11-13T05:43:00.740520+00:00 open_paper_grpo_1.5b started
+2026-11-13T06:50:12.712089+00:00 open_paper_grpo_1.5b verified 5663 rows
+2026-11-13T06:50:12.714783+00:00 bench_paper_grpo_1.5b started
+2026-11-13T06:58:00.208276+00:00 bench_paper_grpo_1.5b verified 500 requests
+2026-11-13T06:58:00.208653+00:00 open_paper_score_grpo_1.5b started
+Traceback (most recent call last):
+  File "/Users/ethan/.codex/worktrees/comllm-jetson-eval/comllm-edge-scheduler/runs/20261113T034033Z_s6_jetson_evaluation/run_suite.py", line 92, in <module>
+    record = run_command(task, ["eval.jetson_open_loop", "--models", key,
+        "--resume", "runs/jetson_open/" + HERE.name.split("_s6_")[0] + "_" + key])
+  File "/Users/ethan/.codex/worktrees/comllm-jetson-eval/comllm-edge-scheduler/runs/20261113T034033Z_s6_jetson_evaluation/run_suite.py", line 66, in run_command
+    raise RuntimeError(f"{task} failed with {result.returncode}; inspect its log")
+RuntimeError: open_paper_score_grpo_1.5b failed with 1; inspect its log
+2026-11-13T07:51:40.759970+00:00 open_paper_score_grpo_1.5b started
+2026-11-13T08:07:31.249010+00:00 open_paper_score_grpo_1.5b verified 5663 rows
+2026-11-13T08:07:31.249716+00:00 bench_paper_score_grpo_1.5b started
+2026-11-13T08:15:18.396835+00:00 bench_paper_score_grpo_1.5b verified 500 requests
+2026-11-13T08:15:18.397282+00:00 All nine open-loop runs and six missing benchmarks verified

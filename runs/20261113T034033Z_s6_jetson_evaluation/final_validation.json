@@ -1,0 +1,31 @@
+{
+  "status": "complete",
+  "verified_utc": "2026-11-13T08:28:09.736694+00:00",
+  "scope": "Nine small-model Jetson fixed-test open-loop runs and latency coverage",
+  "open_models": 9,
+  "saved_predictions": 50967,
+  "states_per_model": 5663,
+  "split_counts_per_model": {
+    "test_seen": 3010,
+    "test_unseen": 2408,
+    "friend_clean": 245
+  },
+  "non_llm_predictions": 0,
+  "invalid_predictions": 0,
+  "all_metrics_cross_checked_rows": 27,
+  "legacy_agreement_cross_checked_rows": 27,
+  "new_500_request_benchmarks": 7,
+  "reused_500_request_benchmarks": 2,
+  "required_missing_benchmarks_completed": 6,
+  "full_unit_tests_passed": 86,
+  "readme_source_tests_passed_after_update": 3,
+  "transport_interruptions": 1,
+  "original_prediction_prefix_preserved": true,
+  "remote_code_hashes_match": true,
+  "owned_service_ports_closed": {
+    "8100": true,
+    "8080": true
+  },
+  "served_requests_including_benchmark_warmups_and_unreceived_attempt": 54538,
+  "measurement_commit": "cafd7e4"
+}

@@ -1,0 +1,16 @@
+{
+  "name": "1.5b_hard_ps（Jetson Q8_0）",
+  "model_key": "ps_hard_1.5b",
+  "fmt": "compact",
+  "platform": "jetson",
+  "gguf": "~/models/comllm-1.5b-hard-ps-q8_0.gguf",
+  "gguf_sha256": "96829485ba6013d6479ec8669f0aba7cc813b80e06ac013444eaac9301fcfeb9",
+  "git": "cafd7e4",
+  "splits": [
+    "test_seen",
+    "test_unseen",
+    "friend_clean"
+  ],
+  "n_rows": 5663,
+  "finished_utc": "20261113T043835Z"
+}

@@ -1,0 +1,33 @@
+  paper_grpo_1.5b  格式 paper    5663 条，约 90 分钟（估算）
+共 1 个模型，约 1.5 小时（估算）
+
+换模型 → paper_grpo_1.5b
+  paper_grpo_1.5b：200/5663 条，非 LLM 答案 0 条，平均 474 ms
+  paper_grpo_1.5b：400/5663 条，非 LLM 答案 0 条，平均 473 ms
+  paper_grpo_1.5b：600/5663 条，非 LLM 答案 0 条，平均 474 ms
+  paper_grpo_1.5b：800/5663 条，非 LLM 答案 0 条，平均 503 ms
+  paper_grpo_1.5b：1000/5663 条，非 LLM 答案 0 条，平均 521 ms
+  paper_grpo_1.5b：1200/5663 条，非 LLM 答案 0 条，平均 534 ms
+  paper_grpo_1.5b：1400/5663 条，非 LLM 答案 0 条，平均 559 ms
+  paper_grpo_1.5b：1600/5663 条，非 LLM 答案 0 条，平均 578 ms
+  paper_grpo_1.5b：1800/5663 条，非 LLM 答案 0 条，平均 593 ms
+  paper_grpo_1.5b：2000/5663 条，非 LLM 答案 0 条，平均 618 ms
+  paper_grpo_1.5b：2200/5663 条，非 LLM 答案 0 条，平均 638 ms
+  paper_grpo_1.5b：2400/5663 条，非 LLM 答案 0 条，平均 655 ms
+  paper_grpo_1.5b：2600/5663 条，非 LLM 答案 0 条，平均 676 ms
+  paper_grpo_1.5b：2800/5663 条，非 LLM 答案 0 条，平均 694 ms
+  paper_grpo_1.5b：3000/5663 条，非 LLM 答案 0 条，平均 711 ms
+  paper_grpo_1.5b：3200/5663 条，非 LLM 答案 0 条，平均 701 ms
+  paper_grpo_1.5b：3400/5663 条，非 LLM 答案 0 条，平均 691 ms
+  paper_grpo_1.5b：3600/5663 条，非 LLM 答案 0 条，平均 682 ms
+  paper_grpo_1.5b：3800/5663 条，非 LLM 答案 0 条，平均 680 ms
+  paper_grpo_1.5b：4000/5663 条，非 LLM 答案 0 条，平均 679 ms
+  paper_grpo_1.5b：4200/5663 条，非 LLM 答案 0 条，平均 677 ms
+  paper_grpo_1.5b：4400/5663 条，非 LLM 答案 0 条，平均 681 ms
+  paper_grpo_1.5b：4600/5663 条，非 LLM 答案 0 条，平均 685 ms
+  paper_grpo_1.5b：4800/5663 条，非 LLM 答案 0 条，平均 689 ms
+  paper_grpo_1.5b：5000/5663 条，非 LLM 答案 0 条，平均 696 ms
+  paper_grpo_1.5b：5200/5663 条，非 LLM 答案 0 条，平均 703 ms
+  paper_grpo_1.5b：5400/5663 条，非 LLM 答案 0 条，平均 710 ms
+  paper_grpo_1.5b：5600/5663 条，非 LLM 答案 0 条，平均 708 ms
+paper_grpo_1.5b 答完：5663 条，这次新答 5663 条，其中非 LLM 答案 0 条 → runs/jetson_open/20261113T034033Z_paper_grpo_1.5b

@@ -1,0 +1,63 @@
+{
+  "captured_utc": "20261113T034033Z",
+  "evaluation_root": "/Users/ethan/.codex/worktrees/comllm-jetson-eval/comllm-edge-scheduler",
+  "source_commit": "cafd7e45cce9a93e8142b85506e17ecfd169de35",
+  "scheduler_host": "192.168.50.20:8100",
+  "remote_source": "/home/ethan/comllm-jetson-eval-20261113",
+  "tests": {
+    "command": ".venv/bin/python -m unittest discover -s tests",
+    "passed": 86
+  },
+  "test_sets": {
+    "test_seen": {
+      "n": 3010,
+      "sha256": "2eedec52aa8ec96da53a47e4e3409c6f9c20eefb6d9d2a647943c7a0d39af904"
+    },
+    "test_unseen": {
+      "n": 2408,
+      "sha256": "13c24ab18bbc157800129a58dd26a9f59c3e3424505f9e4b4571a91def19b03b"
+    },
+    "friend_clean": {
+      "n": 245,
+      "sha256": "83d871639a37da2bf34b433ae23128b9df2498d3a3ba8fd47b2c74b3683c8fb7"
+    }
+  },
+  "source_files": {
+    "sim/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sim/baselines.py": "fe46d74e584acebd418b1298e6d4a5e0c7cbcaf45a50309db644ffc5cb616188",
+    "sim/config.py": "5c81d8f8a0b711d3e1279bf32c2ee3f77d966a0a068775c70d3cfc76607cf457",
+    "sim/cost.py": "b62211916183466ed90c271bef0da4a263dca6919f548f6e0df25683c342699d",
+    "sim/env.py": "f10376f1f31b87d101299cdac80b8d52e3a82395d9e085a6f64882e160cce905",
+    "sim/friend_data.py": "ecdd0052e1d03b32e868dd240502d14d45dae1c5e55bbe2acca163e0803bd308",
+    "sim/realtime_env.py": "20faa63356cd7e3939fab83aff489bce1f6b2ebd4d3217c8a731cdebb976acdc",
+    "sim/render.py": "5b24497473fb267dd7a233830f674ab95576f42e34d3319c88113780067051a0",
+    "sim/terminals.py": "ed98368cd3d4b465b273e929fd07ceafa66dfa0b87547bdf995fd908f9064a34",
+    "deploy/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "deploy/client.py": "4756890fd2cfca4e2c6711329d622c38eba821fe60a59be986247a1c56316611",
+    "deploy/http_json.py": "5f0e3d9d41806d688da625b3e98147360806b6fb6cbf4c57ef8ece98eccc23ca",
+    "deploy/prompts.py": "b5496eb6b0209fe4402d2009b5d331cf7711952804effae22db9013ad6b01aee",
+    "deploy/scheduler.py": "1d7823e479d03ec7bbf9a898dddbd12a766f697533020dc4801a8b0dca4c6bb9",
+    "deploy/testbed.json": "1665e794dedbcb1a807856ef4401108d96f791f0253d2cd48dff5bd3bb257f9b",
+    "deploy/testbed.py": "94733276ac2b6f54e7f7f165f14d4cbb2a8496facb73f7c41b4db5ff11b4a242",
+    "deploy/wire.py": "6a59960cc510b6bc0402ccd847c32f16a8e751d13e7c3445783977b5b9966df0",
+    "eval/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "eval/bench_latency.py": "71df993fd7e0a041dc5e41df9c5bb145a11337875b3525fb0aafd7c0fd070393",
+    "eval/check_gguf.py": "8b965bd6242bea5753975e17f83df3983e5407755183479a74421c2302a04d5e",
+    "eval/check_paper_gguf.py": "a46a26f98c75b98f93ce85cf6128a01a050a2be4b81602fcf680fb631a77ac67",
+    "eval/closed_loop.py": "7d18be6979c5dd695095c021c1a9539216a0e5dc9d16d05a287d0b174c7fee6d",
+    "eval/colab_loop.py": "124bebf4f060d6bec6afd1fbddae4619a24a0447e52ec0bd2cfa5f99d74a61f4",
+    "eval/figures.py": "102f817e1079d91c221040930165adb2a1fa8bf0f2175f5c412aa11183efb9a6",
+    "eval/grpo_report.py": "3e670d3668dcefa49d4c3d5456e6b48d4bea316717c40e7058465dc8b36afe4e",
+    "eval/jetson_open_loop.py": "448db0f8818dce8f649a3938ae8df741263b7a6b0fc42956835613944b05aaf5",
+    "eval/lacs_check_sim.py": "ed7c9094ebb17227a86003c49f5d16456746929ada5c3f913f5d4b7921594e2e",
+    "eval/latency_table.py": "397c3e7aa612c8a839a4acd1e470411d31c1359afc27ee27b68c923abc0f8a5f",
+    "eval/open_loop.py": "bbb19f4a7ab7643c99d1c86936f64085452a516238c35aafa598c44e02bdd281",
+    "eval/plot_sweep.py": "53e98e8cabbaab46286db060d49e7fba02d7968b630922d24c3e10db03e502a5",
+    "eval/probe_paper_gguf.py": "737f4e841c94b6776b4e8278ba9477c823d9fca607cab8d1a49e56a9b6469a11",
+    "eval/realtime.py": "a402e29ff8b362e2bd08f924940269f3f10bbb4062ca3fd54be85c2dbeca53f5",
+    "eval/s4_breakdown.py": "723e5520a5a8502b7238c9ccf1fca2a037ed566528f45061980f0181a5733d66",
+    "eval/s5_sweep.py": "cc140bb861f458c1661dfd7040fbf8ae9d9397be8b5e7da416b8e8bc4660f111",
+    "eval/show_prompts.py": "0b1d23345cc9f345c51d132ba702c65fbc544a627a5ce7e76d7212ca428b96f0",
+    "eval/virtual_loop.py": "c26c0f4f4fb8acac9fe6ae843407f0fed117070a4498f7a37e77f2d088d3fb59"
+  }
+}

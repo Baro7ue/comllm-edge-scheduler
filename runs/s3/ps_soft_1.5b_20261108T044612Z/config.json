@@ -1,0 +1,50 @@
+{
+  "run": "ps_soft_1.5b",
+  "preset": {
+    "model": "1.5B",
+    "label": "soft",
+    "T": 0.3,
+    "cost": "ps",
+    "n_train": 40000,
+    "export": true
+  },
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "model_tag": "1.5B",
+  "lr": 0.0002,
+  "lora": [
+    16,
+    32,
+    0.05
+  ],
+  "micro_batch": 8,
+  "accum": 2,
+  "seed": 0,
+  "data_version": "s3-v1",
+  "data_git": "322fd63",
+  "torch": "2.14.1+cu130",
+  "started_utc": "20261108T044612Z",
+  "name": "1.5b_soft_T0.3_ps",
+  "quick_metrics": {
+    "val": {
+      "acc_pct": 21.15,
+      "regret": 1.5784,
+      "invalid_pct": 0.0
+    },
+    "test_seen": {
+      "acc_pct": 19.27,
+      "regret": 1.664,
+      "invalid_pct": 0.0
+    },
+    "test_unseen": {
+      "acc_pct": 18.85,
+      "regret": 1.5368,
+      "invalid_pct": 0.0
+    },
+    "friend_clean": {
+      "acc_pct": 15.1,
+      "regret": 0.9329,
+      "invalid_pct": 0.0
+    }
+  }
+}

@@ -31,7 +31,8 @@ OUT_ROOT = os.path.join("runs", "jetson_open")
 # 模型键 → Colab 开环表里同一个模型的名字（eval.open_loop 用 config.json 的 name 当表里的名字）
 COLAB_NAME = {"main_0.5b": "0.5b_soft_T0.3", "soft_1.5b": "1.5b_soft_T0.3", "hard_1.5b": "1.5b_hard",
               "ps_0.5b": "0.5b_soft_T0.3_ps", "ps_soft_1.5b": "1.5b_soft_T0.3_ps", "ps_hard_1.5b": "1.5b_hard_ps",
-              "paper_sft_1.5b": "论文原版 sft", "main_0.5b_q4": "0.5b_soft_T0.3"}
+              "paper_sft_1.5b": "论文原版 sft", "paper_grpo_1.5b": "论文原版 grpo",
+              "paper_score_grpo_1.5b": "论文原版 score-grpo", "main_0.5b_q4": "0.5b_soft_T0.3"}
 EST_MS = {"compact_0.5b": 45.0, "compact_1.5b": 80.0, "paper": 950.0}   # 每条约多少毫秒（估算，按 11/6–11/7 实测）
 FIELDS = ["split", "idx", "pred", "source", "reason", "ms"]
 

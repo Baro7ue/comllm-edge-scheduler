@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/Users/ethan/.codex/worktrees/comllm-jetson-eval/comllm-edge-scheduler/runs/20261113T034033Z_s6_jetson_evaluation/finish_suite.py", line 31, in <module>
+    raise RuntimeError(state.get("error", "Suite stopped"))
+RuntimeError: RuntimeError('open_paper_score_grpo_1.5b failed with 1; inspect its log')
+2026-11-13T08:15:21.366931+00:00 Starting supplemental SFT latency control
+Validated 9/9 models, 27 split rows, 9/9 benchmarks; /Users/ethan/.codex/worktrees/comllm-jetson-eval/comllm-edge-scheduler/evidence/G6/jetson_open
+2026-11-13T08:22:57.353866+00:00 Full suite and scoring complete
