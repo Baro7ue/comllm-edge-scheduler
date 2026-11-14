@@ -91,6 +91,21 @@ training data. 41 of those 61 were local-optimal, so what remains hardly tests l
   available; the paper's 96.86% is not compared with these numbers. Our students and the 7B differ in
   training data, method, prompt format and size, so this is not a size-only comparison. Our two larger
   test sets also come from our own simulator, the one the students were trained on.
+- **Why the authors' setting may lean towards offloading.** One reading, which this project did not
+  test: on a real terminal the SoC is already busy with whatever the device is doing, and running an
+  offloadable task there slows that work down, so a designer may want most tasks sent to the edge. The
+  authors' data fit that picture. Local execution is best in 2.45% of the cleaned test states and in 49
+  of the 830 GRPO training prompts (5.9%), so a model trained on them has little reason to keep the local
+  action. But neither the paper's cost formula nor our simulator charges anything for that interference:
+  both count only the task's own delay. On our two test sets, where local execution is best in nearly
+  half the states, never running locally therefore costs PR, and in the closed loop it costs dropped
+  tasks. Capturing the idea would take an explicit cost for running a task on the terminal.
+  The same reading cuts against our test sets: if real workloads seldom make local execution the best
+  choice, our two sets overstate how much the missing local action matters. Their share of local-optimal
+  states comes from load, 21.6% at N = 5 rising to 72.8% at N = 80 on the seen server counts, and from
+  counting delay only. The paper is about offloading, and a regime where most tasks are better kept on
+  the terminal is outside what it set out to study; our heavier loads put the models in that regime.
+  We have no real workload to check either side against.
 
 Full tables with local recall and precision, per server count and per N: [evidence/G6/open_loop.md](evidence/G6/open_loop.md)
 (Colab) and [evidence/G6/jetson_open/comparison.md](evidence/G6/jetson_open/comparison.md) (Jetson).
