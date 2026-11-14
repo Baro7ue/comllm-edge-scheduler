@@ -12,6 +12,7 @@ The script does not touch figures/ (that is eval.figures).
 4. closed_loop.png  virtual-time closed loop, 3 servers: Colab (bf16) and Jetson (Q8_0), drop rate and mean delay
 """
 import csv
+import glob
 import os
 from collections import defaultdict
 
@@ -21,6 +22,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
 
+from eval import fcfs_control  # noqa: E402
 from eval import figures as F  # noqa: E402
 
 OUT = os.path.join("docs", "media")
@@ -317,10 +319,35 @@ def write_numbers(groups, e1_dirs, lat, open_rows, closed):
             lines.append(f"| closed loop {platform}, {pol}, 3 servers, N = {n} | mean delay {d:.3f} slots, "
                          f"drop {drop:.2f}% | {'colab' if platform == 'colab' else 'jetson'} run CSVs |")
     lines += deployment_lines()
+    lines += fcfs_lines()
     lines.append("")
     lines.append("Closed-loop sources: " + ", ".join([COLAB_STUDENTS, COLAB_7B] + JETSON_VIRTUAL) + ".")
     with open(os.path.join(OUT, "numbers.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
+
+
+def fcfs_lines():
+    """FCFS control (eval.fcfs_control): each alternative formula against the paper's formula on both kinds of server."""
+    dirs = sorted(glob.glob(os.path.join("runs", "*_s6_fcfs_control")))
+    if not dirs:
+        return []
+    path = os.path.join(dirs[-1], "results.csv")
+    rows = read(path)
+    cmp = fcfs_control.compare(rows)
+    local = defaultdict(list)
+    for r in rows:
+        local[(r["discipline"], r["policy"])].append(100.0 * float(r["local_frac"]))
+    out = []
+    for disc in fcfs_control.DISCIPLINES:
+        for pol in fcfs_control.POLICIES[1:]:
+            ls = cmp[disc][pol]
+            ch = [x[2] for x in ls]
+            out.append(f"| formula control on {disc.upper()} servers, {fcfs_control.NAMES[pol]} against the paper's formula, "
+                       f"12 points | mean delay {abs(F.mean(ch)):.2f}% lower on average ({F.mean(ch):+.2f}%, range "
+                       f"{min(ch):+.2f}% to {max(ch):+.2f}%); drops {F.mean([x[3] for x in ls]):.2f}% against "
+                       f"{F.mean([x[4] for x in ls]):.2f}%; runs {F.mean(local[(disc, pol)]):.1f}% of tasks locally against "
+                       f"{F.mean(local[(disc, 'greedy')]):.1f}% | {path} |")
+    return out
 
 
 STUDENTS = ("main_0.5b", "soft_1.5b", "hard_1.5b", "ps_0.5b", "ps_soft_1.5b", "ps_hard_1.5b")

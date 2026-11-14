@@ -31,6 +31,7 @@ the stage 5 values are in [figures/numbers.md](figures/numbers.md).
 | Does deciding in batches cause herding? | Yes. Deciding one task at a time with a virtual state update: mean delay 5.11 → 4.19 slots (−18.1%), drops 2.4% → 0.1% | Sim, 11 servers, 80 terminals, one-step formula |
 | Server counts never seen in training | Closed loop within −0.1% to +0.5% of the one-step optimum; open-loop accuracy 96.5% on seen counts, 94.4% on unseen | Closed loop: sim, N = 40, 3/4/6/7/8/10/11 servers |
 | A teacher closer to the paper's own server model | Formula against formula, the PS-aware one has 9.27% lower mean delay on average (−22.73% to +3.79%). Its 0.5B student: 13.4% / 19.6% / 9.9% lower than the paper-teacher 0.5B at N = 20/40/60, drops 0.1% / 5.9% / 17.3% → 0.0% / 0.0% / 0.9% | Sim, virtual-time closed loop, decisions one at a time. Formulas: 3/7/11 servers × N = 20–80, 3 seeds. Students: 3 servers, seed 0. The simulated servers share capacity as in the paper's eq. 4, which is the assumption this teacher is built on |
+| Does that advantage come from simulating processor-sharing servers? | No. With first-come-first-served servers the PS-aware formula has 12.88% lower mean delay than the paper's formula on average (−26.40% to +1.32%) and drops 0.05% of tasks against 4.14% | Sim, formulas only, the same 12 points and 3 seeds, servers switched to FCFS. The trained students were not run on FCFS servers |
 | Open loop against a 7B | Our paper-teacher students: PR 99.88–99.99% on all three test sets. The reproduced 7B: 98.85–99.26% on the authors' cleaned set but 71.55–75.32% on our two sets, because it never chooses local execution | The paper's PR (eq. 29); 3010 / 2408 / 245 states |
 | Does deployment change the decisions? | Closed loop on Colab (bf16) and Jetson (Q8_0): 17 of 18 student settings within 0.04 slots of mean delay and 0.83 points of drop rate. Same answer per state in the open loop: 97.13–100.00% for the paper-teacher students, 66.53–76.95% for the two PS-teacher soft-label students | Six students, 3 servers, N = 20/40/60, 2 seeds; open loop on 5663 states |
 | The reproduced 7B in the closed loop | Never runs a task locally; drops 53.15–55.07% at N = 40 and 83.99–84.10% at N = 60, against 6.26% and 16.66% for our deployed 0.5B | Colab, virtual time, 3 servers, 2 seeds |
@@ -121,6 +122,15 @@ tasks see.
   good as the paper's formula at light load and better as the load grows (22.73% lower mean delay at 7
   servers, N = 80). Its students score only 65.57–75.80% PR in the open loop (Colab), because the
   open-loop ruler is the paper's formula.
+- **Is that an artefact of the simulator?** The PS-aware formula was derived from the same server model
+  the simulator uses. A control with first-come-first-served servers, where a server works on one task at
+  a time, says no: the PS-aware formula has 12.88% lower mean delay than the paper's formula there, against
+  9.27% on processor-sharing servers, and is faster in 11 of the 12 points. A formula written for FCFS servers gives
+  the same results as the PS-aware one in 48 of 72 runs. So the gain does not come from modelling how
+  capacity is shared. It comes from what those two formulas have in common: they subtract the work a
+  server finishes during the upload and do not multiply the backlog by the number of active tasks. The
+  paper's formula overestimates server delay and keeps 58.3% of tasks on the terminal; the other two keep
+  about 28%. This is formulas only (`runs/20261114T120231Z_s6_fcfs_control`).
 
 Per-point results: `runs/20261112T064150Z_s6_colab_loop` (students on Colab),
 `runs/20261107T071637Z_s5_virtual_e4a+e4b+e5`, `runs/20261108T044444Z_s5_virtual_e4ps_a` and
@@ -130,8 +140,8 @@ Per-point results: `runs/20261112T064150Z_s6_colab_loop` (students on Colab),
 ### Known limits
 
 - The terminals, uplink and servers are simulated; only the scheduler node and the network hop are real.
-  The simulated servers share capacity as in the paper's eq. 4, which favours the PS-aware teacher; FCFS
-  servers were not tested.
+  The simulated servers share capacity as in the paper's eq. 4. A formula-only control shows the PS-aware
+  formula keeps its advantage on FCFS servers, but the trained students were not run there.
 - Both teachers are one-step formulas and a student's ceiling is its teacher.
 - Closed-loop points have 2 seeds; the PS-teacher 0.5B comparison in the results table used seed 0 only. The hard-label
   PS 1.5B at N = 60 shows that 2 seeds are not always enough. Differences under 1% are reported as "not
@@ -197,7 +207,7 @@ flowchart LR
 | 3 | training data, LoRA training on Colab, open-loop scoring, GGUF checks | `evidence/G3/` |
 | 4 | GRPO from the original-author 1.5B and from our hard-label 1.5B | `evidence/G4/` |
 | 5 | closed-loop experiments: capacity, latency, herding, server-count generalization, ablation, LACS | `evidence/G5/`, `figures/` |
-| 6 | the PS-aware teacher, open loop per test set, Colab against Jetson in both loops | `evidence/G6/` |
+| 6 | the PS-aware teacher and its FCFS control, open loop per test set, Colab against Jetson in both loops | `evidence/G6/`, `runs/*_s6_*` |
 | 7 | the 7B reproduction with the paper's GRPO recipe, open and closed loop on Colab | `evidence/S7/`, `runs/*_s7_*` |
 
 Commands, parameters and full results for every stage are in [docs/stages.md](docs/stages.md) (in
@@ -210,7 +220,7 @@ Chinese), including the 10 places where the simulation, training or evaluation d
 | `sim/` | simulator, baseline policies, the compact and paper prompt renderers |
 | `deploy/` | scheduler service for the Jetson, prompts, testbed configuration `testbed.json` |
 | `train/` | training data generation and the Colab notebooks (LoRA, GRPO, 7B reproduction, GGUF conversion) |
-| `eval/` | real-time and virtual-time closed loops, latency benchmark, open-loop scoring, Colab closed loop, figures |
+| `eval/` | real-time and virtual-time closed loops, latency benchmark, open-loop scoring, Colab closed loop, FCFS control, figures |
 | `runs/` | raw results of every run, one folder per run named by UTC time |
 | `evidence/` | acceptance evidence per stage |
 | `figures/` | the seven stage 5 figures (labels in Chinese) and `numbers.md` |

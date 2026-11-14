@@ -1,0 +1,36 @@
+{
+  "git": "a8f2d20",
+  "started_utc": "20261114T120231Z",
+  "servers": [
+    3,
+    7,
+    11
+  ],
+  "n": [
+    20,
+    40,
+    60,
+    80
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "slots": 2000,
+  "warmup": 200,
+  "policies": [
+    "greedy",
+    "psgreedy",
+    "fcfsgreedy"
+  ],
+  "disciplines": [
+    "ps",
+    "fcfs"
+  ],
+  "mode": "sequential",
+  "e6_check": {
+    "compared": 72,
+    "different": 0
+  }
+}
