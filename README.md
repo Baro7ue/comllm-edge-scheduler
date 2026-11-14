@@ -238,7 +238,7 @@ python -m eval.figures                   # the seven stage 5 figures and figures
 - The original authors' models and dataset are not distributed with this repository. Tests that need
   them skip themselves when the files are missing.
 
-## Credits and citation
+## Credits, licence and citation
 
 - Paper: Ning Yang, Chuangxin Cheng, Haijun Zhang. *Multi-Turn Reasoning LLMs for Task Offloading in
   Mobile Edge Computing*. arXiv:2604.07148. Code:
@@ -247,6 +247,10 @@ python -m eval.figures                   # the seven stage 5 figures and figures
   distributed here.
 - The queueing model of the simulator follows Tang and Wong ([arXiv:2005.02459](https://arxiv.org/abs/2005.02459)).
 - Models: [Qwen2.5](https://github.com/QwenLM/Qwen2.5). Inference: [llama.cpp](https://github.com/ggml-org/llama.cpp).
+
+The project's own code, documents and results are under the Apache License 2.0 ([LICENSE](LICENSE)).
+Third-party material keeps its own terms, listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md); the
+paper-format prompt template is the original authors'.
 
 ```bibtex
 @article{yang2026comllm,

@@ -190,13 +190,16 @@ python -m eval.figures                   # 阶段 5 的 7 张图和 figures/numb
   [docs/versions.md](docs/versions.md)。
 - 原作者的模型和数据集不随仓库发布；用到它们的测试找不到文件时自动跳过。
 
-## 致谢与引用
+## 致谢、许可与引用
 
 - 论文：Ning Yang, Chuangxin Cheng, Haijun Zhang. *Multi-Turn Reasoning LLMs for Task Offloading in Mobile Edge Computing*.
   arXiv:2604.07148。论文代码：[Cassandra-Cheng/COMLLM-MEC-Task-Offloading](https://github.com/Cassandra-Cheng/COMLLM-MEC-Task-Offloading)。
 - 感谢原作者提供论文的 1.5B 模型和数据集用于对比；它们不随本仓库发布。
 - 仿真器的排队模型参考了 Tang 和 Wong 的工作（[arXiv:2005.02459](https://arxiv.org/abs/2005.02459)）。
 - 模型用 [Qwen2.5](https://github.com/QwenLM/Qwen2.5)，推理用 [llama.cpp](https://github.com/ggml-org/llama.cpp)。
+
+本项目自己的代码、文档和结果采用 Apache License 2.0（[LICENSE](LICENSE)）。第三方材料保留各自的条款，列在
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)；论文格式的提示词模板属于原作者。
 
 ```bibtex
 @article{yang2026comllm,
