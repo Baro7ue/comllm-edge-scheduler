@@ -7,8 +7,8 @@ The project's own code, documents, figures and run results are under the Apache 
 
 | Path | What | Source | Terms |
 |---|---|---|---|
-| `sim/render.py` (`PAPER_INSTRUCTION` and the field layout of the paper format), `deploy/prompts.py` (the paper-format message layout) | the prompt template of the paper: the instruction text and the way the input fields are laid out, reproduced so that the original authors' models are asked exactly as they were trained | Yang, Cheng and Zhang, [arXiv:2604.07148](https://arxiv.org/abs/2604.07148); [Cassandra-Cheng/COMLLM-MEC-Task-Offloading](https://github.com/Cassandra-Cheng/COMLLM-MEC-Task-Offloading) | the authors'; see their repository |
-| `train/grpo_reward.py` (the `repo` reward), `train/s7_reward.py` | rewards written for this project to reproduce the behaviour of the authors' training code: its parser, thresholds, weights and constants. `train/s7_reward.py` names the files and the commit (`17adede`) it follows | same repository | this project's code is Apache-2.0; the method and constants are the authors' |
+| `sim/render.py` (`PAPER_INSTRUCTION` and the field layout of the paper format), `deploy/prompts.py` (the paper-format message layout) | the prompt template of the paper: the instruction text and the way the input fields are laid out, reproduced so that the original authors' models are asked exactly as they were trained | Yang, Cheng and Zhang, [arXiv:2604.07148](https://arxiv.org/abs/2604.07148); [Cassandra-Cheng/COMLLM-MEC-Task-Offloading](https://github.com/Cassandra-Cheng/COMLLM-MEC-Task-Offloading), where the template is published in the README | MIT, Copyright (c) 2026 Chuangxin Cheng; notice [below](#mit-licence-of-the-original-authors-repository) |
+| `train/grpo_reward.py` (the `repo` reward), `train/s7_reward.py` | rewards written for this project to reproduce the behaviour of the authors' training code: its parser, thresholds, weights and constants. `train/s7_reward.py` names the files and the commit (`17adede`) it follows | same repository (MIT) | this project's code is Apache-2.0; the method and constants are the authors' |
 | `sim/cost.py`, `sim/env.py` | the delay and cost formulas of the paper (eq. 4–7, 26–29) and its Table I parameters, implemented for this project | the paper | Apache-2.0 (this project's code) |
 
 ## Used but not included
@@ -16,8 +16,8 @@ The project's own code, documents, figures and run results are under the Apache 
 | What | Used for | Source | Licence |
 |---|---|---|---|
 | Qwen2.5-0.5B-Instruct, Qwen2.5-1.5B-Instruct | base models of the students; the LoRA adapters and GGUF files made from them are not in the repository | [Qwen2.5](https://github.com/QwenLM/Qwen2.5), Hugging Face `Qwen/Qwen2.5-0.5B-Instruct` and `Qwen/Qwen2.5-1.5B-Instruct`, revisions in [docs/versions.md](docs/versions.md) | Apache-2.0 |
-| The original authors' models: 1.5B SFT, GRPO and score-GRPO, and SFT-7B | comparison, and the start point of the 7B reproduction | shared by the authors of the paper for this comparison | not public; not distributed here |
-| The original authors' dataset | the cleaned test set and the GRPO training prompts | shared by the authors of the paper | not public; not distributed here |
+| The original authors' models: 1.5B SFT, GRPO and score-GRPO, and SFT-7B | comparison, and the start point of the 7B reproduction | shared privately by the authors of the paper for this comparison | not distributed here |
+| The original authors' dataset | the cleaned test set and the GRPO training prompts | shared privately by the authors of the paper. Their repository publishes a data file of its own (`MEC_data.json`); it was not compared with the shared files | not distributed here |
 | llama.cpp (commit `5aeac37a3`) | inference on the Jetson and GGUF conversion | [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp) | MIT |
 | Hugging Face Transformers, PEFT | training and full-precision evaluation on Colab | [huggingface/transformers](https://github.com/huggingface/transformers), [huggingface/peft](https://github.com/huggingface/peft) | Apache-2.0 |
 | Python packages in `requirements.txt` | figures and the local tools | PyPI | each package's own licence |
@@ -29,3 +29,32 @@ themselves when it is missing.
 ## Read but not copied
 
 - The queueing model of the simulator follows Tang and Wong, [arXiv:2005.02459](https://arxiv.org/abs/2005.02459).
+
+## MIT licence of the original authors' repository
+
+The licence of [Cassandra-Cheng/COMLLM-MEC-Task-Offloading](https://github.com/Cassandra-Cheng/COMLLM-MEC-Task-Offloading),
+read on 2026-11-14. It applies to the prompt template listed above.
+
+```text
+MIT License
+
+Copyright (c) 2026 Chuangxin Cheng
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```

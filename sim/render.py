@@ -12,6 +12,7 @@ from sim.cost import ServerView, State, rounded
 
 # ===== 第 1 段：论文格式 =====
 # 这是原作者数据里 instruction 字段的原文，是提示词模板，不是数据。
+# 原作者在自己的仓库 README 里公开了这段模板，仓库是 MIT 许可（Copyright (c) 2026 Chuangxin Cheng），声明全文见 THIRD_PARTY_NOTICES.md。
 PAPER_INSTRUCTION = "\n".join([
     "你是一个MEC任务卸载决策智能体。你的目标是为新到达的任务制定最优卸载策略，以最小化任务的总处理延迟，"
     "同时避免任务丢弃（即总延迟不超过最大容忍延迟）。若延迟超过最大容忍延迟，任务被丢弃，成本为常数惩罚。",

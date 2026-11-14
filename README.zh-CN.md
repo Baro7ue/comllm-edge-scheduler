@@ -205,7 +205,7 @@ python -m eval.figures                   # 阶段 5 的 7 张图和 figures/numb
 - 模型用 [Qwen2.5](https://github.com/QwenLM/Qwen2.5)，推理用 [llama.cpp](https://github.com/ggml-org/llama.cpp)。
 
 本项目自己的代码、文档和结果采用 Apache License 2.0（[LICENSE](LICENSE)）。第三方材料保留各自的条款，列在
-[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)；论文格式的提示词模板属于原作者。
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)；论文格式的提示词模板属于原作者，沿用其仓库的 MIT 许可。
 
 ```bibtex
 @article{yang2026comllm,

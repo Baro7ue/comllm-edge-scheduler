@@ -260,7 +260,7 @@ python -m eval.figures                   # the seven stage 5 figures and figures
 
 The project's own code, documents and results are under the Apache License 2.0 ([LICENSE](LICENSE)).
 Third-party material keeps its own terms, listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md); the
-paper-format prompt template is the original authors'.
+paper-format prompt template is the original authors', under the MIT licence of their repository.
 
 ```bibtex
 @article{yang2026comllm,
