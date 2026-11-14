@@ -7,11 +7,12 @@
 
 另有一个探索用的 psgreedy（不在计划的四种里，不属于 G1）：用 cost.ps_costs 代替论文公式取最小。
 它用来回答"论文公式本身是不是闭环里的好老师"。
+fcfsgreedy 用 cost.fcfs_costs 取最小，只在先来先服务服务器的对照（eval/fcfs_control.py）里当参照。
 """
 import numpy as np
 
 from sim import config as C
-from sim.cost import best_action, lacs_scores, one_step_costs, ps_costs
+from sim.cost import best_action, fcfs_costs, lacs_scores, one_step_costs, ps_costs
 
 
 class RandomPolicy:
@@ -54,6 +55,11 @@ class PsGreedyPolicy:
         return best_action(ps_costs(s))
 
 
+class FcfsGreedyPolicy:
+    def __call__(self, s):
+        return best_action(fcfs_costs(s))
+
+
 def make_policy(name, seed=0):
     """按名字造策略。seed 只影响策略自己的随机数（random、po2），和仿真器的随机数分开。
 
@@ -68,6 +74,7 @@ def make_policy(name, seed=0):
         "lacs": lambda: LacsGreedyPolicy(),
         "po2": lambda: PowerOfTwoPolicy(seed),
         "psgreedy": lambda: PsGreedyPolicy(),
+        "fcfsgreedy": lambda: FcfsGreedyPolicy(),
     }[name]()
 
 

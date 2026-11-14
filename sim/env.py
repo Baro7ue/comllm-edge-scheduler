@@ -107,16 +107,58 @@ class PsServer:
             self.jobs = keep
 
 
+class FcfsServer(PsServer):
+    """先来先服务（FCFS）的服务器：同一时刻只算最早到达服务器的那个任务，用整台服务器的算力，其余排队。
+
+    只用来做对照（eval/fcfs_control.py）：PS 感知公式是按平分算力推出来的，换成先来先服务它还占不占优。
+    调度器看到的状态（活跃任务数、积压）和 PsServer 的定义一样；截止期也一样，排队中的任务到截止期同样丢弃。
+    """
+
+    def advance(self, t0, t1):
+        now = t0
+        while now < t1 - EPS:
+            # (1) 上传完的任务按到达服务器的先后排到队尾
+            while self.incoming and self.incoming[0][0] <= now + EPS:
+                _, _, task = heapq.heappop(self.incoming)
+                self.jobs.append([task, task.size])
+            t_arr = self.incoming[0][0] if self.incoming else float("inf")
+            if not self.jobs:
+                now = min(t_arr, t1)
+                continue
+            # (2) 下一个事件：队首算完 / 有新任务到达 / 有任务到截止期 / 到 t1，取最早的
+            head = self.jobs[0]
+            t_fin = now + head[1] / self.rate
+            t_dl = min(task.deadline for task, _ in self.jobs)
+            t_next = min(t_fin, t_arr, t_dl, t1)
+            # (3) 只有队首在算
+            head[1] -= self.rate * (t_next - now)
+            now = t_next
+            # (4) 算完的记完成时刻；到截止期的丢弃（队首和排队中的都算）
+            keep = []
+            for task, rem in self.jobs:
+                if rem <= EPS:
+                    task.t_done = now
+                elif now >= task.deadline - EPS:
+                    task.dropped, task.drop_at = True, "server"
+                else:
+                    keep.append([task, rem])
+            self.jobs = keep
+
+
+SERVER_CLASSES = {"ps": PsServer, "fcfs": FcfsServer}
+
+
 # ===== 第 3 段：整个系统 =====
 class MecEnv:
-    def __init__(self, n_terminals, n_servers=3, seed=0, mode="sequential", terminals=None):
+    def __init__(self, n_terminals, n_servers=3, seed=0, mode="sequential", terminals=None, discipline="ps"):
         """mode：同一个时间槽里的多个新任务怎么决策
           sequential：一个接一个，后一个看到前一个决策之后的状态（每个决策只要几微秒的公式基线用这个）
-          batch：     同一槽的任务都看槽开始时的同一份状态（模拟 LLM 批量推理，会出现羊群效应）"""
+          batch：     同一槽的任务都看槽开始时的同一份状态（模拟 LLM 批量推理，会出现羊群效应）
+        discipline：服务器怎么排队。ps = 平分算力（默认，论文式 4，项目里所有结果都用它）；fcfs = 先来先服务（只做对照）"""
         assert mode in ("sequential", "batch")
         self.mode = mode
         self.lineup = C.SERVER_LINEUPS[n_servers]
-        self.servers = [PsServer(g) for g in self.lineup]
+        self.servers = [SERVER_CLASSES[discipline](g) for g in self.lineup]
         self.terminals = terminals or [RandomTerminal() for _ in range(n_terminals)]
         n = len(self.terminals)
         self.local_free = [0.0] * n    # 每台终端的本地 CPU 在哪个时刻空出来

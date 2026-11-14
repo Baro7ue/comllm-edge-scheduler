@@ -125,3 +125,18 @@ def ps_costs(s):
         n = v.active if q > 0 else 0
         costs.append(t_up + min(s.d * (n + 1), q + s.d) / R)
     return costs
+
+
+# ===== 第 5 段（对照用）：先来先服务（FCFS）服务器下的单步预估 =====
+# 服务器一次只算一个任务：新任务要等前面的积压算完，再用整台服务器的算力算自己。
+#   (1) 和 ps_costs 一样，上传的 t_up 槽里服务器已经在算，积压先减掉 R × t_up；
+#   (2) 剩下的积压 q 和自己的 d 依次算完，用时 (q + d) / R。
+# 只在 eval/fcfs_control.py 里当参照：看每个公式在"和自己假设一致"的服务器上能做到多好。
+def fcfs_costs(s):
+    costs = [s.local_wait + s.d / C.mbits_per_slot(s.local_ghz)]
+    for v in s.servers:
+        R = C.mbits_per_slot(v.ghz)
+        t_up = s.net_wait + s.d / s.rate
+        q = max(0.0, v.backlog - R * t_up)
+        costs.append(t_up + (q + s.d) / R)
+    return costs

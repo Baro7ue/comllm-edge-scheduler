@@ -3,7 +3,8 @@ import unittest
 
 from sim import config as C
 from sim.baselines import POLICY_NAMES, make_policy
-from sim.env import MecEnv, PsServer, Task, run
+from sim.cost import ServerView, State, fcfs_costs, ps_costs
+from sim.env import FcfsServer, MecEnv, PsServer, Task, run
 
 
 def _task(tid, size, t=0.0):
@@ -47,6 +48,58 @@ class TestPsServer(unittest.TestCase):
         self.assertTrue(a.dropped)
         self.assertEqual(a.drop_at, "server")
         self.assertEqual(s.jobs, [])
+
+
+class TestFcfsServer(unittest.TestCase):
+    """先来先服务的服务器（只做对照）：一次只算一个任务。"""
+    R = C.mbits_per_slot(41.8)
+
+    def test_one_at_a_time(self):
+        # 两个各 R/2 的任务同时到：先到的独占算力 0.5 槽算完，后一个排队，1.0 槽算完
+        s = FcfsServer(41.8)
+        a, b = _task(0, self.R / 2), _task(1, self.R / 2)
+        s.add_incoming(0.0, a)
+        s.add_incoming(0.0, b)
+        s.advance(0, 1)
+        self.assertAlmostEqual(a.t_done, 0.5)
+        self.assertAlmostEqual(b.t_done, 1.0)
+
+    def test_late_arrival_waits(self):
+        # A（大小 R）0 时刻到，B（大小 R/2）0.5 时刻到：A 独占到 1.0，B 排队到 1.0 再算 0.5 槽 → 1.5 完成
+        s = FcfsServer(41.8)
+        a, b = _task(0, self.R), _task(1, self.R / 2, t=0.5)
+        s.add_incoming(0.0, a)
+        s.add_incoming(0.5, b)
+        s.advance(0, 1)
+        s.advance(1, 2)
+        self.assertAlmostEqual(a.t_done, 1.0)
+        self.assertAlmostEqual(b.t_done, 1.5)
+
+    def test_waiting_job_dropped_at_deadline(self):
+        # 队首 11R（自己就超期），后面排一个小任务：两个都在第 10 槽到截止期，都被丢弃，队列清空
+        s = FcfsServer(41.8)
+        a, b = _task(0, 11 * self.R), _task(1, self.R / 2)
+        s.add_incoming(0.0, a)
+        s.add_incoming(0.0, b)
+        for t in range(11):
+            s.advance(t, t + 1)
+        self.assertTrue(a.dropped and b.dropped)
+        self.assertEqual(s.jobs, [])
+
+    def test_default_discipline_is_ps(self):
+        # 不写 discipline 就是平分算力，和显式写 "ps" 的结果一模一样；写 "fcfs" 才换服务器
+        self.assertIsInstance(MecEnv(5).servers[0], PsServer)
+        self.assertNotIsInstance(MecEnv(5).servers[0], FcfsServer)
+        self.assertIsInstance(MecEnv(5, discipline="fcfs").servers[0], FcfsServer)
+
+    def test_fcfs_formula(self):
+        # 一台 41.8 GHz 的服务器，积压 2R、2 个活跃任务，新任务 d = 1.4（上传正好 1 槽）：
+        #   上传期间服务器算掉 R，积压剩 R；先来先服务：(R + d) / R；平分算力：min(3d, R + d) / R
+        s = State(d=1.4, local_wait=0.0, net_wait=0.0,
+                  servers=[ServerView(ghz=41.8, active=2, backlog=2 * self.R, history=[])])
+        self.assertAlmostEqual(fcfs_costs(s)[1], 1.0 + (self.R + 1.4) / self.R)
+        self.assertAlmostEqual(ps_costs(s)[1], 1.0 + 3 * 1.4 / self.R)
+        self.assertEqual(fcfs_costs(s)[0], ps_costs(s)[0])
 
 
 class TestLocalAndUplink(unittest.TestCase):
