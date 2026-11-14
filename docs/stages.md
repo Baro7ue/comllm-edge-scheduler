@@ -207,7 +207,7 @@ RK3588  python -m eval.s5_sweep --plan twoboard                 两板复测：t
 - 闭环平均延迟只算完成了的任务，丢得多的策略会显得快，一定要和丢弃率一起看。
 - 实验 1 每点 2 个种子、3 分钟，原作者 1.5B 只有 1 个种子。实验 4、5 里 LLM 的点只跑了种子 0，和公式比时用同一个种子，面对的是同一串任务。
 - λ = 1 时两边正好打平的状态很多。Mac（ARM）和云上（x86）的浮点舍入不同，打平时选法就不同。实验 6 在两边各跑一遍，252 行里 216 行逐位一样，不一样的 36 行全是 λ = 1，平均变化 +0.18%（Mac）对 +0.15%（云上）。
-- 实验 6 跑到第 31 个点时停过一次，11/7 用 `--resume` 接着跑完。续跑那次 `sweep_config.json` 记的版本是 `4567c59-dirty`，改动只有 `eval/figures.py`，仿真代码没变。
+- 实验 6 跑到第 31 个点时停过一次，11/7 用 `--resume` 接着跑完。续跑那次 `sweep_config.json` 记的版本是 `4567c59-dirty`（改写历史后为 `1957819`，见 [commit-map](commit-map.md)），改动只有 `eval/figures.py`，仿真代码没变。
 - 图 6 里"原作者 sft + GRPO"两根柱子在见过台数上只测了 1000 条子集，画成斜线。
 
 **还没跑。** `e5_paper`（原作者 1.5B 进虚拟时间闭环，400 槽）和两板复测（RK3588 当环境节点）。两个都是可选项。
@@ -242,7 +242,7 @@ Mac     把 results.csv 和 sweep_config.json 下载到 runs/<UTC>_s6_colab_loop
 
 点的名字和 `eval.virtual_loop` 的一样，Colab 和 Jetson 的结果按名字一一对上。同一个模型的 6 个点各开一个线程跑仿真器，要决策时把状态交给主线程拼成一批，GPU 前向一次答完，所以 `ms_per_decision` 是批量摊下来的时间。notebook 第 4 格在 Colab 上重算核对点（单步公式、3 台、N = 20、种子 0），平均延迟必须和打包时 Mac 上算的完全一样，才往下跑。
 
-这次（`runs/20261112T064150Z_s6_colab_loop`）：代码 f9aad84，A100，transformers 5.20.2、peft 0.21.2，36 个点一次跑完，约 70 分钟，回退 0 次。对应的 Jetson 点在 `runs/20261107T071637Z_s5_virtual_e4a+e4b+e5`、`runs/20261108T044444Z_s5_virtual_e4ps_a` 和 `runs/20261108T094747Z_s5_virtual_e4ps_b`。两边对比和 PS 公式 1.5B 硬标签在 N = 60 的例外见 README 的"闭环：Colab 和 Jetson"。
+这次（`runs/20261112T064150Z_s6_colab_loop`）：代码 `1ae403e`（运行记录里写的是改写历史前的 `f9aad84`，见 [commit-map](commit-map.md)），A100，transformers 5.20.2、peft 0.21.2，36 个点一次跑完，约 70 分钟，回退 0 次。对应的 Jetson 点在 `runs/20261107T071637Z_s5_virtual_e4a+e4b+e5`、`runs/20261108T044444Z_s5_virtual_e4ps_a` 和 `runs/20261108T094747Z_s5_virtual_e4ps_b`。两边对比和 PS 公式 1.5B 硬标签在 N = 60 的例外见 README 的"闭环：Colab 和 Jetson"。
 
 ## Jetson 全量开环与补充延迟（阶段 6）
 

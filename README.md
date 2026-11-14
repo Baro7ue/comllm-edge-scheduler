@@ -214,7 +214,7 @@ Chinese), including the 10 places where the simulation, training or evaluation d
 | `runs/` | raw results of every run, one folder per run named by UTC time |
 | `evidence/` | acceptance evidence per stage |
 | `figures/` | the seven stage 5 figures (labels in Chinese) and `numbers.md` |
-| `docs/` | stage notes `stages.md`, versions `versions.md`, README figures in `media/` |
+| `docs/` | stage notes `stages.md`, versions `versions.md`, old and new commit ids `commit-map.md`, README figures in `media/` |
 | `tests/` | unit tests |
 
 ## Running it

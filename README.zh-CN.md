@@ -169,7 +169,7 @@ flowchart LR
 | `runs/` | 每次运行的原始结果，一次一个目录，按 UTC 时间命名 |
 | `evidence/` | 各阶段的验收证据 |
 | `figures/` | 阶段 5 的 7 张图和 `numbers.md` |
-| `docs/` | 各阶段记录 `stages.md`、版本记录 `versions.md`，README 配图在 `media/` |
+| `docs/` | 各阶段记录 `stages.md`、版本记录 `versions.md`、改写历史前后的提交号对照 `commit-map.md`，README 配图在 `media/` |
 | `tests/` | 单元测试 |
 
 ## 运行
