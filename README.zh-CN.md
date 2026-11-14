@@ -1,0 +1,208 @@
+# COMLLM on Jetson：边缘端的 LLM 任务卸载调度
+
+<p align="center">
+  <a href="README.md"><kbd>&nbsp;English&nbsp;</kbd></a>
+  &nbsp;
+  <a href="README.zh-CN.md"><kbd>&nbsp;<b>简体中文</b>&nbsp;</kbd></a>
+</p>
+
+移动终端不断产生计算任务。每来一个任务，调度器要决定它留在终端本地算，还是卸载到 3 到 11 台边缘服务器中的
+某一台。本项目把这个调度器放到 NVIDIA Jetson Orin Nano 8GB 上，依据的是开源论文 COMLLM（Yang、Cheng、Zhang，
+[arXiv:2604.07148](https://arxiv.org/abs/2604.07148)）。我们没有用论文的 7B 模型，而是用论文的单步成本公式算出软标签，
+LoRA 微调 Qwen2.5-0.5B 和 1.5B，再用 llama.cpp（CUDA）部署，提示词经过压缩，答案只有 1 个 token。
+环境节点按真实时钟仿真终端、上传链路和服务器，经以太网向 Jetson 要每一个决策，所以决策花的时间会算进任务延迟。
+终端和服务器是仿真的；调度节点和网络那一跳是真实的。
+
+本项目是基于这篇论文的独立项目，不是 COMLLM 的官方版本。
+
+## 结果
+
+下面的数字全部实测；标"仿真"的是在仿真器里跑出来的，不是实时测试床。图里每个数字的出处运行目录列在
+[docs/media/numbers.md](docs/media/numbers.md)，阶段 5 的数字列在 [figures/numbers.md](figures/numbers.md)。
+
+| 问题 | 结果 | 条件 |
+|---|---|---|
+| 一次决策要多久 | 部署配置 p50 55.0 ms、p99 72.0 ms。原作者 1.5B 用论文格式的提示词，在同一块板上 p50 911.4 ms | Jetson，环境节点量到的端到端时间，500 次，3/7/11 台服务器轮流。部署配置 = 0.5B Q8_0、压缩提示词、1 个 token、前缀缓存 |
+| 一个调度节点撑得住多少终端 | 7 台（理论 7.9）。加超载分流后至少 20 台，丢弃 1.0%。论文格式的 1.5B 只有 1 台终端就丢弃 93.4% | 实时闭环，3 台服务器，每点 3 分钟、2 个种子 |
+| 批量决策会不会有羊群效应 | 会。改成一个一个决策、每次更新虚拟状态：平均延迟 5.11 → 4.19 槽（−18.1%），丢弃 2.4% → 0.1% | 仿真，11 台服务器、80 台终端，单步公式 |
+| 训练时没见过的服务器台数 | 闭环平均延迟和单步最优差 −0.1% ~ +0.5%；开环准确率见过的台数 96.5%、没见过的台数 94.4% | 闭环：仿真，N = 40，3/4/6/7/8/10/11 台 |
+| 换一个更贴合论文服务器模型的老师 | 公式对公式，PS 感知公式的平均延迟平均低 9.27%（−22.73% ~ +3.79%）。它的 0.5B 学生比论文公式老师的 0.5B 在 N = 20/40/60 时低 13.4% / 19.6% / 9.9%，丢弃 0.1% / 5.9% / 17.3% → 0.0% / 0.0% / 0.9% | 仿真，虚拟时间闭环，逐个决策。公式：3/7/11 台 × N = 20–80，3 个种子。学生：3 台、种子 0。仿真的服务器按论文式 4 平分算力，这正是 PS 感知公式的出发点 |
+| 开环和 7B 比 | 论文公式老师的学生在三套测试集上 PR 99.88%–99.99%。复现的 7B 在原作者干净测试集上 98.85%–99.26%，在我们的两套上只有 71.55%–75.32%，原因是它从不选本地 | 论文的 PR（式 29）；3010 / 2408 / 245 条 |
+| 部署会不会改变决策 | Colab（bf16）和 Jetson（Q8_0）的闭环：18 组学生设置里 17 组平均延迟相差不超过 0.04 槽、丢弃率相差不超过 0.83 个百分点。开环逐条答案相同的比例：论文公式老师的学生 97.13%–100.00%，PS 老师的两个软标签学生 66.53%–76.95% | 六个学生，3 台服务器，N = 20/40/60，2 个种子；开环 5663 条 |
+| 复现的 7B 在闭环里 | 从不把任务留在本地；N = 40 时丢弃 53.15%–55.07%，N = 60 时 83.99%–84.10%；我们部署的 0.5B 分别是 6.26% 和 16.66% | Colab，虚拟时间，3 台服务器，2 个种子 |
+
+### 板上实测
+
+<p align="center">
+  <img src="docs/media/zh/stability.png" width="760" alt="Jetson 实时闭环里丢弃率随终端数的变化">
+</p>
+
+实时闭环按真实时钟推进，决策慢了任务就跟着慢；一旦决策跟不上任务产生的速度，任务就开始错过截止期。
+部署的 0.5B 最多撑 7 台终端，8 台时丢弃 24.5%。LLM 超过 100 ms 还没答完就改用单步公式（超载分流），20 台终端时丢弃 1.0%。
+原作者的 1.5B 用论文格式的提示词、把答案生成出来，1 台终端就丢弃 93.4%。
+
+<p align="center">
+  <img src="docs/media/zh/latency.png" width="760" alt="九个模型在 Jetson 上的单次决策端到端延迟">
+</p>
+
+快的原因在提示词和答案，不只是模型小：同样是 1.5B，压缩提示词加前缀缓存 p50 是 112–118 ms，论文格式约 911 ms。
+压缩提示词平均 278 个 token，论文格式 1358 个。原作者 SFT 模型早先测过一次 p50 945.2 ms，那时采样参数还没固定成贪心。
+
+### 开环：三套测试集
+
+<p align="center">
+  <img src="docs/media/zh/open_loop.png" width="760" alt="我们的学生、复现的 7B 和原作者模型在三套测试集上的论文 PR">
+</p>
+
+开环在固定的状态上用论文的成本公式给每个决策打分。三套测试集里"留在本地算最快"的比例差得很远：
+
+| | 见过的台数（3/5/7/9/11） | 没见过的台数（4/6/8/10） | 原作者干净测试集 |
+|---|---|---|---|
+| 条数 | 3010 | 2408 | 245 |
+| 本地最优占比 | 47.97% | 45.93% | 2.45%（6 条） |
+| 从不选本地时准确率最多能到 | 52.03% | 54.07% | 97.55% |
+
+原作者干净测试集是原作者的 306 条测试状态去掉和原作者训练数据重合的 61 条。这 61 条里 41 条本地最优，所以剩下的几乎不考本地。
+
+- **复现的 7B 在 5663 条状态里一次都没选本地。** 它从原作者的 SFT-7B 出发，按论文的 GRPO 方法训练，λ = 0.3 和 λ = 0
+  各训一个（`runs/20261108T103821Z_s7_colab_7b`）。SFT 模型会选本地，但不看状态：在干净测试集上选了 166 次本地，
+  而本地最优只有 6 条。本地动作是在 GRPO 前 7 次更新里丢掉的。λ = 0 那次训练在这几步采到 41 个本地回答，35 个答在本该卸载的题上，
+  其中 29 个被罚；第 7 次更新以后采到的 3208 个回答里一个本地都没有。答案解析、奖励计算和 λ 都排除过。
+- 在最优是某台服务器的状态上，7B 选对服务器的比例是 62%–67%，我们的学生是 89%–94%。
+- 这是论文方法加原作者数据的复现，不是原版 COMLLM-7B（权重拿不到），论文报的 96.86% 不和这里的数字放在一起比。
+  我们的学生和 7B 的训练数据、方法、提示词格式和大小都不一样，不是只差模型大小的对照。另外，两套较大的测试集出自我们自己的仿真器，
+  学生就是在这个仿真器上训练的。
+
+完整的本地召回、本地精确，以及按台数和 N 的分解：[evidence/G6/open_loop.md](evidence/G6/open_loop.md)（Colab）和
+[evidence/G6/jetson_open/comparison.md](evidence/G6/jetson_open/comparison.md)（Jetson）。
+
+### 闭环：Colab 和 Jetson
+
+<p align="center">
+  <img src="docs/media/zh/closed_loop.png" width="820" alt="公式、学生（Colab 和 Jetson）和复现 7B 的丢弃率与平均延迟随 N 的变化">
+</p>
+
+虚拟时间闭环每个决策都等答完再往下走，决策耗时不算，所以能在 N = 20–80 的重负载下比。每个决策都会改变后面任务看到的队列。
+
+- **部署前后。** 六个学生在 Colab（合并 LoRA、bf16、A100）和 Jetson（GGUF Q8_0、llama.cpp）上跑同样的 36 个点，
+  任务流完全相同，两边都没有回退到公式。18 组学生设置里 17 组平均延迟相差不超过 0.04 槽、丢弃率相差不超过 0.83 个百分点。
+  汇总接近不等于每个决策都一样：开环里 PS 老师的两个软标签学生，Colab 和 Jetson 逐条答案相同的只有 66.53%–76.95%。
+- **例外是 PS 老师的硬标签 1.5B 在 N = 60。** 4 次运行里有 3 次（Colab 两个种子、Jetson 种子 0）停止往服务器 3 派任务，
+  丢弃 26%–29%；Jetson 种子 1 三台都用，丢弃 2.0%。没量化的模型也会这样。原因还没查。
+- **复现的 7B** 在闭环里同样从不把任务留在本地，N = 60 时丢弃 84%。高负载下它的平均延迟看着低，只是因为只算完成的任务。
+- **两个老师。** 论文假设服务器平分算力（式 4），但它的时延公式把已有积压算了两遍，也没扣掉上传期间服务器已经处理掉的部分，
+  所以高负载时偏悲观。按式 4 推出的 PS 感知公式当第二个老师。轻负载时它和论文公式差不多，负载越高越占优（7 台、N = 80 时平均延迟低 22.73%）。
+  它的学生在开环里 PR 只有 65.57%–75.80%（Colab），因为开环的尺子就是论文公式。
+
+逐点结果：学生在 Colab 上的见 `runs/20261112T064150Z_s6_colab_loop`，在 Jetson 上的见 `runs/20261107T071637Z_s5_virtual_e4a+e4b+e5`、`runs/20261108T044444Z_s5_virtual_e4ps_a` 和 `runs/20261108T094747Z_s5_virtual_e4ps_b`；7B 的报告在 `runs/20261113T104604Z_s7_colab_closed_loop`。
+
+### 局限
+
+- 终端、上传链路和服务器是仿真的，真实的只有调度节点和网络那一跳。仿真的服务器按论文式 4 平分算力，这对 PS 感知老师有利；
+  先来先服务的服务器没测。
+- 两个老师都是单步公式，学生的上限就是老师。
+- 闭环每点 2 个种子；结果表里 PS 老师那组 0.5B 对比只用了种子 0。PS 老师的硬标签 1.5B 在 N = 60 说明有时 2 个种子也不够。
+  差别在 1% 以内的只说"分不开"。
+- 平均延迟只算完成的任务，一定要和丢弃率一起看。
+- 复现的 7B 不是原版 COMLLM-7B，只在 Colab 上跑。它的闭环解码用 `max_new_tokens = 16`、`repetition_penalty = 1.05`，
+  开环用 15 和 1.0。"同样的数据下 7B 和小模型谁强"没有测。
+- Colab 和 Jetson 汇总一致，不能说明 Q8_0 模型和 PyTorch 模型等价；这项调查暂缓。
+- 只测了一块 Jetson Orin Nano 8GB（MAXN_SUPER，llama.cpp 5aeac37a3）。环境节点到目前只用过 Mac，RK3588 两板复测还没做。
+
+## 系统怎么工作
+
+```mermaid
+flowchart LR
+    ENV["环境节点：RK3588（开发期用 Mac）<br/>按真实时钟仿真 N 台终端<br/>和本地 CPU、上传链路、3–11 台服务器的队列"]
+    subgraph JET["调度节点：Jetson Orin Nano 8GB"]
+        SVC["deploy/scheduler.py<br/>拼压缩提示词"]
+        LLM["llama-server（CUDA）<br/>Qwen2.5-0.5B Q8_0<br/>算 1 个 token，开前缀缓存"]
+        FB["单步公式<br/>超时或忙时回退"]
+    end
+    subgraph OFF["离线：Colab"]
+        DATA["仿真器生成状态<br/>成本公式算软标签"]
+        TRAIN["LoRA 微调<br/>Qwen2.5-0.5B / 1.5B"]
+        GGUF["合并 LoRA，转 GGUF Q8_0"]
+    end
+    ENV <-- "以太网 HTTP<br/>发：任务和队列状态<br/>回：本地或服务器 k" --> SVC
+    SVC --> LLM
+    SVC -.-> FB
+    DATA --> TRAIN --> GGUF
+    GGUF -. "拷到 Jetson" .-> LLM
+```
+
+- **环境节点**按 0.1 s 一个时间槽推进仿真，每台终端每槽以 0.3 的概率产生任务。每来一个任务，就把任务大小和各队列的状态发给 Jetson，
+  收到决策才把任务放进对应的队列。所有时间戳都在这一侧记，两块板不用对时。
+- **调度节点**只做决策。LLM 超过 100 ms 还没答，或上一个 LLM 请求还没算完，就当场用单步公式回答，并在日志里记下原因。
+- **训练。** 我们的仿真器在 3/5/7/9/11 台服务器上生成状态，每个动作用论文的单步成本公式算成本，软标签 = softmax(−成本 / T)。
+  每次 4 万条，LoRA 微调 Qwen2.5-0.5B 和 1.5B，只在答案那 1 个 token 上算 KL。论文的 7B 权重拿不到，所以老师是公式。
+  0.5B 和 1.5B 的质量几乎一样，部署 0.5B。
+- **加速。** 提示词里每台服务器一行数字，答案是 1 个字母。llama-server 只算 1 个 token，调度服务在概率最高的 20 个候选里取最大的合法字母，
+  不用生成，也不用语法约束。静态说明放在前缀，开 KV 缓存。只算 1 个 token 时 INT4 不比 Q8_0 快，所以用 Q8_0。
+- **从原作者 1.5B 出发做 GRPO。** 它偏向服务器 1，这个偏向在 SFT 模型里就有，贪心解码把它放大。GRPO 把干净测试集准确率从 13.5%
+  提到 81.2%（修正后的奖励）和 87.8%（原作者的奖励），但在见过台数的 1000 条状态（N = 5/10/20）上只有 44.3% 和 52.1%。
+  我们的硬标签 1.5B 已经在公式上限，再做 GRPO 反而略降（见过的台数 96.0% → 92.9%）。
+
+## 各阶段
+
+| 阶段 | 定下了什么 | 证据 |
+|---|---|---|
+| 0 | 仓库骨架，版本钉死 | `evidence/G0/` |
+| 1 | 仿真器、基线策略、两种提示词渲染 | `evidence/G1/` |
+| 2 | Jetson 调度服务、延迟基准、实时闭环 | `evidence/G2/` |
+| 3 | 训练数据、Colab 上的 LoRA 训练、开环打分、GGUF 核对 | `evidence/G3/` |
+| 4 | 从原作者 1.5B 和我们的硬标签 1.5B 出发做 GRPO | `evidence/G4/` |
+| 5 | 闭环实验：容量、延迟、羊群效应、台数泛化、消融、LACS | `evidence/G5/`、`figures/` |
+| 6 | PS 感知老师、三套测试集分开报开环、Colab 和 Jetson 的开环与闭环对比 | `evidence/G6/` |
+| 7 | 按论文的 GRPO 方法复现 7B，在 Colab 上跑开环和闭环 | `evidence/S7/`、`runs/*_s7_*` |
+
+每个阶段的命令、参数和完整结果在 [docs/stages.md](docs/stages.md)，其中也列了仿真、训练和评测和论文不一样的 10 处。
+
+## 仓库结构
+
+| 路径 | 内容 |
+|---|---|
+| `sim/` | 仿真器、基线策略、压缩格式和论文格式两种提示词渲染 |
+| `deploy/` | Jetson 上的调度服务、提示词、测试床配置 `testbed.json` |
+| `train/` | 训练数据生成和 Colab notebook（LoRA、GRPO、7B 复现、GGUF 转换） |
+| `eval/` | 实时闭环、虚拟时间闭环、延迟基准、开环打分、Colab 闭环、出图 |
+| `runs/` | 每次运行的原始结果，一次一个目录，按 UTC 时间命名 |
+| `evidence/` | 各阶段的验收证据 |
+| `figures/` | 阶段 5 的 7 张图和 `numbers.md` |
+| `docs/` | 各阶段记录 `stages.md`、版本记录 `versions.md`，README 配图在 `media/` |
+| `tests/` | 单元测试 |
+
+## 运行
+
+```bash
+git clone https://github.com/Baro7ue/comllm-edge-scheduler.git
+cd comllm-edge-scheduler
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python -m unittest discover -s tests
+python -m eval.readme_figures            # README 的 4 张中英文配图
+python -m eval.figures                   # 阶段 5 的 7 张图和 figures/numbers.md
+```
+
+- `runs/` 带着所有实验的原始结果，不接 Jetson 也能重画全部图、核对每个数字。
+- Colab 训练、Jetson 部署和每个实验的命令在 [docs/stages.md](docs/stages.md)；硬件、JetPack、llama.cpp 提交号和 Qwen 权重版本在
+  [docs/versions.md](docs/versions.md)。
+- 原作者的模型和数据集不随仓库发布；用到它们的测试找不到文件时自动跳过。
+
+## 致谢与引用
+
+- 论文：Ning Yang, Chuangxin Cheng, Haijun Zhang. *Multi-Turn Reasoning LLMs for Task Offloading in Mobile Edge Computing*.
+  arXiv:2604.07148。论文代码：[Cassandra-Cheng/COMLLM-MEC-Task-Offloading](https://github.com/Cassandra-Cheng/COMLLM-MEC-Task-Offloading)。
+- 感谢原作者提供论文的 1.5B 模型和数据集用于对比；它们不随本仓库发布。
+- 仿真器的排队模型参考了 Tang 和 Wong 的工作（[arXiv:2005.02459](https://arxiv.org/abs/2005.02459)）。
+- 模型用 [Qwen2.5](https://github.com/QwenLM/Qwen2.5)，推理用 [llama.cpp](https://github.com/ggml-org/llama.cpp)。
+
+```bibtex
+@article{yang2026comllm,
+  title   = {Multi-Turn Reasoning LLMs for Task Offloading in Mobile Edge Computing},
+  author  = {Yang, Ning and Cheng, Chuangxin and Zhang, Haijun},
+  journal = {arXiv preprint arXiv:2604.07148},
+  year    = {2026}
+}
+```

@@ -1,8 +1,11 @@
-"""README 里的数字和运行目录能不能找到出处（阶段 6 的 G6 自查）。
+"""Can every number and run folder in the two READMEs be traced to a file in the repository?
 
-1. README.md、docs/stages.md 里写到的运行目录（runs/ 后面跟 UTC 时间的）都要在仓库里；带 * 的按通配符找，至少找到一个
-2. figures/numbers.md 最后一列的运行目录和开环表都要在仓库里
-3. README "结果一览"表"结果"那一列里每个带小数点或百分号的数，都要在 figures/numbers.md 里出现过（正负号不算）
+1. Run folders named in README.md, README.zh-CN.md and docs/stages.md (runs/ followed by a UTC time) exist;
+   names with * are globs and must match at least one folder
+2. The run folders and evidence tables in the last column of figures/numbers.md exist
+3. Every number with a decimal point or a percent sign in the results table of each README
+   (the first table under "## Results" / "## 结果") appears in figures/numbers.md or docs/media/numbers.md
+4. Every image the READMEs show exists, and the two READMEs show the same figures, each in its own language
 """
 import glob
 import os
@@ -12,6 +15,9 @@ import unittest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RUN_PATTERN = re.compile(r"runs/(\d{8}T[0-9A-Za-z_*+.\-]*)")
 NUMBER_PATTERN = re.compile(r"\d+(?:\.\d+)?%?")
+IMAGE_PATTERN = re.compile(r'<img src="([^"]+)"|!\[[^\]]*\]\(([^)]+)\)')
+READMES = {"README.md": "## Results", "README.zh-CN.md": "## 结果"}
+NUMBER_FILES = ("figures/numbers.md", "docs/media/numbers.md")
 
 
 def read(rel):
@@ -19,43 +25,42 @@ def read(rel):
         return f.read()
 
 
-def results_column(readme):
-    """取出 README "结果一览"表每一行的第 2 列（结果）。
+def results_column(readme, heading):
+    """Column 2 (the result) of the first table under the given heading.
 
-    1. 找到"## 结果一览"这一节，到下一个"## "为止
-    2. 以"|"开头的行是表格；跳过表头和分隔行
-    3. 按"|"切开，第 2 格就是结果
+    1. find the line that is exactly the heading
+    2. skip to the first line that starts with "|"; that is the header row, the next one the separator
+    3. collect column 2 of every following row until the first line that does not start with "|"
     """
     lines = readme.split("\n")
-    inside = False
+    start = lines.index(heading)
+    i = start + 1
+    while not lines[i].startswith("|"):
+        i += 1
     cells = []
-    seen_header = False
-    for line in lines:
-        if line.startswith("## "):
-            inside = line.startswith("## 结果一览")
-            continue
-        if not inside or not line.startswith("|"):
-            continue
-        if not seen_header:
-            seen_header = True
-            continue
-        if line.startswith("|---"):
-            continue
-        parts = line.split("|")
-        cells.append(parts[2].strip())
+    for line in lines[i + 2:]:
+        if not line.startswith("|"):
+            break
+        cells.append(line.split("|")[2].strip())
     return cells
+
+
+def images(text):
+    out = []
+    for a, b in IMAGE_PATTERN.findall(text):
+        out.append(a or b)
+    return out
 
 
 class TestReadmeSources(unittest.TestCase):
     def test_run_dirs_exist(self):
         missing = []
-        for rel in ("README.md", "docs/stages.md"):
-            text = read(rel)
-            for name in RUN_PATTERN.findall(text):
+        for rel in list(READMES) + ["docs/stages.md"]:
+            for name in RUN_PATTERN.findall(read(rel)):
                 name = name.rstrip(".")
                 if not glob.glob(os.path.join(ROOT, "runs", name)):
                     missing.append(f"{rel}: runs/{name}")
-        self.assertEqual(missing, [], "这些运行目录在仓库里找不到")
+        self.assertEqual(missing, [], "these run folders are not in the repository")
 
     def test_numbers_md_sources_exist(self):
         missing = []
@@ -71,20 +76,35 @@ class TestReadmeSources(unittest.TestCase):
                     path = os.path.join(ROOT, "runs", item)
                 if not os.path.exists(path):
                     missing.append(item)
-        self.assertEqual(missing, [], "numbers.md 里写的出处在仓库里找不到")
+        self.assertEqual(missing, [], "sources named in figures/numbers.md are not in the repository")
 
-    def test_headline_numbers_in_numbers_md(self):
-        numbers = read("figures/numbers.md")
-        cells = results_column(read("README.md"))
-        self.assertGreater(len(cells), 0, "README 里没找到结果一览表")
-        missing = []
-        for cell in cells:
-            for token in NUMBER_PATTERN.findall(cell):
-                if "." not in token and "%" not in token:
-                    continue
-                if token not in numbers:
-                    missing.append(token)
-        self.assertEqual(missing, [], "README 结果表里这些数在 figures/numbers.md 里找不到")
+    def test_headline_numbers_have_sources(self):
+        numbers = "\n".join(read(p) for p in NUMBER_FILES)
+        for rel, heading in READMES.items():
+            cells = results_column(read(rel), heading)
+            self.assertGreater(len(cells), 5, f"{rel}: results table not found")
+            missing = []
+            for cell in cells:
+                for token in NUMBER_PATTERN.findall(cell):
+                    if "." not in token and "%" not in token:
+                        continue
+                    if token not in numbers:
+                        missing.append(token)
+            self.assertEqual(missing, [], f"{rel}: these numbers are not in {' or '.join(NUMBER_FILES)}")
+
+    def test_images_exist_and_match(self):
+        shown = {}
+        for rel in READMES:
+            paths = images(read(rel))
+            self.assertGreater(len(paths), 0, rel)
+            for p in paths:
+                self.assertTrue(os.path.exists(os.path.join(ROOT, p)), f"{rel}: {p}")
+            shown[rel] = paths
+        en = [p.replace("/en/", "/") for p in shown["README.md"]]
+        zh = [p.replace("/zh/", "/") for p in shown["README.zh-CN.md"]]
+        self.assertEqual(en, zh, "the two READMEs should show the same figures in the same order")
+        self.assertTrue(all("/en/" in p for p in shown["README.md"]))
+        self.assertTrue(all("/zh/" in p for p in shown["README.zh-CN.md"]))
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # 各阶段的做法、命令和完整结果
 
-[README](../README.md) 只放结论。这里按阶段记每一步怎么做、用什么命令、完整结果和要注意的地方，和原论文不一样的地方也在这里。数字全部实测，每个数字来自哪个运行目录见 [figures/numbers.md](../figures/numbers.md)。下面的命令都在仓库根目录、激活 `.venv` 后运行。
+[README](../README.zh-CN.md)（[English](../README.md)）只放结论。这里按阶段记每一步怎么做、用什么命令、完整结果和要注意的地方，和原论文不一样的地方也在这里。数字全部实测，每个数字来自哪个运行目录见 [figures/numbers.md](../figures/numbers.md) 和 [docs/media/numbers.md](media/numbers.md)。下面的命令都在仓库根目录、激活 `.venv` 后运行。
 
 ## 和原论文的差别
 
@@ -230,7 +230,7 @@ Mac        python -m eval.open_loop runs/s3/main_0.5b_20261104T131423Z runs/s3/s
 - 本地精确：选了本地的状态里本地确实最优的比例。
 - 卸载准确率：最优是某台服务器的状态里选对的比例。
 
-分母是 0 时记"–"。原作者干净测试集没有终端数 N，不进按 N 的表。复现的 7B、它的起点 SFT-7B 和原作者的三个 1.5B 用论文格式贪心生成，我们的学生用压缩格式取 1 个 token，所以这张表比的是"整套做法"，不是只差模型大小。结论见 README 的"和 7B 比"。
+分母是 0 时记"–"。原作者干净测试集没有终端数 N，不进按 N 的表。复现的 7B、它的起点 SFT-7B 和原作者的三个 1.5B 用论文格式贪心生成，我们的学生用压缩格式取 1 个 token，所以这张表比的是"整套做法"，不是只差模型大小。结论见 README 的"开环：三套测试集"。
 
 ## 闭环：Colab 和 Jetson 对比（阶段 6）
 
@@ -242,7 +242,7 @@ Mac     把 results.csv 和 sweep_config.json 下载到 runs/<UTC>_s6_colab_loop
 
 点的名字和 `eval.virtual_loop` 的一样，Colab 和 Jetson 的结果按名字一一对上。同一个模型的 6 个点各开一个线程跑仿真器，要决策时把状态交给主线程拼成一批，GPU 前向一次答完，所以 `ms_per_decision` 是批量摊下来的时间。notebook 第 4 格在 Colab 上重算核对点（单步公式、3 台、N = 20、种子 0），平均延迟必须和打包时 Mac 上算的完全一样，才往下跑。
 
-这次（`runs/20261112T064150Z_s6_colab_loop`）：代码 f9aad84，A100，transformers 5.20.2、peft 0.21.2，36 个点一次跑完，约 70 分钟，回退 0 次。对应的 Jetson 点在 `runs/20261107T071637Z_s5_virtual_e4a+e4b+e5`、`runs/20261108T044444Z_s5_virtual_e4ps_a` 和 `runs/20261108T094747Z_s5_virtual_e4ps_b`。两边对比和 PS 公式 1.5B 硬标签在 N = 60 的例外见 README 的"部署前后的闭环"。
+这次（`runs/20261112T064150Z_s6_colab_loop`）：代码 f9aad84，A100，transformers 5.20.2、peft 0.21.2，36 个点一次跑完，约 70 分钟，回退 0 次。对应的 Jetson 点在 `runs/20261107T071637Z_s5_virtual_e4a+e4b+e5`、`runs/20261108T044444Z_s5_virtual_e4ps_a` 和 `runs/20261108T094747Z_s5_virtual_e4ps_b`。两边对比和 PS 公式 1.5B 硬标签在 N = 60 的例外见 README 的"闭环：Colab 和 Jetson"。
 
 ## Jetson 全量开环与补充延迟（阶段 6）
 
@@ -277,6 +277,6 @@ Mac     下载 results.csv、provenance.json、runtime_identity.json、invocatio
 
 本次在 A100-SXM4-40GB 完成，torch 2.14.1+cu130、transformers 5.20.2、peft 0.21.2、accelerate 1.15.0、numpy 2.4.6。最终 `closed_acceptance_20261113T092611.183871Z.json` 为 complete，12 个唯一点齐全，CSV SHA 与报告一致。两个模型各 6 点：3 台服务器、N = 20/40/60、种子 0/1、sequential、1000 槽、200 槽热身；计分到达区间为 [200, 989)。12 点的 fallback 分别全为 0，local_frac 分别全为 0。
 
-闭环采用 paper / search / greedy，max_new_tokens = 16、repetition_penalty = 1.05；开环为 15 和 1.0，不能称解码完全相同。README 的 7B 闭环表按同模型、同 N 的两个种子等权平均，原始逐点数据保留在 CSV。学生参照取 `runs/20261112T064150Z_s6_colab_loop`，greedy、psgreedy、lacs（λ = 0.3）取 `runs/20261107T071637Z_s5_virtual_e4a+e4b+e5`；按 servers、n、mode、seed、slots、warmup 对齐，每个对应点的 n_tasks 和 n_decisions 相同。
+闭环采用 paper / search / greedy，max_new_tokens = 16、repetition_penalty = 1.05；开环为 15 和 1.0，不能称解码完全相同。README 闭环图里的 7B 按同模型、同 N 的两个种子等权平均，原始逐点数据保留在 CSV。学生参照取 `runs/20261112T064150Z_s6_colab_loop`，greedy、psgreedy、lacs（λ = 0.3）取 `runs/20261107T071637Z_s5_virtual_e4a+e4b+e5`；按 servers、n、mode、seed、slots、warmup 对齐，每个对应点的 n_tasks 和 n_decisions 相同。
 
 虚拟时间不计推理等待；mean_delay 和 p95_delay 只统计完成任务，必须与 drop_rate 一起读。agree_greedy 是所访问状态上的单步公式一致率，不是准确率，和 fallback / n_decisions 一样覆盖全部决策；local_frac 按计分任务统计。动作指标通常包含回退后的动作，本次没有回退。结果仅适用于两份复现权重，不是原版 COMLLM-7B 的成绩，也不是只差模型大小的控制实验；7B 未在 Jetson 上运行。
