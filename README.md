@@ -132,7 +132,8 @@ tasks see.
 - **The reproduced 7B** never runs a task locally in the closed loop either, and drops 84% at N = 60.
   Its lower mean delay at high load only counts the tasks that were completed.
 - **Two teachers.** The paper assumes processor-sharing servers (eq. 4), but its delay formula counts
-  the existing backlog twice and does not subtract what a server finishes during the upload, so it is
+  the existing backlog twice ([derivation](docs/paper-delay-formula.md)) and does not subtract what a
+  server finishes during the upload, so it is
   pessimistic at high load. A PS-aware formula derived from eq. 4 is a second teacher. It is about as
   good as the paper's formula at light load and better as the load grows (22.73% lower mean delay at 7
   servers, N = 80). Its students score only 65.57–75.80% PR in the open loop (Colab), because the

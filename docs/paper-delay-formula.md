@@ -1,158 +1,160 @@
-# 论文的边缘时延公式：(N + 1) 多乘了一遍
+# The paper's edge delay formula multiplies by (N + 1) once too often
 
-这份文档从论文（arXiv:2604.07148v2）的式 4 出发，推导任务在平分算力（processor sharing）的服务器上到底要多久，再和论文的式 5–7 对比。公式号都指论文。
+[简体中文](paper-delay-formula.zh-CN.md)
 
-结论：
+This document starts from eq. 4 of the paper (arXiv:2604.07148v2), derives how long a task really spends on a processor-sharing server, and compares the result with the paper's eq. 5–7. Equation numbers refer to the paper.
 
-- 论文的服务器时延是 $`(L + D)(N + 1)\gamma / F`$。
-- 按式 4 自己的平分算力模型，服务器时延不会超过 $`\min\{D(N + 1),\ L + D\}\,\gamma / F`$。
-- 所以只要服务器上已有任务（$`N \ge 1`$），论文的值至少是真实值的 $`N + 1`$ 倍。
-- 多出来的这一遍在式 6：它用整台服务器的积压 $`L`$ 去除单个任务分到的算力 $`F/(N + 1)`$。
+Summary:
 
-推导里的每一步都用仿真器核对过，见[数值核对](#数值核对)。
+- The paper's delay on the server is $`(L + D)(N + 1)\gamma / F`$.
+- Under the processor-sharing model of eq. 4 itself, the delay on the server is at most $`\min\{D(N + 1),\ L + D\}\,\gamma / F`$.
+- So whenever the server already holds tasks ($`N \ge 1`$), the paper's value is at least $`N + 1`$ times the real one.
+- The extra factor is in eq. 6, which divides the backlog $`L`$ of the whole server by the share $`F/(N + 1)`$ of a single task.
 
-## 记号
+Every step of the derivation was checked against the simulator; see [Numerical check](#numerical-check).
 
-| 记号 | 含义 | 论文里的写法 |
+## Notation
+
+| Symbol | Meaning | In the paper |
 |---|---|---|
-| $`D`$ | 新任务的大小，bit | $`D_m`$ |
-| $`\gamma`$ | 每 bit 要多少 CPU 周期 | $`\gamma`$ |
-| $`F`$ | 服务器的 CPU 频率 | $`F_e`$ |
-| $`N`$ | 新任务到达时，服务器上已有的活跃任务数 | $`N_e^m`$ |
-| $`L`$ | 新任务到达时，整台服务器的积压：$`N`$ 个任务还没算完的总量，bit | $`L_e^m`$ |
-| $`r_i`$ | 第 $`i`$ 个老任务还没算完的量，$`r_1 + \dots + r_N = L`$ | 论文没有这个量 |
-| $`\mu = F/\gamma`$ | 整台服务器每秒能算多少 bit | — |
+| $`D`$ | size of the new task, bits | $`D_m`$ |
+| $`\gamma`$ | CPU cycles per bit | $`\gamma`$ |
+| $`F`$ | CPU frequency of the server | $`F_e`$ |
+| $`N`$ | active tasks already on the server when the new task arrives | $`N_e^m`$ |
+| $`L`$ | backlog of the whole server when the new task arrives: the unfinished work of the $`N`$ tasks together, bits | $`L_e^m`$ |
+| $`r_i`$ | unfinished work of the $`i`$-th existing task, $`r_1 + \dots + r_N = L`$ | not in the paper |
+| $`\mu = F/\gamma`$ | bits the whole server processes per second | — |
 
-## 论文的公式
+## The paper's formula
 
-式 4，新任务分到的算力（$`+1`$ 是新任务自己）：
+Eq. 4, the computation rate given to the new task (the $`+1`$ is the new task itself):
 
 ```math
 f^{\mathrm{eff}} = \frac{F}{N + 1}
 ```
 
-式 5，执行时间：
+Eq. 5, the execution time:
 
 ```math
 T^{\mathrm{exec}} = \frac{D\gamma}{f^{\mathrm{eff}}} = \frac{D\gamma\,(N + 1)}{F}
 ```
 
-式 6，排队时间：
+Eq. 6, the queueing time:
 
 ```math
 T^{\mathrm{wait}} = \frac{L\gamma}{f^{\mathrm{eff}}} = \frac{L\gamma\,(N + 1)}{F}
 ```
 
-式 7 把上传时间和这两项加起来。去掉上传，服务器上的时间是：
+Eq. 7 adds the upload time to these two terms. Without the upload, the time on the server is:
 
 ```math
 T^{\mathrm{paper}} = T^{\mathrm{wait}} + T^{\mathrm{exec}} = \frac{(L + D)(N + 1)\,\gamma}{F}
 ```
 
-`sim/cost.py` 的 `one_step_costs` 用的就是这个式子，它在原作者的 1914 条数据上能 100% 复现标签（`tests/test_cost.py`）。
+`one_step_costs` in `sim/cost.py` implements this formula, and it reproduces 100% of the labels in the authors' 1914 samples (`tests/test_cost.py`).
 
-## 平分算力下的真实时间
+## The real time under processor sharing
 
-设定：新任务在时刻 0 到达服务器，之后没有别的任务再来，也不考虑截止期。
+Setting: the new task reaches the server at time 0, no other task arrives afterwards, and deadlines are ignored.
 
-**第 1 步：在场的任务拿到的服务量相同。** 平分算力的意思是，任一时刻在场的每个任务速度都一样。所以从时刻 0 起，只要一个任务还在场，它累计被算掉的量就和其他在场任务一样多。把这个量记作 $`s(t)`$。
+**Step 1: tasks that are present receive the same amount of service.** Processor sharing means every task on the server runs at the same speed at any moment. So from time 0 on, as long as a task is still present, the amount of its work that has been processed equals that of every other present task. Call this amount $`s(t)`$.
 
-**第 2 步：新任务算完时，每个老任务被算掉了多少。** 新任务在 $`s = D`$ 时算完。这时第 $`i`$ 个老任务：
+**Step 2: how much of each existing task is processed by the time the new task finishes.** The new task finishes when $`s = D`$. At that moment the $`i`$-th existing task:
 
-- 如果 $`r_i \ge D`$，它还在场，被算掉了 $`D`$；
-- 如果 $`r_i < D`$，它早就算完走了，被算掉了 $`r_i`$。
+- is still present if $`r_i \ge D`$, with $`D`$ of its work processed;
+- has already finished and left if $`r_i < D`$, with $`r_i`$ of its work processed.
 
-两种情况合起来是 $`\min(r_i, D)`$。
+Both cases together give $`\min(r_i, D)`$.
 
-**第 3 步：服务器不空就满速。** 任务之间只是分算力，算力没有浪费，所以整台服务器一直以 $`\mu`$ 的速度干活。到新任务算完的时刻 $`T`$，服务器一共算掉了 $`\mu T`$，它等于新任务自己的 $`D`$ 加上每个老任务被算掉的量：
+**Step 3: a non-empty server runs at full speed.** Tasks only share the capacity; none of it is wasted, so the server as a whole works at rate $`\mu`$ all the time. By the time $`T`$ at which the new task finishes, the server has processed $`\mu T`$, which is the new task's own $`D`$ plus what was processed of each existing task:
 
 ```math
 \mu T = D + \sum_{i=1}^{N} \min(r_i, D)
 ```
 
-所以：
+Therefore:
 
 ```math
 T^{\mathrm{PS}} = \frac{\gamma}{F}\left(D + \sum_{i=1}^{N} \min(r_i, D)\right) \tag{A}
 ```
 
-**第 4 步：只知道 $`N`$ 和 $`L`$ 时的上界。** 调度器看不到每个 $`r_i`$，只看到 $`N`$ 和 $`L`$。对求和有两个上界：
+**Step 4: an upper bound when only $`N`$ and $`L`$ are known.** The scheduler does not see each $`r_i`$, only $`N`$ and $`L`$. The sum has two upper bounds:
 
-- 每一项 $`\min(r_i, D) \le r_i`$，所以求和 $`\le L`$；
-- 每一项 $`\min(r_i, D) \le D`$，所以求和 $`\le ND`$。
+- each term $`\min(r_i, D) \le r_i`$, so the sum is at most $`L`$;
+- each term $`\min(r_i, D) \le D`$, so the sum is at most $`ND`$.
 
-代入式 A：
+Substituting into eq. A:
 
 ```math
 T^{\mathrm{PS}} \le \frac{\gamma}{F}\,\min\{D(N + 1),\ L + D\} \tag{B}
 ```
 
-当老任务的剩余量都相等（$`r_i = L/N`$）时，求和正好是 $`\min(L, ND)`$，式 B 取等号。所以式 B 是只知道 $`N`$ 和 $`L`$ 时最坏的情况。`sim/cost.py` 的 `ps_costs` 用的就是式 B。
+When the existing tasks all have the same unfinished work ($`r_i = L/N`$), the sum is exactly $`\min(L, ND)`$ and eq. B holds with equality. So eq. B is the worst case when only $`N`$ and $`L`$ are known. `ps_costs` in `sim/cost.py` uses eq. B.
 
-式 B 的两个分支各有含义：
+The two branches of eq. B each have a meaning:
 
-- $`D(N + 1)`$：老任务都比新任务大，新任务全程和 $`N`$ 个任务平分，这正好是式 5。
-- $`L + D`$：老任务先走完，到新任务算完时服务器正好清空。
+- $`D(N + 1)`$: every existing task is larger than the new one, so the new task shares the server with $`N`$ tasks the whole time. This is exactly eq. 5.
+- $`L + D`$: the existing tasks finish first, and the server becomes empty just as the new task finishes.
 
-## 和论文公式对比
+## Comparison with the paper's formula
 
-式 B 的右边不超过 $`(L + D)\gamma/F`$，所以：
+The right-hand side of eq. B is at most $`(L + D)\gamma/F`$, so:
 
 ```math
 \frac{T^{\mathrm{paper}}}{T^{\mathrm{PS}}} \ \ge\ \frac{(L + D)(N + 1)}{\min\{D(N + 1),\ L + D\}} \ \ge\ N + 1
 ```
 
-分两种情况看多出来的是什么：
+What the paper adds, in two cases:
 
-| 情况 | 真实时间 | 论文 | 多出来的部分 |
+| Case | Real time | Paper | Extra part |
 |---|---|---|---|
-| 老任务都不比新任务小（$`r_i \ge D`$） | $`D(N + 1)\gamma/F`$，就是式 5 | 式 5 + 式 6 | 整个式 6 |
-| 老任务剩余量相等且先走完（$`L \le ND`$） | $`(L + D)\gamma/F`$ | $`(L + D)(N + 1)\gamma/F`$ | 整整 $`N + 1`$ 倍 |
+| No existing task is smaller than the new one ($`r_i \ge D`$) | $`D(N + 1)\gamma/F`$, which is eq. 5 | eq. 5 + eq. 6 | all of eq. 6 |
+| Existing tasks have equal unfinished work and finish first ($`L \le ND`$) | $`(L + D)\gamma/F`$ | $`(L + D)(N + 1)\gamma/F`$ | a full factor of $`N + 1`$ |
 
-## 多乘的那一遍在哪
+## Where the extra factor comes from
 
-式 5 没有问题：新任务拿到 $`F/(N + 1)`$ 的算力，"和别人分算力"的代价已经全部算在里面了。
+Eq. 5 is correct: the new task gets $`F/(N + 1)`$ of the capacity, and this already contains the whole cost of sharing the server with the others.
 
-问题在式 6。它的分子 $`L`$ 是整台服务器的积压，也就是 $`N`$ 个任务的总量；分母 $`F/(N + 1)`$ 却是一个任务分到的算力。$`L`$ 里已经含了一遍"有 $`N`$ 个任务"，再乘 $`N + 1`$ 就是第二遍。自洽的写法只有两种：
+The problem is eq. 6. Its numerator $`L`$ is the backlog of the whole server, that is, the work of $`N`$ tasks together; its denominator $`F/(N + 1)`$ is the share of one task. $`L`$ already counts the $`N`$ tasks once, and multiplying by $`N + 1`$ counts them a second time. Only two forms are consistent:
 
-| 服务器模型 | 排队 | 执行 | 合计 |
+| Server model | Queueing | Execution | Total |
 |---|---|---|---|
-| 先来先服务：等前面的算完，再独占整台服务器 | $`L\gamma/F`$ | $`D\gamma/F`$ | $`(L + D)\gamma/F`$ |
-| 平分算力：到达就开始算，没有排队这一段 | 0 | 不超过 $`\min\{D(N + 1),\ L + D\}\gamma/F`$ | 同左 |
-| 论文：排队和执行都除以 $`F/(N + 1)`$ | $`L\gamma(N + 1)/F`$ | $`D\gamma(N + 1)/F`$ | $`(L + D)(N + 1)\gamma/F`$ |
+| First-come-first-served: wait for the tasks ahead, then use the whole server | $`L\gamma/F`$ | $`D\gamma/F`$ | $`(L + D)\gamma/F`$ |
+| Processor sharing: start on arrival, with no queueing phase | 0 | at most $`\min\{D(N + 1),\ L + D\}\gamma/F`$ | same as execution |
+| Paper: queueing and execution both divided by $`F/(N + 1)`$ | $`L\gamma(N + 1)/F`$ | $`D\gamma(N + 1)/F`$ | $`(L + D)(N + 1)\gamma/F`$ |
 
-论文的式子是把先来先服务的结构（先排队、再执行）和平分算力的速率（$`F/(N + 1)`$）叠在了一起。
+The paper's formula puts the structure of first-come-first-served (queue first, then execute) on top of the rate of processor sharing ($`F/(N + 1)`$).
 
-还有一个不依赖排队方式的检查：服务器不空就满速，$`L + D`$ 这么多工作最晚在 $`(L + D)\gamma/F`$ 时全部做完，新任务不可能比这更晚。论文的值是这个上限的 $`N + 1`$ 倍。
+One more check does not depend on the queueing discipline: a non-empty server runs at full speed, so $`L + D`$ of work is finished by $`(L + D)\gamma/F`$ at the latest, and the new task cannot finish later than that. The paper's value is $`N + 1`$ times this limit.
 
-## 数值核对
+## Numerical check
 
 ```bash
-python -m eval.ps_formula_check        # 只用仿真器的 PsServer，本机几秒
+python -m eval.ps_formula_check        # uses only the simulator's PsServer; a few seconds
 ```
 
-脚本把 $`N`$ 个老任务和一个新任务放到 `sim/env.py` 的 `PsServer` 上，量新任务实际花了多久，再和三个式子比。单位是时间槽（0.1 s）。
+The script puts $`N`$ existing tasks and one new task on the `PsServer` of `sim/env.py`, measures how long the new task takes, and compares it with the three formulas. The unit is one time slot (0.1 s).
 
-30 GHz 的服务器（10.10 Mbits/槽），新任务 3 Mbits，已有 3 个任务：
+A 30 GHz server (10.10 Mbits per slot), a new task of 3 Mbits, and 3 tasks already on the server:
 
-| 老任务的剩余量，Mbits | 仿真实测 | 式 A | 式 B | 论文 | 论文 ÷ 实测 |
+| Unfinished work of the existing tasks, Mbits | Simulated | Eq. A | Eq. B | Paper | Paper ÷ simulated |
 |---|---|---|---|---|---|
-| 2、2、2 | 0.891 | 0.891 | 0.891 | 3.564 | 4.00 |
-| 4、4、4 | 1.188 | 1.188 | 1.188 | 5.940 | 5.00 |
-| 0.5、1、4.5 | 0.742 | 0.742 | 0.891 | 3.564 | 4.80 |
+| 2, 2, 2 | 0.891 | 0.891 | 0.891 | 3.564 | 4.00 |
+| 4, 4, 4 | 1.188 | 1.188 | 1.188 | 5.940 | 5.00 |
+| 0.5, 1, 4.5 | 0.742 | 0.742 | 0.891 | 3.564 | 4.80 |
 
-随机 20000 个状态（服务器频率取自 `sim/config.py`，0–8 个老任务，剩余量 0.05–5 Mbits，新任务 2–5 Mbits）：
+Over 20000 random states (server frequencies from `sim/config.py`, 0 to 8 existing tasks with 0.05 to 5 Mbits of unfinished work, a new task of 2 to 5 Mbits):
 
-- 仿真实测和式 A 最多差 8.88 × 10⁻¹⁶ 槽，是浮点误差；
-- 没有一个状态的实测超过式 B；
-- 有老任务的状态里，论文 ÷（实测 × (N + 1)）最小是 1.000000，也就是论文的值至少是实测的 $`N + 1`$ 倍。
+- the simulated time and eq. A differ by at most 8.88 × 10⁻¹⁶ slots, which is floating-point error;
+- in no state does the simulated time exceed eq. B;
+- over the states with existing tasks, the smallest value of paper ÷ (simulated × (N + 1)) is 1.000000, so the paper's value is at least $`N + 1`$ times the simulated one.
 
-## 适用范围
+## Scope
 
-- **只算服务器上的时间。** 上传时间两边都一样，没有放进来。
-- **假设之后没有新任务到达。** 后来的任务会分走算力，真实时间会比式 A 长。论文的式子和式 B 都是单步估计，都没算这一项。
-- **不考虑截止期。** 仿真器里超过 10 槽的任务会被丢弃并离开服务器，这只会让其他任务更快。
-- **论文的第二处偏差不在这份推导里。** 上传期间服务器一直在算，新任务到服务器时积压已经少了 $`\mu \times`$ 上传时间；论文的式 7 用的是决策时刻的 $`L`$。`ps_costs` 先扣掉这一段再套式 B。
-- **论文把式 6 称为近似。** 这份文档说明的是这个近似相对式 4 偏了多少，不涉及论文的其他结果。
+- **Only the time on the server is covered.** The upload time is the same on both sides and is left out.
+- **No task arrives afterwards.** Later arrivals take part of the capacity, so the real time is longer than eq. A. The paper's formula and eq. B are both one-step estimates, and neither includes this.
+- **Deadlines are ignored.** In the simulator a task that passes 10 slots is dropped and leaves the server, which only makes the other tasks faster.
+- **The paper's second deviation is not part of this derivation.** The server keeps working during the upload, so the backlog is smaller by $`\mu \times`$ upload time when the new task reaches the server; eq. 7 of the paper uses $`L`$ at decision time. `ps_costs` subtracts this part first and then applies eq. B.
+- **The paper calls eq. 6 an approximation.** This document shows how far that approximation is from eq. 4, and says nothing about the paper's other results.
 
-这个偏差在闭环里的后果（论文公式把更多任务留在本地、丢弃率更高）见 [stages.md](stages.md) 的"和原论文的差别"和阶段 6 的先来先服务对照。
+The closed-loop effect of this deviation (the paper's formula keeps more tasks on the terminal and drops more of them) is reported in the README under "Two teachers", and in [stages.md](stages.md) (in Chinese) in the table of differences from the paper and in the stage 6 first-come-first-served control.
