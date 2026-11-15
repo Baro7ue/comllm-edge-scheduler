@@ -226,8 +226,8 @@ flowchart LR
 | 6 | the PS-aware teacher and its FCFS control, open loop per test set, Colab against Jetson in both loops | `evidence/G6/`, `runs/*_s6_*` |
 | 7 | the 7B reproduction with the paper's GRPO recipe, open and closed loop on Colab | `evidence/S7/`, `runs/*_s7_*` |
 
-Commands, parameters and full results for every stage are in [docs/stages.md](docs/stages.md) (in
-Chinese), including the 10 places where the simulation, training or evaluation differs from the paper.
+Commands, parameters and full results for every stage are in [docs/stages.md](docs/stages.md),
+including the 10 places where the simulation, training or evaluation differs from the paper.
 
 ## Repository layout
 

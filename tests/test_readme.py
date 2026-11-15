@@ -1,6 +1,6 @@
 """Can every number and run folder in the two READMEs be traced to a file in the repository?
 
-1. Run folders named in README.md, README.zh-CN.md and docs/stages.md (runs/ followed by a UTC time) exist;
+1. Run folders named in README.md, README.zh-CN.md, docs/stages.md and docs/stages.zh-CN.md (runs/ followed by a UTC time) exist;
    names with * are globs and must match at least one folder
 2. The run folders and evidence tables in the last column of figures/numbers.md exist
 3. Every number with a decimal point or a percent sign in the results table of each README
@@ -55,7 +55,7 @@ def images(text):
 class TestReadmeSources(unittest.TestCase):
     def test_run_dirs_exist(self):
         missing = []
-        for rel in list(READMES) + ["docs/stages.md"]:
+        for rel in list(READMES) + ["docs/stages.md", "docs/stages.zh-CN.md"]:
             for name in RUN_PATTERN.findall(read(rel)):
                 name = name.rstrip(".")
                 if not glob.glob(os.path.join(ROOT, "runs", name)):

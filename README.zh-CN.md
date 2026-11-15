@@ -171,7 +171,7 @@ flowchart LR
 | 6 | PS 感知老师和它的先来先服务对照、三套测试集分开报开环、Colab 和 Jetson 的开环与闭环对比 | `evidence/G6/`、`runs/*_s6_*` |
 | 7 | 按论文的 GRPO 方法复现 7B，在 Colab 上跑开环和闭环 | `evidence/S7/`、`runs/*_s7_*` |
 
-每个阶段的命令、参数和完整结果在 [docs/stages.md](docs/stages.md)，其中也列了仿真、训练和评测和论文不一样的 10 处。
+每个阶段的命令、参数和完整结果在 [docs/stages.zh-CN.md](docs/stages.zh-CN.md)，其中也列了仿真、训练和评测和论文不一样的 10 处。
 
 ## 仓库结构
 
@@ -184,7 +184,7 @@ flowchart LR
 | `runs/` | 每次运行的原始结果，一次一个目录，按 UTC 时间命名 |
 | `evidence/` | 各阶段的验收证据 |
 | `figures/` | 阶段 5 的 7 张图和 `numbers.md` |
-| `docs/` | 各阶段记录 `stages.md`、版本记录 `versions.md`、改写历史前后的提交号对照 `commit-map.md`，README 配图在 `media/` |
+| `docs/` | 各阶段记录 `stages.zh-CN.md`、版本记录 `versions.zh-CN.md`（英文版不带 `.zh-CN`）、改写历史前后的提交号对照 `commit-map.md`，README 配图在 `media/` |
 | `tests/` | 单元测试 |
 
 ## 运行
@@ -201,8 +201,8 @@ python -m eval.figures                   # 阶段 5 的 7 张图和 figures/numb
 ```
 
 - `runs/` 带着所有实验的原始结果，不接 Jetson 也能重画全部图、核对每个数字。
-- Colab 训练、Jetson 部署和每个实验的命令在 [docs/stages.md](docs/stages.md)；硬件、JetPack、llama.cpp 提交号和 Qwen 权重版本在
-  [docs/versions.md](docs/versions.md)。
+- Colab 训练、Jetson 部署和每个实验的命令在 [docs/stages.zh-CN.md](docs/stages.zh-CN.md)；硬件、JetPack、llama.cpp 提交号和 Qwen 权重版本在
+  [docs/versions.zh-CN.md](docs/versions.zh-CN.md)。
 - 原作者的模型和数据集不随仓库发布；用到它们的测试找不到文件时自动跳过。
 
 ## 致谢、许可与引用

@@ -157,4 +157,4 @@ Over 20000 random states (server frequencies from `sim/config.py`, 0 to 8 existi
 - **The paper's second deviation is not part of this derivation.** The server keeps working during the upload, so the backlog is smaller by $`\mu \times`$ upload time when the new task reaches the server; eq. 7 of the paper uses $`L`$ at decision time. `ps_costs` subtracts this part first and then applies eq. B.
 - **The paper calls eq. 6 an approximation.** This document shows how far that approximation is from eq. 4, and says nothing about the paper's other results.
 
-The closed-loop effect of this deviation (the paper's formula keeps more tasks on the terminal and drops more of them) is reported in the README under "Two teachers", and in [stages.md](stages.md) (in Chinese) in the table of differences from the paper and in the stage 6 first-come-first-served control.
+The closed-loop effect of this deviation (the paper's formula keeps more tasks on the terminal and drops more of them) is reported in the README under "Two teachers", and in [stages.md](stages.md) in the table of differences from the paper and in the stage 6 first-come-first-served control.

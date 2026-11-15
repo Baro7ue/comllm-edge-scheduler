@@ -1,218 +1,220 @@
-# 各阶段的做法、命令和完整结果
+# Method, commands and full results for every stage
 
-[README](../README.zh-CN.md)（[English](../README.md)）只放结论。这里按阶段记每一步怎么做、用什么命令、完整结果和要注意的地方，和原论文不一样的地方也在这里。数字全部实测，每个数字来自哪个运行目录见 [figures/numbers.md](../figures/numbers.md) 和 [docs/media/numbers.md](media/numbers.md)。下面的命令都在仓库根目录、激活 `.venv` 后运行。
+[简体中文](stages.zh-CN.md)
 
-## 和原论文的差别
+The [README](../README.md) only gives the conclusions. This document records, stage by stage, how each step was done, the commands, the full results and what to watch for, and it lists where this repository differs from the paper. Every number is measured; the run folder each number comes from is listed in [figures/numbers.md](../figures/numbers.md) and [docs/media/numbers.md](media/numbers.md). The commands below are run from the repository root with `.venv` activated.
 
-下表列出本仓库和原论文（arXiv:2604.07148v2）不一样的地方，以及为什么不一样。公式号和表号都指论文。
+## Differences from the paper
 
-| 项目 | 论文 | 本仓库 | 原因和影响 |
+The table lists where this repository differs from the paper (arXiv:2604.07148v2) and why. Equation and table numbers refer to the paper.
+
+| Item | Paper | This repository | Reason and effect |
 |---|---|---|---|
-| 边缘服务器的排队时间 | 式 4 说服务器在活跃任务之间平分算力；式 5–7 把排队时间近似为 (积压 + 任务大小) × (活跃数 + 1) × γ ÷ F，积压是整台服务器的 | 仿真器按"平分算力"逐个任务推进；调度决策和训练标签仍用论文公式 | 平分算力时积压等于被算了两遍（推导见 [paper-delay-formula.zh-CN.md](paper-delay-formula.zh-CN.md)），所以这个近似在闭环高负载下偏悲观，单步最优会把太多任务留在本地。3 台服务器、40 台终端时，单步最优丢弃 6.3%；换成按平分算力推导的估计后只丢 0.01%（仿真实测） |
-| 评测方式 | 式 26–27：在 1000 条互相独立的测试状态上逐条打分再平均（开环） | 闭环：每个决策都会改变后面的队列状态，延迟和丢弃按仿真里真实发生的排队统计 | 开环看不到估计公式的偏差、多个决策扎堆选同一台服务器的羊群效应，也看不到决策本身的耗时 |
-| 训练用的服务器台数 | 第 V-B 节：只在 6 台上训练，直接测 3/5/7/9/11 台 | 在 3/5/7/9/11 台的混合上训练；4/6/8/10 台训练时不出现，专门测泛化 | 原作者提供的数据集本身就是 3/5/7/9/11 台混合 |
-| 本地 CPU 频率 | 表 I：2 GHz | 2.5 GHz | 以原作者数据集为准 |
-| 超时惩罚 ρ | 表 I：10 | 数据里写的是 100，只在论文格式的提示词里原样写出；评测时平均延迟只算完成的任务，丢弃率单独报 | 延迟和丢弃分开报，结果不受 ρ 取值影响 |
-| 任务到达 | 第 III-A 节正文写泊松到达；表 I 写到达概率 0.3 | 每台终端每个时间槽以 0.3 的概率产生一个任务 | 和表 I、数据集一致 |
-| 上传速率 | 式 1 按香农公式随信道变化；表 I 给的平均值是 14 Mbps | 固定 14 Mbps（1.4 Mbits/槽） | 数据集里的上传速率都是 1.4 Mbits/槽 |
-| 提示词和答案 | 第 IV-C 节：约 500 token 的说明 + 每台服务器约 115 token 的状态；答案是中文动作名（约 12 个 token） | 压缩格式：系统说明约 130 token + 每台服务器一行数字；答案是 1 个字母（A = 本地，B = 服务器 1 ……） | 决策只要 1 个 token、不用生成。1.5B Q4_K_M 在 Jetson 上从 1064 ms 降到 119 ms（阶段 2 实测） |
-| 训练目标和数据量 | 式 16：对整段答案的每个 token 算负对数似然；SFT 用 1000 条（第 V-A 节） | 只在答案那 1 个位置算 KL(软标签 ‖ 模型)，软标签 = softmax(−成本 / T)；4 万条 | 软标签把"差不多一样好"的动作也告诉模型；数据由自己的仿真器生成，数量不受限 |
-| LACS 的未来影响 | 式 20 假装执行时先减掉一个时间槽的服务量；式 21 随机抽 K = 3 个未来任务 | 不减，和原作者仓库的实现一致；在 0.5–1.5 倍任务大小之间均匀取 41 个点求平均 | 去掉抽样噪声。λ = 0.3 时 LACS 最多只在 0.80% 的仿真状态上改变决策，闭环延迟最多差 0.18%（阶段 1 实测），所以软标签只用单步成本 |
+| Queueing time on an edge server | Eq. 4 says a server shares its capacity among the active tasks; eq. 5–7 approximate the queueing time as (backlog + task size) × (active tasks + 1) × γ ÷ F, where the backlog is that of the whole server | The simulator advances every task under processor sharing; scheduling decisions and training labels still use the paper's formula | Under processor sharing the backlog is counted twice (derivation in [paper-delay-formula.md](paper-delay-formula.md)), so the approximation is pessimistic in the closed loop at high load and the one-step optimum keeps too many tasks on the terminal. With 3 servers and 40 terminals the one-step optimum drops 6.3%; an estimate derived from processor sharing drops 0.01% (measured in simulation) |
+| Evaluation | Eq. 26–27: score 1000 independent test states one by one and average (open loop) | Closed loop: every decision changes the queues seen later, and delay and drops are counted from the queueing that actually happens in the simulation | The open loop cannot see the bias of the estimate, the herding of several decisions onto one server, or the time the decision itself takes |
+| Server counts in training | Section V-B: train on 6 servers only and test on 3/5/7/9/11 | Train on a mix of 3/5/7/9/11 servers; 4/6/8/10 never appear in training and are used to test generalization | The data set provided by the original authors is itself a mix of 3/5/7/9/11 servers |
+| Local CPU frequency | Table I: 2 GHz | 2.5 GHz | Follows the original authors' data set |
+| Deadline penalty ρ | Table I: 10 | The data say 100, which is only written out as is in the paper-format prompt; in evaluation the mean delay counts completed tasks only and the drop rate is reported separately | Delay and drops are reported separately, so the results do not depend on ρ |
+| Task arrival | The text of Section III-A says Poisson arrivals; Table I gives an arrival probability of 0.3 | Each terminal produces a task with probability 0.3 in each time slot | Consistent with Table I and the data set |
+| Uplink rate | Eq. 1 varies with the channel by the Shannon formula; Table I gives a mean of 14 Mbps | Fixed 14 Mbps (1.4 Mbits per slot) | Every uplink rate in the data set is 1.4 Mbits per slot |
+| Prompt and answer | Section IV-C: about 500 tokens of instructions + about 115 tokens of state per server; the answer is an action name in Chinese (about 12 tokens) | Compact format: about 130 tokens of system instructions + one line of numbers per server; the answer is 1 letter (A = local, B = server 1, ...) | A decision takes 1 token and no generation. The 1.5B Q4_K_M on the Jetson goes from 1064 ms to 119 ms (measured in stage 2) |
+| Training objective and data size | Eq. 16: negative log-likelihood on every token of the whole answer; SFT uses 1000 samples (Section V-A) | KL(soft label ‖ model) at the single answer position only, soft label = softmax(−cost / T); 40,000 samples | Soft labels also tell the model which actions are nearly as good; the data come from our own simulator, so the amount is not limited |
+| Future impact in LACS | Eq. 20 first subtracts one time slot of service in the virtual transition; eq. 21 samples K = 3 future tasks at random | No subtraction, as in the original authors' repository; the average over 41 evenly spaced points between 0.5 and 1.5 times the task size | Removes the sampling noise. With λ = 0.3, LACS changes the decision in at most 0.80% of the simulated states and the closed-loop delay differs by at most 0.18% (measured in stage 1), so the soft labels use the one-step cost only |
 
-丢弃的判定和论文相同：按式 27，延迟超过截止期 10 槽就算丢弃。原作者仓库的评测脚本用的是 12.5 槽，对比数字时要注意。
+Drops are decided as in the paper: by eq. 27, a task whose delay exceeds the deadline of 10 slots counts as dropped. The evaluation script in the original authors' repository uses 12.5 slots; keep this in mind when comparing numbers.
 
-## 仿真器（阶段 1）
+## Simulator (stage 1)
 
-在仓库根目录、激活 `.venv` 后运行：
-
-```bash
-python -m unittest discover -s tests -v                 # 42 个测试，约 40 秒；原作者数据默认从 ~/Documents/COMLLM训练部署及改良/from_friend/data 读
-python -m eval.closed_loop --name s1_sweep_3srv         # 扫终端数 N，结果写进 runs/<UTC>_s1_sweep_3srv/results.csv
-python -m eval.plot_sweep runs/<目录>/results.csv       # 画平均延迟和丢弃率随 N 的变化
-python -m eval.lacs_check_sim --sweep runs/<目录>/results.csv   # 在仿真器状态分布上重跑 LACS 检查
-python -m eval.show_prompts                             # 看两种提示词格式
-```
-
-参数全部在 `sim/config.py`，数值和原作者的三份数据集（1914 条）一致：时间槽 0.1 s，截止期 10 槽，任务 2–5 Mbits 均匀分布，每台终端每槽以 0.3 的概率产生任务，上传 1.4 Mbits/槽（14 Mbps），本地 CPU 2.5 GHz（论文表 I 写 2 GHz，以数据为准），每比特 297 周期。服务器阵容 3/5/7/9/11 台取自数据；4/6/8/10 台是自定的、训练时不出现的阵容，只用来测泛化。
-
-建模选择：
-
-- **服务器按任务平分算力（processor sharing）。** n 个任务同时在一台频率 F 的服务器上时，每个任务分到 F/n。调度决策用的单步公式沿用论文：假设新任务加入后活跃数加 1，分到 F/(n+1)。这和 Tang & Wong（IEEE TMC 2022，论文的环境来源）不同：他们在每台边缘服务器上为每个终端开一条 FIFO 队列，算力在"非空的队列"之间平分，同一终端发到同一台服务器的多个任务要排队依次算；这里是"每个任务"平分，同一终端的任务也并行。
-- **本地 CPU 和上传链路是每台终端各一条 FIFO 队列。** 任务从到达起超过 10 槽还没完成就丢弃，丢弃时立刻离开队列。
-- **调度器看到的服务器状态包含"已派出、还在上传"的任务。** 调度器知道自己派过哪些任务，这些任务马上会到服务器上分算力。
-- **同一时间槽的多个任务有两种决策方式：** `sequential`（逐个决策，后一个看到前一个的结果）和 `batch`（都看槽开始时的同一份状态，模拟 LLM 批量推理，会出现羊群效应）。公式基线默认用 `sequential`。
-- **指标：** 平均延迟只算完成的任务（单位：槽）；丢弃率单独算；负载均衡用 Jain 指数，按卸载到每台服务器的任务数算，n 取真实服务器台数（原作者仓库的脚本取的是"被选中过的最大编号"）。
-
-## 调度节点与实时闭环（阶段 2）
-
-```
-环境节点（开发期 Mac，阶段 5 换 RK3588）              调度节点（Jetson Orin Nano）
-  eval/realtime.py：按真实时钟推进仿真      ──HTTP──▶  deploy/scheduler.py（端口 8100）
-  eval/bench_latency.py：连发 N 次量延迟    ◀────────    │ 拼提示词 → llama-server（端口 8080，只听本机）
-  所有时间戳都在这一侧记                                  │ 超时（默认 100 ms）或答案不可用 → 单步公式回答
-```
-
-两块板子的地址、端口、超时阈值只写在 `deploy/testbed.json`。
-
-Jetson 上（仓库根目录，激活 `.venv`）：
+Run from the repository root with `.venv` activated:
 
 ```bash
-python -m deploy.scheduler --model ~/models/qwen2.5-1.5b-instruct-q4_k_m.gguf   # 自动拉起 llama-server
+python -m unittest discover -s tests -v                 # 42 tests, about 40 seconds; the original authors' data are read from ~/Documents/COMLLM训练部署及改良/from_friend/data by default
+python -m eval.closed_loop --name s1_sweep_3srv         # sweep the number of terminals N; results go to runs/<UTC>_s1_sweep_3srv/results.csv
+python -m eval.plot_sweep runs/<folder>/results.csv     # plot mean delay and drop rate against N
+python -m eval.lacs_check_sim --sweep runs/<folder>/results.csv   # rerun the LACS check on the simulator's state distribution
+python -m eval.show_prompts                             # show the two prompt formats
 ```
 
-Mac 上：
+All parameters are in `sim/config.py`, with the values of the original authors' three data sets (1914 samples): a time slot of 0.1 s, a deadline of 10 slots, tasks uniform between 2 and 5 Mbits, a task with probability 0.3 per terminal per slot, an uplink of 1.4 Mbits per slot (14 Mbps), a local CPU of 2.5 GHz (Table I of the paper says 2 GHz; the data take precedence), and 297 cycles per bit. The server line-ups for 3/5/7/9/11 servers come from the data; those for 4/6/8/10 are our own, never appear in training and are used only to test generalization.
+
+Modelling choices:
+
+- **Servers share their capacity among tasks (processor sharing).** With n tasks on a server of frequency F at the same time, each task gets F/n. The one-step formula used for scheduling decisions follows the paper: it assumes the number of active tasks grows by 1 when the new task joins, so the task gets F/(n+1). This differs from Tang & Wong (IEEE TMC 2022, the source of the paper's environment): they keep one FIFO queue per terminal on each edge server and share the capacity among the non-empty queues, so several tasks from one terminal to one server are processed one after another; here the capacity is shared per task, and tasks from the same terminal also run in parallel.
+- **The local CPU and the uplink are one FIFO queue each per terminal.** A task not finished within 10 slots of its arrival is dropped and leaves its queue at once.
+- **The server state the scheduler sees includes tasks that are assigned but still uploading.** The scheduler knows which tasks it has sent, and they will soon share the server's capacity.
+- **Several tasks in one time slot can be decided in two ways:** `sequential` (one at a time, each seeing the result of the previous one) and `batch` (all see the same state from the start of the slot, which imitates batched LLM inference and produces herding). The formula baselines use `sequential` by default.
+- **Metrics:** the mean delay counts completed tasks only (unit: slots); the drop rate is computed separately; load balance is the Jain index over the number of tasks offloaded to each server, with n the real number of servers (the script in the original authors' repository uses the largest server index that was ever chosen).
+
+## Scheduler node and real-time closed loop (stage 2)
+
+```
+Environment node (Mac in development, RK3588 in stage 5)       Scheduler node (Jetson Orin Nano)
+  eval/realtime.py: advances the simulation by wall clock ──HTTP──▶  deploy/scheduler.py (port 8100)
+  eval/bench_latency.py: sends N requests, measures latency ◀──────    │ build prompt → llama-server (port 8080, localhost only)
+  all timestamps are taken on this side                                │ timeout (100 ms by default) or unusable answer → one-step formula
+```
+
+The addresses, ports and timeout of the two boards are written only in `deploy/testbed.json`.
+
+On the Jetson (repository root, `.venv` activated):
 
 ```bash
-python -m eval.bench_latency --fmt compact --cache on     # 500 次请求的端到端延迟和分段耗时
-python -m eval.latency_table                              # 把所有基准汇总成一张表
-python -m eval.realtime --policy compact --n 5 --minutes 10 --name smoke_llm   # 实时闭环
+python -m deploy.scheduler --model ~/models/qwen2.5-1.5b-instruct-q4_k_m.gguf   # starts llama-server by itself
 ```
 
-设计选择：
+On the Mac:
 
-- **压缩格式只算 1 个 token，读概率而不是加语法。** 请求 `n_predict=1`、`n_probs=20`，在前 20 个候选里取概率最大的合法字母。GBNF 语法也能保证答案合法，但它要逐个检查 15 万个词表 token，模型首选不是合法字母时每个 token 要多花约 20 ms（云端 CPU 实测，Jetson 上待测），所以只作为对照。
-- **论文格式按原作者仓库的拼法，生成到结束符为止，最多 20 个 token。** 系统提示和用户内容和阶段 3 的论文原版基线一样（见下面"论文原版基线"）；回答去掉首尾空白后必须正好是"本地执行"或"卸载到边缘服务器k"，否则按不可用处理、回退公式。阶段 2 的论文格式延迟是按旧拼法（状态字典的 JSON、固定生成 12 个 token）量的，阶段 5 用新拼法重量。
-- **决策在收到回复的那一刻生效。** 实时模式下，任务从到达开始计时，等决策的时间（环境节点排队 + 网络 + Jetson）都算进任务延迟；过了截止期还没拿到决策的任务记为在"决策"环节丢弃。
-- **环境节点一次只发一个请求。** 每个请求看到的状态包含之前所有决策的结果；Jetson 忙时请求在环境节点排队。理论容量 N_max = 1 / (3 × 平均往返秒数)：每台终端每秒 0.3 × 10 = 3 个请求。
-- **超时回退。** Jetson 上的服务最多等 LLM `timeout_ms`；等不到就用单步公式回答，在日志里记 `source = fallback`、`reason = timeout`。已经开始算的 LLM 请求会算完，结果记为"迟到"，不影响已经给出的答案。迟到的请求还在算时又来新请求，新请求不排队，马上用公式回答（`reason = busy`）：否则新请求排在后面也会超时，每个都白等 `timeout_ms`，而 100 ms 比 5 台终端时两个请求的平均间隔（约 68 ms）还长，待决策的任务会越积越多。云端预演时 CPU 卡顿过一次，就出现了这样的连锁超时，决策延迟 p99 涨到约 300 ms（云端实测），这条规则就是为它加的。
-
-## 训练与开环评测（阶段 3）
-
-```
-Mac        python -m train.make_data          → data/s3/（6 个文件，不进仓库）→ 上传 Drive 的 MyDrive/COMLLM/s3_data/
-Colab      train/S3_训练.ipynb                 RUN = sweep_0.5b → main_0.5b → soft_1.5b → hard_1.5b（可选 ps_0.5b）
-           train/S3_论文原版基线.ipynb          原作者的 sft / grpo / score-grpo，论文格式
-           结果在 MyDrive/COMLLM/s3_runs/，下载到 runs/s3/
-Mac        python -m train.small_net（可选）   → runs/s3/small_net_<UTC>/
-Mac        python -m eval.open_loop runs/s3/*  → evidence/G3/open_loop.md 和 open_loop.csv
-Jetson+Mac python -m eval.check_gguf --expected runs/s3/<目录>/jetson_check/expected_200.jsonl --name <名字>
+```bash
+python -m eval.bench_latency --fmt compact --cache on     # end-to-end latency and per-segment time of 500 requests
+python -m eval.latency_table                              # collect all benchmarks into one table
+python -m eval.realtime --policy compact --n 5 --minutes 10 --name smoke_llm   # real-time closed loop
 ```
 
-**数据。** 每种 (服务器台数, 终端数 N, 行为策略, 种子) 跑一次闭环仿真，热身 200 槽后隔开取状态，按提示词全文去重；训练集里出现在任何评测集的状态都删掉（交集为 0，`meta.json` 里有记录）。
+Design choices:
 
-| 文件 | 服务器台数 | 每种台数 | 行为策略 | 用途 |
+- **The compact format computes 1 token and reads probabilities instead of using a grammar.** The request sets `n_predict=1` and `n_probs=20` and takes the most probable legal letter among the top 20 candidates. A GBNF grammar also guarantees a legal answer, but it checks all 150,000 vocabulary tokens one by one, and when the model's first choice is not a legal letter each token costs about 20 ms more (measured on a cloud CPU, not yet on the Jetson), so it is kept only as a control.
+- **The paper format follows the prompt layout of the original authors' repository and generates until the end token, at most 20 tokens.** The system prompt and user content are the same as for the paper's original baseline in stage 3 (see "The paper's original baseline" below); after stripping whitespace the answer must be exactly "本地执行" or "卸载到边缘服务器k", otherwise it is treated as unusable and the formula answers. The paper-format latency of stage 2 was measured with the old layout (the state dictionary as JSON, 12 generated tokens fixed); stage 5 measures it again with the new layout.
+- **A decision takes effect at the moment the reply arrives.** In real-time mode a task's clock starts at its arrival, and the time spent waiting for the decision (queueing at the environment node + network + Jetson) counts towards the task's delay; a task that has no decision by its deadline is recorded as dropped at the "decision" stage.
+- **The environment node sends one request at a time.** The state each request sees includes the results of all earlier decisions; while the Jetson is busy, requests queue at the environment node. The theoretical capacity is N_max = 1 / (3 × mean round trip in seconds): each terminal produces 0.3 × 10 = 3 requests per second.
+- **Fallback on timeout.** The service on the Jetson waits for the LLM for at most `timeout_ms`; after that it answers with the one-step formula and logs `source = fallback`, `reason = timeout`. An LLM request that has already started runs to the end and its result is recorded as "late", without affecting the answer already given. If a new request arrives while a late one is still running, it does not queue and is answered by the formula at once (`reason = busy`): otherwise it would time out behind the late one too, every such request would wait `timeout_ms` for nothing, and since 100 ms is longer than the mean gap between two requests with 5 terminals (about 68 ms), the tasks waiting for a decision would pile up. In a cloud rehearsal the CPU stalled once and exactly this chain of timeouts appeared, raising the p99 decision latency to about 300 ms (measured in the cloud); this rule was added for it.
+
+## Training and open-loop evaluation (stage 3)
+
+```
+Mac        python -m train.make_data          → data/s3/ (6 files, not in the repository) → upload to MyDrive/COMLLM/s3_data/ on Drive
+Colab      train/S3_训练.ipynb                 RUN = sweep_0.5b → main_0.5b → soft_1.5b → hard_1.5b (optionally ps_0.5b)
+           train/S3_论文原版基线.ipynb          the original authors' sft / grpo / score-grpo, paper format
+           results in MyDrive/COMLLM/s3_runs/, downloaded to runs/s3/
+Mac        python -m train.small_net (optional) → runs/s3/small_net_<UTC>/
+Mac        python -m eval.open_loop runs/s3/*  → evidence/G3/open_loop.md and open_loop.csv
+Jetson+Mac python -m eval.check_gguf --expected runs/s3/<folder>/jetson_check/expected_200.jsonl --name <name>
+```
+
+**Data.** One closed-loop simulation is run for each (server count, number of terminals N, behaviour policy, seed); after a warm-up of 200 slots, states are taken at intervals and deduplicated by the full prompt text. Any training state that appears in an evaluation set is removed (the overlap is 0, as recorded in `meta.json`).
+
+| File | Server counts | Per server count | Behaviour policy | Use |
 |---|---|---|---|---|
-| train | 3/5/7/9/11 | 约 2 万 | 60% 贪心、20% 带 20% 随机动作的贪心、20% PS 感知贪心 | 训练（每次抽 4 万条） |
-| val | 3/5/7/9/11 | 约 400 | 贪心 | 选温度 T、看训练曲线 |
-| test_seen | 3/5/7/9/11 | 约 600 | 贪心 | 测试 |
-| test_unseen | 4/6/8/10 | 约 600 | 贪心 | 测试泛化：训练时没出现过的台数 |
-| friend_clean | 3/5/7/9/11 | 共 245 | 原作者 | 原作者测试集 306 条去掉和他训练集重复的 61 条 |
+| train | 3/5/7/9/11 | about 20,000 | 60% greedy, 20% greedy with 20% random actions, 20% PS-aware greedy | training (40,000 drawn per run) |
+| val | 3/5/7/9/11 | about 400 | greedy | choosing the temperature T, watching the training curve |
+| test_seen | 3/5/7/9/11 | about 600 | greedy | test |
+| test_unseen | 4/6/8/10 | about 600 | greedy | generalization test: server counts never seen in training |
+| friend_clean | 3/5/7/9/11 | 245 in total | original authors | the original authors' 306 test samples minus the 61 that also appear in their training set |
 
-**标签和损失。**
+**Labels and loss.**
 
-- 软标签 p_a = softmax(−(c_a − c_min) / T)，只在合法动作上；T 在验证集上从 0.1 / 0.3 / 1.0 里选"多花延迟"最小的，硬标签（只给最优动作）做对照。
-- 标签用压缩格式精度（任务大小 2 位、其余 1 位小数）的状态算，因为学生看到的就是这个精度；评测用 4 位小数状态的成本。两者最优动作不同的状态就是学生的上限，开环表里"公式·压缩精度"一行。
-- 损失 = KL(p_老师 ‖ p_学生)，只在答案那 1 个位置算。学生的概率先在整个词表上做 softmax，再取 12 个字母那几项：概率漏到非字母 token 上，字母上的概率就变小，损失跟着变大，所以模型也学会了"只答字母"。
-- LoRA：r = 16，α = 32，dropout 0.05，所有线性层；学习率 2e-4，前 3% 线性升温后余弦下降；每次更新 16 条，bf16。
-- 训练和评测都用部署时同一条规则选动作：整个词表概率最高的 20 个 token 里，取概率最大的合法字母；一个都没有就算非法。notebook 会核对 Hugging Face 对话模板拼出的提示词和 `deploy/prompts.py` 拼的一字不差。
+- Soft label p_a = softmax(−(c_a − c_min) / T), over legal actions only; T is chosen from 0.1 / 0.3 / 1.0 as the one with the smallest extra delay on the validation set, with hard labels (the best action only) as the control.
+- Labels are computed from the state at the precision of the compact format (2 decimals for the task size, 1 for the rest), because that is the precision the student sees; evaluation uses the cost of the state with 4 decimals. The states where the two give different best actions are the student's ceiling, shown as the row "formula · compact precision" in the open-loop table.
+- Loss = KL(p_teacher ‖ p_student), at the single answer position only. The student's probabilities are a softmax over the whole vocabulary, of which the 12 letter entries are taken: probability that leaks to non-letter tokens makes the letter probabilities smaller and the loss larger, so the model also learns to answer with a letter only.
+- LoRA: r = 16, α = 32, dropout 0.05, all linear layers; learning rate 2e-4, linear warm-up over the first 3% followed by cosine decay; 16 samples per update, bf16.
+- Training and evaluation pick the action by the same rule as deployment: among the 20 most probable tokens of the whole vocabulary, the most probable legal letter; if there is none, the answer is illegal. The notebook checks that the prompt built by the Hugging Face chat template is character for character the one built by `deploy/prompts.py`.
 
-**论文原版基线。** 原作者的三个 1.5B 模型用原作者仓库训练和评测脚本（`stf_7B.py`、`comllm_train.py`、`evaluate_model.py`）的拼法：系统提示"你是一个MEC任务卸载专家……"，用户内容 = 说明 + 空一行 + "**输入数据**：" + 每行一个"键: 值"。贪心生成最多 20 个 token，在回答里找第一个"本地执行 / 卸载到边缘服务器k"，k 超出台数算非法。原作者的评测脚本是 temperature 0.7 采样，这里统一用贪心，结果可以复现。notebook 先用 sft 模型在 60 条上把这种拼法和另外 4 种（Qwen 默认系统提示 + 状态字典的 JSON 等）都试一遍，和原作者标签一致最多的那种用于全部评测（`probe.json`）。
+**The paper's original baseline.** The original authors' three 1.5B models use the prompt layout of the training and evaluation scripts in their repository (`stf_7B.py`, `comllm_train.py`, `evaluate_model.py`): the system prompt "你是一个MEC任务卸载专家……", and user content = instructions + an empty line + "**输入数据**：" + one "key: value" per line. Generation is greedy with at most 20 tokens, and the first "本地执行 / 卸载到边缘服务器k" found in the answer is the action; a k beyond the number of servers is illegal. The original authors' evaluation script samples at temperature 0.7; here everything is greedy so that the results can be reproduced. The notebook first tries this layout and 4 others (Qwen's default system prompt + the state dictionary as JSON, and so on) with the sft model on 60 samples, and the one that agrees most often with the original authors' labels is used for the whole evaluation (`probe.json`).
 
-**开环指标**（`eval/open_loop.py`，单位：槽）。和论文表 II 对齐，这里的 AL 按式 26 计入超时惩罚 ρ = 10（表 I），非法动作记 截止期 + ρ = 20；PR = 最优动作的 AL ÷ 策略的 AL（式 28–29）；丢弃 = 成本超过截止期或动作非法（式 27 的开环版）；LBI 按式 31，只看卸载的任务，n 取真实台数，按台数分别算再平均。闭环评测（阶段 5）仍按上面"超时惩罚 ρ"一行，延迟和丢弃分开报。
+**Open-loop metrics** (`eval/open_loop.py`, unit: slots). Aligned with Table II of the paper: AL here includes the deadline penalty ρ = 10 (Table I) as in eq. 26, and an illegal action counts as deadline + ρ = 20; PR = AL of the best action ÷ AL of the policy (eq. 28–29); a drop = cost above the deadline or an illegal action (the open-loop version of eq. 27); LBI follows eq. 31, over offloaded tasks only, with n the real number of servers, computed per server count and then averaged. The closed-loop evaluation (stage 5) still follows the row "Deadline penalty ρ" above and reports delay and drops separately.
 
-**小网络对照（可选）。** `python -m train.small_net`（Mac，numpy，约 20 秒）：同一个 6 → 32 → 32 → 1 的 MLP 给每个选项打分，共 1313 个参数；特征从压缩提示词还原，和 LLM 学生看到的信息一样；用同样的软标签训练，结果写成同样的 `preds.csv`，开环表里多一行。
+**Small-network control (optional).** `python -m train.small_net` (Mac, numpy, about 20 seconds): one 6 → 32 → 32 → 1 MLP scores every option, 1313 parameters in total; its features are recovered from the compact prompt, so it sees the same information as the LLM students; it is trained on the same soft labels and writes the same `preds.csv`, which adds one row to the open-loop table.
 
-**GGUF。** 合并 LoRA 后用和 Jetson 同一提交（5aeac37a3）的 `convert_hf_to_gguf.py` 直接出 Q8_0；Q4_K_M 先出 F16 再用 `llama-quantize` 量化。`eval/check_gguf.py` 把 200 条测试状态发给 Jetson 上的调度服务，和 Colab 上合并后模型（PyTorch）选的动作比；不一致时同时报 Jetson 多花了多少槽，因为领先幅度很小的状态最容易被量化翻过来，而这些状态上选错代价也小。
+**GGUF.** After merging the LoRA, `convert_hf_to_gguf.py` at the same commit as the Jetson (5aeac37a3) writes Q8_0 directly; for Q4_K_M it writes F16 first and `llama-quantize` quantizes it. `eval/check_gguf.py` sends 200 test states to the scheduler service on the Jetson and compares the actions with those of the merged model on Colab (PyTorch); where they differ it also reports how many extra slots the Jetson's choice costs, because states with a very small lead are the easiest for quantization to flip, and a wrong choice costs little on those states.
 
-## GRPO 实验（阶段 4）
+## GRPO experiments (stage 4)
 
 ```
-Mac    python -m train.make_grpo_data      → data/s4/（不进仓库）→ 上传 Drive 的 MyDrive/COMLLM/s4_data/
-Colab  train/S4_A_论文原版.ipynb            RUN = diagnose → smoke → fixed → repo（从原作者 sft 1.5B 出发，论文格式）
-       train/S4_B_硬标签起点.ipynb           从阶段 3 的 hard_1.5b 出发，压缩格式
-       结果在 MyDrive/COMLLM/s4_runs/，下载到 runs/s4/
-Mac    python -m eval.open_loop <阶段 3 和 4 的运行目录> --out evidence/G4 --title "阶段 4 开环评测"
-Mac    python -m eval.grpo_report runs/s4/*  → evidence/G4/grpo_report.md 和 grpo_curves.png
+Mac    python -m train.make_grpo_data      → data/s4/ (not in the repository) → upload to MyDrive/COMLLM/s4_data/ on Drive
+Colab  train/S4_A_论文原版.ipynb            RUN = diagnose → smoke → fixed → repo (from the original authors' sft 1.5B, paper format)
+       train/S4_B_硬标签起点.ipynb           from hard_1.5b of stage 3, compact format
+       results in MyDrive/COMLLM/s4_runs/, downloaded to runs/s4/
+Mac    python -m eval.open_loop <run folders of stages 3 and 4> --out evidence/G4 --title "阶段 4 开环评测"
+Mac    python -m eval.grpo_report runs/s4/*  → evidence/G4/grpo_report.md and grpo_curves.png
 Mac    python -m eval.s4_breakdown ...       → evidence/G4/breakdown.md
 ```
 
-**做法。** 自己写的 GRPO 循环（式 17–19），不用现成的训练器。每道题采 8 个回答（温度 1.3，top-p 0.95），组内归一化成优势（式 18）。每批回答只更新一次，所以 ρ = 1，clip 不起作用。KL 用 k3 估计，β = 0.04，参考模型是关掉 LoRA 的起点。LoRA r = 16，学习率 5e-5；λ = 0（不用 LACS），和论文 1.5B 的 GRPO 一样（V-A）。两种奖励对照：fixed 是非法回答 = 最差合法动作的有效成本再差 5 槽；repo 按原作者仓库的规则重写，非法记 5，合法额外加 1。A 的训练题是原作者 GRPO 数据去重、去掉测试集状态后的 830 条，另留 100 条做验证；B 用阶段 3 的训练集，奖励按压缩精度的成本算。
+**Method.** A GRPO loop written by hand (eq. 17–19), without a ready-made trainer. 8 answers are sampled per prompt (temperature 1.3, top-p 0.95) and normalized within the group into advantages (eq. 18). Each batch of answers is used for one update only, so ρ = 1 and the clip has no effect. The KL uses the k3 estimator with β = 0.04, and the reference model is the starting point with the LoRA switched off. LoRA r = 16, learning rate 5e-5; λ = 0 (no LACS), as for the paper's 1.5B GRPO (V-A). Two rewards are compared: fixed gives an illegal answer the effective cost of the worst legal action plus 5 slots; repo is rewritten after the rule in the original authors' repository, where an illegal answer scores 5 and a legal one gets an extra 1. The training prompts of A are the 830 left from the original authors' GRPO data after deduplication and removal of test-set states, with another 100 kept for validation; B uses the training set of stage 3, with the reward computed from the cost at compact precision.
 
-**结论（全部实测；括号里是解码方式）。**
+**Findings (all measured; the decoding is in parentheses).**
 
-- 原作者三个 1.5B 模型（sft / grpo / score-grpo）在原作者干净测试集 245 条上的准确率：13.5% / 13.9% / 13.5%（贪心），10.6% / 11.0% / 11.0%（整句概率最大），12.4% / 12.7% / 12.6%（0.7 采样期望）。随机选是 15.9%。
-- 服务器 1 偏向在 sft 里就有。发给服务器 1 的比例：sft 38.3%、grpo 39.9%（0.7 采样期望），83.7%、98.4%（贪心）。服务器 1 真正最优的只有 13.9%。sft 标签里服务器 1、2、3 各占 12.3%，但动作名第一个数字是"1"的占 22.1%，因为服务器 1、10、11 共用这一位。
-- 论文表 V 的 GRPO-1.5B（服务器 1 占 62.7%、本地 3.9%）没有得到同一个数。原作者干净测试集 11 台的 36 条上，原作者 grpo 发给服务器 1 的比例是 18.3%（0.7 采样期望）和 91.7%（贪心）。两边的测试状态不同。
-- 从原作者 sft 用 GRPO 训练 204 步（约 40 分钟）。原作者干净测试集 PR 70.4% → 96.5%（fixed）/ 99.1%（repo），准确率 13.5% → 81.2% / 87.8%，都是贪心。第 25 步验证集上服务器 1 占 88–89%、本地 0%（贪心），之后自己走出来。同一个 1.5B 能到这个水平，所以我们的测量不支持"1.5B 容量不足"的解释。
-- repo 奖励在这里不比 fixed 差。repo 的漏洞是越界的服务器号比本地得分高，但这次没有被触发，两次训练的越界回答都是 0%。repo 模型有 45/1245 条回答多了"服务器"尾巴，严格解析后干净测试集准确率是 86.9%（贪心）。
-- 两个模型都从不选本地，而训练题里本地最优的只有 5.9%。在阶段 3 见过台数的 1000 条上，PR 是 86.0% / 89.3%（贪心），本地最优的题占了多花延迟的 77.9% / 92.5%。
-- 阶段 3 的 hard_1.5b 再做 1000 步 GRPO（fixed 奖励）：见过台数准确率 96.0% → 92.9%，没见过台数 95.2% → 92.1%，PR 99.9% → 99.7%（部署规则）。学生已在公式上限，GRPO 没有收益。部署仍是阶段 3 的软标签 0.5B Q8_0。
+- Accuracy of the original authors' three 1.5B models (sft / grpo / score-grpo) on the 245 samples of their cleaned test set: 13.5% / 13.9% / 13.5% (greedy), 10.6% / 11.0% / 11.0% (most probable whole sentence), 12.4% / 12.7% / 12.6% (expectation under sampling at 0.7). Choosing at random gives 15.9%.
+- The bias towards server 1 is already in sft. Share sent to server 1: sft 38.3%, grpo 39.9% (expectation under sampling at 0.7), 83.7%, 98.4% (greedy). Server 1 is really the best in only 13.9%. In the sft labels servers 1, 2 and 3 each take 12.3%, but action names whose first digit is "1" take 22.1%, because servers 1, 10 and 11 share that digit.
+- The GRPO-1.5B of Table V in the paper (62.7% to server 1, 3.9% local) was not reproduced with the same number. On the 36 samples with 11 servers in the authors' cleaned test set, the original authors' grpo sends 18.3% (expectation under sampling at 0.7) and 91.7% (greedy) to server 1. The test states of the two sides differ.
+- GRPO from the original authors' sft for 204 steps (about 40 minutes). PR on the authors' cleaned test set 70.4% → 96.5% (fixed) / 99.1% (repo), accuracy 13.5% → 81.2% / 87.8%, all greedy. At step 25 server 1 takes 88–89% and local 0% on the validation set (greedy), and the model leaves that state by itself afterwards. The same 1.5B reaches this level, so our measurements do not support the explanation that 1.5B lacks capacity.
+- The repo reward is not worse than fixed here. Its loophole is that an out-of-range server number scores higher than local, but it was not triggered this time: out-of-range answers are 0% in both training runs. The repo model has 45/1245 answers with an extra "服务器" tail, and with strict parsing its accuracy on the cleaned test set is 86.9% (greedy).
+- Neither model ever chooses local, and local is best in only 5.9% of the training prompts. On the 1000 samples with server counts seen in stage 3, PR is 86.0% / 89.3% (greedy), and the prompts where local is best account for 77.9% / 92.5% of the extra delay.
+- 1000 more steps of GRPO (fixed reward) on hard_1.5b of stage 3: accuracy on seen server counts 96.0% → 92.9%, on unseen ones 95.2% → 92.1%, PR 99.9% → 99.7% (deployment rule). The student is already at the formula ceiling and GRPO brings no gain. The deployed model is still the soft-label 0.5B Q8_0 of stage 3.
 
-## 闭环评测（阶段 5）
-
-```
-Colab   train/S5_论文原版转GGUF.ipynb        原作者 sft 1.5B → comllm-paper-sft-1.5b-q8_0.gguf（MyDrive/COMLLM/s5/gguf/）
-Jetson  python -m deploy.scheduler --model-key main_0.5b       模型表在 deploy/testbed.json 的 models；POST /model 换模型
-Mac     python -m eval.bench_latency --fmt compact --cache on --model-key main_0.5b      实验 2 延迟分解
-Mac     python -m eval.check_paper_gguf --preds runs/s3/paper_<UTC>/sft/preds.csv       论文原版 GGUF 和 PyTorch 比对
-Mac     python -m eval.s5_sweep --plan e1,e1_paper,e1_shed      实验 1 稳定边界 + 论文原版 1 点 + 分流对照（实时闭环，51 个点，约 2.9 小时，估算）
-Mac     python -m eval.virtual_loop --plan e3                   实验 3 羊群效应（只用公式，本机几分钟）
-Mac     python -m eval.virtual_loop --plan e4a,e4b,e5           实验 4、5（每个决策问 Jetson，71 个点，约 3 小时，估算）
-Mac     python -m eval.virtual_loop --plan e6                   实验 6 LACS 往后看在闭环里有没有用（只用公式，252 个点，约 25 分钟，估算）
-Mac     python -m eval.figures                                  7 张图 + figures/numbers.md（跑过两板复测还有 twoboard.md）
-RK3588  python -m eval.s5_sweep --plan twoboard                 两板复测：testbed.json 的 env_node 改成 RK3588
-```
-
-`s5_sweep` 和 `virtual_loop` 都有 `--dry-run`（只列点和预计时长）、`--resume <目录>`（断了接着跑）、`--only <模型键>`、`--rehearse`（不连 Jetson，LLM 换成本机公式加假装的耗时，用来试脚本）。
-
-设计选择：
-
-- **两种闭环。** 实时闭环（`eval/realtime.py`）按真实时钟推进，决策延迟算进任务延迟，量"部署后撑得住多少终端"。部署模型单次约 57 ms（阶段 3 实测），只撑得住 N ≈ 6，这么轻的负载下各策略的延迟差不多，比不出决策好坏。所以质量对比用虚拟时间闭环（`eval/virtual_loop.py`）：仿真每个决策都等 Jetson 答完再往下走，决策耗时不计入，可以在 N = 20–80 的重负载下比。只用公式时它和 `sim.env.run` 结果完全一样（单元测试核对）。
-- **换模型不用人守着。** `deploy/testbed.json` 的 `models` 把模型键对到 GGUF 文件和提示词格式。`POST /model {"key": "<模型键>"}` 让调度服务停掉 llama-server、换文件重启、预热；`/info` 报模型键、文件路径和文件的 sha256，每次运行的 config.json 都记下来。扫描脚本按模型把点排在一起，轮到新模型才换一次。
-- **LACS 只能在闭环里检验（实验 6）。** 开环 AL 只算这一步的成本，单步最优就是它的下限，LACS"这步多花一点、给后面留余地"的好处在开环里看不出来。实验 6 在虚拟时间闭环里比单步最优和 LACS-greedy（λ = 0.3、1、2；`lacs:<λ>` 换 λ），顺序决策，另加 PS 感知贪心当"改公式"的参照；批量决策下再比一次 λ = 0.3，看往后看能不能减轻羊群效应。COMLLM-7B 的权重没有，这里用 LACS 奖励的最优解代替它。
-- **超载分流（`--shed-ms`）。** 环境节点一次只发一个请求，终端数超过 N_max 后待决策的任务越排越长，每个任务都等过截止期，丢弃率一下跳到接近 100%。分流：在环境节点排队超过 `shed_ms` 的任务不再等 Jetson，当场用公式决策，记 `source = shed`。默认关；`--plan e1_shed` 是开分流的对照，实验 1 一起跑。
-- **论文原版 1.5B 只跑一个实时点。** 它一次决策约 1 秒（阶段 2 用旧拼法实测，阶段 5 重量），1 台终端每秒就有 3 个请求，N = 1 已经超载；实时闭环只跑 N = 1（`e1_paper`），质量对比放在虚拟时间闭环（`e5_paper`，400 槽）。1.5B 软标签学生一次约 120 ms，用部署的 100 ms 超时会大半回退公式，所以它的超时给 1000 ms。
-- **一条命令重画。** `evidence/G5/sources.json` 登记每张图用哪些运行目录；`python -m eval.figures` 照它重画全部图，并把简历要用的数字连同运行目录写进 `figures/numbers.md`。没有这个文件就自动找最新的目录并写出来。
-- **RK3588 当环境节点。** 环境节点的代码只依赖 numpy（`deploy/requirements-envnode.txt`），在 Python 3.8 上测过。
-
-**结果（11/7，全部实测；实验 3–6 是虚拟时间闭环里的仿真实测）。** 图在 `figures/`，每个数字和它来自哪个运行目录写在 `figures/numbers.md`。
+## Closed-loop evaluation (stage 5)
 
 ```
-实验 1     runs/20261107T042911Z_s5_e1+e1_paper+e1_shed      Jetson 实时闭环，51 个点
-实验 2     runs/20261106T1*_bench_*                          单次决策延迟，6 组配置
-实验 3     runs/20261107T071129Z_s5_virtual_e3               羊群效应，96 个点
-实验 4、5  runs/20261107T071637Z_s5_virtual_e4a+e4b+e5       泛化、PS 标签、开环对闭环，71 个点
-实验 6     runs/20261106T144248Z_s5_virtual_e6               LACS，252 个点
+Colab   train/S5_论文原版转GGUF.ipynb        the original authors' sft 1.5B → comllm-paper-sft-1.5b-q8_0.gguf (MyDrive/COMLLM/s5/gguf/)
+Jetson  python -m deploy.scheduler --model-key main_0.5b       the model table is `models` in deploy/testbed.json; POST /model switches models
+Mac     python -m eval.bench_latency --fmt compact --cache on --model-key main_0.5b      experiment 2, latency breakdown
+Mac     python -m eval.check_paper_gguf --preds runs/s3/paper_<UTC>/sft/preds.csv       the paper-original GGUF against PyTorch
+Mac     python -m eval.s5_sweep --plan e1,e1_paper,e1_shed      experiment 1, stability boundary + 1 point for the paper original + the shedding control (real-time closed loop, 51 points, about 2.9 hours, estimated)
+Mac     python -m eval.virtual_loop --plan e3                   experiment 3, herding (formulas only, a few minutes locally)
+Mac     python -m eval.virtual_loop --plan e4a,e4b,e5           experiments 4 and 5 (every decision asks the Jetson, 71 points, about 3 hours, estimated)
+Mac     python -m eval.virtual_loop --plan e6                   experiment 6, whether the look-ahead of LACS helps in the closed loop (formulas only, 252 points, about 25 minutes, estimated)
+Mac     python -m eval.figures                                  7 figures + figures/numbers.md (and twoboard.md once the two-board rerun has been done)
+RK3588  python -m eval.s5_sweep --plan twoboard                 two-board rerun: env_node in testbed.json is changed to the RK3588
 ```
 
-- **单次决策（实验 2，图 2）。** 部署配置（0.5B Q8_0 + 提示词缓存）往返 p50 55.0 ms、p99 72.0 ms，3/7/11 台服务器的状态轮流发。原作者 1.5B（论文拼法、关缓存）p50 945.2 ms、p99 1043.9 ms。实验 1 只有 3 台服务器，提示词更短：0.5B 平均 42.1 ms，原作者 1.5B 开缓存 p50 472.9 ms。
-- **稳定边界（实验 1，图 1）。** M = 每个种子的决策环节丢弃（过了截止期还没拿到决策）都低于 1% 的最大终端数 N。
-  - 公式 M ≥ 80（测到的最大 N 也稳）。N = 40 起的丢弃（N = 40 时 6.1%）是 3 台服务器不够用，决策环节丢弃是 0。
-  - 部署的 0.5B M = 7，理论 N_max = 1 ÷（3 × 42.1 ms）= 7.9。N = 8 时丢弃率 24.5%，N = 10 时 96.0%。
-  - 0.5B 加超载分流，测到的最大 N = 20 也稳：丢弃率 1.0%，39.5% 的任务由 LLM 决策，其余当场用公式。
-  - 1.5B 软标签 M = 3，N_max 3.9。
-  - 原作者 1.5B 在 N = 1 就丢 93.4%，其中决策环节 82.4%，N_max 0.7。
-  - N = 5 时 0.5B 的平均延迟 4.30 槽，公式 3.53 槽。多出的 0.77 槽主要是排队等决策（估算）。
-- **羊群效应（实验 3，图 3）。** 11 台、N = 80，单步最优从批量决策改成顺序决策：平均延迟 5.11 → 4.19 槽（−18.1%），丢弃率 2.4% → 0.1%。反例是 3 台、N = 40：改顺序后平均延迟高 9.3%，丢弃率 1.7% → 6.2%，本地比例 56.2% → 70.7%。原因是论文公式高估了按平分算力（PS）排队的服务器，顺序决策把这个高估一个个叠上去，任务被推回本地。PS 感知贪心改成顺序后，每个点的丢弃率都下降。
-- **台数泛化（实验 4b，图 4）。** N = 40，同一个种子。部署的 0.5B 和单步最优的平均延迟差 −0.1% ~ +0.5%，覆盖 3–11 台，包括训练时没见过的 4/6/8/10 台。闭环里和单步最优选得一样的比例是 94.2%–99.1%。
-- **开环对闭环（实验 5，图 5）。** 3 台、N = 40。
-  - 开环准确率 ≥ 98.8% 的五个策略（单步最优、LACS-greedy、小网络、0.5B、1.5B）闭环平均延迟都在 5.26–5.29 槽，丢弃 5.9%–6.1%，彼此分不开。
-  - PS 感知贪心开环准确率只有 19.6%，闭环却最快：4.12 槽，丢弃 0.0%。
-  - 随机 5.31 槽看着不差，因为丢了 22.9%，丢掉的任务不算延迟。
-  - 未训练的 0.5B 6.14 槽，丢 51.6%。
-- **PS 标签（实验 4a，图 6 右）。** 3 台，用 PS 感知贪心当老师训练的 0.5B 和主线 0.5B 比：
-  - 平均延迟低 13.4% / 19.6% / 9.9%（N = 20 / 40 / 60）。
-  - 丢弃率从 0.1% / 5.9% / 17.3% 降到 0.0% / 0.0% / 0.9%。
-  - 模拟器本身就按 PS 排队，这个模型有主场优势，换真实服务器要重测。
-- **LACS（实验 6，图 7）。** 顺序决策，3/7/11 台 × N = 20–80 共 12 个点，每点 3 个种子。
-  - λ = 0.3（论文）和单步最优选得一样 99.7%。平均延迟平均差 +0.04%（−0.07% ~ +0.21%），等于没变。
-  - λ = 1 平均 +0.18%（−1.72% ~ +1.99%），差别来自两边正好打平时选法不同。
-  - λ = 2 在 −11.78% ~ +26.92% 之间：负载重时帮忙，负载轻时（7、11 台，N = 20）更慢。
-  - PS 感知贪心平均 −9.27%（−22.73% ~ +3.79%）。
-  - 批量决策，11 台、N = 80：λ = 0.3 是 5.11 槽，单步最优 5.09 槽。往后看减轻不了羊群效应。
-- **原作者 SFT 1.5B 的早期 GGUF 抽样。** 200 条状态中，Jetson Q8_0 和 PyTorch 的动作一致 183 条（91.5%，`runs/20261107T042021Z_gguf_paper_sft`）。这是抽样结果，不建立全量等价性；本轮九模型的完整 5663 状态结果见下方阶段 6。Jetson 闭环数字反映 Q8_0 部署策略。
+`s5_sweep` and `virtual_loop` both have `--dry-run` (only list the points and the expected duration), `--resume <folder>` (continue after an interruption), `--only <model key>` and `--rehearse` (no Jetson; the LLM is replaced by the local formula plus a pretended latency, to try the scripts).
 
-**看数字时注意。**
+Design choices:
 
-- 闭环平均延迟只算完成了的任务，丢得多的策略会显得快，一定要和丢弃率一起看。
-- 实验 1 每点 2 个种子、3 分钟，原作者 1.5B 只有 1 个种子。实验 4、5 里 LLM 的点只跑了种子 0，和公式比时用同一个种子，面对的是同一串任务。
-- λ = 1 时两边正好打平的状态很多。Mac（ARM）和云上（x86）的浮点舍入不同，打平时选法就不同。实验 6 在两边各跑一遍，252 行里 216 行逐位一样，不一样的 36 行全是 λ = 1，平均变化 +0.18%（Mac）对 +0.15%（云上）。
-- 实验 6 跑到第 31 个点时停过一次，11/7 用 `--resume` 接着跑完。续跑那次 `sweep_config.json` 记的版本是 `4567c59-dirty`（改写历史后为 `1957819`，见 [commit-map](commit-map.md)），改动只有 `eval/figures.py`，仿真代码没变。
-- 图 6 里"原作者 sft + GRPO"两根柱子在见过台数上只测了 1000 条子集，画成斜线。
+- **Two closed loops.** The real-time closed loop (`eval/realtime.py`) runs on the wall clock and counts the decision latency in the task delay; it measures how many terminals the deployment can serve. The deployed model takes about 57 ms per decision (measured in stage 3) and only serves N ≈ 6, a load so light that all policies have about the same delay and decision quality cannot be told apart. Quality is therefore compared in the virtual-time closed loop (`eval/virtual_loop.py`): the simulation waits for the Jetson to answer every decision before moving on and does not count the decision time, so policies can be compared under the heavy load of N = 20–80. With formulas only, it gives exactly the results of `sim.env.run` (checked by a unit test).
+- **Switching models needs nobody at the board.** `models` in `deploy/testbed.json` maps a model key to a GGUF file and a prompt format. `POST /model {"key": "<model key>"}` makes the scheduler service stop llama-server, restart it with the other file and warm it up; `/info` reports the model key, the file path and the file's sha256, and the config.json of every run records them. The sweep script groups the points by model and switches only when a new model's turn comes.
+- **LACS can only be tested in the closed loop (experiment 6).** The open-loop AL counts the cost of this step only, so the one-step optimum is its lower bound, and the benefit of LACS, paying a little more now to leave room for later tasks, cannot show in the open loop. Experiment 6 compares the one-step optimum with LACS-greedy (λ = 0.3, 1, 2; `lacs:<λ>` changes λ) in the virtual-time closed loop with sequential decisions, plus PS-aware greedy as the reference for changing the formula; with batch decisions λ = 0.3 is compared once more, to see whether looking ahead reduces herding. The weights of COMLLM-7B are not available, so the optimum of the LACS reward stands in for it here.
+- **Overload shedding (`--shed-ms`).** The environment node sends one request at a time, so once the number of terminals exceeds N_max the queue of tasks waiting for a decision keeps growing, every task waits past its deadline, and the drop rate jumps to nearly 100%. Shedding: a task that has queued at the environment node for longer than `shed_ms` no longer waits for the Jetson and is decided by the formula on the spot, recorded as `source = shed`. Off by default; `--plan e1_shed` is the control with shedding on, run together with experiment 1.
+- **The paper's original 1.5B runs only one real-time point.** One decision takes about 1 second (measured in stage 2 with the old layout, measured again in stage 5), and 1 terminal already produces 3 requests per second, so N = 1 is overloaded; the real-time closed loop runs N = 1 only (`e1_paper`), and the quality comparison is left to the virtual-time closed loop (`e5_paper`, 400 slots). The soft-label 1.5B student takes about 120 ms per decision and would fall back to the formula most of the time with the deployed 100 ms timeout, so its timeout is 1000 ms.
+- **One command redraws everything.** `evidence/G5/sources.json` records which run folders each figure uses; `python -m eval.figures` redraws all figures from it and writes the numbers needed for the résumé, with their run folders, to `figures/numbers.md`. Without this file it finds the latest folders by itself and writes the file.
+- **RK3588 as the environment node.** The environment node's code depends on numpy only (`deploy/requirements-envnode.txt`) and was tested on Python 3.8.
 
-**还没跑。** `e5_paper`（原作者 1.5B 进虚拟时间闭环，400 槽）和两板复测（RK3588 当环境节点）。两个都是可选项。
+**Results (11/7, all measured; experiments 3–6 are measured in simulation in the virtual-time closed loop).** The figures are in `figures/`, and every number with the run folder it comes from is in `figures/numbers.md`.
 
-## 开环：三套测试集分开报（阶段 6）
+```
+Experiment 1         runs/20261107T042911Z_s5_e1+e1_paper+e1_shed      real-time closed loop on the Jetson, 51 points
+Experiment 2         runs/20261106T1*_bench_*                          latency of one decision, 6 configurations
+Experiment 3         runs/20261107T071129Z_s5_virtual_e3               herding, 96 points
+Experiments 4 and 5  runs/20261107T071637Z_s5_virtual_e4a+e4b+e5       generalization, PS labels, open loop against closed loop, 71 points
+Experiment 6         runs/20261106T144248Z_s5_virtual_e6               LACS, 252 points
+```
+
+- **One decision (experiment 2, figure 2).** The deployed setup (0.5B Q8_0 + prompt cache) has a round trip of p50 55.0 ms and p99 72.0 ms, with states of 3/7/11 servers sent in turn. The original authors' 1.5B (paper layout, cache off) has p50 945.2 ms and p99 1043.9 ms. Experiment 1 has only 3 servers and a shorter prompt: the 0.5B averages 42.1 ms, and the original authors' 1.5B with the cache on has p50 472.9 ms.
+- **Stability boundary (experiment 1, figure 1).** M = the largest number of terminals N at which the drops at the decision stage (no decision by the deadline) are below 1% for every seed.
+  - Formula: M ≥ 80 (stable at the largest N measured). The drops from N = 40 on (6.1% at N = 40) come from 3 servers not being enough; the drops at the decision stage are 0.
+  - The deployed 0.5B: M = 7, theoretical N_max = 1 ÷ (3 × 42.1 ms) = 7.9. The drop rate is 24.5% at N = 8 and 96.0% at N = 10.
+  - The 0.5B with overload shedding is stable at the largest N measured, N = 20: drop rate 1.0%, with 39.5% of the tasks decided by the LLM and the rest by the formula on the spot.
+  - The soft-label 1.5B: M = 3, N_max 3.9.
+  - The original authors' 1.5B drops 93.4% at N = 1, of which 82.4% at the decision stage; N_max 0.7.
+  - At N = 5 the mean delay of the 0.5B is 4.30 slots and that of the formula 3.53 slots. The extra 0.77 slots are mainly queueing for the decision (estimated).
+- **Herding (experiment 3, figure 3).** With 11 servers and N = 80, changing the one-step optimum from batch to sequential decisions: mean delay 5.11 → 4.19 slots (−18.1%), drop rate 2.4% → 0.1%. The counterexample is 3 servers and N = 40: with sequential decisions the mean delay is 9.3% higher, the drop rate goes 1.7% → 6.2% and the local share 56.2% → 70.7%. The reason is that the paper's formula overestimates servers that queue by processor sharing (PS), and sequential decisions stack this overestimate one on another, pushing tasks back to the terminal. For PS-aware greedy, switching to sequential decisions lowers the drop rate at every point.
+- **Generalization over server counts (experiment 4b, figure 4).** N = 40, the same seed. The mean delay of the deployed 0.5B differs from the one-step optimum by −0.1% to +0.5% over 3–11 servers, including the 4/6/8/10 never seen in training. In the closed loop it makes the same choice as the one-step optimum in 94.2%–99.1% of the decisions.
+- **Open loop against closed loop (experiment 5, figure 5).** 3 servers, N = 40.
+  - The five policies with an open-loop accuracy ≥ 98.8% (one-step optimum, LACS-greedy, small network, 0.5B, 1.5B) all have a closed-loop mean delay of 5.26–5.29 slots and drops of 5.9%–6.1%, and cannot be told apart.
+  - PS-aware greedy has an open-loop accuracy of only 19.6% but is the fastest in the closed loop: 4.12 slots, 0.0% dropped.
+  - Random looks no worse at 5.31 slots because it drops 22.9%, and dropped tasks do not count towards the delay.
+  - The untrained 0.5B: 6.14 slots, 51.6% dropped.
+- **PS labels (experiment 4a, figure 6 right).** 3 servers, the 0.5B trained with PS-aware greedy as the teacher against the main 0.5B:
+  - Mean delay lower by 13.4% / 19.6% / 9.9% (N = 20 / 40 / 60).
+  - Drop rate from 0.1% / 5.9% / 17.3% down to 0.0% / 0.0% / 0.9%.
+  - The simulator itself queues by PS, so this model has a home advantage and must be measured again on real servers.
+- **LACS (experiment 6, figure 7).** Sequential decisions, 12 points of 3/7/11 servers × N = 20–80, 3 seeds per point.
+  - λ = 0.3 (the paper) makes the same choice as the one-step optimum 99.7% of the time. The mean delay differs by +0.04% on average (−0.07% to +0.21%), which is no change.
+  - λ = 1: +0.18% on average (−1.72% to +1.99%); the difference comes from how exact ties between the two are broken.
+  - λ = 2: between −11.78% and +26.92%: it helps at heavy load and is slower at light load (7 and 11 servers, N = 20).
+  - PS-aware greedy: −9.27% on average (−22.73% to +3.79%).
+  - Batch decisions, 11 servers, N = 80: λ = 0.3 gives 5.11 slots, the one-step optimum 5.09 slots. Looking ahead does not reduce herding.
+- **An early GGUF sample of the original authors' SFT 1.5B.** On 200 states, the Q8_0 on the Jetson and PyTorch choose the same action in 183 (91.5%, `runs/20261107T042021Z_gguf_paper_sft`). This is a sample and does not establish equivalence on the full set; the complete results of this round's nine models on 5663 states are under stage 6 below. The closed-loop numbers on the Jetson reflect the deployed Q8_0 policy.
+
+**When reading the numbers.**
+
+- The closed-loop mean delay counts completed tasks only, so a policy that drops a lot looks fast; always read it together with the drop rate.
+- Experiment 1 has 2 seeds and 3 minutes per point, and the original authors' 1.5B has only 1 seed. In experiments 4 and 5 the LLM points ran seed 0 only; they are compared with the formulas on the same seed, facing the same sequence of tasks.
+- With λ = 1 there are many states where the two are exactly tied. Floating-point rounding differs between the Mac (ARM) and the cloud (x86), so ties are broken differently. Experiment 6 was run once on each: 216 of the 252 rows are identical bit for bit, the 36 that differ are all λ = 1, and the mean change is +0.18% (Mac) against +0.15% (cloud).
+- Experiment 6 stopped once at point 31 and was finished on 11/7 with `--resume`. The version recorded in `sweep_config.json` for the resumed run is `4567c59-dirty` (`1957819` after the history rewrite, see [commit-map](commit-map.md)); the only change was in `eval/figures.py`, and the simulation code was the same.
+- In figure 6 the two bars for "original authors' sft + GRPO" on seen server counts were measured on a subset of 1000 samples only and are hatched.
+
+**Not run yet.** `e5_paper` (the original authors' 1.5B in the virtual-time closed loop, 400 slots) and the two-board rerun (RK3588 as the environment node). Both are optional.
+
+## Open loop: the three test sets reported separately (stage 6)
 
 ```
 Mac        python -m eval.open_loop runs/s3/main_0.5b_20261104T131423Z runs/s3/soft_1.5b_20261104T132257Z \
@@ -220,37 +222,37 @@ Mac        python -m eval.open_loop runs/s3/main_0.5b_20261104T131423Z runs/s3/s
              runs/s3/ps_soft_1.5b_20261108T044612Z runs/s3/ps_hard_1.5b_20261108T064436Z \
              runs/s3/paper_20261105T040018Z runs/20261108_s7_sft_baseline runs/20261108T103821Z_s7_colab_7b \
              --out evidence/G6 --title "阶段 6 开环：三套测试集分开看（含本地召回、本地精确）"
-           → evidence/G6/open_loop.md、open_loop.csv（按台数）、open_loop_by_n.csv（按终端数 N）
+           → evidence/G6/open_loop.md, open_loop.csv (by server count), open_loop_by_n.csv (by number of terminals N)
 ```
 
-只用已有的 `preds.csv` 重新打分，没有重跑模型。三套测试集的本地最优占比是 47.97% / 45.93% / 2.45%，原作者干净测试集上从不选本地也能有 97.55% 的准确率，所以三套分开报，并加了四列：
+Only the existing `preds.csv` files were scored again; no model was rerun. The share of states where local is best is 47.97% / 45.93% / 2.45% in the three test sets, and on the authors' cleaned test set a policy that never chooses local still reaches an accuracy of 97.55%, so the three sets are reported separately, with four more columns:
 
-- 本地最优占比：这一组状态里本地最优的比例，和策略无关。
-- 本地召回：本地最优的状态里选了本地的比例。
-- 本地精确：选了本地的状态里本地确实最优的比例。
-- 卸载准确率：最优是某台服务器的状态里选对的比例。
+- Local-optimal share: the share of states in the group where local is best; it does not depend on the policy.
+- Local recall: among the states where local is best, the share where local was chosen.
+- Local precision: among the states where local was chosen, the share where local really is best.
+- Offloading accuracy: among the states where some server is best, the share chosen correctly.
 
-分母是 0 时记"–"。原作者干净测试集没有终端数 N，不进按 N 的表。复现的 7B、它的起点 SFT-7B 和原作者的三个 1.5B 用论文格式贪心生成，我们的学生用压缩格式取 1 个 token，所以这张表比的是"整套做法"，不是只差模型大小。结论见 README 的"开环：三套测试集"。
+A zero denominator is written as "–". The authors' cleaned test set has no number of terminals N and is left out of the table by N. The reproduced 7B, its starting point SFT-7B and the original authors' three 1.5B models generate greedily in the paper format, while our students take 1 token in the compact format, so this table compares whole approaches, not model size alone. The findings are in the README under "Open loop: three test sets".
 
-## 闭环：Colab 和 Jetson 对比（阶段 6）
+## Closed loop: Colab against Jetson (stage 6)
 
 ```
-Mac     python -m eval.colab_loop --pack        打包 sim/、deploy/、eval/ → data/s6_code/（code.zip + meta.json），整个文件夹传到 MyDrive/COMLLM/s6_code/
-Colab   train/S6_Colab闭环.ipynb，RUN = "students"   6 个学生 × 6 个点（3 台、N = 20/40/60、种子 0/1、1000 槽），结果写到 MyDrive/COMLLM/s6_runs/colab_loop/
-Mac     把 results.csv 和 sweep_config.json 下载到 runs/<UTC>_s6_colab_loop/
+Mac     python -m eval.colab_loop --pack        pack sim/, deploy/, eval/ → data/s6_code/ (code.zip + meta.json); upload the whole folder to MyDrive/COMLLM/s6_code/
+Colab   train/S6_Colab闭环.ipynb, RUN = "students"   6 students × 6 points (3 servers, N = 20/40/60, seeds 0/1, 1000 slots); results go to MyDrive/COMLLM/s6_runs/colab_loop/
+Mac     download results.csv and sweep_config.json to runs/<UTC>_s6_colab_loop/
 ```
 
-点的名字和 `eval.virtual_loop` 的一样，Colab 和 Jetson 的结果按名字一一对上。同一个模型的 6 个点各开一个线程跑仿真器，要决策时把状态交给主线程拼成一批，GPU 前向一次答完，所以 `ms_per_decision` 是批量摊下来的时间。notebook 第 4 格在 Colab 上重算核对点（单步公式、3 台、N = 20、种子 0），平均延迟必须和打包时 Mac 上算的完全一样，才往下跑。
+The points have the same names as in `eval.virtual_loop`, so the Colab and Jetson results match one to one by name. The 6 points of one model each run the simulator in their own thread; when decisions are needed, the states are handed to the main thread, put into one batch and answered by a single GPU forward pass, so `ms_per_decision` is the time per decision averaged over the batch. Cell 4 of the notebook recomputes the check point on Colab (one-step formula, 3 servers, N = 20, seed 0); its mean delay must be exactly the one computed on the Mac at packing time before the run goes on.
 
-这次（`runs/20261112T064150Z_s6_colab_loop`）：代码 `1ae403e`（运行记录里写的是改写历史前的 `f9aad84`，见 [commit-map](commit-map.md)），A100，transformers 5.20.2、peft 0.21.2，36 个点一次跑完，约 70 分钟，回退 0 次。对应的 Jetson 点在 `runs/20261107T071637Z_s5_virtual_e4a+e4b+e5`、`runs/20261108T044444Z_s5_virtual_e4ps_a` 和 `runs/20261108T094747Z_s5_virtual_e4ps_b`。两边对比和 PS 公式 1.5B 硬标签在 N = 60 的例外见 README 的"闭环：Colab 和 Jetson"。
+This run (`runs/20261112T064150Z_s6_colab_loop`): code `1ae403e` (the run record says `f9aad84`, from before the history rewrite, see [commit-map](commit-map.md)), A100, transformers 5.20.2, peft 0.21.2, all 36 points in one go, about 70 minutes, 0 fallbacks. The corresponding Jetson points are in `runs/20261107T071637Z_s5_virtual_e4a+e4b+e5`, `runs/20261108T044444Z_s5_virtual_e4ps_a` and `runs/20261108T094747Z_s5_virtual_e4ps_b`. The comparison of the two sides and the exception of the PS-formula hard-label 1.5B at N = 60 are in the README under "Closed loop: Colab and Jetson".
 
-## Jetson 全量开环与补充延迟（阶段 6）
+## Full open loop on the Jetson and additional latency (stage 6)
 
-六学生和原作者 SFT、GRPO、score-GRPO 均使用 Q8_0，每模型完整 5663 状态。先检查板端及环境节点进程，再串行运行；开环与延迟扫描不能同时切换同一调度服务。以下是复现入口，已有结果直接复算，无需重复推理。
+The six students and the original authors' SFT, GRPO and score-GRPO all use Q8_0, with the complete 5663 states per model. The processes on the board and on the environment node are checked first, and the runs are then done one after another; the open loop and the latency sweep must not switch the same scheduler service at the same time. The commands below are the entry points for reproduction; existing results are scored again directly without repeating inference.
 
 ```bash
 python -m eval.jetson_open_loop --models main_0.5b,soft_1.5b,hard_1.5b,ps_0.5b,ps_soft_1.5b,ps_hard_1.5b,paper_sft_1.5b,paper_grpo_1.5b,paper_score_grpo_1.5b --dry-run
-# 正式运行去掉 --dry-run；中断后对单模型添加 --resume runs/jetson_open/<目录>
+# for the real run drop --dry-run; after an interruption add --resume runs/jetson_open/<folder> for the single model
 python -m eval.open_loop runs/jetson_open/* --out evidence/G6/jetson_open --title "Jetson 全量开环（GGUF Q8_0）"
 python -m eval.jetson_open_loop --compare runs/jetson_open/* --colab runs/s3,runs/s4,runs/s3/paper_20261105T040018Z
 python -m eval.bench_latency --fmt compact --cache on --model-key ps_soft_1.5b --n 500 --warmup 10 --servers 3,7,11
@@ -258,47 +260,47 @@ python -m eval.bench_latency --fmt paper --cache off --model-key paper_grpo_1.5b
 python -m eval.latency_table > evidence/G2/latency_table.md
 ```
 
-本轮记录在 `runs/20261113T034033Z_s6_jetson_evaluation`：preflight/protocol、模型准备与 SHA、每项日志和 suite_status、离线评分脚本及验收结果。每模型检查 5663 个唯一键与精确分集覆盖；非 LLM 答案记为 −1。两个既有学生延迟基准复用，缺失六组补齐；原作者 SFT 另做一组，以匹配固定贪心后的解码条件。开环与延迟测试每请求均为 10 秒超时，实时服务默认 100 毫秒不用于这些测试。表格和来源索引在 `evidence/G6/jetson_open/`。
+This round is recorded in `runs/20261113T034033Z_s6_jetson_evaluation`: preflight/protocol, model preparation and SHA, the log of every item and suite_status, the offline scoring script and the acceptance result. Each model is checked for 5663 unique keys and exact coverage of the splits; an answer that does not come from the LLM is recorded as −1. The two existing student latency benchmarks are reused and the six missing ones were added; one more was run for the original authors' SFT, to match the decoding conditions after greedy was fixed. Every request in the open-loop and latency tests has a timeout of 10 seconds; the default 100 ms of the real-time service is not used in these tests. The tables and the source index are in `evidence/G6/jetson_open/`.
 
-PS 0.5B 的台数泛化已在 Jetson 测过 3/4/6/7/8/10/11 台、N = 40、种子 0；和自己的 PS 老师相比平均延迟为 −1.06% 到 +3.95%，不代表多种子统计结论。出处为已归档 Stage 5 与 e4ps_a 结果。
+The server-count generalization of the PS 0.5B was measured on the Jetson for 3/4/6/7/8/10/11 servers, N = 40, seed 0; against its own PS teacher the mean delay is −1.06% to +3.95%, which is not a statistical conclusion over several seeds. The sources are the archived Stage 5 and e4ps_a results.
 
-## 两组复现 7B 的 Colab 闭环（阶段 7）
+## Colab closed loop of the two reproduced 7B models (stage 7)
 
 ```text
-Colab   train/S7_7B闭环_A100普通档_v1.ipynb（原云端 notebook ID 不变），A100、支持 bf16
-        现有依赖 transformers==5.20.2、peft==0.21.2；notebook 本身不安装库
-        代码执行程序 → 全部运行；Drive 挂载由用户授权
+Colab   train/S7_7B闭环_A100普通档_v1.ipynb (the ID of the original cloud notebook is unchanged), A100 with bf16
+        existing dependencies transformers==5.20.2, peft==0.21.2; the notebook itself installs no library
+        Runtime → Run all; the Drive mount is authorized by the user
         → MyDrive/COMLLM/s7_closed_runs_20261113_a100_standard/
-Mac     下载 results.csv、provenance.json、runtime_identity.json、invocation_*.json、closed_acceptance_*.json
+Mac     download results.csv, provenance.json, runtime_identity.json, invocation_*.json, closed_acceptance_*.json
         → runs/20261113T104604Z_s7_colab_closed_loop/
 ```
 
-入口仍为 [原 Drive notebook](https://colab.research.google.com/drive/1NzefdqRgIiR2a8bLc4AiGRlUu_Wr6iQu)。固定 SFT 目录 `reference_model/qwen2.5-7b-mec-sft-final-all`；`grpo_7b_repro` 合并 `s7_runs/nolacs/lora`（λ = 0），`comllm_7b_repro` 合并 `s7_runs/lacs/lora`（λ = 0.3）。运行前核对 36 文件闭环包、SFT 与 adapter SHA、训练联合验收及 CPU 公式核对点 4.197929414659039；续跑要求 provenance 和硬件身份一致，只跳过完整写入的点。
+The entry point is still the [original Drive notebook](https://colab.research.google.com/drive/1NzefdqRgIiR2a8bLc4AiGRlUu_Wr6iQu). The SFT folder is fixed to `reference_model/qwen2.5-7b-mec-sft-final-all`; `grpo_7b_repro` merges `s7_runs/nolacs/lora` (λ = 0) and `comllm_7b_repro` merges `s7_runs/lacs/lora` (λ = 0.3). Before the run, the 36-file closed-loop package, the SFT and adapter SHA, the joint training acceptance and the CPU formula check point 4.197929414659039 are verified; a resumed run requires the same provenance and hardware identity and skips only points that were written completely.
 
-本次在 A100-SXM4-40GB 完成，torch 2.14.1+cu130、transformers 5.20.2、peft 0.21.2、accelerate 1.15.0、numpy 2.4.6。最终 `closed_acceptance_20261113T092611.183871Z.json` 为 complete，12 个唯一点齐全，CSV SHA 与报告一致。两个模型各 6 点：3 台服务器、N = 20/40/60、种子 0/1、sequential、1000 槽、200 槽热身；计分到达区间为 [200, 989)。12 点的 fallback 分别全为 0，local_frac 分别全为 0。
+This run was done on an A100-SXM4-40GB with torch 2.14.1+cu130, transformers 5.20.2, peft 0.21.2, accelerate 1.15.0 and numpy 2.4.6. The final `closed_acceptance_20261113T092611.183871Z.json` is complete, all 12 unique points are present, and the CSV SHA agrees with the report. Each of the two models has 6 points: 3 servers, N = 20/40/60, seeds 0/1, sequential, 1000 slots, 200 slots of warm-up; the scored arrival interval is [200, 989). Over the 12 points, fallback is 0 at every point and local_frac is 0 at every point.
 
-闭环采用 paper / search / greedy，max_new_tokens = 16、repetition_penalty = 1.05；开环为 15 和 1.0，不能称解码完全相同。README 闭环图里的 7B 按同模型、同 N 的两个种子等权平均，原始逐点数据保留在 CSV。学生参照取 `runs/20261112T064150Z_s6_colab_loop`，greedy、psgreedy、lacs（λ = 0.3）取 `runs/20261107T071637Z_s5_virtual_e4a+e4b+e5`；按 servers、n、mode、seed、slots、warmup 对齐，每个对应点的 n_tasks 和 n_decisions 相同。
+The closed loop uses paper / search / greedy with max_new_tokens = 16 and repetition_penalty = 1.05; the open loop uses 15 and 1.0, so the decoding cannot be called identical. The 7B in the README's closed-loop figure is the equal-weight mean of the two seeds for the same model and the same N; the raw data per point are kept in the CSV. The student reference is `runs/20261112T064150Z_s6_colab_loop`, and greedy, psgreedy and lacs (λ = 0.3) are from `runs/20261107T071637Z_s5_virtual_e4a+e4b+e5`; they are aligned by servers, n, mode, seed, slots and warmup, and every pair of corresponding points has the same n_tasks and n_decisions.
 
-虚拟时间不计推理等待；mean_delay 和 p95_delay 只统计完成任务，必须与 drop_rate 一起读。agree_greedy 是所访问状态上的单步公式一致率，不是准确率，和 fallback / n_decisions 一样覆盖全部决策；local_frac 按计分任务统计。动作指标通常包含回退后的动作，本次没有回退。结果仅适用于两份复现权重，不是原版 COMLLM-7B 的成绩，也不是只差模型大小的控制实验；7B 未在 Jetson 上运行。
+Virtual time does not count the wait for inference; mean_delay and p95_delay cover completed tasks only and must be read together with drop_rate. agree_greedy is the agreement with the one-step formula on the visited states, not an accuracy, and like fallback / n_decisions it covers all decisions; local_frac is over the scored tasks. The action metrics normally include the actions taken after a fallback; there was no fallback this time. The results apply only to the two reproduced sets of weights; they are not the score of the original COMLLM-7B, and not a controlled experiment that differs in model size alone; the 7B was not run on the Jetson.
 
-## 先来先服务服务器的对照（阶段 6）
+## Control with first-come-first-served servers (stage 6)
 
 ```bash
-python -m eval.fcfs_control        # 只用公式，不连 Jetson，本机约 20 秒；结果在 runs/<UTC>_s6_fcfs_control/
+python -m eval.fcfs_control        # formulas only, no Jetson, about 20 seconds locally; results in runs/<UTC>_s6_fcfs_control/
 ```
 
-PS 感知公式是按论文式 4 的平分算力推出来的，仿真器的服务器也按式 4 排队，所以它比论文公式好，有可能只是因为两边假设一致。这个对照把服务器换成先来先服务（`sim/env.py` 的 `FcfsServer`，一次只算最早到的那个任务），其余不变，重跑实验 6 的公式对公式：3/7/11 台 × N = 20/40/60/80、种子 0/1/2、每点 2000 槽、顺序决策。另加一个按先来先服务写的公式（`sim/cost.py` 的 `fcfs_costs`）当参照。`MecEnv` 默认仍是平分算力，已有结果不受影响。
+The PS-aware formula was derived from the processor sharing of the paper's eq. 4, and the simulator's servers queue by eq. 4 as well, so its advantage over the paper's formula could come only from the two sharing an assumption. This control switches the servers to first-come-first-served (`FcfsServer` in `sim/env.py`, which works only on the task that arrived earliest), keeps everything else and repeats the formula-against-formula comparison of experiment 6: 3/7/11 servers × N = 20/40/60/80, seeds 0/1/2, 2000 slots per point, sequential decisions. A formula written for first-come-first-served (`fcfs_costs` in `sim/cost.py`) is added as a reference. `MecEnv` still defaults to processor sharing, so existing results are not affected.
 
-这次（`runs/20261114T120231Z_s6_fcfs_control`，代码 `a8f2d20`）：
+This run (`runs/20261114T120231Z_s6_fcfs_control`, code `a8f2d20`):
 
-| 服务器 | 公式 | 平均延迟比论文公式 | 范围 | 更快的点 | 丢弃率（它 / 论文公式） | 留在本地的任务（它 / 论文公式） |
+| Servers | Formula | Mean delay against the paper's formula | Range | Points where it is faster | Drop rate (it / paper's formula) | Tasks kept local (it / paper's formula) |
 |---|---|---|---|---|---|---|
-| 平分算力 | PS 感知公式 | −9.27% | −22.73% ~ +3.79% | 10/12 | 0.82% / 4.22% | 28.2% / 58.3% |
-| 平分算力 | 先来先服务公式 | −9.26% | −22.74% ~ +3.79% | 10/12 | 0.81% / 4.22% | 28.3% / 58.3% |
-| 先来先服务 | PS 感知公式 | −12.88% | −26.40% ~ +1.32% | 11/12 | 0.05% / 4.14% | 28.3% / 58.3% |
-| 先来先服务 | 先来先服务公式 | −12.89% | −26.34% ~ +1.32% | 11/12 | 0.04% / 4.14% | 28.4% / 58.3% |
+| Processor sharing | PS-aware formula | −9.27% | −22.73% to +3.79% | 10/12 | 0.82% / 4.22% | 28.2% / 58.3% |
+| Processor sharing | FCFS formula | −9.26% | −22.74% to +3.79% | 10/12 | 0.81% / 4.22% | 28.3% / 58.3% |
+| First-come-first-served | PS-aware formula | −12.88% | −26.40% to +1.32% | 11/12 | 0.05% / 4.14% | 28.3% / 58.3% |
+| First-come-first-served | FCFS formula | −12.89% | −26.34% to +1.32% | 11/12 | 0.04% / 4.14% | 28.4% / 58.3% |
 
-- 平分算力那 72 次运行（论文公式和 PS 感知公式）和实验 6 的结果逐项相同，说明加了 `discipline` 参数后原来的仿真没变。
-- PS 感知公式的优势不依赖平分算力这个假设：换成先来先服务，优势更大。
-- 两个新公式在 72 次运行里有 48 次结果完全一样。它们的共同点是扣掉上传期间服务器已经算完的积压、不把积压再乘 (n + 1)；起作用的是这两处，而不是"平分"这一项。论文公式把服务器估得太慢，所以把更多任务留在本地。
-- 只比了公式。照 PS 感知公式训练的学生没有在先来先服务的服务器上跑；逐点的表在运行目录的 `summary.md`。
+- The 72 processor-sharing runs (the paper's formula and the PS-aware formula) are identical item by item to the results of experiment 6, so adding the `discipline` parameter did not change the original simulation.
+- The advantage of the PS-aware formula does not depend on the processor-sharing assumption: with first-come-first-served servers it is larger.
+- The two new formulas give exactly the same result in 48 of the 72 runs. What they have in common is that they subtract the backlog the server finishes during the upload and do not multiply the backlog by (n + 1) again; these two points are what matters, not the sharing term. The paper's formula estimates the servers as too slow and therefore keeps more tasks on the terminal.
+- Only formulas were compared. The students trained on the PS-aware formula were not run on first-come-first-served servers; the table per point is in `summary.md` in the run folder.
