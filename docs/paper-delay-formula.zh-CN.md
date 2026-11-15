@@ -72,10 +72,10 @@ T^{\mathrm{paper}} = T^{\mathrm{wait}} + T^{\mathrm{exec}} = \frac{(L + D)(N + 1
 \mu T = D + \sum_{i=1}^{N} \min(r_i, D)
 ```
 
-所以：
+所以（记作式 A）：
 
 ```math
-T^{\mathrm{PS}} = \frac{\gamma}{F}\left(D + \sum_{i=1}^{N} \min(r_i, D)\right) \tag{A}
+T^{\mathrm{PS}} = \frac{\gamma}{F}\left(D + \sum_{i=1}^{N} \min(r_i, D)\right)
 ```
 
 **第 4 步：只知道 $`N`$ 和 $`L`$ 时的上界。** 调度器看不到每个 $`r_i`$，只看到 $`N`$ 和 $`L`$。对求和有两个上界：
@@ -83,10 +83,10 @@ T^{\mathrm{PS}} = \frac{\gamma}{F}\left(D + \sum_{i=1}^{N} \min(r_i, D)\right) \
 - 每一项 $`\min(r_i, D) \le r_i`$，所以求和 $`\le L`$；
 - 每一项 $`\min(r_i, D) \le D`$，所以求和 $`\le ND`$。
 
-代入式 A：
+代入式 A（结果记作式 B）：
 
 ```math
-T^{\mathrm{PS}} \le \frac{\gamma}{F}\,\min\{D(N + 1),\ L + D\} \tag{B}
+T^{\mathrm{PS}} \le \frac{\gamma}{F}\,\min\{D(N + 1),\ L + D\}
 ```
 
 当老任务的剩余量都相等（$`r_i = L/N`$）时，求和正好是 $`\min(L, ND)`$，式 B 取等号。所以式 B 是只知道 $`N`$ 和 $`L`$ 时最坏的情况。`sim/cost.py` 的 `ps_costs` 用的就是式 B。

@@ -72,10 +72,10 @@ Both cases together give $`\min(r_i, D)`$.
 \mu T = D + \sum_{i=1}^{N} \min(r_i, D)
 ```
 
-Therefore:
+Therefore (call this eq. A):
 
 ```math
-T^{\mathrm{PS}} = \frac{\gamma}{F}\left(D + \sum_{i=1}^{N} \min(r_i, D)\right) \tag{A}
+T^{\mathrm{PS}} = \frac{\gamma}{F}\left(D + \sum_{i=1}^{N} \min(r_i, D)\right)
 ```
 
 **Step 4: an upper bound when only $`N`$ and $`L`$ are known.** The scheduler does not see each $`r_i`$, only $`N`$ and $`L`$. The sum has two upper bounds:
@@ -83,10 +83,10 @@ T^{\mathrm{PS}} = \frac{\gamma}{F}\left(D + \sum_{i=1}^{N} \min(r_i, D)\right) \
 - each term $`\min(r_i, D) \le r_i`$, so the sum is at most $`L`$;
 - each term $`\min(r_i, D) \le D`$, so the sum is at most $`ND`$.
 
-Substituting into eq. A:
+Substituting into eq. A (call the result eq. B):
 
 ```math
-T^{\mathrm{PS}} \le \frac{\gamma}{F}\,\min\{D(N + 1),\ L + D\} \tag{B}
+T^{\mathrm{PS}} \le \frac{\gamma}{F}\,\min\{D(N + 1),\ L + D\}
 ```
 
 When the existing tasks all have the same unfinished work ($`r_i = L/N`$), the sum is exactly $`\min(L, ND)`$ and eq. B holds with equality. So eq. B is the worst case when only $`N`$ and $`L`$ are known. `ps_costs` in `sim/cost.py` uses eq. B.
