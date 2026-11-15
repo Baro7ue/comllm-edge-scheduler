@@ -1,0 +1,71 @@
+{
+ "key": "ps_hard_1.5b",
+ "base": [
+  "Qwen/Qwen2.5-1.5B-Instruct",
+  "989aa7980e4cf806f80c7fef2b1adb7bc71aa306"
+ ],
+ "adapter_run": "/content/drive/MyDrive/COMLLM/s3_runs/ps_hard_1.5b_20261108T064436Z",
+ "dtype": "bfloat16",
+ "gpu": "NVIDIA L4",
+ "torch": "2.14.1+cu130",
+ "transformers": "5.20.2",
+ "peft": "0.21.2",
+ "max_new_tokens": 48,
+ "window": 512,
+ "finished_utc": "20261115T121930Z",
+ "seconds": 80.1,
+ "sched": {
+  "n": 8,
+  "acc": 0.5,
+  "letter_mass": 0.9999979874236368
+ },
+ "ppl": {
+  "zh": {
+   "ppl": 11.91876781007175,
+   "tokens": 274
+  },
+  "en": {
+   "ppl": 9.230734780055778,
+   "tokens": 276
+  },
+  "wikitext": {
+   "ppl": 12.068423300127519,
+   "tokens": 19712
+  }
+ },
+ "chat": {
+  "default": {
+   "n": 20,
+   "letter": 0,
+   "empty": 0,
+   "text": 20,
+   "letter_mass": 0.041455930417719215,
+   "mean_chars": 39.9
+  },
+  "scheduler": {
+   "n": 20,
+   "letter": 1,
+   "empty": 0,
+   "text": 19,
+   "letter_mass": 0.1735234393301014,
+   "mean_chars": 48.8
+  }
+ },
+ "mcq": {
+  "mmlu": {
+   "n": 200,
+   "letter_acc": 0.5,
+   "cloze_acc": 0.465
+  },
+  "zh": {
+   "n": 16,
+   "letter_acc": 0.8125,
+   "cloze_acc": 0.9375
+  },
+  "en": {
+   "n": 16,
+   "letter_acc": 0.9375,
+   "cloze_acc": 1.0
+  }
+ }
+}

@@ -21,7 +21,7 @@ import numpy as np
 
 from deploy.prompts import chatml
 from deploy.wire import state_from_dict
-from sim.cost import best_action, one_step_costs
+from sim.cost import best_action, one_step_costs, ps_costs
 from sim.render import COMPACT_SYSTEM, LETTERS, render_compact
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -182,6 +182,7 @@ class TestNotebookStatic(unittest.TestCase):
             self.assertEqual(render_compact(s)[0][1]["content"], ex["user"])
             costs = one_step_costs(s)
             self.assertEqual(best_action(costs), ex["best"])
+            self.assertEqual(best_action(ps_costs(s)), ex["ps_best"])
             self.assertEqual(len(costs), ex["n_actions"])
             self.assertGreaterEqual(sorted(costs)[1] - sorted(costs)[0], 0.99)
         self.assertEqual(sum(1 for ex in self.ns["SCHED"] if ex["best"] == 0), 4)
@@ -256,6 +257,38 @@ class TestNotebookDryRun(unittest.TestCase):
                 # a second run skips every finished model
                 again = run_quiet(codes[7].replace("/content/drive/MyDrive/COMLLM", drive), ns)
                 self.assertEqual(again.count("已经跑过，跳过"), 8)
+
+
+
+class TestLanguageReport(unittest.TestCase):
+    """eval/language_report.py on the archived run."""
+    RUN = os.path.join(ROOT, "runs", "20261115T123413Z_s8_language_check")
+
+    def test_mcnemar(self):
+        from eval.language_report import mcnemar
+        self.assertEqual(mcnemar([True, True, False], [True, True, False]), (0, 0, 1.0))
+        n01, n10, p = mcnemar([True] * 5 + [False], [False] * 5 + [True])
+        self.assertEqual((n01, n10), (5, 1))
+        self.assertAlmostEqual(p, 2 * (1 + 6) / 64)          # exact binomial tail on 6 discordant pairs
+
+    def test_archived_run(self):
+        from eval.language_report import analysis, load, notebook_data, self_check
+        cwd = os.getcwd()
+        os.chdir(ROOT)
+        try:
+            models, items = load(self.RUN)
+            sched = notebook_data()["SCHED"]
+            self.assertEqual(len(models), 8)
+            check = self_check(items, sched)
+            # paper-teacher students match the paper optimum on all eight; PS-teacher students match their own teacher
+            for k in ("main_0.5b", "soft_1.5b", "hard_1.5b"):
+                self.assertEqual(check[k][0], 8)
+            self.assertEqual([check[k][1] for k in ("ps_0.5b", "ps_soft_1.5b", "ps_hard_1.5b")], [5, 6, 8])
+            text = analysis(models, items, sched)
+            with open(os.path.join(self.RUN, "analysis.md"), encoding="utf-8") as f:
+                self.assertEqual(f.read(), text)
+        finally:
+            os.chdir(cwd)
 
 
 if __name__ == "__main__":

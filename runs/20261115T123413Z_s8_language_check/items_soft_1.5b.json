@@ -1,0 +1,1722 @@
+{
+ "sched": [
+  {
+   "best": 0,
+   "pred": 0,
+   "letter_mass": 0.9999986843328201
+  },
+  {
+   "best": 2,
+   "pred": 2,
+   "letter_mass": 0.9999979784091884
+  },
+  {
+   "best": 0,
+   "pred": 0,
+   "letter_mass": 0.9999924546003018
+  },
+  {
+   "best": 5,
+   "pred": 5,
+   "letter_mass": 0.9999937875271655
+  },
+  {
+   "best": 0,
+   "pred": 0,
+   "letter_mass": 0.9999948547361078
+  },
+  {
+   "best": 1,
+   "pred": 1,
+   "letter_mass": 0.9999874127755313
+  },
+  {
+   "best": 0,
+   "pred": 0,
+   "letter_mass": 0.9999812925856245
+  },
+  {
+   "best": 7,
+   "pred": 7,
+   "letter_mass": 0.9999828831442064
+  }
+ ],
+ "chat": {
+  "default": [
+   {
+    "lang": "zh",
+    "question": "请用一句话介绍一下你自己。",
+    "response": "我是Qwen，一个由阿里云开发的超大规模语言模型，能够理解和生成人类语言。",
+    "letter_mass": 0.0019894142059696716
+   },
+   {
+    "lang": "zh",
+    "question": "写一句描写春天的话。",
+    "response": "春天，万物复苏，生机勃勃，是一年四季中最美的季节。",
+    "letter_mass": 4.838686200189181e-07
+   },
+   {
+    "lang": "zh",
+    "question": "把“今天天气很好”翻译成英文。",
+    "response": "\"Today is a beautiful day.\"",
+    "letter_mass": 0.00010650124135725633
+   },
+   {
+    "lang": "zh",
+    "question": "3 加 5 等于几？请直接回答。",
+    "response": "8",
+    "letter_mass": 7.942117278038044e-06
+   },
+   {
+    "lang": "zh",
+    "question": "请列举三种常见的水果。",
+    "response": "苹果、香蕉、橙子。",
+    "letter_mass": 3.694413175859863e-05
+   },
+   {
+    "lang": "zh",
+    "question": "为什么天空是蓝色的？请用两句话解释。",
+    "response": "天空之所以呈现蓝色，是因为太阳光在穿过地球大气层时，被大气中的气体分子散射，其中蓝光的波长较短，更容易被散射，所以天空看起来是蓝色的。此外，大气中的",
+    "letter_mass": 1.4528486607495238e-05
+   },
+   {
+    "lang": "zh",
+    "question": "请写一句鼓励朋友的话。",
+    "response": "朋友，无论遇到什么困难，都要坚持下去，相信自己，未来一定会更好！",
+    "letter_mass": 9.345080933068882e-06
+   },
+   {
+    "lang": "zh",
+    "question": "“高兴”的近义词是什么？",
+    "response": "“高兴”的近义词是“愉快”。",
+    "letter_mass": 9.77679847916828e-06
+   },
+   {
+    "lang": "zh",
+    "question": "请用“因为……所以……”造一个句子。",
+    "response": "因为天气预报说今天会下雨，所以我们要带伞出门。",
+    "letter_mass": 1.3483562616907578e-06
+   },
+   {
+    "lang": "zh",
+    "question": "一周有几天？",
+    "response": "一周有7天。",
+    "letter_mass": 5.436316133833085e-06
+   },
+   {
+    "lang": "en",
+    "question": "Introduce yourself in one sentence.",
+    "response": "I am Qwen, a large language model created by Alibaba Cloud.",
+    "letter_mass": 0.7552282921949677
+   },
+   {
+    "lang": "en",
+    "question": "Write one sentence about the ocean.",
+    "response": "The ocean is a vast and mysterious body of water that covers over 70% of the Earth's surface and plays a crucial role in regulating the planet's climate and supporting a diverse array of life forms.",
+    "letter_mass": 0.0002574069347763439
+   },
+   {
+    "lang": "en",
+    "question": "Translate \"good morning\" into Chinese.",
+    "response": "早安",
+    "letter_mass": 4.821731051286593e-06
+   },
+   {
+    "lang": "en",
+    "question": "What is 9 minus 4? Answer directly.",
+    "response": "5",
+    "letter_mass": 2.3822954381271666e-06
+   },
+   {
+    "lang": "en",
+    "question": "Name three colors.",
+    "response": "Red, Blue, Green",
+    "letter_mass": 0.00393863899698186
+   },
+   {
+    "lang": "en",
+    "question": "Why do we need sleep? Answer in two sentences.",
+    "response": "Sleep is essential for the body to recover and repair itself, and it plays a crucial role in memory consolidation and cognitive function.",
+    "letter_mass": 0.0003444731135362293
+   },
+   {
+    "lang": "en",
+    "question": "Write a short greeting for a new colleague.",
+    "response": "Hello! Welcome to our team! I'm excited to work with you and look forward to contributing to our team's success. Let's get to know each other and start building a great relationship.",
+    "letter_mass": 0.004712212511199233
+   },
+   {
+    "lang": "en",
+    "question": "What is a synonym for \"happy\"?",
+    "response": "Joyful",
+    "letter_mass": 0.017918332417869765
+   },
+   {
+    "lang": "en",
+    "question": "Complete the sentence: \"The cat sat on the ...\"",
+    "response": "The cat sat on the fence.",
+    "letter_mass": 0.001777842194122523
+   },
+   {
+    "lang": "en",
+    "question": "How many hours are there in a day?",
+    "response": "There are 24 hours in a day.",
+    "letter_mass": 0.008467018781658809
+   }
+  ],
+  "scheduler": [
+   {
+    "lang": "zh",
+    "question": "请用一句话介绍一下你自己。",
+    "response": "我是一个边缘计算任务卸载调度器，负责在本地执行或在服务器上卸载任务，以优化资源利用和减少延迟。",
+    "letter_mass": 0.02640210720088114
+   },
+   {
+    "lang": "zh",
+    "question": "写一句描写春天的话。",
+    "response": "春风吹过，万物复苏，生机盎然。",
+    "letter_mass": 8.395694437096873e-06
+   },
+   {
+    "lang": "zh",
+    "question": "把“今天天气很好”翻译成英文。",
+    "response": "\"Today's weather is great.\"",
+    "letter_mass": 0.0009878587652448415
+   },
+   {
+    "lang": "zh",
+    "question": "3 加 5 等于几？请直接回答。",
+    "response": "8",
+    "letter_mass": 7.049395274673156e-05
+   },
+   {
+    "lang": "zh",
+    "question": "请列举三种常见的水果。",
+    "response": "苹果、香蕉、橙子",
+    "letter_mass": 3.484384298029014e-05
+   },
+   {
+    "lang": "zh",
+    "question": "为什么天空是蓝色的？请用两句话解释。",
+    "response": "天空是蓝色的，因为太阳光中的蓝光波长较短，更容易被大气中的气体分子散射到各个方向，使得我们看到的天空呈现蓝色。",
+    "letter_mass": 4.871967563290889e-05
+   },
+   {
+    "lang": "zh",
+    "question": "请写一句鼓励朋友的话。",
+    "response": "\"保持积极的心态，相信自己能够克服困难，勇往直前！\"",
+    "letter_mass": 7.897724061172304e-05
+   },
+   {
+    "lang": "zh",
+    "question": "“高兴”的近义词是什么？",
+    "response": "“愉快”",
+    "letter_mass": 5.106699083920186e-05
+   },
+   {
+    "lang": "zh",
+    "question": "请用“因为……所以……”造一个句子。",
+    "response": "因为任务A需要1000比特的数据，所以它需要1000个CPU周期来完成。",
+    "letter_mass": 7.20889489512201e-05
+   },
+   {
+    "lang": "zh",
+    "question": "一周有几天？",
+    "response": "7",
+    "letter_mass": 0.0003229125142376446
+   },
+   {
+    "lang": "en",
+    "question": "Introduce yourself in one sentence.",
+    "response": "I am an edge computing task scheduler designed to manage and optimize the execution of tasks on edge devices, ensuring efficient resource utilization and minimal latency.",
+    "letter_mass": 0.7908367694944909
+   },
+   {
+    "lang": "en",
+    "question": "Write one sentence about the ocean.",
+    "response": "The ocean is a vast and dynamic body of water covering most of the Earth's surface, supporting diverse marine life and shaping global climate patterns.",
+    "letter_mass": 0.0009724006198414244
+   },
+   {
+    "lang": "en",
+    "question": "Translate \"good morning\" into Chinese.",
+    "response": "早安",
+    "letter_mass": 1.436674493665794e-07
+   },
+   {
+    "lang": "en",
+    "question": "What is 9 minus 4? Answer directly.",
+    "response": "5",
+    "letter_mass": 1.7096322275003356e-06
+   },
+   {
+    "lang": "en",
+    "question": "Name three colors.",
+    "response": "Red, Blue, Green",
+    "letter_mass": 0.0006080442121527173
+   },
+   {
+    "lang": "en",
+    "question": "Why do we need sleep? Answer in two sentences.",
+    "response": "Sleep is essential for the body to repair and regenerate tissues, and for the brain to consolidate memories and process emotions. It also helps to regulate the body's internal clock and maintain overall health.",
+    "letter_mass": 0.0004967809821293265
+   },
+   {
+    "lang": "en",
+    "question": "Write a short greeting for a new colleague.",
+    "response": "Hello! Welcome to the team! I'm excited to work with you and learn from your experiences. Let's get started and make this a great collaboration!",
+    "letter_mass": 0.005348161892150054
+   },
+   {
+    "lang": "en",
+    "question": "What is a synonym for \"happy\"?",
+    "response": "joyful",
+    "letter_mass": 0.009638595246733326
+   },
+   {
+    "lang": "en",
+    "question": "Complete the sentence: \"The cat sat on the ...\"",
+    "response": "matteau's chair.",
+    "letter_mass": 0.0013440879525978145
+   },
+   {
+    "lang": "en",
+    "question": "How many hours are there in a day?",
+    "response": "24",
+    "letter_mass": 7.492753866701423e-05
+   }
+  ]
+ },
+ "mcq": {
+  "zh": [
+   {
+    "question": "中国的首都是哪座城市？",
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999783874422695
+   },
+   {
+    "question": "一年有多少个月？",
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999968224268079
+   },
+   {
+    "question": "太阳从哪个方向升起？",
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999868468897141
+   },
+   {
+    "question": "7 加 8 等于多少？",
+    "answer": 3,
+    "letter_pred": 0,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999723572362516
+   },
+   {
+    "question": "下列哪一种是水果？",
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999990005420589
+   },
+   {
+    "question": "《西游记》的作者是谁？",
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999979001971869
+   },
+   {
+    "question": "水的化学式是什么？",
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999708129332587
+   },
+   {
+    "question": "地球上最高的山峰是哪一座？",
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999987820102538
+   },
+   {
+    "question": "“大”的反义词是什么？",
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999827221513404
+   },
+   {
+    "question": "一个小时有多少分钟？",
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999991873625055
+   },
+   {
+    "question": "下列哪种动物会飞？",
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999944898665986
+   },
+   {
+    "question": "光在真空中的速度大约是每秒多少公里？",
+    "answer": 2,
+    "letter_pred": 1,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999414671185464
+   },
+   {
+    "question": "中国的国庆节是几月几日？",
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999985609627011
+   },
+   {
+    "question": "人体正常体温大约是多少摄氏度？",
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999998677104677
+   },
+   {
+    "question": "100 除以 4 等于多少？",
+    "answer": 1,
+    "letter_pred": 0,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999601469392038
+   },
+   {
+    "question": "长江最终流入哪片海域？",
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998855887967791
+   }
+  ],
+  "en": [
+   {
+    "question": "What is the capital of France?",
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999226422178435
+   },
+   {
+    "question": "How many days are there in a week?",
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999737030593145
+   },
+   {
+    "question": "Which planet is known as the Red Planet?",
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999219282059296
+   },
+   {
+    "question": "What is 12 times 12?",
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9900991455746881
+   },
+   {
+    "question": "At what temperature in degrees Celsius does water freeze at standard pressure?",
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999979200695068
+   },
+   {
+    "question": "Which of these animals is a mammal?",
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999804957339963
+   },
+   {
+    "question": "Who wrote the play \"Romeo and Juliet\"?",
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999601690669807
+   },
+   {
+    "question": "What is the chemical symbol for gold?",
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9992585777889061
+   },
+   {
+    "question": "Which is the largest ocean on Earth?",
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999880902565137
+   },
+   {
+    "question": "What is the opposite of \"hot\"?",
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999560503977277
+   },
+   {
+    "question": "How many sides does a triangle have?",
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999674248246818
+   },
+   {
+    "question": "Which gas do plants absorb from the air for photosynthesis?",
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.999973773204537
+   },
+   {
+    "question": "What is the past tense of the verb \"go\"?",
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9993702360496852
+   },
+   {
+    "question": "Which month comes right after March?",
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9998132068742625
+   },
+   {
+    "question": "What is the square root of 81?",
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9986440359128943
+   },
+   {
+    "question": "On which continent is Egypt located?",
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.999882009049875
+   }
+  ],
+  "mmlu": [
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999727898336885
+   },
+   {
+    "answer": 1,
+    "letter_pred": 0,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999670240288551
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 1,
+    "abcd_mass": 0.999916418701753
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999797629464402
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.999874419086553
+   },
+   {
+    "answer": 3,
+    "letter_pred": 0,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999336102114189
+   },
+   {
+    "answer": 0,
+    "letter_pred": 1,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998435521995082
+   },
+   {
+    "answer": 3,
+    "letter_pred": 0,
+    "cloze_pred": 1,
+    "abcd_mass": 0.999882270739382
+   },
+   {
+    "answer": 2,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9995258171370116
+   },
+   {
+    "answer": 1,
+    "letter_pred": 0,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9986353291902862
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999595008964381
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9997703640386405
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9996879567981654
+   },
+   {
+    "answer": 3,
+    "letter_pred": 0,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9993910757894828
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999917797118363
+   },
+   {
+    "answer": 2,
+    "letter_pred": 0,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9997781316839889
+   },
+   {
+    "answer": 3,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9997255019966271
+   },
+   {
+    "answer": 0,
+    "letter_pred": 2,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9997571770496779
+   },
+   {
+    "answer": 1,
+    "letter_pred": 2,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9997532849617815
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.999925659420926
+   },
+   {
+    "answer": 2,
+    "letter_pred": 1,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998704176660327
+   },
+   {
+    "answer": 3,
+    "letter_pred": 0,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9997603283454514
+   },
+   {
+    "answer": 1,
+    "letter_pred": 2,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9997516129804291
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9997959940001028
+   },
+   {
+    "answer": 2,
+    "letter_pred": 0,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9991228265949715
+   },
+   {
+    "answer": 1,
+    "letter_pred": 3,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9996148536868437
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9998670565504097
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9953233446698037
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999199249152778
+   },
+   {
+    "answer": 1,
+    "letter_pred": 2,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999312286075864
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999707066501694
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999961605363215
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999624494969437
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999762352884115
+   },
+   {
+    "answer": 2,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9884102230101848
+   },
+   {
+    "answer": 2,
+    "letter_pred": 0,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999894504622117
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998532676633543
+   },
+   {
+    "answer": 2,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998887380475584
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999893701234591
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9998275763854878
+   },
+   {
+    "answer": 2,
+    "letter_pred": 3,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9997801476889688
+   },
+   {
+    "answer": 0,
+    "letter_pred": 3,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999055332520486
+   },
+   {
+    "answer": 0,
+    "letter_pred": 2,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999509272626279
+   },
+   {
+    "answer": 2,
+    "letter_pred": 3,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9995605801464696
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9995620840075801
+   },
+   {
+    "answer": 2,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9997172097637201
+   },
+   {
+    "answer": 0,
+    "letter_pred": 1,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999752277223434
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998910177704508
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9995417499528662
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999946851117909
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9998476640976677
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999514543163127
+   },
+   {
+    "answer": 3,
+    "letter_pred": 0,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9998792585065241
+   },
+   {
+    "answer": 0,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9991837676197457
+   },
+   {
+    "answer": 0,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998761088204765
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9987501801101434
+   },
+   {
+    "answer": 1,
+    "letter_pred": 0,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999266207359317
+   },
+   {
+    "answer": 0,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999670564102191
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9997313290089437
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999798356063803
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.999426193253013
+   },
+   {
+    "answer": 2,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9998542902976805
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.999985098672792
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.999916116893788
+   },
+   {
+    "answer": 2,
+    "letter_pred": 0,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998426810152048
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999203806859466
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998880191646211
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.999784440836048
+   },
+   {
+    "answer": 3,
+    "letter_pred": 1,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998002375450126
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999571560897403
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999119056001944
+   },
+   {
+    "answer": 0,
+    "letter_pred": 1,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998625418592292
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999250048867389
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999678035511881
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.99995177905279
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999384791584561
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999903567270648
+   },
+   {
+    "answer": 2,
+    "letter_pred": 0,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9969294909567479
+   },
+   {
+    "answer": 1,
+    "letter_pred": 0,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999413355794002
+   },
+   {
+    "answer": 2,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9995339348029919
+   },
+   {
+    "answer": 0,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.999834977641437
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9996863463327476
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9997764272393065
+   },
+   {
+    "answer": 1,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9998566795306797
+   },
+   {
+    "answer": 0,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999442509640627
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999905555151649
+   },
+   {
+    "answer": 0,
+    "letter_pred": 1,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9991969220550178
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.999975409625631
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9998891908493549
+   },
+   {
+    "answer": 0,
+    "letter_pred": 2,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9978047684427171
+   },
+   {
+    "answer": 1,
+    "letter_pred": 0,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9997501230337411
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998036687638698
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998793239560749
+   },
+   {
+    "answer": 3,
+    "letter_pred": 2,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999727880639077
+   },
+   {
+    "answer": 1,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9994606150278939
+   },
+   {
+    "answer": 2,
+    "letter_pred": 1,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9989946323237999
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999519672776138
+   },
+   {
+    "answer": 1,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999716149065603
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 1,
+    "abcd_mass": 0.999980809971769
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.999908742968147
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999683005373031
+   },
+   {
+    "answer": 2,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998266944073304
+   },
+   {
+    "answer": 0,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9997569708902009
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999917341697933
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9997012173628945
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999935210013783
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.8831901665013057
+   },
+   {
+    "answer": 2,
+    "letter_pred": 1,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9997209018884713
+   },
+   {
+    "answer": 0,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9997560569233085
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999920810751532
+   },
+   {
+    "answer": 1,
+    "letter_pred": 0,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999902506450442
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 3,
+    "abcd_mass": 0.999986712586474
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9998045362933704
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 3,
+    "abcd_mass": 0.999867294279062
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998600236460755
+   },
+   {
+    "answer": 1,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9998311642798393
+   },
+   {
+    "answer": 1,
+    "letter_pred": 0,
+    "cloze_pred": 2,
+    "abcd_mass": 0.999801672832934
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999642063072737
+   },
+   {
+    "answer": 2,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999474818541276
+   },
+   {
+    "answer": 0,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.998382924473455
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998860634493284
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999898287351264
+   },
+   {
+    "answer": 2,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9995111751215683
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9997973089722629
+   },
+   {
+    "answer": 2,
+    "letter_pred": 1,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9997978465421797
+   },
+   {
+    "answer": 2,
+    "letter_pred": 3,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999336229211255
+   },
+   {
+    "answer": 1,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9523569330751862
+   },
+   {
+    "answer": 0,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.999968040977469
+   },
+   {
+    "answer": 0,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9998992084066636
+   },
+   {
+    "answer": 2,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998858202783849
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9998314869711591
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999118120014991
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999713864809057
+   },
+   {
+    "answer": 1,
+    "letter_pred": 0,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9993138613781771
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999365502743406
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999761678436586
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999468478100377
+   },
+   {
+    "answer": 3,
+    "letter_pred": 1,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9997561705694198
+   },
+   {
+    "answer": 2,
+    "letter_pred": 0,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999719870895147
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999956856855505
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9964816089002835
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998799646703646
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9996952039475218
+   },
+   {
+    "answer": 3,
+    "letter_pred": 1,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998352614832714
+   },
+   {
+    "answer": 2,
+    "letter_pred": 0,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9993704468840584
+   },
+   {
+    "answer": 2,
+    "letter_pred": 0,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9995767687331045
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999048849890133
+   },
+   {
+    "answer": 2,
+    "letter_pred": 3,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9996910200652999
+   },
+   {
+    "answer": 3,
+    "letter_pred": 2,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9996237161211664
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9998585796185728
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998466914150321
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999957242841032
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9804952681674499
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999770542370158
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999544810614428
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9998866344376237
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999083034286169
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9995135384507159
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9995295392033998
+   },
+   {
+    "answer": 2,
+    "letter_pred": 0,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999918720475582
+   },
+   {
+    "answer": 0,
+    "letter_pred": 1,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9997931766797747
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999870706458668
+   },
+   {
+    "answer": 1,
+    "letter_pred": 2,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999539077797416
+   },
+   {
+    "answer": 3,
+    "letter_pred": 1,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9996981818765588
+   },
+   {
+    "answer": 3,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999241048048076
+   },
+   {
+    "answer": 2,
+    "letter_pred": 3,
+    "cloze_pred": 1,
+    "abcd_mass": 0.999503138851422
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9997546521442962
+   },
+   {
+    "answer": 3,
+    "letter_pred": 0,
+    "cloze_pred": 3,
+    "abcd_mass": 0.999847835782313
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999615286005179
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9998670134420552
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999623636397296
+   },
+   {
+    "answer": 1,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9998821881132707
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999795909953784
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999860571528059
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999408983527036
+   },
+   {
+    "answer": 3,
+    "letter_pred": 0,
+    "cloze_pred": 3,
+    "abcd_mass": 0.999818189095435
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999067275250749
+   },
+   {
+    "answer": 2,
+    "letter_pred": 1,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9996380249854994
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9996463425496555
+   },
+   {
+    "answer": 3,
+    "letter_pred": 1,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9997291936154845
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9996844345087588
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9998646908323369
+   },
+   {
+    "answer": 2,
+    "letter_pred": 0,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998680962915036
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9996734210835403
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999646038450782
+   },
+   {
+    "answer": 2,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998295212259284
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999320417057065
+   },
+   {
+    "answer": 0,
+    "letter_pred": 1,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9998453988821192
+   },
+   {
+    "answer": 2,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9998727744749164
+   },
+   {
+    "answer": 1,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998833807380579
+   },
+   {
+    "answer": 2,
+    "letter_pred": 1,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9999008218382017
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998537497836171
+   },
+   {
+    "answer": 1,
+    "letter_pred": 1,
+    "cloze_pred": 2,
+    "abcd_mass": 0.999878456853137
+   },
+   {
+    "answer": 0,
+    "letter_pred": 0,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9999968225583343
+   },
+   {
+    "answer": 2,
+    "letter_pred": 3,
+    "cloze_pred": 1,
+    "abcd_mass": 0.9999252558286973
+   },
+   {
+    "answer": 2,
+    "letter_pred": 2,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9999455042330276
+   },
+   {
+    "answer": 3,
+    "letter_pred": 3,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998634420289676
+   },
+   {
+    "answer": 2,
+    "letter_pred": 1,
+    "cloze_pred": 2,
+    "abcd_mass": 0.9998106764981759
+   },
+   {
+    "answer": 3,
+    "letter_pred": 1,
+    "cloze_pred": 3,
+    "abcd_mass": 0.9998677831363654
+   },
+   {
+    "answer": 0,
+    "letter_pred": 1,
+    "cloze_pred": 0,
+    "abcd_mass": 0.9998377957729458
+   }
+  ]
+ }
+}

@@ -304,3 +304,25 @@ This run (`runs/20261114T120231Z_s6_fcfs_control`, code `a8f2d20`):
 - The advantage of the PS-aware formula does not depend on the processor-sharing assumption: with first-come-first-served servers it is larger.
 - The two new formulas give exactly the same result in 48 of the 72 runs. What they have in common is that they subtract the backlog the server finishes during the upload and do not multiply the backlog by (n + 1) again; these two points are what matters, not the sharing term. The paper's formula estimates the servers as too slow and therefore keeps more tasks on the terminal.
 - Only formulas were compared. The students trained on the PS-aware formula were not run on first-come-first-served servers; the table per point is in `summary.md` in the run folder.
+
+## Language ability of the students (stage 8)
+
+```text
+Colab   train/S8_语言能力检查.ipynb, any GPU runtime, Run all      2 base models and 6 students, about 11 minutes on an L4
+        -> MyDrive/COMLLM/s8_runs/language_check/ (model_<key>.json, items_<key>.json, report.md)
+Mac     copy that folder to runs/<UTC>_s8_language_check/
+Mac     python -m eval.language_report runs/<UTC>_s8_language_check      -> analysis.md in that folder
+```
+
+The students were trained only on scheduling prompts with a one-letter answer. The notebook compares each untrained base with the merged students; all required data is inside the notebook.
+
+- **Scheduling self-check.** Eight scheduling prompts, the answer is the most likely legal letter. It confirms that the adapter loaded.
+- **Perplexity.** Eight built-in passages each in Chinese and English, plain text without the chat format, and the first 80,000 characters of the wikitext-2 test set.
+- **Chat.** Twenty ordinary questions, greedy decoding, at most 48 new tokens, once with Qwen's default system prompt and once with the scheduler's. An answer counts as "one letter" when nothing else is left after stripping whitespace and a final full stop.
+- **Multiple choice.** 32 built-in questions and a random 200 of the MMLU test set (seed 0), read two ways: the most likely of the letters A–D as the first answer token, and the option whose text is most likely after "Question: … Answer:".
+
+This run (`runs/20261115T123413Z_s8_language_check`): L4, bf16, torch 2.14.1, transformers 5.20.2, peft 0.21.2, 10.6 minutes of model time. The README table and `analysis.md` give the numbers.
+
+- The notebook that produced this run scored every model's self-check against the paper formula's optimum, so the three PS-teacher students show 4/8 in `report.md`. Against their own teacher they score 5/8, 6/8 and 8/8 (`analysis.md`); on three of the eight states the PS formula's two best servers are within 0.02 slots. The notebook now scores each student against its own teacher.
+- The untrained 0.5B answers 7 of the 20 ordinary questions with a bare letter when given the scheduler's system prompt, which tells it to output one letter. The students do not (0/20, one of them 1/20).
+- Chat answers are classified by form only. The check ran on full-precision PyTorch models, not on the Q8_0 models on the Jetson.

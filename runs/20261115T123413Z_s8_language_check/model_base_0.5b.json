@@ -1,0 +1,71 @@
+{
+ "key": "base_0.5b",
+ "base": [
+  "Qwen/Qwen2.5-0.5B-Instruct",
+  "7ae557604adf67be50417f59c2c2f167def9a775"
+ ],
+ "adapter_run": "",
+ "dtype": "bfloat16",
+ "gpu": "NVIDIA L4",
+ "torch": "2.14.1+cu130",
+ "transformers": "5.20.2",
+ "peft": "0.21.2",
+ "max_new_tokens": 48,
+ "window": 512,
+ "finished_utc": "20261115T120959Z",
+ "seconds": 68.7,
+ "sched": {
+  "n": 8,
+  "acc": 0.5,
+  "letter_mass": 0.9954331468692871
+ },
+ "ppl": {
+  "zh": {
+   "ppl": 19.35281695341603,
+   "tokens": 274
+  },
+  "en": {
+   "ppl": 13.728715559207227,
+   "tokens": 276
+  },
+  "wikitext": {
+   "ppl": 18.1042594722721,
+   "tokens": 19712
+  }
+ },
+ "chat": {
+  "default": {
+   "n": 20,
+   "letter": 0,
+   "empty": 0,
+   "text": 20,
+   "letter_mass": 0.06525502921696355,
+   "mean_chars": 67.95
+  },
+  "scheduler": {
+   "n": 20,
+   "letter": 7,
+   "empty": 0,
+   "text": 13,
+   "letter_mass": 0.2816683837272448,
+   "mean_chars": 14.2
+  }
+ },
+ "mcq": {
+  "mmlu": {
+   "n": 200,
+   "letter_acc": 0.465,
+   "cloze_acc": 0.41
+  },
+  "zh": {
+   "n": 16,
+   "letter_acc": 0.625,
+   "cloze_acc": 0.9375
+  },
+  "en": {
+   "n": 16,
+   "letter_acc": 0.875,
+   "cloze_acc": 0.8125
+  }
+ }
+}

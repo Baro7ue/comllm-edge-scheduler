@@ -153,6 +153,35 @@ Per-point results: `runs/20261112T064150Z_s6_colab_loop` (students on Colab),
 `runs/20261108T094747Z_s5_virtual_e4ps_b` (Jetson), and the report in `runs/20261113T104604Z_s7_colab_closed_loop`
 (the 7B).
 
+### Do the students still handle ordinary language?
+
+The students were trained only on scheduling prompts with a one-letter answer, so they could have lost
+their general language ability. A check on Colab compares each untrained base model with the students
+made from it (`runs/20261115T123413Z_s8_language_check`; merged LoRA, bf16):
+
+| Model | wikitext-2 perplexity | Ordinary chat questions answered with a single letter | MMLU, answer read as a letter | MMLU, answer read as option text |
+|---|---|---|---|---|
+| untrained 0.5B | 18.1 | 0/20 | 46.5% | 41.0% |
+| our 0.5B (deployed) | 19.8 | 0/20 | 31.5% | 42.5% |
+| our 0.5B, PS teacher | 19.3 | 0/20 | 30.5% | 40.0% |
+| untrained 1.5B | 11.7 | 0/20 | 56.0% | 41.0% |
+| our 1.5B soft labels | 11.9 | 0/20 | 53.5% | 44.5% |
+| our 1.5B hard labels | 12.2 | 0/20 | 54.0% | 45.5% |
+| our 1.5B soft labels, PS teacher | 11.8 | 0/20 | 54.0% | 43.0% |
+| our 1.5B hard labels, PS teacher | 12.1 | 0/20 | 50.0% | 46.5% |
+
+- **They still write.** Every student answers all 20 ordinary questions in sentences, and perplexity on
+  plain text rises by 7–9% for the 0.5B students and 1–4% for the 1.5B students.
+- **The 0.5B students lost the letter as an answer.** Asked to answer a multiple-choice question with a
+  letter, they fall from 46.5% to 31.5% and 30.5% on the same 200 MMLU questions (p < 0.001). The deployed
+  one picks A 106 times out of 200 and the PS-teacher one picks B 113 times; in the scheduling prompt A is
+  local execution and B is server 1. Read by the likelihood of the option text instead, both score like
+  the base (42.5% and 40.0% against 41.0%), so the knowledge is still there. The 1.5B students show no
+  significant drop by letter (50.0–54.0% against 56.0%).
+- This is a small check: 200 MMLU questions, 20 chat questions classified by form and not by correctness,
+  full-precision PyTorch on Colab and not the Q8_0 models on the Jetson. Per-item analysis:
+  `runs/20261115T123413Z_s8_language_check/analysis.md`.
+
 ### Known limits
 
 - The terminals, uplink and servers are simulated; only the scheduler node and the network hop are real.
@@ -225,6 +254,7 @@ flowchart LR
 | 5 | closed-loop experiments: capacity, latency, herding, server-count generalization, ablation, LACS | `evidence/G5/`, `figures/` |
 | 6 | the PS-aware teacher and its FCFS control, open loop per test set, Colab against Jetson in both loops | `evidence/G6/`, `runs/*_s6_*` |
 | 7 | the 7B reproduction with the paper's GRPO recipe, open and closed loop on Colab | `evidence/S7/`, `runs/*_s7_*` |
+| 8 | whether the students keep their ordinary language ability | `runs/*_s8_*` |
 
 Commands, parameters and full results for every stage are in [docs/stages.md](docs/stages.md),
 including the 10 places where the simulation, training or evaluation differs from the paper.
