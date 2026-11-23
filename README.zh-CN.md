@@ -197,6 +197,12 @@ flowchart LR
 
 每个阶段的命令、参数和完整结果在 [docs/stages.zh-CN.md](docs/stages.zh-CN.md)，其中也列了仿真、训练和评测和论文不一样的 10 处。
 
+## 拓展：手写 CUDA 算子
+
+[comllm-cuda-kernels](https://github.com/Baro7ue/comllm-cuda-kernels) 是接着这里的延迟结果做的一份学习笔记，单独一个仓库。
+它在 Jetson 上逐个算子量出 0.5B 学生模型一次决策的时间花在哪里，并从最耗时的算子（前馈层的矩阵乘）开始手写 CUDA 内核。
+还在进行中：那里目前没有任何一版比 llama.cpp 快，也没有接进这里的调度器。
+
 ## 仓库结构
 
 | 路径 | 内容 |
